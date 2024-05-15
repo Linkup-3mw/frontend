@@ -1,3 +1,20 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.blue_border_square_btn {
+  @apply block w-full h-[2.875rem] border-[1px] border-solid border-main-blue rounded-[0.25rem] text-main-black text-[1.25rem] font-bold;
+}
+
+a.blue_border_square_btn,
+a.blue_square_btn {
+  @apply block text-center leading-[2.875rem];
+}
+
+.blue_square_btn {
+  @apply w-full h-[2.875rem] bg-main-blue disabled:bg-gray-200 rounded-[0.25rem] text-main-black disabled:text-white text-[1.25rem] font-bold;
+}
+
+.text_input {
+  @apply block px-[1.5rem] w-full h-[3rem] bg-white  autofill:border-white autofill:border-solid autofill:border-[2px] rounded-[0.25rem] text-[1.25rem] font-bold placeholder:text-[#a3a3af];
+}
