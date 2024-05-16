@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { suit } from '@/styles/typography';
 import './globals.css';
+import { Header } from './common/header';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -14,7 +15,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className={suit.className}>{children}</body>
+      <body className={suit.className}>
+        <Header />
+        <div>{children}</div>
+      </body>
     </html>
   );
 }
