@@ -16,7 +16,7 @@ a.blue_square_btn {
 }
 
 .text_input {
-  @apply block px-[1.5rem] w-full h-[3rem] bg-white  autofill:border-white autofill:border-solid autofill:border-[2px] rounded-[0.25rem] text-[1.25rem] font-bold placeholder:text-[#a3a3af];
+  @apply block px-[1.5rem] w-full h-[3rem] bg-white  autofill:border-white autofill:border-solid autofill:border-[2px] rounded-[0.25rem] text-[0.875rem] font-bold placeholder:text-[#a3a3af];
 }
 
 .hide {

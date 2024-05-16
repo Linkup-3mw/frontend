@@ -1,12 +1,13 @@
 import XIcon from '@/app/common/components/icons/XIcon';
 import { ChangeEvent, useRef, useState } from 'react';
+import { FieldValues, UseFormRegister } from 'react-hook-form';
 
 interface Props {
   text: string;
   name: string;
   type?: string;
   placeholder?: string;
-  register?: any;
+  register: UseFormRegister<FieldValues>;
 }
 export default function LoginInput({
   text,
@@ -22,7 +23,7 @@ export default function LoginInput({
       >
         {text}
         <input
-          className={`text_input mt-[1.2rem]`}
+          className={`text_input mt-[1.2rem] !text-[1.25rem]`}
           type={type}
           placeholder={placeholder}
           {...register(name)}
