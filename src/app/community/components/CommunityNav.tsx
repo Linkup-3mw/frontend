@@ -1,8 +1,8 @@
 import React from 'react';
 
-export default function HeaderNav() {
+export default function CommunityNav() {
   return (
-    <nav className="h-[3.75rem] flex items-center justify-center gap-y-px">
+    <nav className="h-[3.75rem] bg-blue-100 flex items-center justify-center gap-y-px">
       <div className="flex flex-col items-center w-[3.5rem] mx-[0.5rem]">
         <img src="./svg/header/headerNav/homeIcon.svg" alt="Home Icon" />
         <span className="text-[#8D8D9B] font-bold">홈</span>

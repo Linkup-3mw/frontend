@@ -1,11 +1,7 @@
 import React from 'react';
-import HeaderNav from './HeaderNav';
+import HeaderNav from '../../community/components/CommunityNav';
 
-interface HeaderProps {
-  showNav: boolean;
-}
-
-export default function Header({ showNav }: HeaderProps) {
+export default function Header() {
   return (
     <header className="bg-blue-100">
       <div className="px-[13rem] flex justify-center pt-[1.25rem] pb-[1.19rem]">
@@ -54,7 +50,6 @@ export default function Header({ showNav }: HeaderProps) {
           </div>
         </div>
       </div>
-      <div> {showNav && <HeaderNav />} </div>
     </header>
   );
 }
