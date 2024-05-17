@@ -1,0 +1,10 @@
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Icon/Tab">
+<path id="Rectangle 109" d="M20 5C21.6569 5 23 6.34315 23 8V9C23 10.6569 21.6569 12 20 12V5Z" fill="#BFD4FF" stroke="#8D8D9B" stroke-width="1.5"/>
+<path id="Rectangle 110" d="M20 3L20 11.5C20 16.1944 16.1944 20 11.5 20C6.80558 20 3 16.1944 3 11.5L3 3L20 3Z" fill="#BFD4FF" stroke="#8D8D9B" stroke-width="1.5"/>
+<path id="Rectangle 109_2" d="M5.25 22L17.75 22C18.9926 22 20 20.9926 20 19.75L20 19L3 19L3 19.75C3 20.9926 4.00736 22 5.25 22Z" fill="#BFD4FF" stroke="#8D8D9B" stroke-width="1.5"/>
+<rect id="Rectangle 111" x="8" y="9" width="2" height="2" transform="rotate(90 8 9)" fill="#8D8D9B"/>
+<rect id="Rectangle 112" x="12.5" y="9" width="2" height="2" transform="rotate(90 12.5 9)" fill="#8D8D9B"/>
+<rect id="Rectangle 113" x="17" y="9" width="2" height="2" transform="rotate(90 17 9)" fill="#8D8D9B"/>
+</g>
+</svg>
