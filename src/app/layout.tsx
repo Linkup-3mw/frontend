@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { suit } from '@/styles/typography';
+import { suit } from '@styles/typography';
 import '@styles/globals.css';
 import { Header } from '@common/header';
 import AuthContext from '@/context/AuthContext';
@@ -17,10 +17,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className={suit.className}>
+      <body className={`${suit.className} bg-blue-100`}>
         <Header />
         <AuthContext>
-          <AuthorizationHeader>{children}</AuthorizationHeader>
+          <AuthorizationHeader>
+            <div>{children}</div>
+          </AuthorizationHeader>
         </AuthContext>
       </body>
     </html>
