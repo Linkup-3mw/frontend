@@ -13,9 +13,9 @@ export default function Header() {
         {/* part1 */}
         <div className="flex basis-1/3 my-auto text-base pl-10">
           <div
-            className={`flex justify-center items-center w-[6.375rem] h-[2.5rem] border rounded-full border-black mr-3 font-bold ${
-              pathname === '/' ? 'bg-black text-white' : ''
-            }`}
+            className={
+              'flex justify-center items-center w-[6.375rem] h-[2.5rem] border rounded-full border-black mr-3 font-bold '
+            }
           >
             탐색
           </div>
@@ -30,11 +30,7 @@ export default function Header() {
               커뮤니티
             </div>
           </Link>
-          <div
-            className={`flex justify-center items-center w-[6.375rem] h-[2.5rem] border rounded-full border-black mx-3 font-bold ${
-              pathname === '/notice' ? 'bg-black text-white' : ''
-            }`}
-          >
+          <div className="flex justify-center items-center w-[6.375rem] h-[2.5rem] border rounded-full border-black mx-3 font-bold">
             공지사항
           </div>
         </div>
