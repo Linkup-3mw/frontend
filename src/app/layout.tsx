@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
-import { suit } from '@/styles/typography';
-import './globals.css';
-import { Header, HeaderNav } from './common/header';
+import { suit } from '@styles/typography';
+import '@styles/globals.css';
+import { Header } from '@common/header';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -15,8 +15,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className={suit.className}>
-        <Header showNav={true} />
+      <body className={`${suit.className} bg-blue-100`}>
+        <Header />
         <div>{children}</div>
       </body>
     </html>
