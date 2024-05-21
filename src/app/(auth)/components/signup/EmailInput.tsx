@@ -1,14 +1,14 @@
+import { useEffect, useState } from 'react';
 import {
   FieldValues,
   UseFormGetValues,
   UseFormRegister,
   UseFormTrigger,
 } from 'react-hook-form';
-import { EMAIL_VALIDATION } from '../../constants/validation';
-import ButtonInInput from '../common/ButtonInInput';
-import Input from '../../../common/components/form/Input';
-import InputBox from '../../../common/components/form/InputBox';
-import { useEffect, useState } from 'react';
+import Input from '@common/components/form/Input';
+import InputBox from '@common/components/form/InputBox';
+import { EMAIL_VALIDATION } from '@/app/(auth)/constants/validation';
+import ButtonInInput from '@/app/(auth)/components/common/ButtonInInput';
 
 interface Props {
   error: FieldValues | undefined;

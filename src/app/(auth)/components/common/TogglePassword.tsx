@@ -1,7 +1,7 @@
-import { EventHandler, useState } from 'react';
+import { useState } from 'react';
 import { FieldValues, RegisterOptions, UseFormRegister } from 'react-hook-form';
-import { EyesOff, EyesOn } from '@/app/common/components/icons/EyesOn';
-import Input from '../../../common/components/form/Input';
+import { EyesOff, EyesOn } from '@/app/common/components/icons/Eyes';
+import Input from '@common/components/form/Input';
 
 interface Props {
   name: string;

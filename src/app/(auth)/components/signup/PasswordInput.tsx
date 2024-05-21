@@ -1,13 +1,13 @@
+import { useEffect, useState } from 'react';
 import {
   Control,
   FieldValues,
   UseFormGetValues,
   UseFormRegister,
 } from 'react-hook-form';
-import InputBox from '../../../common/components/form/InputBox';
-import TogglePassword from '../common/TogglePassword';
-import { PASSWORD_VALIDATION } from '../../constants/validation';
-import { useEffect, useState } from 'react';
+import InputBox from '@common/components/form/InputBox';
+import TogglePassword from '@/app/(auth)/components/common/TogglePassword';
+import { PASSWORD_VALIDATION } from '@/app/(auth)/constants/validation';
 
 interface Props {
   error: FieldValues | undefined;

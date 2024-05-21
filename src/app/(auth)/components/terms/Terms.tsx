@@ -1,10 +1,10 @@
 'use client';
 import { FormEvent, useCallback, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import Container from '../common/Container';
-import RoundedFrame from '../common/RoundedFrame';
+import BlueSquareBtn from '@common/components/form/BlueSquareBtn';
+import Container from '@/app/(auth)/components/common/Container';
+import RoundedFrame from '@/app/(auth)/components/common/RoundedFrame';
 import TermsContent from './TermsContent';
-import BlueSquareBtn from '@/app/common/components/form/BlueSquareBtn';
 
 interface Props {
   requiredTerms: ITerm[];

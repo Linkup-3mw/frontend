@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
 import { FieldValues, UseFormRegister, UseFormSetValue } from 'react-hook-form';
 
-import Input from '../../../common/components/form/Input';
-import InputBox from '../../../common/components/form/InputBox';
-import { BIRTH_VALIDATION } from '../../constants/validation';
+import Input from '@common/components/form/Input';
+import InputBox from '@common/components/form/InputBox';
+import { BIRTH_VALIDATION } from '@/app/(auth)/constants/validation';
 
 interface Props {
   error: FieldValues | undefined;
@@ -28,7 +28,8 @@ export default function BirthdayInput({ error, register, setValue }: Props) {
     register('birthday', {
       onChange: (e) => setValue('birthday', birthdayFormat(e.target.value)),
     });
-  });
+  }, []);
+
   return (
     <InputBox text="생년월일" errorMsg={error?.message}>
       <Input

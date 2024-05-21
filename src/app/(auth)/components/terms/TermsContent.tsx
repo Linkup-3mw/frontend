@@ -1,8 +1,8 @@
 import { ChangeEvent, Dispatch, SetStateAction, memo, useEffect } from 'react';
+import RoundedCheckbox from '@common/components/form/RoundedCheckbox';
+import Checkbox from '@common/components/form/CheckBox';
 import { ITerm } from './Terms';
 import TermToggleBox from './TermToggleBox';
-import RoundedCheckbox from '@/app/common/components/form/RoundedCheckbox';
-import Checkbox from '@/app/common/components/form/CheckBox';
 
 interface Props {
   title: string;

@@ -1,4 +1,4 @@
-import Terms from '../../components/terms/Terms';
+import Terms from '@/app/(auth)/components/terms/Terms';
 
 // 임시로 넣음
 const OPTIONAL_TERMS = [

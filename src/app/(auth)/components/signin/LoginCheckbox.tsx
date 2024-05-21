@@ -1,6 +1,6 @@
 import CircleWithCheck, {
   CircleBorderCheck,
-} from '@/app/common/components/icons/CircleWithCheck';
+} from '@common/components/icons/CircleWithCheck';
 
 interface Props {
   children: React.ReactNode;

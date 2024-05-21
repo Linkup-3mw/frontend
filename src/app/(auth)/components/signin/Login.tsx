@@ -3,12 +3,12 @@ import Link from 'next/link';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 
 import { signIn } from 'next-auth/react';
-import InputBox from '../../../common/components/form/InputBox';
-import TogglePassword from '../common/TogglePassword';
-import Input from '../../../common/components/form/Input';
+import InputBox from '@common/components/form/InputBox';
+import Input from '@common/components/form/Input';
+import BlueSquareBtn from '@common/components/form/BlueSquareBtn';
+import TogglePassword from '@/app/(auth)/components/common/TogglePassword';
+import { EMAIL_VALIDATION } from '@/app/(auth)/constants/validation';
 import LoginCheckbox from './LoginCheckbox';
-import { EMAIL_VALIDATION } from '../../constants/validation';
-import BlueSquareBtn from '@/app/common/components/form/BlueSquareBtn';
 
 //임시 데이터
 const LOGIN_ERROR_MSG = {

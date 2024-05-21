@@ -5,15 +5,15 @@ import {
   NAME_VALIDATION,
   NICKNAME_VALIDATION,
   PHONE_VALIDATION,
-} from '../../constants/validation';
-import InputBox from '../../../common/components/form/InputBox';
-import Input from '../../../common/components/form/Input';
+} from '@/app/(auth)/constants/validation';
+import InputBox from '@common/components/form/InputBox';
+import Input from '@common/components/form/Input';
+import RadioButton from '@common/components/form/RadioButton';
+import BlueSquareBtn from '@/app/common/components/form/BlueSquareBtn';
 import EmailInput from './EmailInput';
 import PasswordInput from './PasswordInput';
-import RadioButton from '../../../common/components/form/RadioButton';
 import CompanyInput from './CompanyInput';
 import BirthdayInput from './BirthdayInput';
-import BlueSquareBtn from '@/app/common/components/form/BlueSquareBtn';
 
 interface Props {
   type: string;

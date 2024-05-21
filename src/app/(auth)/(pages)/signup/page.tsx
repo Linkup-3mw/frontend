@@ -1,6 +1,6 @@
-import Container from '../../components/common/Container';
-import RoundedFrame from '../../components/common/RoundedFrame';
-import SignupForm from '../../components/signup/SignupForm';
+import Container from '@/app/(auth)/components/common/Container';
+import RoundedFrame from '@/app/(auth)/components/common/RoundedFrame';
+import SignupForm from '@/app/(auth)/components/signup/SignupForm';
 
 interface Props {
   searchParams: {

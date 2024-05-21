@@ -1,9 +1,9 @@
-import { FieldValues, UseFormRegister } from 'react-hook-form';
-import Input from '../../../common/components/form/Input';
-import InputBox from '../../../common/components/form/InputBox';
-import { COMPANY_VALIDATION } from '../../constants/validation';
-import ButtonInInput from '../common/ButtonInInput';
 import { useState } from 'react';
+import { FieldValues, UseFormRegister } from 'react-hook-form';
+import Input from '@common/components/form/Input';
+import InputBox from '@common/components/form/InputBox';
+import { COMPANY_VALIDATION } from '@/app/(auth)/constants/validation';
+import ButtonInInput from '@/app/(auth)/components/common/ButtonInInput';
 
 interface Props {
   error: FieldValues | undefined;

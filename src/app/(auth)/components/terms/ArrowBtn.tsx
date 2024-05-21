@@ -3,7 +3,7 @@ interface Props {
   isActive: boolean;
 }
 
-const ArrowBtn = ({ handleClick, isActive }: Props) => {
+export default function ArrowBtn({ handleClick, isActive }: Props) {
   return (
     <button
       type="button"
@@ -22,6 +22,4 @@ const ArrowBtn = ({ handleClick, isActive }: Props) => {
       </svg>
     </button>
   );
-};
-
-export default ArrowBtn;
+}

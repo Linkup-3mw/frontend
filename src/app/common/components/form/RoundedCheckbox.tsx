@@ -7,7 +7,12 @@ interface Props {
   isChecked: boolean;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
-const RoundedCheckbox = ({ name, children, onChange, isChecked }: Props) => {
+export default function RoundedCheckbox({
+  name,
+  children,
+  onChange,
+  isChecked,
+}: Props) {
   return (
     <>
       <label className="inline-flex items-center">
@@ -28,6 +33,4 @@ const RoundedCheckbox = ({ name, children, onChange, isChecked }: Props) => {
       </label>
     </>
   );
-};
-
-export default RoundedCheckbox;
+}

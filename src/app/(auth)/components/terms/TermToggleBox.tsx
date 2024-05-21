@@ -1,7 +1,7 @@
 import { ChangeEvent, useState } from 'react';
+import Checkbox from '@common/components/form/CheckBox';
 import { ITerm } from './Terms';
 import ArrowBtn from './ArrowBtn';
-import Checkbox from '@/app/common/components/form/CheckBox';
 
 interface Props extends ITerm {
   isChecked: boolean;
@@ -35,7 +35,7 @@ export default function TermToggleBox({
         <ArrowBtn handleClick={handleClick} isActive={showDetail} />
       </div>
       {showDetail && (
-        <div className="overflow-y-auto mt-3 mb-5 p-[1.5rem] h-[10rem] rounded-[1.2rem] bg-white whitespace-pre-line ">
+        <div className="overflow-y-auto mt-3 mb-5 p-[1.5rem] h-[10rem] rounded-[1.2rem] bg-white whitespace-pre-line">
           {detail}
         </div>
       )}

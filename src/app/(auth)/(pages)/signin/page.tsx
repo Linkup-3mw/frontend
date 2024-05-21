@@ -1,7 +1,7 @@
 import Link from 'next/link';
-import Container from '../../components/common/Container';
-import RoundedFrame from '../../components/common/RoundedFrame';
-import Login from '../../components/signin/Login';
+import Container from '@/app/(auth)/components/common/Container';
+import RoundedFrame from '@/app/(auth)/components/common/RoundedFrame';
+import Login from '@/app/(auth)/components/signin/Login';
 
 interface Props {
   searchParams: {

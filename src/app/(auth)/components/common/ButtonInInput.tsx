@@ -3,7 +3,7 @@ interface Props {
   disabled?: boolean;
   onClick: () => void;
 }
-const ButtonInInput = ({ text, disabled, onClick }: Props) => {
+export default function ButtonInInput({ text, disabled, onClick }: Props) {
   return (
     <button
       type="button"
@@ -14,5 +14,4 @@ const ButtonInInput = ({ text, disabled, onClick }: Props) => {
       {text}
     </button>
   );
-};
-export default ButtonInInput;
+}

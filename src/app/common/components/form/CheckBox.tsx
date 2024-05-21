@@ -1,5 +1,5 @@
-import { ChangeEvent, forwardRef } from 'react';
-import Check from '../icons/Check';
+import { ChangeEvent } from 'react';
+import Check from '@common/components/icons/Check';
 
 interface Props {
   name: string;
@@ -7,7 +7,12 @@ interface Props {
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   isChecked: boolean;
 }
-const Checkbox = ({ name, children, isChecked, onChange }: Props) => {
+export default function Checkbox({
+  name,
+  children,
+  isChecked,
+  onChange,
+}: Props) {
   return (
     <>
       <label className="flex items-center">
@@ -28,6 +33,4 @@ const Checkbox = ({ name, children, isChecked, onChange }: Props) => {
       </label>
     </>
   );
-};
-
-export default Checkbox;
+}
