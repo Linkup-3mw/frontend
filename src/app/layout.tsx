@@ -2,8 +2,7 @@ import type { Metadata } from 'next';
 import { suit } from '@/styles/typography';
 import './globals.css';
 import AuthContext from '@/context/AuthContext';
-import Header from './common/header/Header';
-import AuthroizationHeader from '@/context/AuthroizationHeader';
+import AuthorizationHeader from '@/context/AuthorizationHeader';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -18,9 +17,8 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className={suit.className}>
-        <Header />
         <AuthContext>
-          <AuthroizationHeader>{children}</AuthroizationHeader>
+          <AuthorizationHeader>{children}</AuthorizationHeader>
         </AuthContext>
       </body>
     </html>

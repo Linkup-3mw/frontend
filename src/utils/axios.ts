@@ -24,7 +24,7 @@ API.interceptors.request.use(async (config) => {
     }
   } else {
     //Client Side
-    const token = getCookie('Authroization');
+    const token = getCookie('Authorization');
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`;
     }

@@ -4,23 +4,23 @@ import { setCookie } from '@/utils/cookie';
 import { useSession } from 'next-auth/react';
 import { useEffect } from 'react';
 
-type Props = {
+interface Props {
   children: React.ReactNode;
-};
+}
 
-type SessionData = {
+interface SessionData {
   Authorization: string;
   RefreshToken: string;
   expires: string;
-};
+}
 
-type SessionType = {
+interface SessionType {
   data: SessionData | any;
   status: string;
   update: any;
-};
+}
 
-export default function AuthroizationHeader({ children }: Props) {
+export default function AuthorizationHeader({ children }: Props) {
   const { status, data: session }: SessionType = useSession();
 
   const isLogin = !!session && status === 'authenticated';
@@ -29,7 +29,7 @@ export default function AuthroizationHeader({ children }: Props) {
 
   // 만료시간 임시 값
   useEffect(() => {
-    setCookie('Authroization', accesstoken, 2);
+    setCookie('Authorization', accesstoken, 2);
     setCookie('RefreshToken', refreshToken, 2);
   }, [isLogin]);
   return <>{children}</>;
