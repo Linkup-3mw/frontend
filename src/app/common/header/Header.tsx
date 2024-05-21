@@ -1,18 +1,40 @@
+'use client';
+
 import React from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 export default function Header() {
+  const pathname = usePathname();
+
   return (
     <header className="text-main-black">
       <div className="px-[12.5rem] flex justify-center pt-[1.25rem] pb-[1.19rem]">
         {/* part1 */}
         <div className="flex basis-1/3 my-auto text-base pl-10">
-          <div className="flex justify-center items-center w-[6.375rem] h-[2.5rem] border rounded-full border-black mr-3 font-bold">
+          <div
+            className={`flex justify-center items-center w-[6.375rem] h-[2.5rem] border rounded-full border-black mr-3 font-bold ${
+              pathname === '/' ? 'bg-black text-white' : ''
+            }`}
+          >
             탐색
           </div>
-          <div className="flex justify-center items-center w-[6.375rem] h-[2.5rem] border rounded-full border-black mx-3 font-bold">
-            커뮤니티
-          </div>
-          <div className="flex justify-center items-center w-[6.375rem] h-[2.5rem] border rounded-full border-black mx-3 font-bold">
+          <Link href="/community">
+            <div
+              className={`flex justify-center items-center w-[6.375rem] h-[2.5rem] border rounded-full border-black mx-3 font-bold ${
+                pathname.startsWith('/community')
+                  ? 'bg-main-black text-blue-100'
+                  : ''
+              }`}
+            >
+              커뮤니티
+            </div>
+          </Link>
+          <div
+            className={`flex justify-center items-center w-[6.375rem] h-[2.5rem] border rounded-full border-black mx-3 font-bold ${
+              pathname === '/notice' ? 'bg-black text-white' : ''
+            }`}
+          >
             공지사항
           </div>
         </div>
