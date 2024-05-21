@@ -15,7 +15,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className={suit.className}>
+      <body className={`${suit.className} bg-blue-100`}>
         <Header />
         <div>{children}</div>
       </body>

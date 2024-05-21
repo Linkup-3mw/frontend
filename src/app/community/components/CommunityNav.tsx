@@ -14,8 +14,8 @@ export default function CommunityNav() {
         <img
           src={
             activeIcon === iconName
-              ? `./svg/communityNav/${iconSource}Active.svg`
-              : `./svg/communityNav/${iconSource}.svg`
+              ? `../svg/communityNav/${iconSource}Active.svg`
+              : `../svg/communityNav/${iconSource}.svg`
           }
           alt={`${text} Icon`}
         />
@@ -33,7 +33,7 @@ export default function CommunityNav() {
   };
 
   return (
-    <nav className="h-[3.75rem] bg-blue-100 flex items-center justify-center gap-y-px">
+    <nav className="h-[3.75rem] flex items-center justify-center gap-y-px">
       {renderIcon('home', 'homeIcon', '홈')}
       {renderIcon('coffeechat', 'coffeechatIcon', '컵챗')}
       {renderIcon('cow', 'cowIcon', '소모임')}

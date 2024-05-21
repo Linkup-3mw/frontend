@@ -1,5 +1,5 @@
-import CommunityNav from './components/CommunityNav';
+import React from 'react';
 
 export default function Community() {
-  return <CommunityNav />;
+  return <div>Community Home</div>;
 }
