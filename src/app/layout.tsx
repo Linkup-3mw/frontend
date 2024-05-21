@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { suit } from '@/styles/typography';
-import './globals.css';
+import '@styles/globals.css';
+import { Header } from '@common/header';
 import AuthContext from '@/context/AuthContext';
 import AuthorizationHeader from '@/context/AuthorizationHeader';
 
@@ -17,6 +18,7 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className={suit.className}>
+        <Header />
         <AuthContext>
           <AuthorizationHeader>{children}</AuthorizationHeader>
         </AuthContext>
