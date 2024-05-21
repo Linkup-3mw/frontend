@@ -4,6 +4,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import Container from '../common/Container';
 import RoundedFrame from '../common/RoundedFrame';
 import TermsContent from './TermsContent';
+import BlueSquareBtn from '@/app/common/components/form/BlueSquareBtn';
 
 interface Props {
   requiredTerms: ITerm[];
@@ -71,18 +72,16 @@ export default function Terms({ requiredTerms, optionalTerms }: Props) {
               </p>
             </div>
 
-            <button
+            <BlueSquareBtn
+              name="동의하고 가입하기"
               type="submit"
-              className="blue_square_btn"
               disabled={
                 !(
                   requiredData.filter((item) => item.isChecked !== true)
                     .length < 1
                 )
               }
-            >
-              동의하고 가입하기
-            </button>
+            />
           </form>
         </div>
       </RoundedFrame>

@@ -41,17 +41,20 @@ export const PHONE_VALIDATION: RegisterOptions<FieldValues, string> = {
   // },
 };
 export const PASSWORD_VALIDATION: RegisterOptions<FieldValues, string> = {
-  required: '8~16자, 영문/숫자/특수문자만 허용, 2개 이상 조합을 사용해 주세요.',
+  required: '영문, 숫자, 특수문자를 모두 사용하여 8~16자를 입력해 주세요.',
   pattern: {
-    value: /^(?=.*[a-zA-Z])((?=.*[!@#$%^*+=-])|(?=.*[0-9])).{8,16}$/,
-    message:
-      '8~16자, 영문/숫자/특수문자만 허용, 2개 이상 조합을 사용해 주세요.',
+    value: /^(?=.*[a-zA-Z])(?=.*[~!@#$%^*+=-])(?=.*[0-9]).{8,16}$/,
+    message: '영문, 숫자, 특수문자를 모두 사용하여 8~16자를 입력해 주세요.',
   },
 };
 export const NICKNAME_VALIDATION: RegisterOptions<FieldValues, string> = {
-  required: '닉네임을 입력해 주세요.',
+  required: '6자 이내의 한글/영문/숫자를 사용해 주세요.',
   pattern: {
-    value: /^[ㄱ-ㅎ가-힣a-z0-9-_]{2,8}$/,
-    message: '8자 이내, 한글/영문/숫자만 입력해 주세요.',
+    value: /^[ㄱ-ㅎ가-힣a-z0-9-_]{2,6}$/,
+    message: '6자 이내의 한글/영문/숫자를 사용해 주세요.',
   },
+};
+
+export const COMPANY_VALIDATION: RegisterOptions<FieldValues, string> = {
+  required: '기업 전용 코드를 입력해 주세요.',
 };
