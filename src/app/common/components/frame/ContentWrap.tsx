@@ -5,8 +5,6 @@ interface Props {
 }
 export default function ContentWrap({ children }: Props) {
   return (
-    <div className="mx-auto max-w-[95rem] w-full box-border bg-slate-400">
-      {children}
-    </div>
+    <div className="mx-auto max-w-[95rem] w-full box-border">{children}</div>
   );
 }
