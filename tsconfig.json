@@ -22,7 +22,7 @@
       "@/*": ["src/*"],
       "@public/*": ["public/*"],
       "@common/*": ["src/app/common/*"],
-      "@components/*": ["src/components/*"],
+      "@components/*": ["src/components/*", "src/app/community/components/*"],
       "@hooks/*": ["src/hooks/*"],
       "@styles/*": ["src/styles/*"]
     }

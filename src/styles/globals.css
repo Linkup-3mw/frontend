@@ -6,3 +6,6 @@
   @apply overflow-hidden block absolute border-0 w-0 h-0;
 }
 
+body {
+  @apply text-main-black;
+}
