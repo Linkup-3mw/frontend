@@ -1,0 +1,104 @@
+{
+  "office_buildings": [
+    {
+      "building": {
+        "id": 1,
+        "location": "강남1호점",
+        "region": "서울시",
+        "city": "강남구",
+        "street": "강남대로 382",
+        "adress": "메리츠타워 17, 18층(메인라운지 17층) ",
+        "capacity": 550,
+        "traffic_info": "강남역 4번출구 도보 3분",
+        "latitude": "77.5258999",
+        "longitude": "126.967444",
+        "images": "imags_url"
+      },
+      "club_count": 12,
+      "rating": {
+        "avg_rating": 10,
+        "count": 100
+      }
+    },
+    {
+      "building": {
+        "id": 2,
+        "location": "강남2호점",
+        "region": "서울시",
+        "city": "강남구",
+        "street": "강남대로 382",
+        "adress": "메리츠타워 17, 18층(메인라운지 17층) ",
+        "capacity": 300,
+        "traffic_info": "강남역 4번출구 도보 3분",
+        "latitude": "126.835464",
+        "longitude": "37.5331134",
+        "images": "imags_url"
+      },
+      "club_count": 10,
+      "rating": {
+        "avg_rating": 10,
+        "count": 100
+      }
+    },
+    {
+      "building": {
+        "id": 3,
+        "location": "강남3호점",
+        "region": "서울시",
+        "city": "강남구",
+        "street": "강남대로 382",
+        "adress": "메리츠타워 17, 18층(메인라운지 17층) ",
+        "capacity": 300,
+        "traffic_info": "강남역 4번출구 도보 3분",
+        "latitude": "126.9727572",
+        "longitude": "37.5766109",
+        "images": "imags_url"
+      },
+      "club_count": 10,
+      "rating": {
+        "avg_rating": 10,
+        "count": 100
+      }
+    },
+    {
+      "building": {
+        "id": 1,
+        "location": "강남1호점",
+        "region": "서울시",
+        "city": "강남구",
+        "street": "강남대로 382",
+        "adress": "메리츠타워 17, 18층(메인라운지 17층) ",
+        "capacity": 550,
+        "traffic_info": "강남역 4번출구 도보 3분",
+        "latitude": "37.5258999",
+        "longitude": "126.967444",
+        "images": "imags_url"
+      },
+      "club_count": 12,
+      "rating": {
+        "avg_rating": 10,
+        "count": 100
+      }
+    },
+    {
+      "building": {
+        "id": 1,
+        "location": "강남1호점",
+        "region": "서울시",
+        "city": "강남구",
+        "street": "강남대로 382",
+        "adress": "메리츠타워 17, 18층(메인라운지 17층) ",
+        "capacity": 550,
+        "traffic_info": "강남역 4번출구 도보 3분",
+        "latitude": "37.5331134",
+        "longitude": "126.835464",
+        "images": "imags_url"
+      },
+      "club_count": 12,
+      "rating": {
+        "avg_rating": 10,
+        "count": 100
+      }
+    }
+  ]
+}
