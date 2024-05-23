@@ -12,13 +12,15 @@ export default function Header() {
       <div className="px-[12.5rem] flex justify-center pt-[1.25rem] pb-[1.19rem]">
         {/* part1 */}
         <div className="flex basis-1/3 my-auto text-base pl-10">
-          <div
-            className={
-              'flex justify-center items-center w-[6.375rem] h-[2.5rem] border rounded-full border-black mr-3 font-bold '
-            }
-          >
-            탐색
-          </div>
+          <Link href="/map">
+            <div
+              className={
+                'flex justify-center items-center w-[6.375rem] h-[2.5rem] border rounded-full border-black mr-3 font-bold '
+              }
+            >
+              탐색
+            </div>
+          </Link>
           <Link href="/community">
             <div
               className={`flex justify-center items-center w-[6.375rem] h-[2.5rem] border rounded-full border-black mx-3 font-bold ${

@@ -6,11 +6,13 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "dev:db": "json-server --watch db.json --port=8888"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.36.0",
     "axios": "^1.6.8",
+    "json-server": "1.0.0-beta.0",
     "next": "14.2.3",
     "next-auth": "^4.24.7",
     "react": "^18",
@@ -19,7 +21,7 @@
     "recoil": "^0.7.7"
   },
   "devDependencies": {
-    "@types/node": "^20",
+    "@types/node": "^20.12.11",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "eslint": "^8",
