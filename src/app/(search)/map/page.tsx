@@ -1,33 +1,40 @@
 'use client';
-import { OfficeBuilding } from '@/types/office/office';
-import axios, { AxiosResponse } from 'axios';
+import axios from 'axios';
 import { useEffect, useState } from 'react';
-import ComponentMap from './components/Map';
+import { OfficeBuilding } from '@/types/office/office';
+import Zoom from './components/Zoom';
 import Marker from './components/Marker';
+import ComponentMap from './components/Map';
+import BuildingList from './components/BuildingList';
+import CurrentLocationButton from './components/LocationButton';
 
 export default function MapPage() {
-  const [office_buildings, setBd] = useState<OfficeBuilding[] | null>(null);
-
+  const [officeBuildings, setOfficeBuildings] = useState<
+    OfficeBuilding[] | null
+  >(null);
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchBuildingsData = async () => {
       try {
-        const res: AxiosResponse<OfficeBuilding[]> = await axios.get<
-          OfficeBuilding[]
-        >('/api/office');
-        console.log('res', res);
-        setBd(res.data);
+        const response = await axios.get(
+          'http://localhost:8888/office_buildings',
+        );
+        const { data: buildings } = response;
+        console.log(buildings);
+        setOfficeBuildings(buildings);
       } catch (error) {
         console.error(error);
-        // 에러 핸들링: 사용자에게 에러를 표시하거나 필요한 작업 수행
       }
     };
-    fetchData();
-  }, []);
 
+    fetchBuildingsData();
+  }, []);
   return (
     <>
-      <Marker office_buildings={office_buildings} />
+      <CurrentLocationButton />
+      <Marker officeBuildings={officeBuildings} />
       <ComponentMap />
+      <Zoom />
+      <BuildingList officeBuildings={officeBuildings} />
     </>
   );
 }
