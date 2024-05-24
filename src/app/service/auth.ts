@@ -1,11 +1,6 @@
 import API from '@/utils/axios';
 import { FormValues } from '../(auth)/components/signup/SignupForm';
 
-export const getUser = async () => {
-  const { data: users } = await API.get('/users');
-  return users;
-};
-
 //회사 검증
 export const verifyCompany = async (authCode: string) => {
   // const res = await API.post('/test', {
@@ -42,6 +37,17 @@ export const verifyEmail = async ({
   email: string;
   authCode: string;
 }) => {
+  return {
+    status_code: 200,
+    message: '요청이 성공적으로 처리되었습니다.',
+    status: 'OK',
+    data: 'OK',
+    success: true,
+  };
+};
+
+//닉네임 검증
+export const validateNickname = async (username: string) => {
   return {
     status_code: 200,
     message: '요청이 성공적으로 처리되었습니다.',

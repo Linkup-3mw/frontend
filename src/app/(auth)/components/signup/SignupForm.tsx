@@ -3,10 +3,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import bcrypt from 'bcryptjs';
 
-import {
-  NAME_VALIDATION,
-  NICKNAME_VALIDATION,
-} from '@/app/(auth)/constants/validation';
+import { NAME_VALIDATION } from '@/app/(auth)/constants/validation';
 import InputBox from '@common/components/form/InputBox';
 import Input from '@common/components/form/Input';
 import RadioButton from '@common/components/form/RadioButton';
@@ -17,6 +14,7 @@ import PasswordInput from './PasswordInput';
 import CompanyInput from './CompanyInput';
 import BirthdayInput from './BirthdayInput';
 import PhoneNumberInput from './PhoneNumberInput';
+import NicknameInput from './NicknameInput';
 
 interface Props {
   type: string;
@@ -159,15 +157,12 @@ export default function SignupForm({ type }: Props) {
           setValue={setValue}
         />
 
-        <InputBox text="닉네임" errorMsg={errors.username?.message}>
-          <Input
-            placeholder="6자 이내의 한글/영문/숫자를 사용해 주세요."
-            register={register}
-            name="username"
-            isError={errors.username !== undefined}
-            validation={NICKNAME_VALIDATION}
-          />
-        </InputBox>
+        <NicknameInput
+          error={errors}
+          register={register}
+          setError={setError}
+          clearErrors={clearErrors}
+        />
 
         <InputBox text="산업군" errorMsg={errors.industry?.message}>
           <div className="flex flex-wrap gap-[1rem] my-[1rem]">
