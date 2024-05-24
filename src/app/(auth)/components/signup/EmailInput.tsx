@@ -1,20 +1,25 @@
-import { useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import {
   FieldValues,
+  UseFormClearErrors,
   UseFormGetValues,
   UseFormRegister,
+  UseFormSetValue,
   UseFormTrigger,
 } from 'react-hook-form';
 import Input from '@common/components/form/Input';
 import InputBox from '@common/components/form/InputBox';
 import { EMAIL_VALIDATION } from '@/app/(auth)/constants/validation';
 import ButtonInInput from '@/app/(auth)/components/common/ButtonInInput';
+import { validateEmail, verifyEmail } from '@/app/service/auth';
 
 interface Props {
   error: FieldValues | undefined;
   register: UseFormRegister<FieldValues>;
   getValues: UseFormGetValues<FieldValues>;
   trigger: UseFormTrigger<FieldValues>;
+  setValue: UseFormSetValue<FieldValues>;
+  clearErrors: UseFormClearErrors<FieldValues>;
 }
 
 export default function EmailInput({
@@ -22,6 +27,8 @@ export default function EmailInput({
   register,
   getValues,
   trigger,
+  setValue,
+  clearErrors,
 }: Props) {
   const [showVerify, setShowVerify] = useState(false);
   const [isVerify, setIsVerify] = useState(false);
@@ -29,7 +36,7 @@ export default function EmailInput({
 
   useEffect(() => {
     register('email', {
-      onBlur: (e) => trigger('email'),
+      onBlur: () => trigger('email'),
     });
   }, []);
 
@@ -38,18 +45,46 @@ export default function EmailInput({
     const emailValue = getValues('email');
     if (!emailValue) return;
 
-    //확인 성공
-    setShowVerify(true);
-    //확인 실패
+    const res = await validateEmail(emailValue);
+    if (res.status_code === 200) {
+      //확인 성공
+      setShowVerify(true);
+      setErrMsg('');
+      clearErrors('email_verified');
+    } else {
+      //확인 실패
+      setErrMsg('이메일 인증을 다시 시도해주세요.');
+    }
   };
-  const verifyEmailFn = () => {
-    //이메일 인증번호 처리
-    setIsVerify(true);
+
+  //이메일 인증번호 처리
+  const verifyEmailFn = async () => {
+    const emailValue = getValues('email');
+    const authCode = getValues('email_confirm');
+
+    if (!emailValue || !authCode) return;
+
+    const res = await verifyEmail({ email: emailValue, authCode });
+    if (res.status_code === 200) {
+      //성공
+      setIsVerify(true);
+      setErrMsg('');
+      setValue('email_verified', true, {
+        shouldDirty: true,
+        shouldValidate: true,
+      });
+      clearErrors('email_verified');
+    } else {
+      //실패
+      setErrMsg('인증번호 6자리를 다시 확인해 주세요.');
+    }
   };
   return (
     <InputBox
       text="이메일"
-      errorMsg={error?.message || errMsg}
+      errorMsg={
+        error?.email?.message || error?.email_verified?.message || errMsg
+      }
       msg={isVerify ? '인증이 완료되었습니다.' : ''}
     >
       <span className="block relative">
@@ -57,30 +92,34 @@ export default function EmailInput({
           placeholder="이메일을 입력해 주세요."
           register={register}
           name="email"
-          isError={error !== undefined}
+          isError={error?.email !== undefined}
           validation={EMAIL_VALIDATION}
+          readOnly={isVerify}
         />
         <ButtonInInput
-          text="인증하기"
+          text={!isVerify ? '인증하기' : '인증완료'}
           onClick={validateEmailFn}
-          disabled={error !== undefined}
+          disabled={error?.email !== undefined || isVerify}
         />
       </span>
       {showVerify && (
         <span className="block relative -mt-[0.5rem]">
           <Input
             placeholder="이메일로 전송된 인증번호 6자리를 입력해 주세요."
-            name="auth_code"
-            isError={errMsg.length > 0 || error !== undefined}
+            name="email_confirm"
+            isError={errMsg.length > 0 || error?.email !== undefined}
             register={register}
           />
-          <ButtonInInput
-            text="확인"
-            onClick={verifyEmailFn}
-            disabled={isVerify}
-          />
+          {!isVerify && (
+            <ButtonInInput
+              text="확인"
+              onClick={verifyEmailFn}
+              disabled={isVerify}
+            />
+          )}
         </span>
       )}
+      <input type="hidden" {...register('email_verified')} />
     </InputBox>
   );
 }
