@@ -89,7 +89,7 @@ export default function EmailInput({
     >
       <span className="block relative">
         <Input
-          placeholder="이메일을 입력해 주세요."
+          placeholder="이메일을 입력하고 인증하기를 눌러주세요."
           register={register}
           name="email"
           isError={error?.email !== undefined}

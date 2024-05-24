@@ -32,7 +32,7 @@ export default function BirthdayInput({ error, register, setValue }: Props) {
   return (
     <InputBox text="생년월일" errorMsg={error?.message}>
       <Input
-        placeholder="YYYY/MM/DD"
+        placeholder="YYYY / MM / DD"
         register={register}
         name="birthday"
         isError={error !== undefined}
