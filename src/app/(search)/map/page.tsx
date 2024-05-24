@@ -19,11 +19,9 @@ export default function MapPage() {
           'http://localhost:8888/office_buildings',
         );
         const { data: buildings } = response;
-        console.log(buildings);
+
         setOfficeBuildings(buildings);
-      } catch (error) {
-        console.error(error);
-      }
+      } catch (error) {}
     };
 
     fetchBuildingsData();

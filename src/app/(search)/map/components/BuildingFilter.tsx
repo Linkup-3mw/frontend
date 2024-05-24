@@ -64,7 +64,7 @@ export default function BuildingFilter({
         </div>
       </div>
       {selectedRegion && (
-        <div className="absolute p-4 top-20 bg-white w-[26.6875rem] h-[27rem] z-50 shadow-lg rounded-md border border-gray-300 transition-transform transform duration-300">
+        <div className="absolute p-4 top-20 bg-white w-[26.6875rem] h-[27rem] z-50 shadow-lg rounded-md border border-gray-300">
           <h1 className="text-xl font-bold">강남</h1>
           <ul className="p-2 grid grid-cols-4 gap-4">
             {gangNamGoo.map((city) => (
@@ -87,7 +87,7 @@ export default function BuildingFilter({
             ))}
           </ul>
           <div className="border-t border-gray-300 my-4"></div>
-          <h1 className="text-xl font-bold">강남</h1>
+          <h1 className="text-xl font-bold">경기</h1>
           <ul className="p-2 grid grid-cols-4 gap-2">
             {GangBookGoo.map((city) => (
               <li key={city}>

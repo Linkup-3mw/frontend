@@ -13,8 +13,6 @@ export default function CurrentLocationButton() {
   const handleCurrentPosition = () => {
     setLoading(true);
 
-    // geolocation으로 현재위치 가져오기
-
     const options = {
       enableHighAccuracy: false,
       timeout: 5000,

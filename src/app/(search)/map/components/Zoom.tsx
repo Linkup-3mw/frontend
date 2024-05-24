@@ -7,14 +7,12 @@ export default function Zoom() {
   const handleZoomIn = () => {
     if (map) {
       const level = map.getLevel() - 1;
-      console.log(level);
       map.setLevel(level, { anchor: map.getCenter() });
     }
   };
   const handleZoomOut = () => {
     if (map) {
       const level = map.getLevel() + 1;
-      console.log(level);
       map.setLevel(level, { anchor: map.getCenter() });
     }
   };
