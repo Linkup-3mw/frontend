@@ -1,41 +1,85 @@
 'use client';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
+import bcrypt from 'bcryptjs';
 
 import {
   NAME_VALIDATION,
   NICKNAME_VALIDATION,
-  PHONE_VALIDATION,
 } from '@/app/(auth)/constants/validation';
 import InputBox from '@common/components/form/InputBox';
 import Input from '@common/components/form/Input';
 import RadioButton from '@common/components/form/RadioButton';
 import BlueSquareBtn from '@/app/common/components/form/BlueSquareBtn';
+import { signUp } from '@/app/service/auth';
 import EmailInput from './EmailInput';
 import PasswordInput from './PasswordInput';
 import CompanyInput from './CompanyInput';
 import BirthdayInput from './BirthdayInput';
+import PhoneNumberInput from './PhoneNumberInput';
 
 interface Props {
   type: string;
 }
 
-interface FormValues {
+export interface FormValues {
   [text: string]: any;
 }
 
 export default function SignupForm({ type }: Props) {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
-    control,
     getValues,
     setValue,
     trigger,
+    setError,
+    setFocus,
+    clearErrors,
     formState: { errors, isDirty, isValid },
   } = useForm();
 
-  const onSubmit: SubmitHandler<FormValues> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {
+    if (data.company_id?.length == 0) {
+      setError('company_id', { message: '기업 인증을 해주세요.' });
+      setFocus('auth_code');
+      return;
+    }
+    if (!data.email_verified) {
+      setError('email_verified', { message: '이메일 인증을 해주세요.' });
+      setFocus('email');
+      return;
+    }
+    if (data.confirm_password !== data.password) {
+      setError(
+        'confirm_password',
+        { message: '비밀번호가 일치하지 않습니다.' },
+        { shouldFocus: true },
+      );
+      return;
+    }
+
+    const hashedPassword = await bcrypt.hash(data.password, 12);
+    const params: FormValues = {
+      ...data,
+      birthday: data.birthday.replaceAll('/', '-') as string,
+      company_verified: true,
+      password: hashedPassword,
+    };
+    delete params.auth_code;
+    delete params.confirm_password;
+    delete params.email_confirm;
+
+    try {
+      const res = await signUp(params);
+      if (res.status == 201) {
+        alert('가입이 완료되었습니다.');
+        router.push('/signin');
+      }
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   return (
@@ -43,21 +87,28 @@ export default function SignupForm({ type }: Props) {
       <form onSubmit={handleSubmit(onSubmit)}>
         {/* 기업 회원가입인 경우 */}
         {type == 'enterprise' && (
-          <CompanyInput register={register} error={errors.company_id} />
+          <CompanyInput
+            getValues={getValues}
+            register={register}
+            error={errors}
+            setValue={setValue}
+          />
         )}
 
         <EmailInput
-          error={errors.email}
+          error={errors}
           register={register}
           getValues={getValues}
           trigger={trigger}
+          setValue={setValue}
+          clearErrors={clearErrors}
         />
 
         <PasswordInput
-          error={errors.password}
+          error={errors}
           register={register}
-          control={control}
           getValues={getValues}
+          trigger={trigger}
         />
 
         <InputBox text="이름" errorMsg={errors.name?.message}>
@@ -80,21 +131,21 @@ export default function SignupForm({ type }: Props) {
           <div className="flex justify-between gap-[1rem] my-[1rem]">
             <RadioButton
               name="gender"
-              value="male"
+              value="남성"
               text="남성"
               register={register}
               errMsg="성별을 선택해 주세요."
             />
             <RadioButton
               name="gender"
-              value="female"
+              value="여성"
               text="여성"
               register={register}
               errMsg="성별을 선택해 주세요."
             />
             <RadioButton
               name="gender"
-              value="not"
+              value="선택 안함"
               text="선택 안함"
               register={register}
               errMsg="성별을 선택해 주세요."
@@ -102,15 +153,11 @@ export default function SignupForm({ type }: Props) {
           </div>
         </InputBox>
 
-        <InputBox text="휴대폰 번호" errorMsg={errors.phone?.message}>
-          <Input
-            placeholder="휴대폰 번호를 입력해 주세요."
-            register={register}
-            name="phone"
-            isError={errors.phone !== undefined}
-            validation={PHONE_VALIDATION}
-          />
-        </InputBox>
+        <PhoneNumberInput
+          error={errors}
+          register={register}
+          setValue={setValue}
+        />
 
         <InputBox text="닉네임" errorMsg={errors.username?.message}>
           <Input
