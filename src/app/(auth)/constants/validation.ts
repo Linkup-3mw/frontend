@@ -25,20 +25,15 @@ export const EMAIL_VALIDATION: RegisterOptions<FieldValues, string> = {
   pattern: {
     value:
       /^[a-zA-Z]+[!#$%&'*+-/=?^_`(){|}~]*[a-zA-Z0-9]*@[\w]+\.[a-zA-Z0-9-]+[.]*[a-zA-Z0-9]+$/,
-    message: '올바른 이메일 형식으로 입력해 주세요.',
+    message: '유효한 이메일 형식인지 확인해 주세요.',
   },
 };
 export const PHONE_VALIDATION: RegisterOptions<FieldValues, string> = {
   required: '휴대폰번호는 필수 정보 입니다.',
   pattern: {
     value: /^(01[016789]{1})-?[0-9]{3,4}-?[0-9]{4}$/,
-    // value: /d+/,
     message: '올바르게 입력해주세요.',
   },
-  // maxLength: {
-  //   value: 11,
-  //   message: '11자 이하로 입력해 주세요.',
-  // },
 };
 export const PASSWORD_VALIDATION: RegisterOptions<FieldValues, string> = {
   required: '영문, 숫자, 특수문자를 모두 사용하여 8~16자를 입력해 주세요.',
