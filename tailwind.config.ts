@@ -13,6 +13,7 @@ const config: Config = {
         'main-blue': '#97BAFE',
         'blue-50': '#E4EEFF',
         'blue-100': '#BFD4FF',
+        'blue-200': '#97BAFE',
         'blue-300': '#769EFA',
         'blue-400': '#688AF2',
         'blue-500': '#6377E9',
