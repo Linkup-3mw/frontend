@@ -1,0 +1,265 @@
+{
+  "users": [],
+  "office_buildings": [
+    {
+      "building": {
+        "id": 1,
+        "location": "강남1호점",
+        "region": "서울시",
+        "city": "관악구",
+        "street": "강남대로 382",
+        "adress": "메리츠타워 17, 18층(메인라운지 17층) ",
+        "capacity": 550,
+        "traffic_info": "강남역 4번출구 도보 3분",
+        "latitude": "77.5258999",
+        "longitude": "126.967444",
+        "images": "imags_url"
+      },
+      "club_count": 12,
+      "rating": {
+        "avg_rating": 10,
+        "count": 100
+      }
+    },
+    {
+      "building": {
+        "id": 2,
+        "location": "강남2호점",
+        "region": "서울시",
+        "city": "강남구",
+        "street": "강남대로 382",
+        "adress": "메리츠타워 17, 18층(메인라운지 17층) ",
+        "capacity": 300,
+        "traffic_info": "강남역 4번출구 도보 3분",
+        "latitude": "126.835464",
+        "longitude": "37.5331134",
+        "images": "imags_url"
+      },
+      "club_count": 10,
+      "rating": {
+        "avg_rating": 10,
+        "count": 100
+      }
+    },
+    {
+      "building": {
+        "id": 3,
+        "location": "강남3호점",
+        "region": "서울시",
+        "city": "강남구",
+        "street": "강남대로 382",
+        "adress": "메리츠타워 17, 18층(메인라운지 17층) ",
+        "capacity": 300,
+        "traffic_info": "강남역 4번출구 도보 3분",
+        "latitude": "126.9727572",
+        "longitude": "37.5766109",
+        "images": "imags_url"
+      },
+      "club_count": 10,
+      "rating": {
+        "avg_rating": 10,
+        "count": 100
+      }
+    },
+    {
+      "building": {
+        "id": 4,
+        "location": "강남1호점",
+        "region": "서울시",
+        "city": "구로구",
+        "street": "강남대로 382",
+        "adress": "메리츠타워 17, 18층(메인라운지 17층) ",
+        "capacity": 550,
+        "traffic_info": "강남역 4번출구 도보 3분",
+        "latitude": "37.5258999",
+        "longitude": "126.967444",
+        "images": "imags_url"
+      },
+      "club_count": 12,
+      "rating": {
+        "avg_rating": 10,
+        "count": 100
+      }
+    },
+    {
+      "building": {
+        "id": 5,
+        "location": "강남1호점",
+        "region": "서울시",
+        "city": "영등포",
+        "street": "강남대로 382",
+        "adress": "메리츠타워 17, 18층(메인라운지 17층) ",
+        "capacity": 550,
+        "traffic_info": "강남역 4번출구 도보 3분",
+        "latitude": "37.263573",
+        "longitude": "127.028601",
+        "images": "imags_url"
+      },
+      "club_count": 12,
+      "rating": {
+        "avg_rating": 10,
+        "count": 100
+      }
+    },
+    {
+      "building": {
+        "id": 7,
+        "location": "성남1호점",
+        "region": "서울시",
+        "city": "강남구",
+        "street": "강남대로 382",
+        "adress": "메리츠타워 17, 18층(메인라운지 17층) ",
+        "capacity": 550,
+        "traffic_info": "강남역 4번출구 도보 3분",
+        "latitude": "37.639994",
+        "longitude": "127.025381",
+        "images": "imags_url"
+      },
+      "club_count": 12,
+      "rating": {
+        "avg_rating": 10,
+        "count": 100
+      }
+    },
+    {
+      "building": {
+        "id": 8,
+        "location": "성남2호점",
+        "region": "성남시",
+        "city": "성남구",
+        "street": "성남대로 382",
+        "adress": "메리츠타워 17, 18층(메인라운지 17층) ",
+        "capacity": 550,
+        "traffic_info": "성남역 4번출구 도보 3분",
+        "latitude": "37.405864",
+        "longitude": "127.1421181",
+        "images": "imags_url"
+      },
+      "club_count": 12,
+      "rating": {
+        "avg_rating": 10,
+        "count": 100
+      }
+    },
+    {
+      "building": {
+        "id": 9,
+        "location": "성남3호점",
+        "region": "서울시",
+        "city": "성남구",
+        "street": "성남대로 382",
+        "adress": "메리츠타워 17, 18층(메인라운지 17층) ",
+        "capacity": 550,
+        "traffic_info": "성남역 4번출구 도보 3분",
+        "latitude": "37.383508",
+        "longitude": "126.961698",
+        "images": "imags_url"
+      },
+      "club_count": 12,
+      "rating": {
+        "avg_rating": 10,
+        "count": 100
+      }
+    },
+    {
+      "building": {
+        "id": 9,
+        "location": "서초1호점",
+        "region": "서울시",
+        "city": "서초구",
+        "street": "서초대로 382",
+        "adress": "메리츠타워 17, 18층(메인라운지 17층) ",
+        "capacity": 550,
+        "traffic_info": "서초역 4번출구 도보 3분",
+        "latitude": "37.483590",
+        "longitude": "127.032731",
+        "images": "imags_url"
+      },
+      "club_count": 12,
+      "rating": {
+        "avg_rating": 10,
+        "count": 100
+      }
+    },
+    {
+      "building": {
+        "id": 9,
+        "location": "서초2호점",
+        "region": "서울시",
+        "city": "서초구",
+        "street": "서초대로 382",
+        "adress": "메리츠타워 17, 18층(메인라운지 17층) ",
+        "capacity": 550,
+        "traffic_info": "서초역 4번출구 도보 3분",
+        "latitude": "37.509882",
+        "longitude": "126.994853",
+        "images": "imags_url"
+      },
+      "club_count": 12,
+      "rating": {
+        "avg_rating": 10,
+        "count": 100
+      }
+    },
+    {
+      "building": {
+        "id": 9,
+        "location": "서초3호점",
+        "region": "서울시",
+        "city": "서초구",
+        "street": "서초대로 382",
+        "adress": "메리츠타워 17, 18층(메인라운지 17층) ",
+        "capacity": 550,
+        "traffic_info": "서초역 4번출구 도보 3분",
+        "latitude": "37.483493",
+        "longitude": "127.030032",
+        "images": "imags_url"
+      },
+      "club_count": 12,
+      "rating": {
+        "avg_rating": 10,
+        "count": 100
+      }
+    },
+    {
+      "building": {
+        "id": 9,
+        "location": "서초3호점",
+        "region": "서울시",
+        "city": "서초구",
+        "street": "서초대로 382",
+        "adress": "메리츠타워 17, 18층(메인라운지 17층) ",
+        "capacity": 550,
+        "traffic_info": "서초역 4번출구 도보 3분",
+        "latitude": "37.483493",
+        "longitude": "127.030032",
+        "images": "imags_url"
+      },
+      "club_count": 12,
+      "rating": {
+        "avg_rating": 10,
+        "count": 100
+      }
+    },
+    {
+      "building": {
+        "id": 9,
+        "location": "서초3호점",
+        "region": "서울시",
+        "city": "서초구",
+        "street": "서초대로 382",
+        "adress": "메리츠타워 17, 18층(메인라운지 17층) ",
+        "capacity": 550,
+        "traffic_info": "서초역 4번출구 도보 3분",
+        "latitude": "37.483493",
+        "longitude": "127.030032",
+        "images": "imags_url"
+      },
+      "club_count": 12,
+      "rating": {
+        "avg_rating": 10,
+        "count": 100
+      }
+    }
+  ]
+}

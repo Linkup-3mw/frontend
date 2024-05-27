@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import {
-  Control,
   FieldValues,
   UseFormGetValues,
   UseFormRegister,
+  UseFormTrigger,
 } from 'react-hook-form';
 import InputBox from '@common/components/form/InputBox';
 import TogglePassword from '@/app/(auth)/components/common/TogglePassword';
@@ -11,12 +11,17 @@ import { PASSWORD_VALIDATION } from '@/app/(auth)/constants/validation';
 
 interface Props {
   error: FieldValues | undefined;
-  control: Control;
   register: UseFormRegister<FieldValues>;
   getValues: UseFormGetValues<FieldValues>;
+  trigger: UseFormTrigger<FieldValues>;
 }
 
-export default function PasswordInput({ error, register, getValues }: Props) {
+export default function PasswordInput({
+  error,
+  register,
+  getValues,
+  trigger,
+}: Props) {
   const [verifyPwd, setVerifyPwd] = useState(false);
   const [verifyMsg, setVerifyMsg] = useState('');
 
@@ -25,7 +30,10 @@ export default function PasswordInput({ error, register, getValues }: Props) {
       onChange: (e) => handleChange(e, 'confirm'),
     });
     register('password', {
-      onBlur: (e) => handleChange(e, 'password'),
+      onBlur: (e) => {
+        trigger('password');
+        handleChange(e, 'password');
+      },
     });
   }, []);
 
@@ -50,25 +58,29 @@ export default function PasswordInput({ error, register, getValues }: Props) {
 
   return (
     <>
-      <InputBox text="비밀번호" errorMsg={error?.message}>
+      <InputBox text="비밀번호" errorMsg={error?.password?.message}>
         <TogglePassword
           placeholder="영문, 숫자, 특수문자를 모두 사용하여 8~16자를 입력해 주세요."
           register={register}
           name="password"
-          isError={error !== undefined}
+          isError={error?.password !== undefined}
           validation={PASSWORD_VALIDATION}
         />
       </InputBox>
       <InputBox
         text="비밀번호 확인"
-        errorMsg={verifyMsg}
+        errorMsg={verifyMsg || error?.confirm_password?.message}
         msg={verifyPwd ? '비밀번호가 일치합니다.' : ''}
       >
         <TogglePassword
           placeholder="영문, 숫자, 특수문자를 모두 사용하여 8~16자를 입력해 주세요."
           register={register}
           name="confirm_password"
-          isError={verifyPwd && verifyMsg !== ''}
+          isError={
+            (!verifyPwd && verifyMsg !== '') ||
+            error?.confirm_password !== undefined
+          }
+          validation={{ required: '비밀번호 확인을 입력해 주세요.' }}
         />
       </InputBox>
     </>

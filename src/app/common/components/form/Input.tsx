@@ -5,6 +5,7 @@ interface Props {
   type?: string;
   placeholder?: string;
   isError: boolean;
+  readOnly?: boolean;
   validation?: RegisterOptions<FieldValues, string>;
   register?: UseFormRegister<FieldValues>;
 }
@@ -13,6 +14,7 @@ export default function Input({
   type,
   placeholder,
   isError,
+  readOnly,
   validation = {},
   register,
 }: Props) {
@@ -23,6 +25,7 @@ export default function Input({
       `}
       type={type}
       placeholder={placeholder}
+      readOnly={readOnly}
       {...(register && { ...register(name, validation) })}
     />
   );
