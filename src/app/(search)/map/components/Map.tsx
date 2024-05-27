@@ -3,6 +3,7 @@
 import Script from 'next/script';
 import { useSetRecoilState } from 'recoil';
 import { mapState } from '../../atom/search';
+
 declare global {
   interface Window {
     kakao: any;
@@ -16,7 +17,7 @@ interface MapProps {
   lng?: string | null;
   zoom?: number;
 }
-export default function ComponentMap({ lat, lng, zoom }: MapProps) {
+export default function MapCompnent({ lat, lng, zoom }: MapProps) {
   const setMap = useSetRecoilState(mapState);
 
   const loadKakaoMap = () => {
@@ -38,7 +39,7 @@ export default function ComponentMap({ lat, lng, zoom }: MapProps) {
         src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_CLIENT}&autoload=false`}
         onReady={loadKakaoMap}
       />
-      <div id="map" className="w-full relative h-screen"></div>
+      <div id="map" className="w-full relative h-[100vh]"></div>
     </>
   );
 }

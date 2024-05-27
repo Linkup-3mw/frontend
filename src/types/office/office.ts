@@ -8,6 +8,7 @@ export interface Building {
   city: string;
   // 거리
   street: string;
+  adress: string;
   // 수용인원
   capacity: number;
   // 교통정보
@@ -32,5 +33,5 @@ export interface OfficeBuilding {
 }
 
 export interface OfficeBuildingList {
-  office_buildings: OfficeBuilding[];
+  officeBuildings: OfficeBuilding[];
 }
