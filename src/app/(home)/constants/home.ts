@@ -4,7 +4,7 @@ export const TYPE_OF_RATEPLAN = [
     id: 1,
     name: '1일 패스',
     price: '20,000원',
-    description: '지점을 체험하거나 바로 필요할 때 어쩌구 사용하라는 글',
+    description: `지점마다 어떤지 알고 싶은데\n하루만 맛보기로 체험하고 싶을 때!`,
     summary: [
       '44개 지점 중 한 곳 이용',
       '한 지점 내 4가지 유형 자율 좌석',
@@ -16,7 +16,7 @@ export const TYPE_OF_RATEPLAN = [
     id: 2,
     name: '30일 패스',
     price: '450,000원',
-    description: '지점을 체험하거나 바로 필요할 때 어쩌구 사용하라는 글',
+    description: `나만의 자리를 얻고\n내가 원하는 환경에서 근무하고 싶을 때!`,
     summary: [
       '44개 지점 중 한 곳 이용',
       '4가지 유형 자율 좌석 이용',
@@ -29,7 +29,7 @@ export const TYPE_OF_RATEPLAN = [
     id: 3,
     name: '기업 전용 멤버십',
     price: '문의하기 후 맞춤 제공',
-    description: '지점을 체험하거나 바로 필요할 때 어쩌구 사용하라는 글',
+    description: `번거로운 과정이 없고\n유연한 계약을 통해 입주하고 싶을 때!`,
     summary: [
       '44개 지점 중 한 곳 이용',
       '4가지 유형 자율 좌석 이용',

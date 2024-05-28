@@ -20,8 +20,10 @@ export default function RatePlanCard({
         <strong className="block mb-[2.5rem] text-[2rem] font-black break-keep">
           {price}
         </strong>
-        <p className="mb-[5rem] leading-[1.75rem]">{description}</p>
-        <ul className="flex flex-col gap-[2rem]">
+        <p className="mb-[4.8rem] leading-[1.75rem] whitespace-pre-line text-[1.25rem] font-medium">
+          {description}
+        </p>
+        <ul className="flex flex-col gap-[2rem] text-[1.25rem]">
           {summary.map((item, index) => (
             <li className="flex items-center" key={index}>
               <span className="inline-block mr-[0.5rem] w-[1rem] h-[1rem]">

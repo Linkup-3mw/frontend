@@ -10,7 +10,7 @@ import { TYPE_OF_RATEPLAN } from '@/app/(home)/constants/home';
 export default function NoneLoginHome() {
   return (
     <main className="pt-[5rem] pb-[14.6rem]">
-      <section className="px-[1.25rem] box-border bg-[url(/images/home/bg_home.png)] bg-cover">
+      <section className="px-[1.25rem] box-border bg-[url(/images/home/bg_home.jpg)] bg-cover">
         <ContentWrap className={'pt-[5rem] pb-[10.31rem]'}>
           <div className=" text-white">
             <h2
@@ -131,9 +131,10 @@ export default function NoneLoginHome() {
                   함께 성장할 수 있는 커뮤니티
                 </h3>
                 <p className="break-keep text-[1.25rem] font-medium leading-[1.75rem] text-gray-800">
-                  링크업을 통해 같은 산업군에서 일하는 사람들과 소통할 수 있는
-                  기회가 많아져서 업무적인 인사이트는 물론이고, 다양한 프로젝트
-                  협업 기회까지 얻을 수 있었어요.
+                  링크업을 통해 다양한 산업군에서 일하는 사람들과 소통할 수 있는
+                  기회가 많아져서 업무적인 인사이트는 물론이고, 링크업을
+                  이용하는 다양한 사람들과 제 취미를 공유할 수 있어서 매우
+                  즐거웠어요.
                 </p>
               </div>
               <Image
@@ -173,30 +174,30 @@ export default function NoneLoginHome() {
 const OfficeList = [
   {
     id: 1,
-    name: '성수 1호점',
-    distance: '성수역 도보 3분거리',
-    mainIndustry: ['개발자', '컨설팅', '부동산'],
-    image: '/images/home/img_office.png',
+    name: '강남 1호점',
+    distance: '강남역 도보 3분거리',
+    mainIndustry: ['디자이너', '개발자', '컨설팅'],
+    image: '/images/home/img_office_3.png',
   },
   {
     id: 2,
-    name: '성수 2호점',
-    distance: '성수역 도보 3분거리에서 모퉁이를 돌아서 왼쪽 건물',
-    mainIndustry: ['개발자', '컨설팅', '부동산'],
-    image: '/images/home/img_office.png',
+    name: '홍대 1호점',
+    distance: '홍대역 도보 5분거리',
+    mainIndustry: ['컨설팅', '금융', '교육'],
+    image: '/images/home/img_office_2.png',
   },
   {
     id: 3,
-    name: '성수 3호점',
-    distance: '성수역 도보 8분거리',
-    mainIndustry: ['개발자', '컨설팅', '부동산'],
-    image: '/images/home/img_office.png',
+    name: '서초 1호점',
+    distance: '서초역 도보 7분거리',
+    mainIndustry: ['교육', '부동산', '디자이너'],
+    image: '/images/home/img_office_1.png',
   },
   {
     id: 4,
-    name: '성수 4호점',
+    name: '성수 1호점',
     distance: '성수역 도보 3분거리',
     mainIndustry: ['개발자', '컨설팅', '부동산'],
-    image: '/images/home/img_office.png',
+    image: '/images/home/img_office_4.png',
   },
 ];
