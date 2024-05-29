@@ -73,7 +73,7 @@ export default function CategoryDropdown() {
         onClick={toggleDropdown}
         className="font-semibold text-lg bg-white px-2 h-[2.38rem] flex items-center justify-center rounded border border-gray-200"
       >
-        <span>주제 선택</span>
+        <span>카테고리</span>
         <img
           src="/svg/club/arrowDown.svg"
           alt="Arrow Down Icon"
@@ -101,7 +101,7 @@ export default function CategoryDropdown() {
           <hr className="my-7 border-t border-gray-300" />
 
           {/* 선택된 주제 */}
-          {searchBoxVisible && (
+          {searchBoxVisible && selectedTopics.length > 0 && (
             <div className="">
               <div className="">
                 <button

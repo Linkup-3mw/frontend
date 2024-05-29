@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-interface ClubCardProps {
+export interface ClubCardProps {
   title: string;
   description: string;
   imageUrl: string;
@@ -28,13 +28,13 @@ export default function ClubCard({
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden h-[22.4rem] relative">
+    <div className="bg-white rounded-lg overflow-hidden h-[22.4rem] relative">
       <img
         src={imageUrl}
         alt={title}
         className="w-full object-cover absolute inset-0"
       />
-      <div className="absolute bottom-0 w-full p-4 p-4 bg-white backdrop-blur-sm">
+      <div className="absolute bottom-0 w-full p-4 bg-white backdrop-blur-sm">
         <div className="flex justify-between items-center">
           <h3 className="font-semibold text-lg">{title}</h3>
           <button onClick={handleBookmarkToggle}>
