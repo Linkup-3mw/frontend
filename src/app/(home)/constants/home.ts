@@ -40,3 +40,32 @@ export const TYPE_OF_RATEPLAN = [
     ],
   },
 ];
+
+//스와이퍼 내용
+export const FLIP_CONTENT = [
+  {
+    id: 1,
+    text: `타사보다 약 20%\n저렴한 합리적인 비용`,
+    image: 'img_circle_office3.png',
+  },
+  {
+    id: 2,
+    text: `국내 최대 규모\n서울 44개 지점`,
+    image: 'img_circle_office.png',
+  },
+  {
+    id: 3,
+    text: `맞춤형 필터 제공\n내가 원하는 공유 오피스를\n찾아보세요`,
+    image: 'img_circle_office4.png',
+  },
+  {
+    id: 4,
+    text: `내 직무에 맞는 공간\n4가지 스타일의 미팅룸 제공`,
+    image: 'img_circle_office2.png',
+  },
+  {
+    id: 5,
+    text: `다양한 사람과의 소통\n협업, 프로젝트, 소모임\n서비스 제공`,
+    image: 'img_circle_office5.png',
+  },
+];

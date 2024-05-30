@@ -5,6 +5,7 @@ import ContentWrap from '@common/components/frame/ContentWrap';
 import OfficeCard from '@/app/(home)/components/noneLogin/OfficeCard';
 import RatePlanCard from '@/app/(home)/components/noneLogin/RatePlanCard';
 import { TYPE_OF_RATEPLAN } from '@/app/(home)/constants/home';
+import FlipSwiper from './FlipSwiper';
 
 //미로그인시 나타나는 페이지
 export default function NoneLoginHome() {
@@ -96,36 +97,14 @@ export default function NoneLoginHome() {
       </section>
 
       <section className="px-[1.25rem] max-lg:px-0 max-md:px-0 overflow-x-hidden">
-        <ContentWrap className="pt-[15rem] pb-[16.5rem] bg-blue-50 max-md:bg-transparent max-md:py-[7.5rem]">
-          <div className="flex items-center justify-center gap-[2.5rem] max-md:gap-[0.5rem]">
-            <span className="block flex-1 max-w-[25rem] max-h-[25rem] aspect-square max-md:w-[7.5rem] max-md:h-[7.5rem]">
-              <Image
-                src="/images/home/img_circle_office.png"
-                alt="building"
-                width={400}
-                height={400}
-              />
-            </span>
-            <div className="flex flex-[1.25] aspect-square items-center justify-center max-w-[32.5rem] max-h-[32.5rem] rounded-full bg-yellow-100 max-md:w-[12.5rem] max-md:h-[12.5rem]">
-              <p className="text-[2rem] font-semibold leading-[4rem] text-center max-md:text-[0.875rem] max-md:leading-[1.25rem]">
-                맞춤형 필터 제공
-                <br /> 내가 원하는 공유 오피스를
-                <br /> 찾아보세요
-              </p>
-            </div>
-            <span className="block flex-1 max-w-[25rem] max-h-[25rem] aspect-square max-md:w-[7.5rem] max-md:h-[7.5rem]">
-              <Image
-                src="/images/home/img_circle_office2.png"
-                alt="building"
-                width={400}
-                height={400}
-              />
-            </span>
+        <ContentWrap className="overflow-hidden pt-[15rem] pb-[16.5rem] bg-blue-50 max-md:bg-transparent max-md:py-[7.5rem]">
+          <div>
+            <FlipSwiper />
           </div>
         </ContentWrap>
       </section>
 
-      <section className="px-[1.25rem] max-lg:px-0">
+      <section className="px-[1.25rem] max-lg:px-0 max-md:px-[1.25rem]">
         <ContentWrap className="-mt-[1.5rem] px-[2.5rem] bg-white rounded-[1.5rem] max-md:mt-0 max-md:rounded-[1rem] max-md:p-[1rem]">
           <ul className="py-[7.5rem] mx-auth max-w-[85rem] max-md:py-0 ">
             <li className="flex items-center justify-center gap-[5.63rem] max-lg:gap-[1.25rem]  mb-[5rem] max-md:flex-col-reverse">
@@ -145,7 +124,7 @@ export default function NoneLoginHome() {
                 alt="opportunity"
                 width={640}
                 height={302}
-                className="w-[40rem] h-[18.875rem] aspect-square"
+                className="w-[40rem] h-auto"
               />
             </li>
             <li className="flex items-center justify-center gap-[5.63rem] max-lg:gap-[1.25rem]  mb-[5rem] max-md:flex-col-reverse">
@@ -165,7 +144,7 @@ export default function NoneLoginHome() {
                 alt="community"
                 width={640}
                 height={302}
-                className="w-[40rem] h-[18.875rem] aspect-square"
+                className="w-[40rem] h-auto"
               />
             </li>
             <li className="flex items-center justify-center gap-[5.63rem] max-lg:gap-[1.25rem] max-md:flex-col-reverse ">
@@ -185,7 +164,7 @@ export default function NoneLoginHome() {
                 alt="work space"
                 width={640}
                 height={302}
-                className="w-[40rem] h-[18.875rem] aspect-square"
+                className="w-[40rem] h-auto"
               />
             </li>
           </ul>
