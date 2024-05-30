@@ -17,9 +17,12 @@ importers:
       axios:
         specifier: ^1.6.8
         version: 1.6.8
+<<<<<<< HEAD
       bcryptjs:
         specifier: ^2.4.3
         version: 2.4.3
+=======
+>>>>>>> 6e2f92cd311a6c63ab01f6c67df0aa06be98cfa4
       chart.js:
         specifier: ^4.4.3
         version: 4.4.3
@@ -78,6 +81,9 @@ importers:
       '@types/react-dom':
         specifier: ^18
         version: 18.3.0
+      '@types/swiper':
+        specifier: 6.0.0
+        version: 6.0.0
       eslint:
         specifier: ^8
         version: 8.57.0
@@ -351,6 +357,10 @@ packages:
 
   '@types/react@18.3.2':
     resolution: {integrity: sha512-Btgg89dAnqD4vV7R3hlwOxgqobUQKgx3MmrQRi0yYbs/P0ym8XozIAlkqVilPqHQwXs4e9Tf63rrCgl58BcO4w==}
+
+  '@types/swiper@6.0.0':
+    resolution: {integrity: sha512-QPZRgxZ+ivXXtzV43B3LxpXUIC7FE/EoKM+rtxngmgt2M7eeUYypZhyqZD8UxJtlBcUDw/ATGoVeSNpvBBrz2w==}
+    deprecated: This is a stub types definition. swiper provides its own type definitions, so you do not need this installed.
 
   '@typescript-eslint/parser@7.2.0':
     resolution: {integrity: sha512-5FKsVcHTk6TafQKQbuIVkXq58Fnbkd2wDL4LB7AURN7RUOu1utVP+G8+6u3ZhEroW3DF6hyo3ZEXxgKgp4KeCg==}
@@ -1749,8 +1759,13 @@ packages:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
 
+<<<<<<< HEAD
   swiper@11.1.4:
     resolution: {integrity: sha512-1n7kbYJB2dFEpUHRFszq7gys/ofIBrMNibwTiMvPHwneKND/t9kImnHt6CfGPScMHgI+dWMbGTycCKGMoOO1KA==}
+=======
+  swiper@11.1.3:
+    resolution: {integrity: sha512-80MSxonyTxrGcaWj9YgvvhD8OG0B9/9IVZP33vhIEvyWvmKjnQDBieO+29wKvMx285sAtvZyrWBdkxaw6+D3aw==}
+>>>>>>> 6e2f92cd311a6c63ab01f6c67df0aa06be98cfa4
     engines: {node: '>= 4.7.0'}
 
   tailwind-scrollbar-hide@1.1.7:
@@ -2134,6 +2149,10 @@ snapshots:
     dependencies:
       '@types/prop-types': 15.7.12
       csstype: 3.1.3
+
+  '@types/swiper@6.0.0':
+    dependencies:
+      swiper: 11.1.3
 
   '@typescript-eslint/parser@7.2.0(eslint@8.57.0)(typescript@5.4.5)':
     dependencies:
@@ -3698,7 +3717,11 @@ snapshots:
 
   supports-preserve-symlinks-flag@1.0.0: {}
 
+<<<<<<< HEAD
   swiper@11.1.4: {}
+=======
+  swiper@11.1.3: {}
+>>>>>>> 6e2f92cd311a6c63ab01f6c67df0aa06be98cfa4
 
   tailwind-scrollbar-hide@1.1.7: {}
 
