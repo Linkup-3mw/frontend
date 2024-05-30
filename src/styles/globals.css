@@ -11,19 +11,43 @@ button {
   @apply overflow-hidden block absolute border-0 w-0 h-0;
 }
 
+body {
+  @apply text-main-black;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 500px white inset !important;
+}
+
 @media (min-width: 768px) and (max-width: 920px) {
+
   html,
   body {
     font-size: 11px;
   }
 }
+
 @media (min-width: 921px) and (max-width: 1024px) {
+
   html,
   body {
     font-size: 12px;
   }
 }
+
 @media (min-width: 1025px) and (max-width: 1280px) {
+
   html,
   body {
     font-size: 13px;
