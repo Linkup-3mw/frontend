@@ -12,5 +12,4 @@ export const buildingState = atom<OfficeBuilding[]>({
 });
 export const currentBuildingState = atom<OfficeBuilding>({
   key: 'currentBuilding',
-  default: undefined,
 });
