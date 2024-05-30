@@ -1,5 +1,7 @@
 import NextAuth, { NextAuthOptions } from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
+import { AuthUser } from '@/types/user';
+import { signInWithCredentials } from '@/app/service/auth';
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -8,23 +10,12 @@ export const authOptions: NextAuthOptions = {
         email: { label: 'Email' },
         password: { label: 'Password', type: 'password' },
       },
-      async authorize(credentials, req) {
+      async authorize(credentials): Promise<any> {
         if (!credentials?.email || !credentials?.password) {
           throw new Error('Invalid credentials');
         }
 
-        //const user = (await signInWithCredentials(credentials)) as any;
-        //임시 로그인
-        let user: any = {
-          id: '1',
-          name: 'J Smith',
-          email: credentials?.email,
-          hashedPassword: !credentials?.password,
-        };
-
-        // 임시 access token & 임시 refresh Token
-        user.accessToken = 'qwer1234werhrjmhjjh';
-        user.refreshToken = 'testrefreshtoken';
+        const user: AuthUser = await signInWithCredentials(credentials);
 
         if (user) {
           return user;
@@ -39,10 +30,10 @@ export const authOptions: NextAuthOptions = {
   },
   session: {
     strategy: 'jwt',
+    maxAge: 60 * 60 * 24, // 세션 만료 시간(sec)
   },
   jwt: {
     secret: process.env.JWT_SECRET,
-    maxAge: 30 * 24 * 60 * 60,
   },
   callbacks: {
     async jwt({ user, token }) {
@@ -51,7 +42,7 @@ export const authOptions: NextAuthOptions = {
         token.refreshToken = user.refreshToken;
       }
 
-      return { ...token, ...user };
+      return token;
     },
     async session({ session, token }) {
       session.Authorization = token.Authorization;

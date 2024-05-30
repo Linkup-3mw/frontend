@@ -14,8 +14,7 @@ interface Props {
 export default function BirthdayInput({ error, register, setValue }: Props) {
   const birthdayFormat = (str: string) => {
     if (str.length > 10) return str.substring(0, 10);
-    str = str.toString().replace(/[^0-9]/g, '');
-    str = str.toString().replace(/\//g, '');
+    str = str.replace(/[^0-9]/g, '').replace(/\//g, '');
     let year = str.substring(0, 4);
     if (str.length > 4) {
       year += '/';
@@ -33,7 +32,7 @@ export default function BirthdayInput({ error, register, setValue }: Props) {
   return (
     <InputBox text="생년월일" errorMsg={error?.message}>
       <Input
-        placeholder="YYYY/MM/DD"
+        placeholder="YYYY / MM / DD"
         register={register}
         name="birthday"
         isError={error !== undefined}

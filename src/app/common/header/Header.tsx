@@ -9,11 +9,28 @@ export default function Header() {
   const pathname = usePathname();
 
   return (
+<<<<<<< HEAD
     <header className="text-main-black px-[1.25rem]">
       <ContentWrap>
         <div className="flex pt-[1.25rem] pb-[1.19rem]">
           {/* part1 */}
           <div className="flex basis-1/3 my-auto text-base">
+=======
+    <header className="text-main-black">
+      <div className="px-[12.5rem] flex justify-center pt-[1.25rem] pb-[1.19rem]">
+        {/* part1 */}
+        <div className="flex basis-1/3 my-auto text-base pl-10">
+          <Link href="/map">
+            <div
+              className={
+                'flex justify-center items-center w-[6.375rem] h-[2.5rem] border rounded-full border-black mr-3 font-bold '
+              }
+            >
+              탐색
+            </div>
+          </Link>
+          <Link href="/community">
+>>>>>>> eac071c4bdcb599b5623443a2aeeb3367836e1ae
             <div
               className={
                 'flex justify-center items-center w-[6.375rem] h-[2.5rem] border rounded-full border-black mr-3 font-bold '
