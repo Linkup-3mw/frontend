@@ -1,9 +1,12 @@
 import { OfficeBuilding } from '@/types/office/office';
 import BuildingItem from './BuildingItem';
 import BuildingFilter from './BuildingFilter';
+import { useRecoilValue } from 'recoil';
+
 export interface BuildingListProps {
   officeBuildings: OfficeBuilding[] | null;
 }
+
 export default function BuildingList({ officeBuildings }: BuildingListProps) {
   return (
     <>
