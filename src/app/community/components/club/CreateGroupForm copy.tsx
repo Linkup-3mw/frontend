@@ -1,3 +1,4 @@
+// 삭제할 예정입니다.
 import React, { useState } from 'react';
 
 interface CreateGroupFormProps {
