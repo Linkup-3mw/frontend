@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+a,
+button {
+  cursor: pointer;
+}
+
 .hide {
   @apply overflow-hidden block absolute border-0 w-0 h-0;
 }
@@ -23,4 +28,28 @@ input[type="number"]::-webkit-inner-spin-button {
 
 input:-webkit-autofill {
   -webkit-box-shadow: 0 0 0 500px white inset !important;
+}
+
+@media (min-width: 768px) and (max-width: 920px) {
+
+  html,
+  body {
+    font-size: 11px;
+  }
+}
+
+@media (min-width: 921px) and (max-width: 1024px) {
+
+  html,
+  body {
+    font-size: 12px;
+  }
+}
+
+@media (min-width: 1025px) and (max-width: 1280px) {
+
+  html,
+  body {
+    font-size: 13px;
+  }
 }
