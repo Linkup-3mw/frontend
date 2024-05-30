@@ -97,6 +97,11 @@ export default function Club() {
             maxMembers={club.maxMembers}
             category={club.category}
             meetingDday={club.meetingDday}
+            isAdmin={club.isAdmin}
+            isHost={club.isHost}
+            showCancelButton={club.showCancelButton}
+            showManageButton={club.showManageButton}
+            clubId={club.clubId}
           />
         ))}
       </div>

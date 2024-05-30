@@ -469,6 +469,7 @@ export const myClubs = [
     maxMembers: 12,
     category: '미디어 관람',
     meetingDday: 'D-7',
+    isHost: true,
   },
   {
     title: '[내소모임] 리브 더 월드 비하인드',
@@ -480,6 +481,7 @@ export const myClubs = [
     maxMembers: 12,
     category: '미디어 관람',
     meetingDday: 'D-7',
+    isHost: true,
   },
   {
     title: '[무비앤톡] 리브 더 월드 비하인드',
@@ -491,6 +493,7 @@ export const myClubs = [
     maxMembers: 12,
     category: '미디어 관람',
     meetingDday: 'D-7',
+    isAdmin: true,
   },
   {
     title: '[무비앤톡] 리브 더 월드 비하인드',
@@ -527,6 +530,7 @@ export const unapprovedClubs = [
     maxMembers: 12,
     category: '미디어 관람',
     meetingDday: 'D-7',
+    showCancelButton: true,
   },
   {
     title: '[미승인소모임] 리브 더 월드 비하인드',
@@ -538,6 +542,7 @@ export const unapprovedClubs = [
     maxMembers: 12,
     category: '미디어 관람',
     meetingDday: 'D-7',
+    showCancelButton: true,
   },
   {
     title: '[미승인소모임] 리브 더 월드 비하인드',
@@ -549,6 +554,7 @@ export const unapprovedClubs = [
     maxMembers: 12,
     category: '미디어 관람',
     meetingDday: 'D-7',
+    showCancelButton: true,
   },
   {
     title: '[미승인소모임] 리브 더 월드 비하인드',
@@ -560,6 +566,7 @@ export const unapprovedClubs = [
     maxMembers: 12,
     category: '미디어 관람',
     meetingDday: 'D-7',
+    showCancelButton: true,
   },
   {
     title: '[무비앤톡] 리브 더 월드 비하인드',
@@ -571,6 +578,7 @@ export const unapprovedClubs = [
     maxMembers: 12,
     category: '미디어 관람',
     meetingDday: 'D-7',
+    showCancelButton: true,
   },
   {
     title: '[무비앤톡] 리브 더 월드 비하인드',
@@ -582,6 +590,7 @@ export const unapprovedClubs = [
     maxMembers: 12,
     category: '미디어 관람',
     meetingDday: 'D-7',
+    showCancelButton: true,
   },
   {
     title: '[무비앤톡] 리브 더 월드 비하인드',
@@ -593,11 +602,13 @@ export const unapprovedClubs = [
     maxMembers: 12,
     category: '미디어 관람',
     meetingDday: 'D-7',
+    showCancelButton: true,
   },
 ];
 
 export const manageableClubs = [
   {
+    clubId: 1,
     title: '[관리가능모임] 리브 더 월드 비하인드',
     description:
       '이번주 영화는 <리브더월드 비하인드>입니다 클럽회원분이 아니셔도 신청 가능합니다 !',
@@ -607,8 +618,10 @@ export const manageableClubs = [
     maxMembers: 12,
     category: '미디어 관람',
     meetingDday: 'D-7',
+    showManageButton: true,
   },
   {
+    clubId: 2,
     title: '[관리가능모임] 리브 더 월드 비하인드',
     description:
       '이번주 영화는 <리브더월드 비하인드>입니다 클럽회원분이 아니셔도 신청 가능합니다 !',
@@ -618,8 +631,10 @@ export const manageableClubs = [
     maxMembers: 12,
     category: '미디어 관람',
     meetingDday: 'D-7',
+    showManageButton: true,
   },
   {
+    clubId: 3,
     title: '[관리가능모임] 리브 더 월드 비하인드',
     description:
       '이번주 영화는 <리브더월드 비하인드>입니다 클럽회원분이 아니셔도 신청 가능합니다 !',
@@ -629,8 +644,10 @@ export const manageableClubs = [
     maxMembers: 12,
     category: '미디어 관람',
     meetingDday: 'D-7',
+    showManageButton: true,
   },
   {
+    clubId: 4,
     title: '[무비앤톡] 리브 더 월드 비하인드',
     description:
       '이번주 영화는 <리브더월드 비하인드>입니다 클럽회원분이 아니셔도 신청 가능합니다 !',
@@ -640,8 +657,10 @@ export const manageableClubs = [
     maxMembers: 12,
     category: '미디어 관람',
     meetingDday: 'D-7',
+    showManageButton: true,
   },
   {
+    clubId: 5,
     title: '[무비앤톡] 리브 더 월드 비하인드',
     description:
       '이번주 영화는 <리브더월드 비하인드>입니다 클럽회원분이 아니셔도 신청 가능합니다 !',
@@ -651,8 +670,10 @@ export const manageableClubs = [
     maxMembers: 12,
     category: '미디어 관람',
     meetingDday: 'D-7',
+    showManageButton: true,
   },
   {
+    clubId: 6,
     title: '[무비앤톡] 리브 더 월드 비하인드',
     description:
       '이번주 영화는 <리브더월드 비하인드>입니다 클럽회원분이 아니셔도 신청 가능합니다 !',
@@ -662,5 +683,6 @@ export const manageableClubs = [
     maxMembers: 12,
     category: '미디어 관람',
     meetingDday: 'D-7',
+    showManageButton: true,
   },
 ];

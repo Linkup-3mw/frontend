@@ -28,7 +28,7 @@ const config: Config = {
         'gray-500': '#8D8D9B',
         'gray-700': '#646472',
         'main-red': '#FF513F',
-        'red-cancle': '#FF4163',
+        'red-cancel': '#FF4163',
         'red-danger': '#FF1000',
         'main-green': '#45AD56',
       },
