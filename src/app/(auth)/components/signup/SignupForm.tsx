@@ -1,8 +1,8 @@
 'use client';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
-import bcrypt from 'bcryptjs';
 
+import { useIndustryQuery, useOccupationQuery } from '@/hooks/useCategory';
 import { NAME_VALIDATION } from '@/app/(auth)/constants/validation';
 import InputBox from '@common/components/form/InputBox';
 import Input from '@common/components/form/Input';
@@ -15,7 +15,6 @@ import CompanyInput from './CompanyInput';
 import BirthdayInput from './BirthdayInput';
 import PhoneNumberInput from './PhoneNumberInput';
 import NicknameInput from './NicknameInput';
-import { useIndustryQuery, useOccupationQuery } from '@/hooks/useCategory';
 
 interface Props {
   type: string;
@@ -62,11 +61,9 @@ export default function SignupForm({ type }: Props) {
       return;
     }
 
-    const hashedPassword = await bcrypt.hash(data.password, 12);
     const params: FormValues = {
       ...data,
       birthday: data.birthday.replaceAll('/', '-') as string,
-      password: hashedPassword,
     };
     delete params.auth_code;
     delete params.confirm_password;
@@ -78,8 +75,6 @@ export default function SignupForm({ type }: Props) {
 
     //임시 이메일 인증 통과
     params.email_verified = true;
-
-    debugger;
 
     try {
       const res = await signUp(params);
