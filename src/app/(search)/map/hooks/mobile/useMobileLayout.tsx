@@ -12,8 +12,6 @@ export const useMobileLayout = () => {
   const setMinDesk = useSetRecoilState(minDeskLayoutState);
   const isMobile = useMediaQuery({ minWidth: 360, maxHeight: 800 });
   const minDesk = useMediaQuery({ minWidth: 361, maxWidth: 767 });
-  // const mobile = useMediaQuery({ maxWidth: 360, maxHeight: 800 });
-  // const minDesk = useMediaQuery({ maxWidth: 767 });
 
   useEffect(() => {
     setMobileLayout(isMobile);
