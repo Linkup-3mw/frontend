@@ -51,7 +51,6 @@ export default function OnePassMembership({
   const mobileConfirm = useRecoilValue(mobileConfirmedState);
   const [selectedSeatAll, setSelectedSeatAll] =
     useRecoilState(selectedSeatAllState);
-  const [onePass, setOnePass] = useRecoilState(OnePassMembershipState);
   const [selectedSpaceAll, setSelectedSpaceAll] = useRecoilState(
     selectedSpaceAllState,
   );
@@ -111,7 +110,7 @@ export default function OnePassMembership({
       borderRadius: '50%',
     },
   };
-
+  console.log('왔냐?', seatList);
   return (
     <>
       <div className="flex flex-col gap-6 mb-6">

@@ -127,7 +127,7 @@ export default function BuildingServiceView({
           </div>
           <p>이용 규칙</p>
           <div className="bg-white h-[6.75rem] rounded-2xl flex items-center justify-center">
-            <p>{rules} </p>
+            {rules}
           </div>
           <Link href={`/reservation/${id}`}>
             <div className="flex justify-center items-center">

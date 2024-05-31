@@ -68,10 +68,10 @@ export default function ReservationInfo({
       duration: null,
     },
   ];
-  useEffect(() => {
-    seatList([]);
-    spaceList([]);
-  }, [membershipChoose]);
+  // useEffect(() => {
+  //   seatList([]);
+  //   spaceList([]);
+  // }, [membershipChoose]);
 
   const RenderMembershipUI = (membership: Membership) => {
     switch (membership.type) {
