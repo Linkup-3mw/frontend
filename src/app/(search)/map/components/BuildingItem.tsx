@@ -1,14 +1,17 @@
 import { OfficeBuilding } from '@/types/office/office';
 import { currentBuildingState } from '../../atom/search';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import Image from 'next/image';
+import { mobileReservationLayoutState } from '../../atom/media';
 
 interface BuildingItemProps {
   officeBuildings: OfficeBuilding[] | null;
 }
 export default function BuildingItem({ officeBuildings }: BuildingItemProps) {
-  const setCurrentBuilding = useSetRecoilState(currentBuildingState);
-
+  const setCurrentBuilding = useSetRecoilState<OfficeBuilding | null>(
+    currentBuildingState,
+  );
+  const isMobile = useRecoilValue(mobileReservationLayoutState);
   return (
     <>
       {officeBuildings?.map((office, index) => (
@@ -29,15 +32,20 @@ export default function BuildingItem({ officeBuildings }: BuildingItemProps) {
             <div className="flex flex-col w-[16.6875rem] h-[5.125rem] justify-between">
               <div className="flex justify-between">
                 <p className="font-bold text-lg">{office.building.location}</p>
-                <div className="flex items-center">
-                  <Image
-                    src="/svg/map/star.svg"
-                    width={18}
-                    height={18}
-                    alt="별"
-                  />
-                  {office.rating.avg_rating} ({office.rating.count})
-                </div>
+                {office.reviews &&
+                  office.reviews.avg_rating &&
+                  office.reviews.review_count && (
+                    <div className="flex items-center">
+                      <Image
+                        src="/svg/map/star.svg"
+                        width={18}
+                        height={18}
+                        alt="별"
+                      />
+                      {office.reviews.avg_rating}.0 (
+                      {office.reviews.review_count})
+                    </div>
+                  )}
               </div>
               <p className="text-gray-300 text-sm">
                 {office.building.traffic_info}

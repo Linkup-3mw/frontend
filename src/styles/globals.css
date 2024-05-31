@@ -2,7 +2,89 @@
 @tailwind components;
 @tailwind utilities;
 
+@media (min-width: 768px) and (max-width: 1024px) {
+  html,
+  body {
+    font-size: 12px;
+  }
+}
+
 .hide {
   @apply overflow-hidden block absolute border-0 w-0 h-0;
 }
 
+/* calendar */
+
+.rdp-month {
+  background-color: white;
+  padding: 10px;
+  border-radius: 10px;
+  position: relative;
+  width: 100%;
+  text-align: center;
+}
+
+.rdp-caption {
+  color: black;
+  font-weight: semi-bold;
+  @apply mb:font-bold md:font-semibold md:text-[1.25rem] mb:text-[0.875rem];
+}
+
+.rdp-nav {
+  color: black;
+  position: absolute;
+  top: 11px;
+  left: 50%; /* Adjust this value based on your design */
+  transform: translateX(-50%);
+  display: flex;
+  width: 30%;
+  justify-content: space-between;
+  @apply md:top-[16px] mb:top-[12px] md:w-[40%] mb:w-[40%];
+}
+
+.rdp-table {
+  width: 100%;
+}
+
+.rdp-head .rdp-head_row {
+  font-size: 12px;
+  height: 45px;
+  color: gray;
+  font-weight: bold;
+  @apply mb:text-xs;
+}
+.rdp-tbody .rdp-row {
+  height: 55px;
+  @apply md:h-[55px] mb:h-[33px];
+}
+.rdp-cell .rdp-button {
+  position: relative;
+  width: 2.5rem;
+  height: 2.5rem;
+
+  border-radius: 2.5rem;
+  @apply md:w-[2.5rem] md:h-[2.5rem] mb:w-[1.5rem] md:text-[1rem]  mb:h-[1.5rem] mb:text-xs;
+}
+
+.rdp-cell .rdp-button[disabled] {
+  color: gray;
+}
+
+.rdp-day_selected {
+  background-color: #688af2;
+  color: white;
+}
+.rdp-cell .rdp-day_range_start::after,
+.rdp-cell .rdp-day_range_end::after {
+  z-index: -1;
+  display: block;
+  width: calc(100% - 1px);
+  height: 45px;
+  position: absolute;
+  top: 50%;
+  bottom: 0px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: blue;
+  content: '';
+}

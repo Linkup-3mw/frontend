@@ -7,11 +7,17 @@ import Marker from './components/Marker';
 import ComponentMap from './components/Map';
 import BuildingList from './components/BuildingList';
 import CurrentLocationButton from './components/LocationButton';
+import BuildingInfo from './components/BuildingInfo';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { buildingState } from '../atom/search';
+import { currentBuildingState } from '../atom/search';
+import { mobileReservationLayoutState } from '../atom/media';
 
 export default function MapPage() {
-  const [officeBuildings, setOfficeBuildings] = useState<
-    OfficeBuilding[] | null
-  >(null);
+  const [officeBuildings, setOfficeBuildings] =
+    useRecoilState<OfficeBuilding[]>(buildingState);
+  const [currentBuilding, setCurrentBuilding] =
+    useRecoilState(currentBuildingState);
   useEffect(() => {
     const fetchBuildingsData = async () => {
       try {
@@ -26,13 +32,17 @@ export default function MapPage() {
 
     fetchBuildingsData();
   }, []);
+  const isMobile = useRecoilValue(mobileReservationLayoutState);
   return (
     <>
-      <CurrentLocationButton />
-      <Marker officeBuildings={officeBuildings} />
-      <ComponentMap />
-      <Zoom />
-      <BuildingList officeBuildings={officeBuildings} />
+      <div>
+        <CurrentLocationButton />
+        <Marker officeBuildings={officeBuildings} />
+        <ComponentMap />
+        <Zoom />
+        <BuildingList officeBuildings={officeBuildings} />
+        {currentBuilding && currentBuilding ? <BuildingInfo /> : ''}
+      </div>
     </>
   );
 }
