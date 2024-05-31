@@ -1,35 +1,31 @@
 'use client';
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import ContentWrap from '@common/components/frame/ContentWrap';
+import HamburgerMenuModal from './HamburgerMenuModal';
 
 export default function Header() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const pathname = usePathname();
-  const modalRef = useRef<HTMLDivElement>(null);
 
   const toggleModal = () => {
-    setIsModalOpen(!isModalOpen);
-  };
-
-  const closeModal: React.MouseEventHandler<HTMLElement> = (e) => {
-    if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
-      setIsModalOpen(false);
-    }
+    setIsModalOpen((prevState) => !prevState);
   };
 
   return (
-    <header className="text-main-black px-[1.25rem]" onClick={closeModal}>
+    <header className="fixed top-0 left-0 right-0 z-50 h-[5rem] bg-blue-100 text-main-black px-[1.25rem] flex items-center">
       <ContentWrap>
-        <div className="flex pt-[1.25rem] pb-[1.19rem]">
+        <div className="flex justify-between items-center h-full">
           {/* part1 */}
-          <div className="flex basis-1/3 my-auto text-base pl-10">
+          <div className="flex basis-1/3 items-center text-base pl-10">
             <Link href="/map">
               <div
-                className={
-                  'flex justify-center items-center w-[6.375rem] h-[2.5rem] border rounded-full border-black mr-3 font-bold '
-                }
+                className={`flex justify-center items-center w-[6.375rem] h-[2.5rem] border rounded-full border-black mx-3 font-bold ${
+                  pathname.startsWith('/map')
+                    ? 'bg-main-black text-blue-100'
+                    : ''
+                }`}
               >
                 탐색
               </div>
@@ -45,17 +41,27 @@ export default function Header() {
                 커뮤니티
               </div>
             </Link>
-            <div className="flex justify-center items-center w-[6.375rem] h-[2.5rem] border rounded-full border-black mx-3 font-bold">
-              공지사항
-            </div>
+            <Link href="/notice">
+              <div
+                className={`flex justify-center items-center w-[6.375rem] h-[2.5rem] border rounded-full border-black mx-3 font-bold ${
+                  pathname.startsWith('/notice')
+                    ? 'bg-main-black text-blue-100'
+                    : ''
+                }`}
+              >
+                공지사항
+              </div>
+            </Link>
           </div>
           {/* part2 */}
-          <div className="basis-1/3 flex justify-center min-w-[15rem]">
-            <img className="my-auto" src="svg/header/logo.svg" alt="Logo" />
+          <div className="flex basis-1/3 justify-center min-w-[15rem]">
+            <Link href="/">
+              <img className="my-auto" src="svg/header/logo.svg" alt="Logo" />
+            </Link>
           </div>
           {/* part3 */}
-          <div className="flex basis-1/3 my-auto justify-end items-center min-w-[25.625rem]">
-            <div className="flex mx-3 justify-end items-center">
+          <div className="flex basis-1/3 justify-end items-center min-w-[25.625rem]">
+            <div className="flex mx-3 items-center">
               <div className="h-6 w-6 border border-[#45AD56] rounded-full overflow-hidden">
                 <img
                   src="svg/header/profileDefault.svg"
@@ -77,74 +83,13 @@ export default function Header() {
                 alt="Unconfirmed Alarm Icon"
               />
             </div>
-            <div className="mx-3" onClick={toggleModal}>
+            <div className="mx-3 relative cursor-pointer" onClick={toggleModal}>
               <img
                 src="svg/header/hamburgerMenuIcon.svg"
                 alt="Hamburger Menu Icon"
               />
               {/* Modal */}
-              {isModalOpen && (
-                <div className="fixed top-0 left-0 pr-[1.25rem] w-full h-full flex justify-center items-center">
-                  <div className="absolute right-0">
-                    <div
-                      className="bg-white w-[8.13rem] p-4 rounded-lg"
-                      ref={modalRef}
-                    >
-                      <div className="mb-4 font-bold">노찬영님</div>
-                      <div className="mb-4">
-                        <Link href="/profile">내 정보</Link>
-                      </div>
-                      <div className="mb-4">
-                        <Link href="/logout">로그아웃</Link>
-                      </div>
-                      <div className="mb-4">
-                        <div>Linkup</div>
-                        <ul>
-                          <li>
-                            <Link href="/company">회사 소개</Link>
-                          </li>
-                          <li>
-                            <Link href="/membership">멤버십 안내</Link>
-                          </li>
-                        </ul>
-                      </div>
-                      <div className="mb-4">
-                        <div>탐색</div>
-                        <ul>
-                          <li>
-                            <Link href="/branches">지점 찾기</Link>
-                          </li>
-                          <li>
-                            <Link href="/reservation">예약하기</Link>
-                          </li>
-                        </ul>
-                      </div>
-                      <div className="mb-4">
-                        <div>커뮤니티</div>
-                        <ul>
-                          <li>
-                            <Link href="/clubs">소모임</Link>
-                          </li>
-                        </ul>
-                      </div>
-                      <div className="mb-4">
-                        <div>고객센터</div>
-                        <ul>
-                          <li>
-                            <Link href="/faq">자주 묻는 질문</Link>
-                          </li>
-                          <li>
-                            <Link href="/support">1:1 문의하기</Link>
-                          </li>
-                        </ul>
-                      </div>
-                      <div>
-                        <button onClick={toggleModal}>닫기</button>
-                      </div>{' '}
-                    </div>
-                  </div>
-                </div>
-              )}
+              <HamburgerMenuModal isOpen={isModalOpen} onClose={toggleModal} />
             </div>
           </div>
         </div>
