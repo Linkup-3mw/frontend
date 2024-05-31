@@ -93,7 +93,7 @@ export default function ReservationInfo({
   };
 
   return (
-    <div className="flex flex-col  bg-[#E4EEFF] md:px-8 md:w-[30.6875rem] mb:w-[20rem] mb:px-4  md:overflow-y-scroll scrollbar-hide rounded-3xl pt-4 md:h-[51.25rem] mb:[40.75rem]">
+    <div className="flex flex-col  bg-[#E4EEFF] md:px-8 md:w-[30.6875rem] mb:w-[20rem] mb:px-4  overflow-y-scroll scrollbar-hide rounded-3xl pt-4 h-[51.25rem]">
       <div className="h-[48px] text-[20px] font-bold mt-3 text-gray-300 cursor-pointer">
         <div className="flex justify-start items-center h-[48px] w-full mx-auto">
           <div className="h-[40px] w-[122.5px] text-center">

@@ -15,7 +15,7 @@ import { DayPicker } from 'react-day-picker';
 import { format, isToday } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import { SpaceReservation } from '@/types/office/reservation';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import {
   minDeskLayoutState,
   mobileReservationLayoutState,
@@ -107,7 +107,7 @@ export default function OnePassMembership({
   const today = {
     today: {
       color: 'white',
-      backgroundColor: 'pink',
+      backgroundColor: '#007bff',
       borderRadius: '50%',
     },
   };

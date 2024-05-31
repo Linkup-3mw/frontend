@@ -11,6 +11,8 @@ import SeminarRoomMobile from './SeminarRoomMobile';
 import StudioMobile from './StudioMobile';
 import { useRecoilValue } from 'recoil';
 import { EnterPriseConsultingState, Rtab } from '@/app/(search)/atom/office';
+import { useMobileLayout } from '@/app/(search)/map/hooks/mobile/useMobileLayout';
+import { mobileReservationLayoutState } from '@/app/(search)/atom/media';
 
 // opentalemobile -> opendeskmobile
 interface OpenTaleMobileProps {
@@ -23,6 +25,7 @@ export default function OpenTableMobile({
 }: OpenTaleMobileProps) {
   const Consulting = useRecoilValue(EnterPriseConsultingState);
   const RTab = useRecoilValue(Rtab);
+  const isMobile = useRecoilValue(mobileReservationLayoutState);
   function ReservationTableStyleSeat({
     selectedSeatAll,
   }: {

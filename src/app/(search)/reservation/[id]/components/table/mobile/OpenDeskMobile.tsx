@@ -58,7 +58,6 @@ export default function OpenDeskMobile() {
       {isMobile && (
         <div className="">
           <Image
-            className=""
             src="/images/office/1.jpeg"
             height={293}
             width={360}

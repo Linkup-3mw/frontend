@@ -11,7 +11,6 @@ import BuildingInfo from './components/BuildingInfo';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { buildingState } from '../atom/search';
 import { currentBuildingState } from '../atom/search';
-import { mobileReservationLayoutState } from '../atom/media';
 
 export default function MapPage() {
   const [officeBuildings, setOfficeBuildings] =
@@ -32,7 +31,7 @@ export default function MapPage() {
 
     fetchBuildingsData();
   }, []);
-  const isMobile = useRecoilValue(mobileReservationLayoutState);
+
   return (
     <>
       <div>

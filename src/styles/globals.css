@@ -2,13 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@media (min-width: 768px) and (max-width: 1024px) {
-  html,
-  body {
-    font-size: 12px;
-  }
-}
-
 .hide {
   @apply overflow-hidden block absolute border-0 w-0 h-0;
 }

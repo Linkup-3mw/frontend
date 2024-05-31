@@ -2,7 +2,6 @@ import { OfficeBuilding } from '@/types/office/office';
 import { currentBuildingState } from '../../atom/search';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import Image from 'next/image';
-import { mobileReservationLayoutState } from '../../atom/media';
 
 interface BuildingItemProps {
   officeBuildings: OfficeBuilding[] | null;
@@ -11,7 +10,7 @@ export default function BuildingItem({ officeBuildings }: BuildingItemProps) {
   const setCurrentBuilding = useSetRecoilState<OfficeBuilding | null>(
     currentBuildingState,
   );
-  const isMobile = useRecoilValue(mobileReservationLayoutState);
+
   return (
     <>
       {officeBuildings?.map((office, index) => (
