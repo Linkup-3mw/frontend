@@ -13,7 +13,7 @@ export default function BuildingFilter({
   const [selectedIndustry, setSelectedIndustry] = useState(false);
   const [selectedOccupation, setSelectedOccupation] = useState(false);
 
-  const gangNamGoo = [
+  const GangNamGoo = [
     '강남구',
     '서초구',
     '영등포구',
@@ -22,7 +22,43 @@ export default function BuildingFilter({
     '강서구',
   ];
   const GangBookGoo = ['중구', '종로구', '용산구', '성동구', '마포구'];
-
+  const Gyeonggi = '성남시';
+  const Industry = [
+    'IT',
+    '건설',
+    '부동산',
+    '생산/제조',
+    '연구/개발',
+    '금융',
+    '통신',
+    '무역',
+    '물류',
+    '의료',
+    '교육',
+    '문화/예술',
+    '미디어',
+    '관광',
+    'F&B',
+    '기타',
+  ];
+  const Occupation = [
+    '개발',
+    '기획',
+    '분석',
+    '디자인',
+    '마케팅',
+    '컨설팅',
+    '영업/판매',
+    '촬영/편집',
+    '회계',
+    '세무',
+    '법무',
+    '상품기획',
+    'MD',
+    'CS',
+    '사무지원',
+    '기타',
+  ];
   const handleRegionClick = () => {
     setSelectedRegion(!selectedRegion);
     setSelectedIndustry(false);
@@ -67,7 +103,7 @@ export default function BuildingFilter({
         <div className="absolute p-4 top-20 bg-white w-[26.6875rem] h-[27rem] z-50 shadow-lg rounded-md border border-gray-300">
           <h1 className="text-xl font-bold">강남</h1>
           <ul className="p-2 grid grid-cols-4 gap-4">
-            {gangNamGoo.map((city) => (
+            {GangNamGoo.map((city) => (
               <li key={city}>
                 <button className="bg-white border-2 w-full rounded-md">
                   {city}
@@ -76,7 +112,7 @@ export default function BuildingFilter({
             ))}
           </ul>
           <div className="border-t border-gray-300 my-4"></div>
-          <h1 className="text-xl font-bold">강남</h1>
+          <h1 className="text-xl font-bold">강북</h1>
           <ul className="p-2 grid grid-cols-4 gap-2">
             {GangBookGoo.map((city) => (
               <li key={city}>
@@ -89,13 +125,11 @@ export default function BuildingFilter({
           <div className="border-t border-gray-300 my-4"></div>
           <h1 className="text-xl font-bold">경기</h1>
           <ul className="p-2 grid grid-cols-4 gap-2">
-            {GangBookGoo.map((city) => (
-              <li key={city}>
-                <button className="bg-white border-2 w-full rounded-md">
-                  {city}
-                </button>
-              </li>
-            ))}
+            <li>
+              <button className="bg-white border-2 w-full rounded-md">
+                {Gyeonggi}
+              </button>
+            </li>
           </ul>
         </div>
       )}
@@ -109,8 +143,17 @@ export default function BuildingFilter({
         </div>
       </div>
       {selectedIndustry && (
-        <div className="absolute top-20 bg-white w-[26.6875rem] h-[10rem] z-50 shadow-lg rounded-md border border-gray-300 transition-transform transform duration-300">
-          <ul className=""></ul>
+        <div className="absolute p-4 top-20 bg-white w-[26.6875rem] h-[27rem] z-50 shadow-lg rounded-md border border-gray-300">
+          <h1 className="text-xl font-bold">직무</h1>
+          <ul className="p-2 grid grid-cols-4 gap-4">
+            {Industry.map((industry) => (
+              <li key={industry}>
+                <button className="bg-white border-2 w-full rounded-md">
+                  {industry}
+                </button>
+              </li>
+            ))}
+          </ul>
         </div>
       )}
       <div className="relative">
@@ -130,7 +173,18 @@ export default function BuildingFilter({
         </div>
       </div>
       {selectedOccupation && (
-        <div className="absolute top-20 bg-white w-[26.6875rem] h-[10rem] z-50 shadow-lg rounded-md border border-gray-300 transition-transform transform duration-300"></div>
+        <div className="absolute p-4 top-20 bg-white w-[26.6875rem] h-[27rem] z-50 shadow-lg rounded-md border border-gray-300">
+          <h1 className="text-xl font-bold">직무</h1>
+          <ul className="p-2 grid grid-cols-4 gap-4">
+            {Occupation.map((occupation) => (
+              <li key={occupation}>
+                <button className="bg-white border-2 w-full rounded-md">
+                  {occupation}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
       )}
     </div>
   );
