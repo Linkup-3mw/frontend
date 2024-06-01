@@ -47,11 +47,11 @@ export default function SignupForm({ type }: Props) {
       setFocus('auth_code');
       return;
     }
-    // if (!data.email_verified) {
-    //   setError('email_verified', { message: '이메일 인증을 해주세요.' });
-    //   setFocus('email');
-    //   return;
-    // }
+    if (!data.email_verified) {
+      setError('email_verified', { message: '이메일 인증을 해주세요.' });
+      setFocus('email');
+      return;
+    }
     if (data.confirm_password !== data.password) {
       setError(
         'confirm_password',
@@ -72,9 +72,6 @@ export default function SignupForm({ type }: Props) {
     if (type === 'enterprise') {
       params.company_verified = true;
     }
-
-    //임시 이메일 인증 통과
-    params.email_verified = true;
 
     try {
       const res = await signUp(params);
