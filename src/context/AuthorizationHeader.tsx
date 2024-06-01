@@ -31,7 +31,7 @@ export default function AuthorizationHeader({ children }: Props) {
       alert('세션이 만료되었습니다.');
       signOut({ redirect: false });
     }
-  }, [session]);
+  }, [isLogin, session]);
 
   // 만료시간 임시 값
   // useEffect(() => {
