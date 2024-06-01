@@ -10,8 +10,8 @@ export default function BuildingFilter({
   officeBuildings,
 }: BuildingFilterProps) {
   const [selectedRegion, setSelectedRegion] = useState(false);
-  const [selectedSanupkun, setSelectedSanupkun] = useState(false);
-  const [selectedJickun, setSelectedJickun] = useState(false);
+  const [selectedIndustry, setSelectedIndustry] = useState(false);
+  const [selectedOccupation, setSelectedOccupation] = useState(false);
 
   const gangNamGoo = [
     '강남구',
@@ -25,20 +25,20 @@ export default function BuildingFilter({
 
   const handleRegionClick = () => {
     setSelectedRegion(!selectedRegion);
-    setSelectedSanupkun(false);
-    setSelectedJickun(false);
+    setSelectedIndustry(false);
+    setSelectedOccupation(false);
   };
 
   const handleSanupkunClick = () => {
-    setSelectedSanupkun(!selectedSanupkun);
+    setSelectedIndustry(!selectedIndustry);
     setSelectedRegion(false);
-    setSelectedJickun(false);
+    setSelectedOccupation(false);
   };
 
   const handleJickunClick = () => {
-    setSelectedJickun(!selectedJickun);
+    setSelectedOccupation(!selectedOccupation);
     setSelectedRegion(false);
-    setSelectedSanupkun(false);
+    setSelectedIndustry(false);
   };
 
   return (
@@ -108,7 +108,7 @@ export default function BuildingFilter({
           <Image src="svg/map/arrow.svg" width={24} height={24} alt="화살표" />
         </div>
       </div>
-      {selectedSanupkun && (
+      {selectedIndustry && (
         <div className="absolute top-20 bg-white w-[26.6875rem] h-[10rem] z-50 shadow-lg rounded-md border border-gray-300 transition-transform transform duration-300">
           <ul className=""></ul>
         </div>
@@ -129,7 +129,7 @@ export default function BuildingFilter({
           </div>
         </div>
       </div>
-      {selectedJickun && (
+      {selectedOccupation && (
         <div className="absolute top-20 bg-white w-[26.6875rem] h-[10rem] z-50 shadow-lg rounded-md border border-gray-300 transition-transform transform duration-300"></div>
       )}
     </div>
