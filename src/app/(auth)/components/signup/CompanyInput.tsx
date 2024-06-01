@@ -10,6 +10,7 @@ import InputBox from '@common/components/form/InputBox';
 import { COMPANY_VALIDATION } from '@/app/(auth)/constants/validation';
 import ButtonInInput from '@/app/(auth)/components/common/ButtonInInput';
 import { verifyCompany } from '@/app/service/auth';
+import debounce from 'lodash.debounce';
 
 interface Props {
   error: FieldValues | undefined;
@@ -27,14 +28,14 @@ export default function CompanyInput({
   const [isVerify, setIsVerify] = useState(false);
   const [errMsg, setErrMsg] = useState('');
 
-  const verifyCompanyFn = async () => {
+  const verifyCompanyFn = debounce(async () => {
     const value = getValues('auth_code');
     if (value.length == 0) return;
 
     try {
       const data = await verifyCompany(value);
       if (data.status_code == 200) {
-        //인증성공
+        //인증 성공
         setIsVerify(true);
         setValue('company_id', data.company_id, {
           shouldDirty: true,
@@ -43,17 +44,12 @@ export default function CompanyInput({
         setErrMsg('');
       }
     } catch (e: any) {
-      const res = e.response.data;
-      if (res.status_code === 400) {
-        //인증실패 (테스트 필요)
-        setIsVerify(false);
-        setErrMsg('기업 전용 코드가 정확한지 확인해 주세요.');
-      } else {
-        setErrMsg('오류가 발생했습니다. 잠시 후 다시 시도해 주세요.');
-      }
+      //인증 실패
+      setIsVerify(false);
+      setErrMsg('기업 전용 코드가 정확한지 확인해 주세요.');
       console.log(e);
     }
-  };
+  }, 500);
 
   return (
     <InputBox

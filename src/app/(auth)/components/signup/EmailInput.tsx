@@ -34,10 +34,14 @@ export default function EmailInput({
   const [showVerify, setShowVerify] = useState(false);
   const [isVerify, setIsVerify] = useState(false);
   const [errMsg, setErrMsg] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     register('email', {
-      onBlur: () => trigger('email'),
+      onBlur: () => {
+        setErrMsg('');
+        trigger('email');
+      },
     });
   }, []);
 
@@ -46,7 +50,10 @@ export default function EmailInput({
     const emailValue = getValues('email');
     if (!emailValue) return;
 
+    if (isLoading) return;
+
     try {
+      setIsLoading(true);
       const res = await validateEmail(emailValue);
       if (res.status_code === 200) {
         //확인 성공
@@ -63,6 +70,8 @@ export default function EmailInput({
         //확인 실패
         setErrMsg('이메일 인증을 다시 시도해주세요.');
       }
+    } finally {
+      setIsLoading(false);
     }
   }, 500);
 
@@ -98,7 +107,13 @@ export default function EmailInput({
       errorMsg={
         error?.email?.message || error?.email_verified?.message || errMsg
       }
-      msg={isVerify ? '인증이 완료되었습니다.' : ''}
+      msg={
+        isVerify
+          ? '인증이 완료되었습니다.'
+          : '' || isLoading
+          ? '잠시만 기다려 주세요.'
+          : ''
+      }
     >
       <span className="block relative">
         <Input
