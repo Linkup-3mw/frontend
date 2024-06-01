@@ -31,19 +31,27 @@ export default function CompanyInput({
     const value = getValues('auth_code');
     if (value.length == 0) return;
 
-    const data = await verifyCompany(value);
-    if (data.status_code == 200) {
-      //인증성공
-      setIsVerify(true);
-      setValue('company_id', data.company_id, {
-        shouldDirty: true,
-        shouldValidate: true,
-      });
-      setErrMsg('');
-    } else {
-      //인증실패
-      setIsVerify(false);
-      setErrMsg('기업 전용 코드가 정확한지 확인해 주세요.');
+    try {
+      const data = await verifyCompany(value);
+      if (data.status_code == 200) {
+        //인증성공
+        setIsVerify(true);
+        setValue('company_id', data.company_id, {
+          shouldDirty: true,
+          shouldValidate: true,
+        });
+        setErrMsg('');
+      }
+    } catch (e: any) {
+      const res = e.response.data;
+      if (res.status_code === 400) {
+        //인증실패 (테스트 필요)
+        setIsVerify(false);
+        setErrMsg('기업 전용 코드가 정확한지 확인해 주세요.');
+      } else {
+        setErrMsg('오류가 발생했습니다. 잠시 후 다시 시도해 주세요.');
+      }
+      console.log(e);
     }
   };
 
