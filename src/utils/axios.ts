@@ -16,15 +16,14 @@ API.interceptors.request.use(async (config) => {
   //Server Side
   if (isServer) {
     const { cookies } = await import('next/headers');
-    const token = cookies().get('next-auth.session-token')?.value;
-    // const token = cookies().get('token')?.value;
+    const token = cookies().get('access-token')?.value;
 
-    if (cookies()) {
+    if (cookies() && token) {
       config.headers['Authorization'] = `Bearer ${token}`;
     }
   } else {
     //Client Side
-    const token = getCookie('Authorization');
+    const token = getCookie('access-token');
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`;
     }

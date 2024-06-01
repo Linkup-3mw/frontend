@@ -19,5 +19,4 @@ export interface AuthUser {
   profile_image: string | null;
   current_location: string | null;
   accessToken: string;
-  refreshToken: string;
 }
