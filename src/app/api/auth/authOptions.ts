@@ -2,13 +2,18 @@ import { signInWithCredentials } from '@/app/service/auth';
 import { NextAuthOptions } from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 import { cookies } from 'next/headers';
-import { parse } from 'cookie';
 import { IUser } from '@/types/user';
 import { JWT } from 'next-auth/jwt';
-import { getNewAccessToken } from '@/app/serverAction/auth';
+import { getNewAccessToken, setNewCookie } from '@/app/serverAction/auth';
 
 //토큰 만료 시간
 const EXPIRES_AT = 60 * 60;
+
+//세션 만료 시간
+const SESSION_EXPIRES_AT = {
+  normal: 60 * 60 * 24,
+  remeber: 60 * 60 * 24 * 15,
+};
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -29,11 +34,11 @@ export const authOptions: NextAuthOptions = {
           remember_me: credentials.remember_me === 'true' ? true : false,
         };
 
-        // cookies().set({
-        //   name: 'remember-me',
-        //   value: credentials.remember_me,
-        //   path: '/',
-        // });
+        cookies().set({
+          name: 'remember-me',
+          value: credentials.remember_me,
+          path: '/',
+        });
 
         try {
           const res = await signInWithCredentials(params);
@@ -62,16 +67,26 @@ export const authOptions: NextAuthOptions = {
   },
   jwt: {
     secret: process.env.JWT_SECRET,
+    maxAge: 60 * 60,
   },
   callbacks: {
-    async jwt({ user, token }) {
+    async jwt({ user, token }: any) {
       if (user) {
         // initial login
+        const remember_me = cookies().get('remember_me')?.value;
         const accessToken = cookies().get('access-token');
 
         token.accessToken = accessToken?.value;
         token.expiresAt = Math.floor(Date.now() + EXPIRES_AT * 1000) as number;
         token.user = user as IUser;
+        token.sessionExpiresAt =
+          remember_me == 'true'
+            ? (Math.floor(
+                Date.now() + SESSION_EXPIRES_AT.remeber * 1000,
+              ) as number)
+            : (Math.floor(
+                Date.now() + SESSION_EXPIRES_AT.normal * 1000,
+              ) as number);
 
         return token;
       }
@@ -87,47 +102,23 @@ export const authOptions: NextAuthOptions = {
       session.accessToken = token.accessToken;
       session.error = token.error as string;
       session.user = token.user as IUser;
+      session.sessionExpiresAt = token.sessionExpiresAt as number;
 
       return session;
     },
   },
 };
 
-const setNewCookie = (cookie: string) => {
-  const parsedCookie = parse(cookie);
-  const [cookieName, cookieValue] = Object.entries(parsedCookie)[0];
-  const httpOnly = cookie.includes('httponly');
-
-  cookies().set({
-    name: cookieName,
-    value: cookieValue,
-    httpOnly: cookieName === 'refresh-token' ? true : false,
-    maxAge: parseInt(parsedCookie['Max-Age']),
-    path: parsedCookie.path,
-    // sameSite: parsedCookie.samesite,
-    expires: new Date(parsedCookie.expires),
-    // secure: true,
-  });
-};
-
 async function refreshAccessToken(token: JWT) {
   try {
     const res = await getNewAccessToken(token.accessToken as string);
 
-    const apiCookies = res!.headers['set-cookie'];
-    if (apiCookies && apiCookies.length > 0) {
-      apiCookies.forEach((cookie) => {
-        setNewCookie(cookie);
-      });
-    }
-    const accessToken = cookies().get('access-token');
     token.expiresAt = (Date.now() + EXPIRES_AT * 1000) as number;
-
-    token.accessToken = accessToken?.value;
+    token.accessToken = res?.data.data;
 
     return token;
   } catch (e: any) {
-    console.error('Error refreshing access Token', e.message);
+    console.error('Error refreshing access Token : ', e.message);
     return { ...token, error: 'RefreshAccessTokenError' };
   }
 }

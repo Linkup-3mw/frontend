@@ -1,5 +1,7 @@
 import API from '@/utils/axios';
 import { FormValues } from '@/app/(auth)/components/signup/SignupForm';
+import { signOut } from 'next-auth/react';
+import { deleteCookie } from '../serverAction/auth';
 
 interface ICredentials {
   email: string;
@@ -10,6 +12,15 @@ interface ICredentials {
 //로그인
 export const signInWithCredentials = async (params: ICredentials) => {
   return await API.post('/member/login', params);
+};
+
+//로그아웃
+export const signoutWithCredentials = () => {
+  ('use server');
+  deleteCookie('refresh-token');
+  deleteCookie('access-token');
+
+  signOut({ callbackUrl: '/' });
 };
 
 //회사 검증
