@@ -1,11 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+<<<<<<< HEAD
+=======
+
+>>>>>>> dev
 @media (min-width: 768px) and (max-width: 920px) {
   html,
   body {
     font-size: 11px;
   }
+
   a,
   button {
     cursor: pointer;

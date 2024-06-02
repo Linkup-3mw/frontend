@@ -5,7 +5,11 @@ import AuthContext from '@/context/AuthContext';
 import AuthorizationHeader from '@/context/AuthorizationHeader';
 
 import type { Metadata } from 'next';
+<<<<<<< HEAD
 import RecoilProvider from '@/context/Provider';
+=======
+import QueryProvider from '@/context/QueryProvider';
+>>>>>>> dev
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -21,13 +25,15 @@ export default function RootLayout({
     <html lang="ko">
       <body className={`${suit.className} bg-blue-100`}>
         <Header />
-        <RecoilProvider>
-          <AuthContext>
-            <AuthorizationHeader>
-              <div>{children}</div>
-            </AuthorizationHeader>
-          </AuthContext>
-        </RecoilProvider>
+        <QueryProvider>
+          <RecoilProvider>
+            <AuthContext>
+              <AuthorizationHeader>
+                <div>{children}</div>
+              </AuthorizationHeader>
+            </AuthContext>
+          </RecoilProvider>
+        </QueryProvider>
       </body>
     </html>
   );

@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import { getServerSession } from 'next-auth';
-import { authOptions } from './api/auth/[...nextauth]/route';
-import Test from './(auth)/components/Test';
 import NoneLoginHome from './(home)/components/noneLogin/NoneLoginHome';
+import Test from './(auth)/Test';
+import { authOptions } from './api/auth/authOptions';
 
 export const metadata: Metadata = {
   title: 'Linkup',
