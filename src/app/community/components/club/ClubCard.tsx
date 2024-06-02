@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Link from 'next/link';
 
 export interface ClubCardProps {
   title: string;
@@ -30,7 +29,6 @@ export default function ClubCard({
   isAdmin,
   showCancelButton,
   showManageButton,
-  clubId,
 }: ClubCardProps) {
   const [isBookmarked, setIsBookmarked] = useState(false);
 
