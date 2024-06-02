@@ -27,15 +27,15 @@ export default function TermToggleBox({
     setShowDetail(!showDetail);
   };
   return (
-    <div className="mb-[1rem]">
-      <div className="flex justify-between items-center">
+    <div className="mb-[1rem] max-md:mb-[0.5rem]">
+      <div className="flex justify-between items-center max-md:text-[0.729rem]">
         <Checkbox onChange={onChange} name={id} isChecked={isChecked}>
           <span>{name}</span>
         </Checkbox>
         <ArrowBtn handleClick={handleClick} isActive={showDetail} />
       </div>
       {showDetail && (
-        <div className="overflow-y-auto mt-3 mb-5 p-[1.5rem] h-[10rem] rounded-[1.2rem] bg-white whitespace-pre-line">
+        <div className="overflow-y-auto mt-3 mb-5 p-[1.5rem] h-[10rem] rounded-[1.2rem] bg-white whitespace-pre-line max-md:mt-2 max-md:mb-3 max-md:p-[0.875rem] max-md:h-[10rem]">
           {detail}
         </div>
       )}

@@ -73,7 +73,7 @@ export default function Login({ callbackUrl }: { callbackUrl: string }) {
 
   return (
     <div>
-      <h2 className="mb-[2.5rem] text-center text-[1.75rem] font-bold leading-[2.375rem]">
+      <h2 className="mb-[2.5rem] text-center text-[1.75rem] font-bold leading-0 max-md:text-[1.25rem]">
         로그인
       </h2>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -109,14 +109,16 @@ export default function Login({ callbackUrl }: { callbackUrl: string }) {
           <div>
             <Link
               href="/"
-              className="inline-block -mt-[1.25rem] mb-[3.75rem] underline text-[0.875rem] font-bold leading-none text-[#8d8d9b]"
+              className="inline-block -mt-[1.25rem] mb-[3.75rem] underline text-[0.875rem] font-bold leading-none text-[#8d8d9b]
+              max-md:mb-[2.5rem] max-md:-mt-[0.25rem] max-md:text-[0.75rem]
+              "
             >
               비밀번호를 잊으셨나요?
             </Link>
           </div>
           <LoginCheckbox register={register}>로그인 상태 유지</LoginCheckbox>
         </div>
-        <div className="mt-[1.5rem]">
+        <div className="mt-[1.5rem] max-md:mt-[0.6rem]">
           <BlueSquareBtn
             name="로그인"
             type="submit"
