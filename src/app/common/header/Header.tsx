@@ -14,7 +14,10 @@ export default function Header() {
   const pathname = usePathname();
 
   const toggleModal = () => {
-    setIsModalOpen((prevState) => !prevState);
+    setIsModalOpen((prevState) => {
+      const newState = !prevState;
+      return newState;
+    });
   };
 
   // 메뉴 항목 데이터
@@ -43,7 +46,7 @@ export default function Header() {
           <div className="flex md:hidden w-full justify-between items-center">
             <Profile />
             <Link href="/" className="flex justify-center">
-              <img className="h-10" src="svg/header/logo.svg" alt="Logo" />
+              <img className="h-8" src="svg/header/logo.svg" alt="Logo" />
             </Link>
             <div className="flex">
               <img
@@ -51,10 +54,11 @@ export default function Header() {
                 src="svg/header/unconfirmedAlarmIcon.svg"
                 alt="Unconfirmed Alarm Icon"
               />
-              <div className="relative cursor-pointer" onClick={toggleModal}>
+              <div className="relative cursor-pointer">
                 <img
                   src="svg/header/hamburgerMenuIcon.svg"
                   alt="Hamburger Menu Icon"
+                  onClick={toggleModal}
                 />
                 {/* Modal */}
                 <HamburgerMenuModal
@@ -88,10 +92,11 @@ export default function Header() {
                 alt="Unconfirmed Alarm Icon"
               />
             </div>
-            <div className="mx-3 relative cursor-pointer" onClick={toggleModal}>
+            <div className="mx-3 relative cursor-pointer">
               <img
                 src="svg/header/hamburgerMenuIcon.svg"
                 alt="Hamburger Menu Icon"
+                onClick={toggleModal}
               />
               {/* Modal */}
               <HamburgerMenuModal
