@@ -301,10 +301,10 @@ export default function ClubManagePage() {
                         <div className="mt-[1.5rem]">
                           {application.questions.map((qa, index) => (
                             <div key={index} className="space-y-4 mb-[1.5rem]">
-                              <p className="font-semibold leading-none">
+                              <p className="text-gray-500 font-normal text-xs leading-none">
                                 {qa.question}
                               </p>
-                              <p className="text-gray-500 leading-none">
+                              <p className="font-semibold text-sm leading-none">
                                 {qa.answer}
                               </p>
                             </div>
