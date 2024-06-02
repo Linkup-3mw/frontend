@@ -3,9 +3,13 @@ import '@styles/globals.css';
 import { Header } from '@common/header';
 import AuthContext from '@/context/AuthContext';
 import AuthorizationHeader from '@/context/AuthorizationHeader';
-import RecoilProvider from '@/context/Provider';
+
 import type { Metadata } from 'next';
+<<<<<<< HEAD
+import RecoilProvider from '@/context/Provider';
+=======
 import QueryProvider from '@/context/QueryProvider';
+>>>>>>> dev
 
 export const metadata: Metadata = {
   title: 'Create Next App',

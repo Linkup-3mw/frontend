@@ -10,7 +10,6 @@ interface Props {
   requiredTerms: ITerm[];
   optionalTerms: ITerm[];
 }
-
 export interface ITerm {
   id: string;
   name: string;

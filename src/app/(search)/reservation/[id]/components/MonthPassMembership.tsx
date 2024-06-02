@@ -143,16 +143,16 @@ export default function MonthPassMembership({
                 disabled={true}
               />
             )}
-            {isMobile && (
-              <div className="w-full text-center my-4">
-                <button
-                  onClick={() => setShowMobileTable(true)}
-                  className="w-[5.5rem] h-[2.5rem] bg-blue-400 text-white rounded-lg leading-[1.375rem]"
-                >
-                  좌석 선택
-                </button>
-              </div>
-            )}
+
+            <div className="hidden-desk w-full text-center my-4">
+              <button
+                onClick={() => setShowMobileTable(true)}
+                className=" w-[5.5rem] h-[2.5rem] bg-blue-400 text-white rounded-lg leading-[1.375rem]"
+              >
+                좌석 선택
+              </button>
+            </div>
+
             {!selectedSeatAll?.start_date && (
               <p className="mb-4 text-[#6377E9] text-sm">
                 시작 날짜를 선택하세요.
@@ -210,11 +210,10 @@ export default function MonthPassMembership({
                       </div>
                     </div>
                   ))}{' '}
-                  {isMobile && mobileConfirm && (
-                    <div className="flex h-[2.25rem] text-[0.625rem] gap-2 mt-2 mb-4 items-center leading-4">
-                      <p className="h-[1.4375rem] w-[11.1875rem]">
-                        미팅룸, 컨퍼런스 룸, 스튜디오 등 다양한 공간이
-                        필요하신가요?
+                  {mobileConfirm && (
+                    <div className="hidden-desk w-full flex h-[2.25rem] text-[0.625rem] gap-2 mt-2 mb-4 leading-4 border-4">
+                      <p className="h-[1.4375rem] w-[11.1875rem] border-4">
+                        미팅룸, 컨퍼런스 룸, 스튜디오 등 필요하신가요?
                       </p>
                       <div>
                         <button
@@ -226,8 +225,8 @@ export default function MonthPassMembership({
                       </div>
                     </div>
                   )}
-                  {!isMobile && confirm && (
-                    <div className="flex h-[2.25rem] gap-2 leading-6 my-4 ">
+                  {confirm && (
+                    <div className="hidden-360 flex h-[2.25rem] gap-2 leading-6 my-4 ">
                       <p>
                         미팅룸, 컨퍼런스 룸, 스튜디오 등 다양한 공간이
                         필요하신가요?
