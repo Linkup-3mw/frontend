@@ -34,10 +34,6 @@ interface SeatReservation {
   end_date?: string;
   code?: string;
 }
-const content = `예약을 추가하려면 위에서 날짜와 좌석 유형을 선택해 주세요.
-당일권은 최대 5개까지 예약할 수 있습니다.`;
-
-const info = useLineBreak({ content });
 
 export default function OnePassMembership({
   seatType,
@@ -54,7 +50,10 @@ export default function OnePassMembership({
   const [selectedSpaceAll, setSelectedSpaceAll] = useRecoilState(
     selectedSpaceAllState,
   );
+  const content = `예약을 추가하려면 위에서 날짜와 좌석 유형을 선택해 주세요.
+당일권은 최대 5개까지 예약할 수 있습니다.`;
 
+  const info = useLineBreak({ content });
   const handleDayClick = (day: Date) => {
     setSelectedDate(day);
     setSelectedSeatAll({});
@@ -110,7 +109,7 @@ export default function OnePassMembership({
       borderRadius: '50%',
     },
   };
-  console.log('왔냐?', seatList);
+
   return (
     <>
       <div className="flex flex-col gap-6 mb-6">
@@ -174,30 +173,27 @@ export default function OnePassMembership({
                 </div>
               ))}
             </div>
-            {isMobile && (
-              <div className="w-full text-center my-4">
-                <button
-                  onClick={() => setShowMobileTable(true)}
-                  className="w-[5.5rem] h-[2.5rem] bg-blue-400 text-white rounded-lg leading-[1.375rem]"
-                >
-                  좌석 선택
-                </button>
-              </div>
-            )}
 
-            {!isMobile && (
-              <>
-                {selectedSeatAll?.start_date && !selectedSeatAll.code ? (
-                  <p className="mb-4 text-[#6377E9]">
-                    오른쪽에서 좌석을 선택하세요.
-                  </p>
-                ) : (
-                  <p className="mb-4 text-[#6377E9]">
-                    최대 5개까지 예약할 수 있습니다.
-                  </p>
-                )}
-              </>
-            )}
+            <div className="hidden-desk w-full text-center my-4 hidden-desk">
+              <button
+                onClick={() => setShowMobileTable(true)}
+                className="w-[5.5rem] h-[2.5rem] bg-blue-400 text-white rounded-lg leading-[1.375rem]"
+              >
+                좌석 선택
+              </button>
+            </div>
+
+            <div className="hidden-360">
+              {selectedSeatAll?.start_date && !selectedSeatAll.code ? (
+                <p className="mb-4 text-[#6377E9]">
+                  오른쪽에서 좌석을 선택하세요.
+                </p>
+              ) : (
+                <p className="mb-4 text-[#6377E9]">
+                  최대 5개까지 예약할 수 있습니다.
+                </p>
+              )}
+            </div>
 
             {seatList.length > 0 && (
               <>
@@ -249,8 +245,8 @@ export default function OnePassMembership({
                       </div>
                     </div>
                   ))}
-                  {isMobile && mobileConfirm && (
-                    <div className="flex h-[2rem] text-[0.625rem] gap-2 mt-2 mb-4 items-center leading-4">
+                  {mobileConfirm && (
+                    <div className="hidden-desk flex h-[2rem] text-[0.625rem] gap-2 mt-2 mb-4 items-center leading-4">
                       <p className="h-[1.4375rem] w-[11.1875rem]">
                         미팅룸, 컨퍼런스 룸, 스튜디오 등 다양한 공간이
                         필요하신가요?
@@ -266,8 +262,8 @@ export default function OnePassMembership({
                     </div>
                   )}
 
-                  {!isMobile && confirm && (
-                    <div className="flex h-[2.25rem] gap-2 leading-6 my-4 ">
+                  {confirm && (
+                    <div className="hidden-360 flex h-[2.25rem] gap-2 leading-6 my-4 ">
                       <p>
                         미팅룸, 컨퍼런스 룸, 스튜디오 등 다양한 공간이
                         필요하신가요?
@@ -368,16 +364,15 @@ export default function OnePassMembership({
                 </div>
               ))}
             </div>
-            {isMobile && (
-              <div className="w-full text-center my-4">
-                <button
-                  onClick={() => setShowMobileTable(true)}
-                  className="w-[5.5rem] h-[2.5rem] bg-blue-400 text-white rounded-lg leading-[1.375rem]"
-                >
-                  공간 선택
-                </button>
-              </div>
-            )}
+
+            <div className="hidden-desk w-full text-center my-4">
+              <button
+                onClick={() => setShowMobileTable(true)}
+                className="w-[5.5rem] h-[2.5rem] bg-blue-400 text-white rounded-lg leading-[1.375rem]"
+              >
+                공간 선택
+              </button>
+            </div>
 
             {seatList.length > 0 && (
               <>
@@ -450,23 +445,21 @@ export default function OnePassMembership({
                           </div>
                         </div>
                         <div className="flex items-center">
-                          {!isMobile ? (
-                            <div className="">
-                              <button
-                                className="rounded-lg w-[4.625rem] h-[2rem] text-sm text-white font-semibold bg-[#FF4163]"
-                                onClick={() => removeReservation(index)}
-                              >
-                                선택 취소
-                              </button>
-                            </div>
-                          ) : (
+                          <div className="hidden-360">
                             <button
-                              className="rounded-lg w-[1.75rem] h-[1.75rem] text-sm text-white font-semibold bg-[#FF4163]"
+                              className="rounded-lg w-[4.625rem] h-[2rem] text-sm text-white font-semibold bg-[#FF4163]"
                               onClick={() => removeReservation(index)}
                             >
-                              X
+                              선택 취소
                             </button>
-                          )}
+                          </div>
+
+                          <button
+                            className="rounded-lg hidden-desk w-[1.75rem] h-[1.75rem] text-sm text-white font-semibold bg-[#FF4163]"
+                            onClick={() => removeReservation(index)}
+                          >
+                            X
+                          </button>
                         </div>
                       </div>
                     </div>

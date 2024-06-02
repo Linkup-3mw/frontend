@@ -1,12 +1,17 @@
+import { signoutWithCredentials } from '@/app/service/auth';
+import { Session } from 'next-auth';
+import { signOut } from 'next-auth/react';
 import Link from 'next/link';
 import React from 'react';
 
 interface HamburgerMenuModalProps {
+  session: Session | null;
   isOpen: boolean;
   onClose: () => void;
 }
 
 export default function HamburgerMenuModal({
+  session,
   isOpen,
   onClose,
 }: HamburgerMenuModalProps) {
@@ -15,13 +20,17 @@ export default function HamburgerMenuModal({
   return (
     <div className="bg-white w-[25rem] absolute right-0 font-bold rounded-xl shadow-lg">
       <div className="flex justify-between bg-blue-50 rounded-t-xl">
-        <div className="pt-[2.5rem] pb-[2rem] px-[2.5rem]">
-          <div className="mb-4 text-[1.75rem] leading-none">노찬영님</div>
-          <div className="flex gap-[1.5rem] leading-none text-[1.25rem]">
-            <Link href="/profile">내 정보</Link>
-            <Link href="/logout">로그아웃</Link>
+        {session && (
+          <div className="pt-[2.5rem] pb-[2rem] px-[2.5rem]">
+            <div className="mb-4 text-[1.75rem] leading-none">
+              {session.user.name}님
+            </div>
+            <div className="flex gap-[1.5rem] leading-none text-[1.25rem]">
+              <Link href="/profile">내 정보</Link>
+              <button onClick={() => signoutWithCredentials()}>로그아웃</button>
+            </div>
           </div>
-        </div>
+        )}
         <div className="text-2xl pr-6 pt-4">✕</div>
       </div>
       <div className="p-[2rem] border-b border-gray-100">

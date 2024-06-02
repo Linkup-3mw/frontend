@@ -131,16 +131,14 @@ export default function EnterPriseMembership({
                 disabled={true}
               />
 
-              {isMobile && (
-                <div className="w-full text-center my-4">
-                  <button
-                    onClick={() => setShowMobileTable(true)}
-                    className="w-[7.75rem] h-[2.5rem] bg-[#6377E9] text-white rounded-lg leading-[1.375rem]"
-                  >
-                    좌석 둘러 보기
-                  </button>
-                </div>
-              )}
+              <div className="hidden-desk w-full text-center my-4">
+                <button
+                  onClick={() => setShowMobileTable(true)}
+                  className="w-[7.75rem] h-[2.5rem] bg-[#6377E9] text-white rounded-lg leading-[1.375rem]"
+                >
+                  좌석 둘러 보기
+                </button>
+              </div>
             </div>
 
             <div className="flex flex-col gap-4">
@@ -179,7 +177,7 @@ export default function EnterPriseMembership({
                   </button>
                 </div>
               </div>
-              <Link href="/reservcation/consulting">
+              <Link href="/reservation/consulting">
                 <div className="w-full text-center my-4">
                   <button
                     onClick={() => setShowMobileTable(true)}
@@ -224,16 +222,16 @@ export default function EnterPriseMembership({
                   </div>
                 ))}
               </div>
-              {isMobile && (
-                <div className="w-full text-center my-4">
-                  <button
-                    onClick={() => setShowMobileTable(true)}
-                    className="w-[7.75rem] h-[2.5rem] bg-[#688AF2] text-white rounded-lg leading-none font-bold"
-                  >
-                    공간 둘러 보기
-                  </button>
-                </div>
-              )}
+
+              <div className="hidden-desk w-full text-center my-4">
+                <button
+                  onClick={() => setShowMobileTable(true)}
+                  className="w-[7.75rem] h-[2.5rem] bg-[#688AF2] text-white rounded-lg leading-none font-bold"
+                >
+                  공간 둘러 보기
+                </button>
+              </div>
+
               <div className=" mb:text-sm md:text-lg font-bold">
                 예상 견적을 확인하세요.
               </div>

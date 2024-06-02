@@ -32,15 +32,21 @@ export default function NicknameInput({
       return;
     }
 
-    const res = await validateNickname(username);
-    if (res.status_code === 200) {
-      setMessage('사용할 수 있는 닉네임입니다.');
-      clearErrors('username');
-    } else {
-      setMessage('');
-      setError('username', {
-        message: '이미 사용 중인 닉네임입니다. 다른 닉네임을 입력해 주세요.',
-      });
+    try {
+      const res = await validateNickname(username);
+      if (res.status_code === 200) {
+        setMessage('사용할 수 있는 닉네임입니다.');
+        clearErrors('username');
+      }
+    } catch (e: any) {
+      if (e.response.data.status_code === 400) {
+        setMessage('');
+        setError('username', {
+          message: '이미 사용 중인 닉네임입니다. 다른 닉네임을 입력해 주세요.',
+        });
+      } else {
+        console.error(e);
+      }
     }
   };
 

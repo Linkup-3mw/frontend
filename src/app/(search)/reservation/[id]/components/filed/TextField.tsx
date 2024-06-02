@@ -19,7 +19,7 @@ interface TextFieldProps
 
 const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
   function TextField(
-    { value, onChange, onFocus, onBlur, hasError, ...props },
+    { value, onChange, onFocus, onBlur, hasError, placeholder, ...props },
     ref,
   ) {
     const [focused, setFocused] = useState(false);
@@ -47,8 +47,8 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
           onBlur={handleBlur}
           value={value}
           onChange={onChange}
-          placeholder="숫자를 입력해주세요."
-          className={`mb:text-xs mb:w-[18rem] mb:h-[2rem] md:w-[26.6857rem] md:h-[2.5rem] px-2 py-1 rounded-[0.5rem] focus:outline-none ${
+          placeholder={placeholder}
+          className={`mb:text-xs md:text-lg mb:w-full mb:h-[2.6rem] md:w-full md:h-[2.9rem] px-2 py-1 rounded-[0.5rem] border focus:outline-none ${
             focused ? 'border-blue-500' : 'border-gray-300'
           } ${hasError ? 'border-[#FF1000]' : ''}`}
           {...props}
