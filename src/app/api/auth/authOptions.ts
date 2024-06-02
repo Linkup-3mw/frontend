@@ -3,7 +3,8 @@ import { NextAuthOptions } from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 import { cookies } from 'next/headers';
 import { parse } from 'cookie';
-import { IToken } from '@/types/next-auth';
+import { IUser } from '@/types/user';
+import { JWT } from 'next-auth/jwt';
 
 //토큰 만료 시간
 const EXPIRES_AT = 60 * 60;
@@ -42,9 +43,9 @@ export const authOptions: NextAuthOptions = {
             });
           }
 
-          return {
-            ...res.data.data,
-          };
+          const user: IUser = res.data.data;
+
+          return user;
         } catch (e: any) {
           throw new Error(e.response.data.message);
         }
@@ -65,12 +66,13 @@ export const authOptions: NextAuthOptions = {
     async jwt({ user, token }) {
       if (user) {
         // initial login
-        const accessToken = cookies().get('access-token') as IToken;
+        const accessToken = cookies().get('access-token');
 
-        token.accessToken = accessToken.value;
+        token.accessToken = accessToken?.value;
         token.expiresAt = Math.floor(Date.now() + EXPIRES_AT * 1000) as number;
+        token.user = user as IUser;
 
-        return { ...user, ...token };
+        return token;
       }
       if (Date.now() < Number(token.expiresAt)) {
         //토큰 유효
@@ -83,6 +85,8 @@ export const authOptions: NextAuthOptions = {
     async session({ session, token }) {
       session.accessToken = token.accessToken;
       session.error = token.error as string;
+      session.user = token.user as IUser;
+
       return session;
     },
   },
@@ -105,9 +109,9 @@ const setNewCookie = (cookie: string) => {
   });
 };
 
-async function refreshAccessToken(token: any) {
+async function refreshAccessToken(token: JWT) {
   try {
-    const res = await getNewAccessToken(token.accessToken);
+    const res = await getNewAccessToken(token.accessToken as string);
 
     const apiCookies = res!.headers['set-cookie'];
     if (apiCookies && apiCookies.length > 0) {
@@ -115,10 +119,10 @@ async function refreshAccessToken(token: any) {
         setNewCookie(cookie);
       });
     }
-    const accessToken = cookies().get('access-token') as IToken;
+    const accessToken = cookies().get('access-token');
     token.expiresAt = (Date.now() + EXPIRES_AT * 1000) as number;
 
-    token.accessToken = accessToken.value;
+    token.accessToken = accessToken?.value;
 
     return token;
   } catch (e: any) {

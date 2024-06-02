@@ -10,13 +10,5 @@ export interface IUser {
   introduction: string;
   profile_image: string | null;
   current_location: string | null;
-}
-
-export interface AuthUser {
-  name: string;
-  username: string;
-  email: string;
-  profile_image: string | null;
-  current_location: string | null;
-  accessToken: string;
+  company_membership_id: number | null;
 }

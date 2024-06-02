@@ -1,21 +1,15 @@
 import { DefaultSession } from 'next-auth';
-import { AuthUser } from './user';
+import { IUser } from './user';
 import { RequestCookie } from 'next/dist/compiled/@edge-runtime/cookies';
+import { DefaultJWT } from 'next-auth/jwt';
 
-interface IToken extends RequestCookie {
-  name: string;
-  vlue: string;
-  expires: string;
-  httpOnly: boolean;
-  path: string;
-}
-
-declare module 'next-auth' {
-  interface User extends AuthUser {}
+export declare module 'next-auth' {
+  interface User extends IUser {}
   interface Session extends DefaultSession {
-    accessToken: any;
+    accessToken: string | unknown;
     expiresAt: number;
     error: string;
+    user: IUser;
   }
 }
 
@@ -23,7 +17,6 @@ export declare module '@auth/core/jwt' {
   interface JWT {
     accessToken: string;
     expiresAt: number;
+    user: IUser;
   }
 }
-
-export declare module 'next-';

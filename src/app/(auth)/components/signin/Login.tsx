@@ -12,6 +12,11 @@ import TogglePassword from '@/app/(auth)/components/common/TogglePassword';
 import { EMAIL_VALIDATION } from '@/app/(auth)/constants/validation';
 import LoginCheckbox from './LoginCheckbox';
 
+interface ILoginErrMsg {
+  email: string;
+  password: string;
+}
+
 export default function Login({ callbackUrl }: { callbackUrl: string }) {
   const {
     register,
@@ -26,11 +31,12 @@ export default function Login({ callbackUrl }: { callbackUrl: string }) {
     });
     register('password', {
       onBlur: () =>
-        setErrMsg((prev: any) => {
+        setErrMsg((prev: ILoginErrMsg) => {
           return { ...prev, password: '' };
         }),
     });
-  }, []);
+  }, [register, trigger]);
+
   const [errMsg, setErrMsg] = useState({
     email: '',
     password: '',
@@ -54,8 +60,8 @@ export default function Login({ callbackUrl }: { callbackUrl: string }) {
         router.push(callbackUrl);
       }
       if (res?.status === 401) {
-        setErrMsg((prev: any) => {
-          return { ...prev, password: res?.error, email: '' };
+        setErrMsg((prev): ILoginErrMsg => {
+          return { ...prev, password: res?.error as string, email: '' };
         });
       }
     } catch (error) {
