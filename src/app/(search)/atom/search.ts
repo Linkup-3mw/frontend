@@ -1,5 +1,5 @@
 import { atom } from 'recoil';
-import { OfficeBuilding } from '@/types/office/office';
+import { OfficeBuilding, OfficeBuildingList } from '@/types/office/office';
 
 export const mapState = atom<any>({
   key: 'map',
@@ -10,6 +10,7 @@ export const buildingState = atom<OfficeBuilding[]>({
   key: 'building',
   default: [],
 });
-export const currentBuildingState = atom<OfficeBuilding>({
+export const currentBuildingState = atom<OfficeBuilding | null>({
   key: 'currentBuilding',
+  default: null,
 });

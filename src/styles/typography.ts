@@ -24,3 +24,9 @@ export const suit = localFont({
     },
   ],
 });
+
+export const sbAggro = localFont({
+  src: [
+    { path: '../assets/fonts/SB_Aggro_M.otf', weight: '400', style: 'normal' },
+  ],
+});
