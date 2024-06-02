@@ -1,10 +1,11 @@
-import { getNewAccessToken, signInWithCredentials } from '@/app/service/auth';
+import { signInWithCredentials } from '@/app/service/auth';
 import { NextAuthOptions } from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 import { cookies } from 'next/headers';
 import { parse } from 'cookie';
 import { IUser } from '@/types/user';
 import { JWT } from 'next-auth/jwt';
+import { getNewAccessToken } from '@/app/serverAction/auth';
 
 //토큰 만료 시간
 const EXPIRES_AT = 60 * 60;
