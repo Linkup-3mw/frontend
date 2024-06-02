@@ -79,7 +79,7 @@ export default function Marker({
         });
       });
     }
-  }, [map, officeBuildings]);
+  }, [buildingOverlayContent, map, officeBuildings, setCurrentBuilding]);
 
   useEffect(() => {
     loadKakaoMarkers();

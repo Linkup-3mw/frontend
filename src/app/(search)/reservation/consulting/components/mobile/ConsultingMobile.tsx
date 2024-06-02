@@ -1,16 +1,15 @@
 import { mobileReservationLayoutState } from '@/app/(search)/atom/media';
-import { useMobileLayout } from '@/app/(search)/map/hooks/mobile/useMobileLayout';
+
 import { useRecoilValue } from 'recoil';
 import Image from 'next/image';
 import { useState } from 'react';
 import React, { ChangeEventHandler, useEffect } from 'react';
 import { useForm, FieldValues } from 'react-hook-form';
-import Link from 'next/link';
+
 import TextField from '../../../[id]/components/filed/TextField';
 import ConsentCheckbox from '../../../[id]/components/filed/ConsentCheckbox';
 
 export default function ConsultingMobile() {
-  useMobileLayout();
   const isMobile = useRecoilValue(mobileReservationLayoutState);
 
   const [companyName, setCompanyName] = useState('');
