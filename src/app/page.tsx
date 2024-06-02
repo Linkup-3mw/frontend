@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { getServerSession } from 'next-auth';
 import NoneLoginHome from './(home)/components/noneLogin/NoneLoginHome';
-import Test from './(auth)/Test';
 import { authOptions } from './api/auth/authOptions';
 
 export const metadata: Metadata = {
@@ -19,7 +18,6 @@ export default async function Home() {
       <>
         <h1>main</h1>
         {/* 임시 로그아웃버튼 */}
-        <Test />
       </>
     );
   }
