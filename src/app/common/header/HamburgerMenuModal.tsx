@@ -62,7 +62,7 @@ export default function HamburgerMenuModal({
             <div className="text-xl pb-[2rem] leading-none">커뮤니티</div>
             <ul className="leading-none text-gray-600">
               <li>
-                <Link href="/clubs">소모임</Link>
+                <Link href="/community/club">소모임</Link>
               </li>
             </ul>
           </div>
