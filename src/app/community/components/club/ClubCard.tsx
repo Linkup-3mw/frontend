@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Link from 'next/link';
 
 export interface ClubCardProps {
   title: string;
@@ -29,6 +30,7 @@ export default function ClubCard({
   isAdmin,
   showCancelButton,
   showManageButton,
+  clubId,
 }: ClubCardProps) {
   const [isBookmarked, setIsBookmarked] = useState(false);
 
@@ -104,9 +106,11 @@ export default function ClubCard({
         </button>
       )}
       {showManageButton && (
-        <button className="w-full bg-blue-400 text-white py-[1.3rem] leading-none text-xl font-medium">
-          관리하기
-        </button>
+        <Link href={`/community/club/manage/${clubId}`}>
+          <button className="w-full bg-blue-400 text-white py-[1.3rem] leading-none text-xl font-medium">
+            관리하기
+          </button>
+        </Link>
       )}
     </div>
   );
