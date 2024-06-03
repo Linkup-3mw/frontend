@@ -7,7 +7,7 @@ interface Props {
 export default function MoreBtn({ children, className }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <div className="relative">
+    <div className="relative inline-block">
       <button className={className} onClick={() => setIsOpen(!isOpen)}>
         <svg
           xmlns="http://www.w3.org/2000/svg"

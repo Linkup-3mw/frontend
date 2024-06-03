@@ -9,6 +9,7 @@ import {
   TAB_LIST,
   TAB_MOBILE_LIST,
 } from '@/app/community/constants/clubDetail';
+import BoardDetail from '@/app/community/components/club/clubDetail/BoardDetail';
 // import { getClubDetail } from '@/app/service/club';
 
 interface Props {
@@ -30,7 +31,7 @@ export default async function page({
   const clubInfo = DATA;
 
   return (
-    <main className="px-[2.5rem] py-[2.5rem] max-md:px-[1.25rem] max-md:py-[1.5rem]">
+    <main className="pt-[11.25rem] px-[2.5rem] py-[2.5rem] max-md:px-[1.25rem] max-md:py-[1.5rem] max-md:pt-[5.75rem]">
       <div className="max-md:py-[1.5rem] max-md:rounded-[1rem] max-md:bg-blue-50">
         {/* 모바일에서 보이는 탭메뉴 */}
         <div className="hidden max-md:block sticky bg-blue-50 top-[3.375rem] z-10">
@@ -38,11 +39,11 @@ export default async function page({
         </div>
 
         <ContentWrap
-          className={`flex justify-between [&_>_section]:h-[66.66vh] [&_>_section]:min-h-[45rem] [&_>_section]:rounded-[1rem] [&_>_section]:bg-blue-50 [&_>_section]:box-border [&_>_section]:max-md:w-full 
+          className={`flex justify-between [&_>_section]:h-[66.66vh] [&_>_section]:max-h-[45rem] [&_>_section]:min-h-[45rem] [&_>_section]:rounded-[1rem] [&_>_section]:bg-blue-50 [&_>_section]:box-border [&_>_section]:max-md:w-full 
       ${
         userType === 'none_member'
           ? 'max-md:[&_>_section]:min-h-0 max-md:[&_>_section]:h-[calc(100vh_-_16.6225rem)] max-md:[&_>_section]:overflow-y-auto'
-          : 'max-md:[&_>_section]:min-h-inherit max-md:[&_>_section]:h-auto max-md:[&_>_section]:overflow-y-visible'
+          : 'max-md:[&_>_section]:min-h-0 max-md:[&_>_section]:h-auto max-md:[&_>_section]:overflow-y-visible'
       }
       `}
         >
@@ -74,7 +75,12 @@ export default async function page({
             {userType === 'none_member' ? (
               <NoneMemberBoardsSection id={id} />
             ) : (
-              <BoardsSection id={id} />
+              <>
+                {/* <BoardsSection id={id} /> */}
+
+                {/* 게시판, 공지 상세 페이지 */}
+                <BoardDetail />
+              </>
             )}
           </section>
         </ContentWrap>
