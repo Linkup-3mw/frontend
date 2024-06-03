@@ -1,11 +1,13 @@
 'use client';
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { useSession } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
 import ContentWrap from '@common/components/frame/ContentWrap';
 import HamburgerMenuModal from './HamburgerMenuModal';
 
 export default function Header() {
+  const { data: session } = useSession();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const pathname = usePathname();
 
@@ -18,7 +20,7 @@ export default function Header() {
       <ContentWrap>
         <div className="flex justify-between items-center h-full">
           {/* part1 */}
-          <div className="flex basis-1/3 items-center text-base pl-10">
+          <div className="flex basis-1/3 items-center text-base">
             <Link href="/map">
               <div
                 className={`flex justify-center items-center w-[6.375rem] h-[2.5rem] border rounded-full border-black mx-3 font-bold ${
@@ -62,14 +64,32 @@ export default function Header() {
           {/* part3 */}
           <div className="flex basis-1/3 justify-end items-center min-w-[25.625rem]">
             <div className="flex mx-3 items-center">
-              <div className="h-6 w-6 border border-[#45AD56] rounded-full overflow-hidden">
-                <img
-                  src="svg/header/profileDefault.svg"
-                  alt="Profile Default"
-                  className="h-full w-full object-cover"
-                />
-              </div>
-              <div className="flex mx-2 font-bold">노찬영님</div>
+              {session ? (
+                <>
+                  <div className="h-6 w-6 border border-[#45AD56] rounded-full overflow-hidden">
+                    {session.user.profile_image ? (
+                      <img
+                        src={session.user.profile_image}
+                        alt={session.user.name + '프로필 이미지'}
+                        className="h-full w-full object-cover"
+                      />
+                    ) : (
+                      <img
+                        src="svg/header/profileDefault.svg"
+                        alt="Profile Default"
+                        className="h-full w-full object-cover"
+                      />
+                    )}
+                  </div>
+                  <div className="flex mx-2 font-bold">
+                    {session?.user.name} 님
+                  </div>
+                </>
+              ) : (
+                <Link href={'/signin'} className="flex mx-2 font-bold">
+                  로그인 하기
+                </Link>
+              )}
             </div>
             <div className="mx-3 ">
               <img src="svg/header/chatIcon.svg" alt="Chat Icon" />
@@ -89,7 +109,11 @@ export default function Header() {
                 alt="Hamburger Menu Icon"
               />
               {/* Modal */}
-              <HamburgerMenuModal isOpen={isModalOpen} onClose={toggleModal} />
+              <HamburgerMenuModal
+                session={session}
+                isOpen={isModalOpen}
+                onClose={toggleModal}
+              />
             </div>
           </div>
         </div>

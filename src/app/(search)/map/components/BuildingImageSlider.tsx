@@ -11,6 +11,7 @@ export default function BuildingImageSlider({
   return (
     <div className='overflow-hidden rounded-t-3xl h-[17.25rem]'>
       <Image
+       layout="responsive"
         width={491}
         height={276}
         src={`${images}/${buildingId}.jpeg`}

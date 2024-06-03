@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getCookie } from './cookie';
+import { getSession } from 'next-auth/react';
 
 const baseURL = process.env.NEXT_PUBLIC_API_URL;
 const isServer = typeof window === 'undefined';
@@ -13,20 +13,11 @@ const API = axios.create({
 });
 
 API.interceptors.request.use(async (config) => {
-  //Server Side
-  if (isServer) {
-    const { cookies } = await import('next/headers');
-    const token = cookies().get('access-token')?.value;
+  const session = await getSession();
+  const token = session?.accessToken;
 
-    if (cookies() && token) {
-      config.headers['Authorization'] = `Bearer ${token}`;
-    }
-  } else {
-    //Client Side
-    const token = getCookie('access-token');
-    if (token) {
-      config.headers['Authorization'] = `Bearer ${token}`;
-    }
+  if (token) {
+    API.defaults.headers.Cookie = `access-token=${token}`;
   }
 
   return config;

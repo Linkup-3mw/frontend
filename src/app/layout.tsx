@@ -21,11 +21,11 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className={`${suit.className} bg-blue-100`}>
-        <Header />
         <QueryProvider>
           <RecoilProvider>
             <AuthContext>
               <AuthorizationHeader>
+                <Header />
                 <div>{children}</div>
               </AuthorizationHeader>
             </AuthContext>

@@ -118,17 +118,17 @@ export default function OpenDeskMobile() {
                   </div>
                 </div>
                 <button
-  className={`w-[5.75rem] h-[2.5rem] rounded-lg text-white ${
-    selectedSeatAll?.start_date &&
-    selectedSeatAll?.type &&
-    selectedSeatAll?.code
-      ? 'bg-[#688AF2]'
-      : 'bg-[#A3A3AF]'
-  }`}
-  onClick={handleSeatReady}
->
-  확정
-</button>
+                className={`w-[5.75rem] h-[2.5rem] rounded-lg text-white ${
+                  selectedSeatAll?.start_date &&
+                  selectedSeatAll?.type &&
+                  selectedSeatAll?.code
+                    ? 'bg-[#688AF2]'
+                    : 'bg-[#A3A3AF]'
+                }`}
+                onClick={handleSeatReady}
+              >
+                확정
+              </button>
 
               </div>
             </div>

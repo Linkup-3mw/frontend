@@ -1,4 +1,5 @@
 import Terms from '@/app/(auth)/components/terms/Terms';
+import { Suspense } from 'react';
 
 // 임시로 넣음
 const OPTIONAL_TERMS = [
@@ -15,6 +16,8 @@ const REQUIRED_TERMS = [
 
 export default function TermsPage() {
   return (
-    <Terms optionalTerms={OPTIONAL_TERMS} requiredTerms={REQUIRED_TERMS} />
+    <Suspense>
+      <Terms optionalTerms={OPTIONAL_TERMS} requiredTerms={REQUIRED_TERMS} />
+    </Suspense>
   );
 }

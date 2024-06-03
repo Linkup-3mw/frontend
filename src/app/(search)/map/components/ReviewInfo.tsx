@@ -30,12 +30,12 @@ export default function ReviewInfo() {
   return (
     <div className="flex flex-col items-center relative mb-4 ">
       <div className="flex justify-between items-center w-full mb-4 px-3">
-        <p className="text-[20px] leading-7 font-bold">리뷰</p>
+        <p className="mb:text-[1rem] md:text-lg font-bold leading-7 ">리뷰</p>
       </div>
       <div className="flex w-full overflow-hidden">
         <Swiper
           slidesPerView={1}
-          spaceBetween={-110}
+          spaceBetween={-90}
           loop={true}
           initialSlide={currentIndex}
           onSwiper={setSwiper}
@@ -44,8 +44,8 @@ export default function ReviewInfo() {
           {' '}
           {reviews?.map((review, index) => (
             <SwiperSlide key={index}>
-              <div className="p-4 w-[18.75rem] h-[7.625rem] relative bg-white rounded-lg shadow-lg">
-                <div className="flex gap-2 justify-start w-[13.75rem] mb-2">
+              <div className="p-4 mb:w-[14rem] md:w-[18.75rem] mb:h-[6.8125rem] md:h-[7.625rem] relative bg-white rounded-lg shadow-lg">
+                <div className="flex gap-2 justify-start mb:w-[12rem] md:w-[13.75rem] items-center mb-2">
                   <div className="leading-[1.375rem]">{review.reviewer}</div>
                   <div className="flex">
                     {Array.from({ length: review.rating }).map((_, sdx) => (
@@ -58,9 +58,9 @@ export default function ReviewInfo() {
                       />
                     ))}
                   </div>
-                  <p className="text-gray-300">{formattedDate}</p>
+                  <p className="text-gray-300 text-[0.625rem]">{formattedDate}</p>
                 </div>
-                <div className="h-[2.8125rem]">
+                <div className="md:text-lg mb:text-sm h-[2.8125rem]">
                   {review.content.length > 30
                     ? review.content.slice(0, 30) + '...'
                     : review.content}

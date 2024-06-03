@@ -10,6 +10,7 @@ export declare module 'next-auth' {
     expiresAt: number;
     error: string;
     user: IUser;
+    sessionExpiresAt: number;
   }
 }
 
