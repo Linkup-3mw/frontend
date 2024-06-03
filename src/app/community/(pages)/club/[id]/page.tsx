@@ -10,6 +10,7 @@ import {
   TAB_MOBILE_LIST,
 } from '@/app/community/constants/clubDetail';
 import BoardDetail from '@/app/community/components/club/clubDetail/BoardDetail';
+import RegisterBoard from '@/app/community/components/club/clubDetail/RegisterBoard';
 // import { getClubDetail } from '@/app/service/club';
 
 interface Props {
@@ -31,7 +32,7 @@ export default async function page({
   const clubInfo = DATA;
 
   return (
-    <main className="pt-[11.25rem] px-[2.5rem] py-[2.5rem] max-md:px-[1.25rem] max-md:py-[1.5rem] max-md:pt-[5.75rem]">
+    <main className="py-[11.25rem] px-[2.5rem]  max-md:px-[1.25rem] max-md:pb-[1.5rem] max-md:pt-[5.75rem]">
       <div className="max-md:py-[1.5rem] max-md:rounded-[1rem] max-md:bg-blue-50">
         {/* 모바일에서 보이는 탭메뉴 */}
         <div className="hidden max-md:block sticky bg-blue-50 top-[3.375rem] z-10">
@@ -79,7 +80,10 @@ export default async function page({
                 {/* <BoardsSection id={id} /> */}
 
                 {/* 게시판, 공지 상세 페이지 */}
-                <BoardDetail />
+                {/* <BoardDetail /> */}
+
+                {/* 게시판, 공지 등록 페이지 */}
+                <RegisterBoard />
               </>
             )}
           </section>
