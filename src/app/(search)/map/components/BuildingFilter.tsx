@@ -103,7 +103,7 @@ export default function BuildingFilter({
           <div className="flex items-center">
             <span className="mr-2">지역 선택</span>
             <Image
-              src="svg/map/arrow.svg"
+              src="/svg/map/arrow.svg"
               width={24}
               height={24}
               alt="화살표"
@@ -133,7 +133,7 @@ export default function BuildingFilter({
                   선택 초기화
                 </p>
                 <Image
-                  src="svg/reservation/reset.svg"
+                  src="/svg/reservation/reset.svg"
                   width={12}
                   height={12}
                   alt="필터 초기화"
@@ -142,7 +142,7 @@ export default function BuildingFilter({
               <Image
                 className="btn-hidden"
                 onClick={() => setSelectedRegion(false)}
-                src="svg/reservation/cancel.svg"
+                src="/svg/reservation/cancel.svg"
                 width={18}
                 height={18}
                 alt="취소"
@@ -213,7 +213,7 @@ export default function BuildingFilter({
       >
         <div className="flex items-center">
           <span className="mr-2 ">산업군</span>
-          <Image src="svg/map/arrow.svg" width={24} height={24} alt="화살표" />
+          <Image src="/svg/map/arrow.svg" width={24} height={24} alt="화살표" />
         </div>
       </div>
       {selectedIndustry && (
@@ -248,7 +248,7 @@ export default function BuildingFilter({
           <div className="flex items-center">
             <span className="mr-2">직군</span>
             <Image
-              src="svg/map/arrow.svg"
+              src="/svg/map/arrow.svg"
               width={24}
               height={24}
               alt="화살표"
