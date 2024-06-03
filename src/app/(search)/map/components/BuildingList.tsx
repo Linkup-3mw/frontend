@@ -38,15 +38,13 @@ export default function BuildingList({
       isUp ? 'mb:h-[43.25rem] mb:transition-all mb:duration-500 mb:ease-in-out' 
       : 'mb:h-[5.5rem] mb:transition-all mb:duration-500 mb:ease-in-out'
     }
-
-    md:fixed md:top-[110px] md:w-[30.6875rem] md:rounded-3xl md:shadow-2xl  md:right-[30px] md:bottom-5 flex flex-col bg-[#E4EEFF] md:h-[56.75rem]  z-10
-
+    md:fixed md:top-[110px] md:w-[30.6875rem] md:rounded-3xl md:shadow-2xl md:right-[30px] md:bottom-5 flex flex-col bg-[#E4EEFF] md:h-[56.75rem] z-10
           `}
       >
         <div className="pt-4 flex flex-col items-center mb-2 mx-auto">
           <BuildingFilter officeBuildings={officeBuildings} isUp={isUp}/>
         </div>
-        <div className="overflow-y-auto scrollbar-hide cursor-pointer  mt-3 ">
+        <div className="overflow-y-auto scrollbar-hide cursor-pointer mt-3 ">
           <BuildingItem officeBuildings={officeBuildings} />
         </div>
       </div>

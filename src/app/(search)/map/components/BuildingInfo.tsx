@@ -11,7 +11,8 @@ export default function BuildingInfo() {
   return (
     <>
       <div
-        className="hidden-md rounded-3xl flex flex-col  top-[110px] w-[30.6875rem] h-[56.75rem]  absolute ease-in duration-300 shadow-2xl right-[530px] bottom-5 z-10 bg-white p-0 m-0 
+        className="hidden-md mb:h-[43.25rem] mb:w-full md:w-[30.6875rem] md:h-[56.75rem] 
+        rounded-3xl flex flex-col top-[110px] absolute ease-in duration-300 shadow-2xl right-[530px] bottom-5 z-10 bg-white p-0 m-0 
        "
       >
         <div className="">
