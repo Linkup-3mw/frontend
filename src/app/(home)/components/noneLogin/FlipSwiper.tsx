@@ -26,7 +26,6 @@ export default function FlipSwiper() {
         spaceBetween={0}
         slidesPerView={'auto'}
         onSlideChange={handleChange}
-        onSwiper={(swiper) => console.log(swiper)}
         modules={[Autoplay]}
         breakpoints={{
           768: {

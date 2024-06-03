@@ -19,7 +19,7 @@ export default function MapPage() {
   const [currentBuilding, setCurrentBuilding] =
     useRecoilState(currentBuildingState);
   const [isUp, setIsUp] = useState(false);
-  const isMobile = useRecoilValue(mobileReservationLayoutState);
+
   useEffect(() => {
     const fetchBuildingsData = async () => {
       try {
@@ -27,7 +27,7 @@ export default function MapPage() {
           'http://localhost:8888/office_buildings',
         );
         const { data: buildings } = response;
-
+console.log(buildings)
         setOfficeBuildings(buildings);
       } catch (error) {}
     };
@@ -47,7 +47,7 @@ export default function MapPage() {
           <BuildingList
             officeBuildings={officeBuildings}
             isUp={isUp}
-            isMobile={isMobile}
+       
           />
           {currentBuilding && <BuildingInfo />}
         </div>

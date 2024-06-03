@@ -10,7 +10,7 @@ interface Props {
 const LoginCheckbox = ({ children, register }: Props) => {
   return (
     <>
-      <label className="inline-flex items-center">
+      <label className="inline-flex items-center max-md:text-[0.875rem]">
         <input
           type="checkbox"
           className="peer hide"

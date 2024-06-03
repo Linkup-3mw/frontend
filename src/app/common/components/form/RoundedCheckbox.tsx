@@ -1,4 +1,4 @@
-import { ChangeEvent } from 'react';
+import React, { ChangeEvent } from 'react';
 import CircleWithCheck from '../icons/CircleWithCheck';
 
 interface Props {
@@ -15,7 +15,7 @@ export default function RoundedCheckbox({
 }: Props) {
   return (
     <>
-      <label className="inline-flex items-center">
+      <label className="inline-flex items-center [&_>_span]:mr-[0.5rem] [&_>_span]:w-[2rem] [&_>_span]:h-[2rem] [&_>_span]:max-md:mr-[1rem] [&_>_span]:max-md:w-[1.66rem] [&_>_span]:max-md:h-[1.66rem]">
         <input
           type="checkbox"
           className="peer hide"
@@ -23,10 +23,10 @@ export default function RoundedCheckbox({
           checked={isChecked}
           name={name}
         />
-        <span className="peer-checked:inline-block hidden mr-[0.5rem] w-[2rem] h-[2rem]">
+        <span className="peer-checked:inline-block hidden ">
           <CircleWithCheck fillColor="#688AF2" />
         </span>
-        <span className="peer-checked:hidden inline-block mr-[0.5rem] w-[2rem] h-[2rem]">
+        <span className="peer-checked:hidden inline-block">
           <CircleWithCheck />
         </span>
         {children}

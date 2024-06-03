@@ -16,9 +16,6 @@ export default function OpenDeskMobile() {
   const [selectedSeatAll, setSelectedSeatAll] =
     useRecoilState(selectedSeatAllState);
   const [isUp, setIsUp] = useState(false);
-
-  const isMobile = useRecoilValue(mobileReservationLayoutState);
-  const minDesk = useRecoilState(minDeskLayoutState);
   const [seatList, setSeatList] = useRecoilState(seatListReservation);
 
   const setMobileConfirm = useSetRecoilState(mobileConfirmedState);
@@ -55,9 +52,10 @@ export default function OpenDeskMobile() {
 
   return (
     <>
-      <div className="hidden-desk w-[22.5rem]  mx-auto">
+      <div className="hidden-desk w-full mx-auto">
         <Image
           src="/images/office/1.jpeg"
+          layout="responsive"
           height={293}
           width={360}
           alt="요미"
@@ -65,7 +63,7 @@ export default function OpenDeskMobile() {
         <div className="">
           <div
             onClick={toggleUp}
-            className={`overflow-y-scroll scrollbar-hide flex flex-col items-center  pt-3 rounded-t-3xl  bg-[#E4EEFF] w-[22.5rem] transition-transform duration-1000 ${
+            className={`overflow-y-scroll scrollbar-hide flex flex-col items-center  pt-3 rounded-t-3xl  bg-[#E4EEFF] w-ful transition-transform duration-1000 ${
               isUp ? 'translate-y-[-120px]' : ''
             }`}
             style={{ height: isUp ? '42.25rem' : '42.25rem' }}
@@ -120,11 +118,18 @@ export default function OpenDeskMobile() {
                   </div>
                 </div>
                 <button
-                  className="w-[5.75rem] h-[2.5rem] bg-[#A3A3AF] rounded-lg text-white"
-                  onClick={handleSeatReady}
-                >
-                  확정
-                </button>
+                className={`w-[5.75rem] h-[2.5rem] rounded-lg text-white ${
+                  selectedSeatAll?.start_date &&
+                  selectedSeatAll?.type &&
+                  selectedSeatAll?.code
+                    ? 'bg-[#688AF2]'
+                    : 'bg-[#A3A3AF]'
+                }`}
+                onClick={handleSeatReady}
+              >
+                확정
+              </button>
+
               </div>
             </div>
           </div>

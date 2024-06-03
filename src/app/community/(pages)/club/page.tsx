@@ -4,7 +4,7 @@ import { Suspense } from 'react';
 export default function ClubPage() {
   return (
     <Suspense>
-      <Club></Club>
+      <Club />
     </Suspense>
   );
 }

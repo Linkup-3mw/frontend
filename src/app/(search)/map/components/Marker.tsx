@@ -31,7 +31,7 @@ export default function Marker({
                 <p class="font-bold text-lg">${office.location}</p>
                 <div class="bg-white text-black group-hover:block hidden items-center">
                   <div class="flex gap-1 items-center">
-                    <Image src="svg/map/star.svg" width={18} height={18} alt="별점이미지" />
+                    <Image src="/svg/map/star.svg" width={18} height={18} alt="별점이미지" />
                     <b>${office.avg_rating} (${office.review_count})</b>
                   </div>
                 </div>
@@ -41,7 +41,7 @@ export default function Marker({
                   <p class="text-xs">${office.traffic}</p>
                 </span>
                 <span class="flex gap-2 items-center text-gray-400">
-                  <Image src="svg/map/cow.svg" width={18} height={18} alt="소이미지" />
+                  <Image src="/svg/map/cow.svg" width={18} height={18} alt="소이미지" />
                   <span>소모임 ${office.club_count} 개</span>
                 </span>
                 <button class="absolute bottom-4 right-5 font-bold w-[4rem] h-[2rem] bg-[#688AF2] rounded-xl text-white">

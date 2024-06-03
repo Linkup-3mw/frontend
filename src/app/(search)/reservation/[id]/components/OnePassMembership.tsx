@@ -37,7 +37,7 @@ interface SeatReservation {
 
 export default function OnePassMembership({
   seatType,
-  spaceType,
+  spaceType
 }: OnePassMembershipProps) {
   const [RTab, setRTab] = useRecoilState(Rtab);
   const [seatList, setSeatList] = useRecoilState(seatListReservation);
@@ -53,7 +53,7 @@ export default function OnePassMembership({
   const content = `예약을 추가하려면 위에서 날짜와 좌석 유형을 선택해 주세요.
 당일권은 최대 5개까지 예약할 수 있습니다.`;
 
-  const info = useLineBreak({ content });
+
   const handleDayClick = (day: Date) => {
     setSelectedDate(day);
     setSelectedSeatAll({});
@@ -109,9 +109,10 @@ export default function OnePassMembership({
       borderRadius: '50%',
     },
   };
-
+  const info = useLineBreak({ content });
   return (
     <>
+    
       <div className="flex flex-col gap-6 mb-6">
         {RTab === '좌석' ? (
           <>

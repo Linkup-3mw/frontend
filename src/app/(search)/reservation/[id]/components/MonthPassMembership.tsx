@@ -358,8 +358,8 @@ export default function MonthPassMembership({
                             </div>
                           </div>
                           <div className="flex items-center">
-                            {!isMobile ? (
-                              <div className="">
+            
+                              <div className="hidden-desk hidden-md">
                                 <button
                                   className="rounded-lg w-[4.625rem] h-[2rem] text-sm text-white font-semibold bg-[#FF4163]"
                                   onClick={() => removeReservation(index)}
@@ -367,14 +367,16 @@ export default function MonthPassMembership({
                                   선택 취소
                                 </button>
                               </div>
-                            ) : (
-                              <button
-                                className="rounded-lg w-[1.75rem] h-[1.75rem] text-sm text-white font-semibold bg-[#FF4163]"
-                                onClick={() => removeReservation(index)}
-                              >
-                                X
-                              </button>
-                            )}
+                    <div className="hidden-360">
+                        <button
+                                    className=" rounded-lg w-[1.75rem] h-[1.75rem] text-sm text-white font-semibold bg-[#FF4163]"
+                                    onClick={() => removeReservation(index)}
+                                  >
+                                    X
+                                  </button>
+                    </div>
+                
+                     
                           </div>
                         </div>
                       </div>
