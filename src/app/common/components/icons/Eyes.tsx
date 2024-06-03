@@ -6,6 +6,7 @@ export const EyesOn = () => {
       height="32"
       viewBox="0 0 32 32"
       fill="none"
+      className="max-md:w-[1.5rem] max-md:h-[1.5rem]"
     >
       <circle cx="16" cy="16" r="5" stroke="#797986" strokeWidth="1.5" />
       <path
@@ -25,6 +26,7 @@ export const EyesOff = () => {
       height="32"
       viewBox="0 0 32 32"
       fill="none"
+      className="max-md:w-[1.5rem] max-md:h-[1.5rem]"
     >
       <path
         fillRule="evenodd"

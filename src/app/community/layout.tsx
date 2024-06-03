@@ -8,7 +8,9 @@ export default function layout({
 }>) {
   return (
     <div className="mt-[5rem]">
-      <CommunityNav />
+      <div className="max-md:hidden">
+        <CommunityNav />
+      </div>
       <div>{children}</div>
     </div>
   );

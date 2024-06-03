@@ -68,7 +68,7 @@ export default function CategoryDropdown() {
   }, []);
 
   return (
-    <div className="relative" ref={dropdownRef}>
+    <div className="relative z-10" ref={dropdownRef}>
       <button
         onClick={toggleDropdown}
         className="font-semibold text-lg bg-white px-2 h-[2.38rem] flex items-center justify-center rounded border border-gray-200"

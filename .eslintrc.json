@@ -1,7 +1,11 @@
 {
   "extends": [
     "next/core-web-vitals",
+<<<<<<< HEAD
+    "prettier",
+=======
     "eslint:recommended",
+>>>>>>> origin/dev
     "plugin:prettier/recommended"
   ],
   "plugins": ["prettier"],

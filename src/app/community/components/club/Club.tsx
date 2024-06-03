@@ -126,72 +126,127 @@ export default function Club() {
       ) : (
         <ContentWrap>
           <div className="bg-blue-50 rounded-2xl p-[2rem] relative z-10">
-            {menuSelection !== '찜' && menuSelection !== '내 소모임' && (
-              <div className="relative z-20">
-                <Dropdown
-                  options={dropdownOptions}
-                  selectedOption={selectedOption}
-                  onSelect={handleOptionSelect}
-                />
-              </div>
-            )}
-
-            {/* 전체, 찜, 내 소모임 */}
-            <MenuButtons
-              menuSelection={menuSelection}
-              handleMenuSelect={handleMenuSelect}
-            />
-
-            <div className="flex items-center justify-between mt-5 relative z-10">
-              <div className="flex items-center space-x-4">
-                {menuSelection === '내 소모임' ? (
-                  // 가입한 모든 모임, 승인 대기중인 모임, 모임 관리하기
-                  <MyClubMenu onSelect={handleSubMenuSelect} />
-                ) : (
-                  <>
-                    <CategoryDropdown />
-                    {menuSelection !== '찜' && <TeamExclusionButton />}
-                  </>
-                )}
-              </div>
-              <div className="flex items-center space-x-4">
-                <SearchInput />
-                <button
-                  className="bg-blue-400 text-white px-4 py-2 rounded-full"
-                  onClick={handleButtonClick}
-                >
-                  +
-                </button>
-              </div>
-            </div>
-
-            {/* 찜한 클럽 목록 또는 전체 소모임 목록 */}
-            {menuSelection === '찜' || menuSelection === '내 소모임' ? (
-              renderClubs(displayedClubs, totalItems, true)
-            ) : (
+            {menuSelection === '전체' && (
               <>
-                {currentPage === 1 && (
-                  <div className="">
-                    <div className="font-bold text-2xl mt-8">
-                      이 달의 인기 소모임!
+                <div className="relative z-20">
+                  <Dropdown
+                    options={dropdownOptions}
+                    selectedOption={selectedOption}
+                    onSelect={handleOptionSelect}
+                  />
+                </div>
+                {/* 전체, 찜, 내 소모임 메뉴 */}
+                <MenuButtons
+                  menuSelection={menuSelection}
+                  handleMenuSelect={handleMenuSelect}
+                />
+                <div className="md:flex items-center justify-between mt-5 relative z-10">
+                  <div className="flex items-center mb-4 md:mb-0">
+                    <div className="flex space-x-4">
+                      <CategoryDropdown />
+                      <TeamExclusionButton />
                     </div>
-                    {renderClubs(
-                      getPaginatedClubs(hotClubs.slice(0, 8)),
-                      hotClubs.length,
-                      false,
-                    )}
+                    <button
+                      className="md:hidden bg-blue-400 text-white px-4 py-2 rounded-full ml-auto"
+                      onClick={handleButtonClick}
+                    >
+                      +
+                    </button>
                   </div>
-                )}
-                {currentPage === 1 && (
-                  <div className="font-bold text-2xl pt-20 leading-none">
-                    전체 소모임
+                  <div className="flex items-center space-x-4">
+                    <SearchInput />
+                    <button
+                      className="bg-blue-400 text-white px-4 py-2 rounded-full hidden md:flex"
+                      onClick={handleButtonClick}
+                    >
+                      +
+                    </button>
                   </div>
-                )}
-                {renderClubs(
-                  getPaginatedClubs(allClubs),
-                  allClubs.length,
-                  true,
-                )}
+                </div>
+                <div>
+                  {currentPage === 1 && (
+                    <div className="md:block hidden">
+                      <div className="font-bold text-2xl mt-8">
+                        이 달의 인기 소모임!
+                      </div>
+                      {renderClubs(
+                        getPaginatedClubs(hotClubs.slice(0, 8)),
+                        hotClubs.length,
+                        false,
+                      )}
+                    </div>
+                  )}
+                  {currentPage === 1 && (
+                    <div className="font-bold text-2xl pt-20 leading-none md:block hidden">
+                      전체 소모임
+                    </div>
+                  )}
+                  <div>{renderClubs(displayedClubs, totalItems, true)}</div>
+                </div>
+              </>
+            )}
+            {menuSelection === '찜' && (
+              <>
+                {/* 전체, 찜, 내 소모임 메뉴 */}
+                <MenuButtons
+                  menuSelection={menuSelection}
+                  handleMenuSelect={handleMenuSelect}
+                />
+                <div className="md:flex items-center justify-between mt-5 relative z-10">
+                  <div className="flex items-center mb-4 md:mb-0">
+                    <div className="flex space-x-4">
+                      <CategoryDropdown />
+                    </div>
+                    <button
+                      className="md:hidden bg-blue-400 text-white px-4 py-2 rounded-full ml-auto"
+                      onClick={handleButtonClick}
+                    >
+                      +
+                    </button>
+                  </div>
+                  <div className="flex items-center space-x-4">
+                    <SearchInput />
+                    <button
+                      className="bg-blue-400 text-white px-4 py-2 rounded-full hidden md:flex"
+                      onClick={handleButtonClick}
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+                <div>{renderClubs(displayedClubs, totalItems, true)}</div>
+              </>
+            )}
+            {menuSelection === '내 소모임' && (
+              <>
+                {/* 전체, 찜, 내 소모임 메뉴 */}
+                <MenuButtons
+                  menuSelection={menuSelection}
+                  handleMenuSelect={handleMenuSelect}
+                />
+                <div className="md:flex items-center justify-between mt-5 relative z-10">
+                  <div className="flex items-center mb-4 md:mb-0">
+                    <div className="flex space-x-4">
+                      <MyClubMenu onSelect={handleSubMenuSelect} />
+                    </div>
+                    <button
+                      className="md:hidden bg-blue-400 text-white px-4 py-2 rounded-full ml-auto"
+                      onClick={handleButtonClick}
+                    >
+                      +
+                    </button>
+                  </div>
+                  <div className="flex items-center space-x-4">
+                    <SearchInput />
+                    <button
+                      className="bg-blue-400 text-white px-4 py-2 rounded-full hidden md:flex"
+                      onClick={handleButtonClick}
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+                <div>{renderClubs(displayedClubs, totalItems, true)}</div>
               </>
             )}
           </div>

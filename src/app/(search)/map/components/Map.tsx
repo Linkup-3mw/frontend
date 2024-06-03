@@ -39,7 +39,8 @@ export default function MapCompnent({ lat, lng, zoom }: MapProps) {
         src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_CLIENT}&autoload=false`}
         onReady={loadKakaoMap}
       />
-      <div id="map" className="w-full relative h-[calc(100vh_-_5rem)]"></div>
+      {/* h-[calc(100vh_-_5rem)] */}
+      <div id="map" className="w-full relative h-screen"></div>
     </>
   );
 }

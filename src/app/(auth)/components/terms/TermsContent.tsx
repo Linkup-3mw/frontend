@@ -48,14 +48,16 @@ export default memo(function TermsContent({
     }
   };
   return (
-    <div className="mb-[2rem]">
-      <div className="mb-[1.5rem]">
+    <div className="mb-[2rem] max-md:mb-[2rem]">
+      <div className="mb-[1.5rem] max-md:mb-[1rem]">
         <RoundedCheckbox
           name="all"
           onChange={handleChange}
           isChecked={data.filter((item) => item.isChecked !== true).length < 1}
         >
-          <b className="text-[1.25rem]">{title}</b>
+          <b className="inline-block text-[1.25rem] max-md:text-[0.875rem]">
+            {title}
+          </b>
         </RoundedCheckbox>
       </div>
 
@@ -71,7 +73,10 @@ export default memo(function TermsContent({
           );
         } else {
           return (
-            <div className="mb-[1rem]" key={term.id}>
+            <div
+              className="mb-[1rem] max-md:mb-[0.5rem] max-md:text-[0.729rem]"
+              key={term.id}
+            >
               <Checkbox
                 onChange={handleChange}
                 name={term.id}

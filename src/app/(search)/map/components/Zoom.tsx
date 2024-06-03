@@ -17,7 +17,7 @@ export default function Zoom() {
     }
   };
   return (
-    <div className="fixed left-10 top-60 z-[1000] flex flex-col">
+    <div className="fixed left-10 top-60 z-[10] flex flex-col">
       <button
         onClick={() => handleZoomIn()}
         type="button"

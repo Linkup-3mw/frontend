@@ -4,7 +4,9 @@ import ReviewInfo from './ReviewInfo';
 import ClubInfo from './ClubInfo';
 import { useLineBreak } from '../hooks/useLineBreak';
 import Link from 'next/link';
-
+import Image from 'next/image';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { currentBuildingState } from '../../atom/search';
 interface OfficeBuildingServiceViewProps {
   currentBuilding: OfficeBuilding | null;
 }
@@ -19,14 +21,26 @@ export default function BuildingServiceView({
   const id = building?.id;
   const officeDetail = currentBuilding?.office_detail;
 
+const setCurrentBuilding = useSetRecoilState(currentBuildingState)
+
   return (
     <>
       <>
-        <div className="flex flex-col gap-y-3 w-[26.6875rem] m-6">
+        <div className="flex flex-col gap-y-3 mb:w-[20.5rem] md:w-[26.6875rem] my-6 mx-auto">
+          <div className='flex justify-between items-center mx-2'> 
           <p className="text-black text-lg font-bold leading-[1.75rem]">
-            기본 정보
-          </p>
-          <div className="bg-white rounded-lg shadow-md p-4">
+            {building?.location}
+          </p>      
+          <Image
+                className="btn-hidden"
+                onClick={() => setCurrentBuilding(null)}
+                src="/svg/reservation/cancel.svg"
+                width={24}
+                height={24}
+                alt="취소"
+              />
+          </div>
+          <div className="bg-white rounded-lg shadow-md p-4 md:w-[26.6875rem] mb:w-full">
             <div className="text-gray-800">
               {building?.region} {building?.city} {building?.adress}
             </div>
@@ -47,76 +61,73 @@ export default function BuildingServiceView({
             </div>
           </div>
 
-          <div className="flex flex-col">
-            <p className="text-lg font-bold  leading-[1.75rem]">좌석 유형</p>
-            <div className="flex h-[8.5rem] gap-4 rounded-lg justify-start items-center">
-              <div className="flex flex-col items-center bg-white w-[5.92188rem] h-[6.125rem] rounded-lg shadow-md justify-center">
+          <div className="flex flex-col md:w-full mb:w-full">
+            <p className="mb:text-[1rem] md:text-lg font-bold leading-[1.75rem] ">좌석 유형</p>
+            <div className="flex mb:h-[6.5rem] md:h-[8.5rem] gap-4 rounded-lg justify-start items-center">
+              <div className="flex flex-col items-center bg-white mb:w-[4.75rem] md:w-[5.92188rem] mb:h-[4.5625rem] md:h-[6.125rem] rounded-lg shadow-md justify-center">
                 <div className="w-[3rem] h-[3rem] bg-gray-400 mb-2"></div>
                 <p className="text-gray-700 text-center text-sm">오픈데스크</p>
               </div>
-              <div className="flex flex-col items-center bg-white w-[5.92188rem] h-[6.125rem] rounded-lg shadow-md justify-center">
+              <div className="flex flex-col items-center bg-white mb:w-[4.75rem] md:w-[5.92188rem] mb:h-[4.5625rem] md:h-[6.125rem] rounded-lg shadow-md justify-center">
                 <div className="w-[3rem] h-[3rem] bg-gray-400 mb-2"></div>
                 <p className="text-gray-700 text-center text-sm">오픈데스크</p>
               </div>
-              <div className="flex flex-col items-center bg-white w-[5.92188rem] h-[6.125rem] rounded-lg shadow-md justify-center">
+              <div className="flex flex-col items-center bg-white mb:w-[4.75rem] md:w-[5.92188rem] mb:h-[4.5625rem] md:h-[6.125rem] rounded-lg shadow-md justify-center">
                 <div className="w-[3rem] h-[3rem] bg-gray-400 mb-2"></div>
                 <p className="text-gray-700 text-center text-sm">오픈데스크</p>
               </div>
-              <div className="flex flex-col items-center bg-white w-[5.92188rem] h-[6.125rem] rounded-lg shadow-md justify-center">
-                <div className="w-[3rem] h-[3rem] bg-gray-400 mb-2"></div>
-                <p className="text-gray-700 text-center text-sm">오픈데스크</p>
-              </div>
-            </div>
-
-            <p className="text-lg font-bold leading-[1.75rem]">공간 유형</p>
-            <div className="flex h-[8.5rem] gap-4 rounded-lg justify-start items-center">
-              <div className="flex flex-col items-center bg-white w-[5.92188rem] h-[6.125rem] rounded-lg shadow-md justify-center">
+              <div className="flex flex-col items-center bg-white mb:w-[4.75rem] md:w-[5.92188rem] mb:h-[4.5625rem] md:h-[6.125rem] rounded-lg shadow-md justify-center">
                 <div className="w-[3rem] h-[3rem] bg-gray-400 mb-2"></div>
                 <p className="text-gray-700 text-center text-sm">오픈데스크</p>
               </div>
             </div>
 
-            <p className="text-lg font-bold leading-[1.75rem] mb-4">편의시설</p>
-            <div className="flex flex-wrap  gap-4 rounded-lg justify-start items-center">
-              <div className="flex flex-col items-center bg-white w-[5.92188rem] h-[6.125rem] rounded-lg shadow-md justify-center">
+            <p className="mb:text-[1rem] md:text-lg font-bold leading-[1.75rem] ">공간 유형</p>
+            <div className="flex mb:h-[6.5rem] md:h-[8.5rem] gap-4 rounded-lg justify-start items-center">
+              <div className="flex flex-col items-center bg-white mb:w-[4.75rem] md:w-[5.92188rem] mb:h-[4.5625rem] md:h-[6.125rem] rounded-lg shadow-md justify-center">
                 <div className="w-[3rem] h-[3rem] bg-gray-400 mb-2"></div>
                 <p className="text-gray-700 text-center text-sm">오픈데스크</p>
               </div>
-              <div className="flex flex-col items-center bg-white w-[5.92188rem] h-[6.125rem] rounded-lg shadow-md justify-center">
+              <div className="flex flex-col items-center bg-white mb:w-[4.75rem] md:w-[5.92188rem] mb:h-[4.5625rem] md:h-[6.125rem] rounded-lg shadow-md justify-center">
                 <div className="w-[3rem] h-[3rem] bg-gray-400 mb-2"></div>
                 <p className="text-gray-700 text-center text-sm">오픈데스크</p>
               </div>
-              <div className="flex flex-col items-center bg-white w-[5.92188rem] h-[6.125rem] rounded-lg shadow-md justify-center">
+              <div className="flex flex-col items-center bg-white mb:w-[4.75rem] md:w-[5.92188rem] mb:h-[4.5625rem] md:h-[6.125rem] rounded-lg shadow-md justify-center">
                 <div className="w-[3rem] h-[3rem] bg-gray-400 mb-2"></div>
                 <p className="text-gray-700 text-center text-sm">오픈데스크</p>
               </div>
-              <div className="flex flex-col items-center bg-white w-[5.92188rem] h-[6.125rem] rounded-lg shadow-md justify-center">
+              <div className="flex flex-col items-center bg-white mb:w-[4.75rem] md:w-[5.92188rem] mb:h-[4.5625rem] md:h-[6.125rem] rounded-lg shadow-md justify-center">
                 <div className="w-[3rem] h-[3rem] bg-gray-400 mb-2"></div>
                 <p className="text-gray-700 text-center text-sm">오픈데스크</p>
               </div>
-              <div className="flex flex-col items-center bg-white w-[5.92188rem] h-[6.125rem] rounded-lg shadow-md justify-center">
+            </div>
+
+            <p className="mb:text-[1rem] md:text-lg font-bold leading-[1.75rem] ">편의시설</p>
+            <div className="flex mb:h-[6.5rem] md:h-[8.5rem] gap-4 rounded-lg justify-start items-center">
+              <div className="flex flex-col items-center bg-white mb:w-[4.75rem] md:w-[5.92188rem] mb:h-[4.5625rem] md:h-[6.125rem] rounded-lg shadow-md justify-center">
                 <div className="w-[3rem] h-[3rem] bg-gray-400 mb-2"></div>
                 <p className="text-gray-700 text-center text-sm">오픈데스크</p>
               </div>
-              <div className="flex flex-col items-center bg-white w-[5.92188rem] h-[6.125rem] rounded-lg shadow-md justify-center">
+              <div className="flex flex-col items-center bg-white mb:w-[4.75rem] md:w-[5.92188rem] mb:h-[4.5625rem] md:h-[6.125rem] rounded-lg shadow-md justify-center">
                 <div className="w-[3rem] h-[3rem] bg-gray-400 mb-2"></div>
                 <p className="text-gray-700 text-center text-sm">오픈데스크</p>
               </div>
-              <div className="flex flex-col items-center bg-white w-[5.92188rem] h-[6.125rem] rounded-lg shadow-md justify-center">
+              <div className="flex flex-col items-center bg-white mb:w-[4.75rem] md:w-[5.92188rem] mb:h-[4.5625rem] md:h-[6.125rem] rounded-lg shadow-md justify-center">
                 <div className="w-[3rem] h-[3rem] bg-gray-400 mb-2"></div>
                 <p className="text-gray-700 text-center text-sm">오픈데스크</p>
               </div>
-              <div className="flex flex-col items-center bg-white w-[5.92188rem] h-[6.125rem] rounded-lg shadow-md justify-center">
+              <div className="flex flex-col items-center bg-white mb:w-[4.75rem] md:w-[5.92188rem] mb:h-[4.5625rem] md:h-[6.125rem] rounded-lg shadow-md justify-center">
                 <div className="w-[3rem] h-[3rem] bg-gray-400 mb-2"></div>
                 <p className="text-gray-700 text-center text-sm">오픈데스크</p>
               </div>
+              
             </div>
           </div>
 
-          <p className="text-lg font-bold leading-[1.75rem]">
+          <p className="mb:text-[1rem] md:text-lg font-bold leading-[1.75rem]">
             해당 지점 직무/산업군 비율
           </p>
-          <div className="flex  gap-4">
+          <div className="flex gap-4 mx-auto">
             <Crt />
           </div>
           <div>
@@ -125,8 +136,8 @@ export default function BuildingServiceView({
           <div>
             <ClubInfo />
           </div>
-          <p>이용 규칙</p>
-          <div className="bg-white h-[6.75rem] rounded-2xl flex items-center justify-center">
+          <p className="mb:text-[1rem] md:text-lg font-bold leading-[1.75rem]">이용 규칙</p>
+          <div className="mb:p-4 md:py-6 md:px-8 bg-white flex flex-col justify-start mb:text-[0.75rem] md:text-[1rem] mb:h-[4.8125rem] md:h-[6.75rem] rounded-2xl ">
             {rules}
           </div>
           <Link href={`/reservation/${id}`}>
