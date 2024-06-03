@@ -18,7 +18,7 @@ export default function Crt() {
 
   return (
     <>
-      <div className="flex justify-center items-center w-[12.84375rem] h-[13.125rem] bg-white p-1 rounded-3xl">
+      <div className="flex justify-center items-center mb:w-[10rem] md:w-[12.84375rem] h-[13.125rem] bg-white p-1 rounded-3xl">
         <div className="w-[10.84375rem] h-[11.125rem]">
           <div className="w-[8.5rem] h-[8.5rem] mx-auto">
             <Doughnut data={chartData} />
@@ -35,7 +35,7 @@ export default function Crt() {
           </div>
         </div>
       </div>
-      <div className="flex justify-center items-center w-[12.84375rem] h-[13.125rem] bg-white p-1 rounded-3xl">
+      <div className="flex justify-center items-center mb:w-[10rem] md:w-[12.84375rem] h-[13.125rem] bg-white p-1 rounded-3xl">
         <div className="w-[10.84375rem] h-[11.125rem]">
           <div className="w-[8.5rem] h-[8.5rem] mx-auto">
             <Doughnut data={chartData} />

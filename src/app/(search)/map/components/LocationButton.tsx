@@ -51,7 +51,7 @@ export default function CurrentLocationButton() {
       <button
         type="button"
         onClick={handleCurrentPosition}
-        className="fixed z-[1000] w-[2.5rem] h-[2.5rem] p-2 shadow left-10 top-40 bg-white rounded-md hover:shadow-lg focus:shadow-lg hover:bg-blue-200"
+        className="fixed z-[10] w-[2.5rem] h-[2.5rem] p-2 shadow left-10 top-40 bg-white rounded-md hover:shadow-lg focus:shadow-lg hover:bg-blue-200"
       >
         <Image
           src="/svg/map/geolocation.svg"
