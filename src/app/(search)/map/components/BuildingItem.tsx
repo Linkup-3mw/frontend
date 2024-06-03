@@ -1,23 +1,30 @@
 import { OfficeBuilding } from '@/types/office/office';
 import { currentBuildingState } from '../../atom/search';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useState } from 'react';
 import Image from 'next/image';
 
 interface BuildingItemProps {
   officeBuildings: OfficeBuilding[] | null;
 }
 export default function BuildingItem({ officeBuildings }: BuildingItemProps) {
+  const [showInfo, setShowInfo] = useState(false);
   const setCurrentBuilding = useSetRecoilState<OfficeBuilding | null>(
     currentBuildingState,
   );
 
+  
   return (
     <>
       {officeBuildings?.map((office, index) => (
         <div
           key={index}
           className="flex justify-center px-2 py-2 rounded-sm z-40 "
-          onClick={() => setCurrentBuilding(office)}
+          onClick={() => {
+            setCurrentBuilding(office);
+            setShowInfo(true);
+          }}
+          
         >
           <div className="flex gap-5  p-4 items-center bg-white rounded-md active:bg-blue-500 active:rounded-md active:text-white">
             <div>

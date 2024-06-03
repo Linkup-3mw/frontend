@@ -55,7 +55,7 @@ export default function OpenDeskMobile() {
 
   return (
     <>
-      <div className="hidden-desk w-[22.5rem]  mx-auto">
+      <div className="hidden-desk w-full mx-auto">
         <Image
           src="/images/office/1.jpeg"
           height={293}
@@ -65,7 +65,7 @@ export default function OpenDeskMobile() {
         <div className="">
           <div
             onClick={toggleUp}
-            className={`overflow-y-scroll scrollbar-hide flex flex-col items-center  pt-3 rounded-t-3xl  bg-[#E4EEFF] w-[22.5rem] transition-transform duration-1000 ${
+            className={`overflow-y-scroll scrollbar-hide flex flex-col items-center  pt-3 rounded-t-3xl  bg-[#E4EEFF] w-ful transition-transform duration-1000 ${
               isUp ? 'translate-y-[-120px]' : ''
             }`}
             style={{ height: isUp ? '42.25rem' : '42.25rem' }}

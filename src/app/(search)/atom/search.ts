@@ -14,3 +14,7 @@ export const currentBuildingState = atom<OfficeBuilding | null>({
   key: 'currentBuilding',
   default: null,
 });
+export const showInfoState = atom<boolean> ({
+  key: 'showInfo',
+  default: false
+})
