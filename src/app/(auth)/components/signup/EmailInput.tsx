@@ -111,8 +111,8 @@ export default function EmailInput({
         isVerify
           ? '인증이 완료되었습니다.'
           : '' || isLoading
-          ? '잠시만 기다려 주세요.'
-          : ''
+            ? '잠시만 기다려 주세요.'
+            : ''
       }
     >
       <span className="block relative">
