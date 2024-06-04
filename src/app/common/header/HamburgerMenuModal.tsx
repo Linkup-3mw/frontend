@@ -76,7 +76,7 @@ export default function HamburgerMenuModal({
   if (!isOpen) return null;
 
   return (
-    <div className="bg-white min-w-[20rem] absolute mb:top-[3rem] md:top-[4rem] top-[3.5rem] right-0 font-bold rounded-xl shadow-lg">
+    <div className="bg-white md:w-[25rem] w-[20rem] absolute mb:top-[3rem] md:top-[4rem] top-[3.5rem] right-0 font-bold rounded-xl shadow-lg">
       <div
         className="text-xl pr-6 pt-3 absolute top-0 right-0 cursor-pointer"
         onClick={() => onClose()}
@@ -94,7 +94,7 @@ export default function HamburgerMenuModal({
           </div>
         </div>
       ) : (
-        <div className="overflow-y-auto max-mb:max-h-[90vh] max-h-[80vh]">
+        <div className="overflow-y-auto max-mb:h-[90vh] max-h-[80vh]">
           <MenuItems />
         </div>
       )}
