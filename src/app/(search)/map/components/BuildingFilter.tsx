@@ -1,13 +1,15 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { OfficeBuilding } from '@/types/office/office';
 import Image from 'next/image';
 
 interface BuildingFilterProps {
   officeBuildings: OfficeBuilding[] | null;
+  isUp: boolean
+  
 }
 
 export default function BuildingFilter({
-  officeBuildings,
+  officeBuildings, isUp
 }: BuildingFilterProps) {
   const [selectedRegion, setSelectedRegion] = useState(false);
   const [selectedIndustry, setSelectedIndustry] = useState(false);
@@ -59,6 +61,13 @@ export default function BuildingFilter({
     '사무지원',
     '기타',
   ];
+  useEffect(() => {
+    if(!isUp) {
+      setSelectedRegion(false);
+      setSelectedIndustry(false);
+      setSelectedOccupation(false)
+    }
+  })
   const handleRegionClick = () => {
     setSelectedRegion(!selectedRegion);
     setSelectedIndustry(false);
@@ -78,7 +87,7 @@ export default function BuildingFilter({
   };
 
   return (
-    <div className="flex gap-2 w-[26.6875rem] items-center">
+    <div className="justify-center mb:pl-4 flex gap-2 md:pl-0 mb:w-[22.5rem] md:w-[26.6875rem] items-center ">
       <div
         className={`bg-white rounded-t-md ${
           selectedRegion
@@ -88,12 +97,14 @@ export default function BuildingFilter({
       >
         <div
           onClick={handleRegionClick}
-          className="flex w-[10.0625rem] h-[2.5rem] rounded-md items-center justify-center cursor-pointer shadow-md transition-all duration-1000"
+          className="flex mx-auto
+          mb:w-[6.5625rem] mb:h-[2rem] mb:text-[0.75rem]  
+          md:text-[1rem] md:w-[10.0625rem] md:h-[2.5rem] rounded-md items-center justify-center cursor-pointer shadow-md transition-all duration-1000"
         >
           <div className="flex items-center">
             <span className="mr-2">지역 선택</span>
             <Image
-              src="svg/map/arrow.svg"
+              src="/svg/map/arrow.svg"
               width={24}
               height={24}
               alt="화살표"
@@ -104,9 +115,9 @@ export default function BuildingFilter({
       {selectedRegion && (
         <div
           className="
-        md:absolute md:top-[80px] md:left-7 md:right-0 md:bottom-0 md:w-[26.6875rem] md:h-[30rem]
-        mb:w-[20.5rem] mb:h-[22.25rem] mb:fixed p-4 mb:top-20 mb:left-5 mb:right-0 mb:bottom-0 
-        bg-white z-50 shadow-lg rounded-xl border border-gray-300"
+        md:absolute md:top-[70px] md:w-[26.6875rem] md:h-[30rem]
+        mb:absolute mb:w-[20.5rem] mb:h-[22.25rem] p-4 mb:top-[70px] 
+        bg-white z-50 shadow-lg rounded-xl border border-gray-300 transform -translate-x-1 -translate-y-1"
         >
           <div className="flex justify-between items-center">
             <h1
@@ -116,14 +127,14 @@ export default function BuildingFilter({
             >
               강남
             </h1>
-            
+            
             <div className="flex gap-5 items-center">
               <div className="flex gap-2 items-center">
                 <p className="font-normal md:text-sm mb:text-[0.625rem]">
                   선택 초기화
                 </p>
                 <Image
-                  src="svg/reservation/reset.svg"
+                  src="/svg/reservation/reset.svg"
                   width={12}
                   height={12}
                   alt="필터 초기화"
@@ -132,7 +143,7 @@ export default function BuildingFilter({
               <Image
                 className="btn-hidden"
                 onClick={() => setSelectedRegion(false)}
-                src="svg/reservation/cancel.svg"
+                src="/svg/reservation/cancel.svg"
                 width={18}
                 height={18}
                 alt="취소"
@@ -195,15 +206,22 @@ export default function BuildingFilter({
       )}
       <div
         onClick={handleSanupkunClick}
-        className="w-[7.8125rem] h-[2.5rem] text-gray-400 bg-white rounded-md flex items-center justify-center cursor-pointer shadow-md transition-all duration-300"
+        className="mb:w-[5.1875rem] mb:h-[2rem] 
+        mb:text-[0.75rem] 
+          
+        md:text-[1rem] 
+        md:w-[7.8125rem] md:h-[2.5rem] text-gray-400 bg-white rounded-md flex items-center justify-center cursor-pointer shadow-md transition-all duration-300"
       >
         <div className="flex items-center">
-          <span className="mr-2 ">산업군 선택</span>
-          <Image src="svg/map/arrow.svg" width={24} height={24} alt="화살표" />
+          <span className="mr-2 ">산업군</span>
+          <Image src="/svg/map/arrow.svg" width={24} height={24} alt="화살표" />
         </div>
       </div>
       {selectedIndustry && (
-        <div className="absolute p-4 top-20 bg-white w-[26.6875rem] h-[27rem] z-50 shadow-lg rounded-md border border-gray-300">
+        <div className="
+        md:absolute md:top-[70px] md:w-[26.6875rem] md:h-[30rem]
+        mb:absolute mb:w-[20.5rem] mb:h-[22.25rem] p-4 mb:top-[70px] 
+        bg-white z-50 shadow-lg rounded-xl border border-gray-300 transform -translate-x-1 -translate-y-1">
           <h1
             className="
                    mb:text-[1rem] md:font-bold
@@ -216,7 +234,8 @@ export default function BuildingFilter({
           <ul className="p-2 grid grid-cols-4 gap-4">
             {Industry.map((industry) => (
               <li key={industry}>
-                <button className="bg-white border-2 w-full rounded-md">
+                <button className="md:w-[5.25rem] md:h-[3rem] mb:w-[4.25rem] mb:h-[2rem] bg-white border-2 rounded-xl
+                mb:text-xs md:text-[1rem]">
                   {industry}
                 </button>
               </li>
@@ -227,12 +246,14 @@ export default function BuildingFilter({
       <div className="relative">
         <div
           onClick={handleJickunClick}
-          className="w-[7.8125rem] h-[2.5rem] text-gray-400 bg-white rounded-md flex items-center justify-center cursor-pointer shadow-md transition-all duration-300"
+          className="mb:w-[5.1875rem] mb:h-[2rem] mb:text-[0.75rem] 
+          
+          md:text-[1rem] md:w-[7.8125rem] md:h-[2.5rem] text-gray-400 bg-white rounded-md flex items-center justify-center cursor-pointer shadow-md transition-all duration-300"
         >
           <div className="flex items-center">
-            <span className="mr-2">직군 선택</span>
+            <span className="mr-2">직군</span>
             <Image
-              src="svg/map/arrow.svg"
+              src="/svg/map/arrow.svg"
               width={24}
               height={24}
               alt="화살표"
@@ -241,7 +262,10 @@ export default function BuildingFilter({
         </div>
       </div>
       {selectedOccupation && (
-        <div className="absolute p-4 top-20 bg-white w-[26.6875rem] h-[27rem] z-50 shadow-lg rounded-md border border-gray-300">
+        <div className="
+        md:absolute md:top-[70px] md:w-[26.6875rem] md:h-[30rem]
+        mb:absolute mb:w-[20.5rem] mb:h-[22.25rem] p-4 mb:top-[70px] 
+        bg-white z-50 shadow-lg rounded-xl border border-gray-300 transform -translate-x-1 -translate-y-1">
           <h1
             className="
                    mb:text-[1rem] md:font-bold
@@ -253,7 +277,8 @@ export default function BuildingFilter({
           <ul className="p-2 grid grid-cols-4 gap-4">
             {Occupation.map((occupation) => (
               <li key={occupation}>
-                <button className="bg-white border-2 w-full rounded-md">
+                <button className="md:w-[5.25rem] md:h-[3rem] mb:w-[4.25rem] mb:h-[2rem] bg-white border-2 rounded-xl
+                mb:text-xs md:text-[1rem]">
                   {occupation}
                 </button>
               </li>
@@ -261,6 +286,8 @@ export default function BuildingFilter({
           </ul>
         </div>
       )}
+         <div className="border-t border-blue-500 md:my-2 mb:my-1"></div>
     </div>
+    
   );
 }

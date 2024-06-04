@@ -13,7 +13,7 @@
     display: none;
   }
 }
-@media (max-width: 400px) {
+@media (max-width: 766px) {
   .btn-hidden {
     display: block;
   }
@@ -24,7 +24,7 @@
     display: none;
   }
 }
-@media (max-width: 360px) {
+@media (max-width: 766px) {
   .hidden-md {
     display: block;
   }

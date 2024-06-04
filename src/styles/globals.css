@@ -7,31 +7,6 @@ button {
   cursor: pointer;
 }
 
-@media (min-width: 768px) and (max-width: 920px) {
-
-  html,
-  body {
-    font-size: 11px;
-  }
-
-}
-
-@media (min-width: 921px) and (max-width: 1024px) {
-
-  html,
-  body {
-    font-size: 12px;
-  }
-}
-
-@media (min-width: 1025px) and (max-width: 1280px) {
-
-  html,
-  body {
-    font-size: 13px;
-  }
-}
-
 .hide {
   @apply overflow-hidden block absolute border-0 w-0 h-0;
 }
@@ -57,4 +32,60 @@ input:-webkit-autofill {
 
 .overflow-hidden {
   overflow: hidden;
+}
+
+/* scrollbar custom */
+* {
+  scrollbar-color: #b9b9c3 transparent;
+  scrollbar-width: thin;
+}
+
+*::-webkit-scrollbar {
+  width: 5px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #b9b9c3;
+}
+
+*::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+/* 텍스트...처리 */
+.dot_three {
+  @apply overflow-hidden text-ellipsis whitespace-nowrap;
+}
+
+.two_line_dot_three {
+  @apply overflow-hidden text-ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+/* 반응형 (rem기준 px) */
+@media (min-width: 768px) and (max-width: 920px) {
+
+  html,
+  body {
+    font-size: 11px;
+  }
+
+}
+
+@media (min-width: 921px) and (max-width: 1024px) {
+
+  html,
+  body {
+    font-size: 12px;
+  }
+}
+
+@media (min-width: 1025px) and (max-width: 1280px) {
+
+  html,
+  body {
+    font-size: 13px;
+  }
 }

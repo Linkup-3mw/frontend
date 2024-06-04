@@ -67,7 +67,6 @@ export const authOptions: NextAuthOptions = {
   },
   jwt: {
     secret: process.env.JWT_SECRET,
-    maxAge: 60 * 60,
   },
   callbacks: {
     async jwt({ user, token }: any) {
@@ -113,8 +112,14 @@ async function refreshAccessToken(token: JWT) {
   try {
     const res = await getNewAccessToken(token.accessToken as string);
 
-    token.expiresAt = (Date.now() + EXPIRES_AT * 1000) as number;
-    token.accessToken = res?.data.data;
+    if (res?.status === 200) {
+      token.expiresAt = Math.floor(Date.now() + EXPIRES_AT * 1000) as number;
+      console.log('Access token issuance completed!!');
+      token.accessToken = res?.data.data;
+    } else if (res?.status === 403) {
+      console.log(res.data);
+      throw new Error('Access token issuance failure 403');
+    }
 
     return token;
   } catch (e: any) {
