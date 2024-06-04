@@ -11,6 +11,7 @@ import {
 } from '@/app/community/constants/clubDetail';
 import BoardDetail from '@/app/community/components/club/clubDetail/BoardDetail';
 import RegisterBoard from '@/app/community/components/club/clubDetail/RegisterBoard';
+import MeetingRegister from '@/app/community/components/club/clubDetail/MeetingRegister';
 // import { getClubDetail } from '@/app/service/club';
 
 interface Props {
@@ -22,7 +23,7 @@ interface Props {
 
 //임시값 - 가입되어있는 사용자
 export type ClubMemberType = 'none_member' | 'member' | 'host' | 'admin';
-const userType: ClubMemberType = 'member';
+const userType: ClubMemberType = 'none_member';
 
 export default async function page({
   params: { id },
@@ -44,7 +45,7 @@ export default async function page({
       ${
         userType === 'none_member'
           ? 'max-md:[&_>_section]:min-h-0 max-md:[&_>_section]:h-[calc(100vh_-_16.6225rem)] max-md:[&_>_section]:overflow-y-auto'
-          : 'max-md:[&_>_section]:min-h-0 max-md:[&_>_section]:h-auto max-md:[&_>_section]:overflow-y-visible'
+          : '[&_>_section]:max-md:max-h-[initial] max-md:[&_>_section]:min-h-0 max-md:[&_>_section]:h-auto max-md:[&_>_section]:overflow-y-visible'
       }
       `}
         >
@@ -77,13 +78,16 @@ export default async function page({
               <NoneMemberBoardsSection id={id} />
             ) : (
               <>
-                {/* <BoardsSection id={id} /> */}
+                <BoardsSection id={id} />
 
                 {/* 게시판, 공지 상세 페이지 */}
                 {/* <BoardDetail /> */}
 
                 {/* 게시판, 공지 등록 페이지 */}
-                <RegisterBoard />
+                {/* <RegisterBoard /> */}
+
+                {/* 정모 등록 페이지 */}
+                {/* <MeetingRegister /> */}
               </>
             )}
           </section>

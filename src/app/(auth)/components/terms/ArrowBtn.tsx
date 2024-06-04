@@ -1,14 +1,21 @@
 interface Props {
   handleClick: () => void;
   isActive: boolean;
+  fillColor?: string;
+  className?: string;
 }
 
-export default function ArrowBtn({ handleClick, isActive }: Props) {
+export default function ArrowBtn({
+  handleClick,
+  isActive,
+  fillColor = '#B9B9C3',
+  className,
+}: Props) {
   return (
     <button
       type="button"
       onClick={handleClick}
-      className="w-[1.5rem] h-[1.5rem]"
+      className={`w-[1.5rem] h-[1.5rem] ${className}`}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -18,7 +25,7 @@ export default function ArrowBtn({ handleClick, isActive }: Props) {
         fill="none"
         className={`transition-all ${isActive ? 'rotate-180' : ''} `}
       >
-        <path d="M4 8L12 16L20 8" stroke="#B9B9C3" strokeWidth="1.5" />
+        <path d="M4 8L12 16L20 8" stroke={fillColor} strokeWidth="1.5" />
       </svg>
     </button>
   );
