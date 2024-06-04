@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
@@ -14,11 +14,19 @@ export default function Header() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const pathname = usePathname();
 
+  useEffect(() => {
+    if (isModalOpen) {
+      document.body.classList.add('overflow-hidden');
+    } else {
+      document.body.classList.remove('overflow-hidden');
+    }
+    return () => {
+      document.body.classList.remove('overflow-hidden');
+    };
+  }, [isModalOpen]);
+
   const toggleModal = () => {
-    setIsModalOpen((prevState) => {
-      const newState = !prevState;
-      return newState;
-    });
+    setIsModalOpen((prevState) => !prevState);
   };
 
   // 메뉴 항목 데이터
@@ -73,11 +81,11 @@ export default function Header() {
               <img
                 src="svg/header/hamburgerMenuIcon.svg"
                 alt="Hamburger Menu Icon"
-                onClick={toggleModal}
+                onClick={() => setIsModalOpen(true)}
               />
               {/* Modal */}
               <HamburgerMenuModal
-                session={session}
+                // session={session}
                 isOpen={isModalOpen}
                 onClose={toggleModal}
               />

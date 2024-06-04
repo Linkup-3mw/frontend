@@ -30,7 +30,7 @@ export default function Profile() {
           </div>
         </>
       ) : (
-        <Link href="/signin" className="flex mx-2 font-bold items-center">
+        <Link href="/signin" className="flex font-bold items-center">
           <span className="whitespace-nowrap">로그인 하기</span>
         </Link>
       )}
