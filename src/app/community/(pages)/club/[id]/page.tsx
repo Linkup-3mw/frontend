@@ -64,7 +64,7 @@ export default async function page({
             )}
 
             {/* 사용자 모달 */}
-            <MemberModal isShow={false} />
+            {/* <MemberModal isShow={false} /> */}
           </section>
 
           {/* 게시판 */}

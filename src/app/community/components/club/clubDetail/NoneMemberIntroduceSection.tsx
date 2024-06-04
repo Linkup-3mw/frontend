@@ -2,6 +2,7 @@ import Image from 'next/image';
 import MemberSwiper from './MemberSwiper';
 import { NoneMemberIntroduceTopBtn } from './IntroduceTopBtn';
 import { ClubDetail } from '@/app/community/(pages)/club/[id]/page';
+import { PeopleBlueYellow } from '@common/components/icons/PeopleIcons';
 
 export default function NoneMemberIntroduceSection({
   club_name,
@@ -53,13 +54,7 @@ export default function NoneMemberIntroduceSection({
       <div className="flex gap-[1.56rem] items-center mb-[2rem] max-md:block max-md:mb-[1.31rem]">
         <span className="flex flex-shrink-0 gap-4 mt-2 text-sm ">
           <div className="flex items-center mb-[0.3125rem] text-[1.25rem] font-bold max-md:text-[0.75rem]">
-            <Image
-              src="/svg/club/peoplesIcon.svg"
-              alt="Peoples Icon"
-              className="mr-[0.5rem] w-[2.5rem] h-[2.5rem] max-md:mr-[0.25rem] max-md:w-[1rem] max-md:h-[1rem]"
-              width={40}
-              height={40}
-            />
+            <PeopleBlueYellow className="mr-[0.5rem] w-[2.5rem] h-[2.5rem] max-md:mr-[0.25rem] max-md:w-[1rem] max-md:h-[1rem]" />
             멤버 (20/25)
           </div>
         </span>
