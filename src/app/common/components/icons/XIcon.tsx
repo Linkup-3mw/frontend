@@ -1,7 +1,8 @@
 interface Props {
   size?: string;
+  className: string;
 }
-const XIcon = ({ size = '14' }: Props) => {
+const XIcon = ({ size = '14', className }: Props) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -9,6 +10,7 @@ const XIcon = ({ size = '14' }: Props) => {
       height={size}
       viewBox="0 0 14 14"
       fill="none"
+      className={className}
     >
       <path
         fillRule="evenodd"
