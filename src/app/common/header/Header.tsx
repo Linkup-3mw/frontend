@@ -85,7 +85,7 @@ export default function Header() {
               />
               {/* Modal */}
               <HamburgerMenuModal
-                // session={session}
+                session={session}
                 isOpen={isModalOpen}
                 onClose={toggleModal}
               />

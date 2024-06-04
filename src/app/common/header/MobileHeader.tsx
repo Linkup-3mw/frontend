@@ -43,7 +43,7 @@ export default function MobileHeader({
           />
           {/* Modal */}
           <HamburgerMenuModal
-            // session={session}
+            session={session}
             isOpen={isModalOpen}
             onClose={toggleModal}
           />
