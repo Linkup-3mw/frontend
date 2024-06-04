@@ -10,10 +10,10 @@ export default function RegisterBoard() {
           <input
             type="text"
             placeholder="제목을 입력해 주세요. (40자 이내)"
-            className={`mb-[1rem] px-[1.5rem] w-full h-[3.5rem] border-[1px] border-gray-200 text-[1.25rem] font-medium placeholder:text-gray-400 rounded-[0.5rem] ${formMobileCss} max-md:h-[1rem]`}
+            className={`mb-[1rem] px-[1.5rem] w-full h-[3.5rem] border-[1.5px] border-gray-200 text-[1.25rem] font-medium placeholder:text-gray-400 rounded-[0.5rem] ${formMobileCss} max-md:h-[1rem]`}
           />
           <textarea
-            className={`p-[0.9rem] border-[1px] border-gray-200 w-full h-[24rem] resize-none rounded-[0.5rem] text-[1rem] leading-[1.75rem] ${formMobileCss} max-md:h-[calc(100vh_-_20.0575rem)] max-md:max-h-[30rem]`}
+            className={`p-[0.9rem] border-[1.5px] border-gray-200 w-full h-[24rem] resize-none rounded-[0.5rem] text-[1rem] leading-[1.75rem] ${formMobileCss} max-md:h-[calc(100vh_-_20.0575rem)] max-md:max-h-[20rem]`}
             placeholder="글을 작성해 주세요. (1000자 이내)"
           />
           <button

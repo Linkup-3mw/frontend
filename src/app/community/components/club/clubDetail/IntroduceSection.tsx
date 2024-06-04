@@ -52,7 +52,7 @@ export default function IntroduceSection({
 
       <div className="mt-[3.19rem]">
         <span className="flex flex-shrink-0 gap-4 mt-2 text-sm ">
-          <div className="flex items-center mb-[0.3125rem] text-[1.25rem] font-bold max-md:text-[0.75rem]">
+          <div className="flex items-center mb-[1rem] text-[1.25rem] font-bold max-md:mb-[0.3125rem] max-md:text-[0.75rem]">
             <Image
               src="/svg/club/peoplesIcon.svg"
               alt="Peoples Icon"

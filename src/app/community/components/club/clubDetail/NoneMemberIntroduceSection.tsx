@@ -68,7 +68,7 @@ export default function NoneMemberIntroduceSection({
         </div>
       </div>
 
-      <div className="overflow-y-auto max-h-[9.4375rem] text-[1rem] font-medium leading-[175%] whitespace-pre-line max-md:overflow-y-visible max-md:max-h-auto max-md:text-[0.875rem]  max-md:leading-[142%]">
+      <div className="overflow-y-auto max-h-[9.2375rem] text-[1rem] font-medium leading-[175%] whitespace-pre-line max-md:overflow-y-visible max-md:max-h-auto max-md:text-[0.875rem]  max-md:leading-[142%]">
         {detailed_introduction}
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Et natus sunt
         praesentium placeat. Culpa, consequuntur. Repellendus vitae porro neque.
