@@ -30,7 +30,7 @@ interface HeaderMenuProps {
 
 export default function HeaderMenu({ menuItems }: HeaderMenuProps) {
   return (
-    <div className="flex md:basis-1/3 items-center text-base max-md:hidden">
+    <div className="flex items-center text-base max-md:hidden">
       {menuItems.map((item, index) => (
         <MenuItem key={index} href={item.href} isActive={item.isActive}>
           {item.label}
