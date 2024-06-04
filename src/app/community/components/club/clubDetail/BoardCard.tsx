@@ -24,7 +24,7 @@ export default function BoardCard({ isDetail = false }: Props) {
       <div className="flex items-end justify-between">
         <div className="flex gap-[1rem] items-center">
           <Avatar
-            image="img_office_1.png"
+            image="/images/home/img_office_1.png"
             name="김민수"
             className="border-none w-[2rem] h-[2rem]"
           />

@@ -15,7 +15,7 @@ export default function Avatar({ image, name, type, className }: Props) {
     >
       <img
         //임시 경로
-        src={`/images/home/${image}`}
+        src={`${image}`}
         alt={name + '이미지'}
         className="w-full h-full rounded-full"
       />

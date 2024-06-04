@@ -14,7 +14,7 @@ export default function BoardDetail() {
         <div className="flex items-center justify-between mb-[1.75rem] max-md:[1.5rem]">
           <div className="flex gap-[1rem] items-center">
             <Avatar
-              image="img_office_1.png"
+              image="/images/home/img_office_1.png"
               name="김민수"
               className="border-none w-[2rem] h-[2rem]"
             />
@@ -50,7 +50,7 @@ export default function BoardDetail() {
             <li>
               <div className="flex gap-[1rem] items-center">
                 <Avatar
-                  image="img_office_1.png"
+                  image="/images/home/img_office_1.png"
                   name="김민수"
                   className="border-none w-[2.5rem] h-[2.5rem]"
                 />
@@ -68,7 +68,7 @@ export default function BoardDetail() {
             <li>
               <div className="flex gap-[1rem] items-center">
                 <Avatar
-                  image="img_office_1.png"
+                  image="/images/home/img_office_1.png"
                   name="김민수"
                   className="border-none w-[2.5rem] h-[2.5rem]"
                 />

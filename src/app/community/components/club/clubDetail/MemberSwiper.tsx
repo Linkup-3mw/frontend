@@ -76,7 +76,7 @@ export default function MemberSwiper({
                 }`}
               >
                 <Avatar
-                  image={profile}
+                  image={`/images/home/${profile}`}
                   name={username}
                   type="host"
                   className={`block mx-auto ${
