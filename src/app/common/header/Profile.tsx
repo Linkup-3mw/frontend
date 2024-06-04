@@ -7,7 +7,7 @@ export default function Profile() {
   const { data: session } = useSession();
 
   return (
-    <div className="flex mx-3 items-center shrink-0">
+    <div className="flex-1 mx-3 items-center shrink-0">
       {session ? (
         <>
           <div className="h-6 w-6 border border-[#45AD56] rounded-full overflow-hidden">
@@ -25,11 +25,13 @@ export default function Profile() {
               />
             )}
           </div>
-          <div className="flex mx-2 font-bold">{session?.user.name} 님</div>
+          <div className="flex mx-2 font-bold text-sm md:text-base">
+            {session?.user.name} 님
+          </div>
         </>
       ) : (
-        <Link href="/signin" className="flex mx-2 font-bold">
-          로그인 하기
+        <Link href="/signin" className="flex font-bold items-center">
+          <span className="whitespace-nowrap">로그인 하기</span>
         </Link>
       )}
     </div>

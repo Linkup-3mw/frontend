@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
@@ -7,17 +7,26 @@ import ContentWrap from '@common/components/frame/ContentWrap';
 import HamburgerMenuModal from './HamburgerMenuModal';
 import HeaderMenu from './HeaderMenu';
 import Profile from './Profile';
+import MobileHeader from './MobileHeader';
 
 export default function Header() {
   const { data: session } = useSession();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const pathname = usePathname();
 
+  useEffect(() => {
+    if (isModalOpen) {
+      document.body.classList.add('overflow-hidden');
+    } else {
+      document.body.classList.remove('overflow-hidden');
+    }
+    return () => {
+      document.body.classList.remove('overflow-hidden');
+    };
+  }, [isModalOpen]);
+
   const toggleModal = () => {
-    setIsModalOpen((prevState) => {
-      const newState = !prevState;
-      return newState;
-    });
+    setIsModalOpen((prevState) => !prevState);
   };
 
   // 메뉴 항목 데이터
@@ -40,45 +49,21 @@ export default function Header() {
       <ContentWrap>
         <div className="flex justify-between items-center h-full w-full">
           {/* part1 */}
-          <HeaderMenu menuItems={menuItems} />
-
-          {/* 모바일 사이즈의 로고와 아이콘들 */}
-          <div className="flex md:hidden w-full justify-between items-center">
-            <Profile />
-            <Link href="/" className="flex justify-center">
-              <img className="h-8" src="svg/header/logo.svg" alt="Logo" />
-            </Link>
-            <div className="flex">
-              <img
-                className="mx-3"
-                src="svg/header/unconfirmedAlarmIcon.svg"
-                alt="Unconfirmed Alarm Icon"
-              />
-              <div className="relative cursor-pointer">
-                <img
-                  src="svg/header/hamburgerMenuIcon.svg"
-                  alt="Hamburger Menu Icon"
-                  onClick={toggleModal}
-                />
-                {/* Modal */}
-                <HamburgerMenuModal
-                  session={session}
-                  isOpen={isModalOpen}
-                  onClose={toggleModal}
-                />
-              </div>
-            </div>
+          <div className="flex items-center max-w-[25.625rem] md:flex-1">
+            <HeaderMenu menuItems={menuItems} />
           </div>
+          {/* 모바일 사이즈의 로고와 아이콘들 */}
+          <MobileHeader isModalOpen={isModalOpen} toggleModal={toggleModal} />
 
           {/* part2 */}
-          <div className="hidden md:flex basis-1/3 justify-center max-w-[15rem] shrink-0">
+          <div className="hidden md:flex md:flex-1 justify-center items-center max-w-[15rem] shrink-0">
             <Link href="/">
               <img className="" src="svg/header/logo.svg" alt="Logo" />
             </Link>
           </div>
 
           {/* part3 */}
-          <div className="hidden md:flex basis-1/3 justify-end items-center min-w-[25.625rem]">
+          <div className="hidden md:flex items-center max-w-[25.625rem]">
             <Profile />
             <div className="mx-3">
               <img src="svg/header/chatIcon.svg" alt="Chat Icon" />
@@ -96,7 +81,7 @@ export default function Header() {
               <img
                 src="svg/header/hamburgerMenuIcon.svg"
                 alt="Hamburger Menu Icon"
-                onClick={toggleModal}
+                onClick={() => setIsModalOpen(true)}
               />
               {/* Modal */}
               <HamburgerMenuModal
