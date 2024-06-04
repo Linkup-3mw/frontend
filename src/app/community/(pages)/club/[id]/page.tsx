@@ -12,6 +12,7 @@ import {
 import BoardDetail from '@/app/community/components/club/clubDetail/BoardDetail';
 import RegisterBoard from '@/app/community/components/club/clubDetail/RegisterBoard';
 import MeetingRegister from '@/app/community/components/club/clubDetail/MeetingRegister';
+import MemberModal from '@/app/community/components/club/MemberModal';
 // import { getClubDetail } from '@/app/service/club';
 
 interface Props {
@@ -54,13 +55,16 @@ export default async function page({
             className={`
             ${tab == undefined || tab === '소개' ? '' : 'max-md:hidden'} 
             ${userType === 'none_member' ? ' w-[66.11%]' : 'w-[40.72%]'}
-            overflow-y-auto p-[2.5rem]  max-md:px-[1rem] max-md:py-[1.5rem]`}
+            relative overflow-y-auto p-[2.5rem] max-md:static max-md:px-[1rem] max-md:py-[1.5rem]`}
           >
             {userType === 'none_member' ? (
               <NoneMemberIntroduceSection {...clubInfo} />
             ) : (
               <IntroduceSection {...clubInfo} />
             )}
+
+            {/* 사용자 모달 */}
+            <MemberModal isShow={false} />
           </section>
 
           {/* 게시판 */}
