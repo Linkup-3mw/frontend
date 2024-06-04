@@ -15,7 +15,7 @@ export default function ArrowBtn({
     <button
       type="button"
       onClick={handleClick}
-      className={`w-[1.5rem] h-[1.5rem] ${className}`}
+      className="w-[1.5rem] h-[1.5rem] max-md:w-[1rem] max-md:h-[1rem]"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -23,7 +23,7 @@ export default function ArrowBtn({
         height="24"
         viewBox="0 0 24 24"
         fill="none"
-        className={`transition-all ${isActive ? 'rotate-180' : ''} `}
+        className={`transition-all ${isActive ? 'rotate-180' : ''} w-full h-full`}
       >
         <path d="M4 8L12 16L20 8" stroke={fillColor} strokeWidth="1.5" />
       </svg>

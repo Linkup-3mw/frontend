@@ -35,7 +35,7 @@ export default function TogglePassword({
       <button
         type="button"
         onClick={pwToggleFn}
-        className="absolute right-[1.5rem] top-1/2 -translate-y-1/2"
+        className="absolute right-[1.5rem] top-1/2 -translate-y-1/2 max-md:w-[1.5rem] max-md:h-[1.5rem] max-md:right-[1rem]"
       >
         {showPassword ? <EyesOn /> : <EyesOff />}
       </button>

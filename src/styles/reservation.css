@@ -1,0 +1,31 @@
+/* 예약  */
+@media (min-width: 360px) and (max-width: 767px) {
+  .hidden-360 {
+    display: none;
+  }
+  .hidden-desk {
+    display: block;
+  }
+}
+/* 지도 버튼 */
+@media (min-width: 401px) {
+  .btn-hidden {
+    display: none;
+  }
+}
+@media (max-width: 766px) {
+  .btn-hidden {
+    display: block;
+  }
+}
+/* 지도 빌딩 리스트 , 빌딩 인포메이션  */
+@media (min-width: 361px) and (max-width: 767px) {
+  .hidden-md {
+    display: none;
+  }
+}
+@media (max-width: 766px) {
+  .hidden-md {
+    display: block;
+  }
+}

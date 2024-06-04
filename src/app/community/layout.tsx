@@ -7,9 +7,11 @@ export default function layout({
   children: React.ReactNode;
 }>) {
   return (
-    <>
-      <CommunityNav />
+    <div className="mt-[5rem]">
+      <div className="max-md:hidden">
+        <CommunityNav />
+      </div>
       <div>{children}</div>
-    </>
+    </div>
   );
 }

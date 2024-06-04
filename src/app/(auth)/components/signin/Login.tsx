@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { signIn } from 'next-auth/react';
-import bcrypt from 'bcryptjs';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 
 import InputBox from '@common/components/form/InputBox';
@@ -12,6 +11,11 @@ import BlueSquareBtn from '@common/components/form/BlueSquareBtn';
 import TogglePassword from '@/app/(auth)/components/common/TogglePassword';
 import { EMAIL_VALIDATION } from '@/app/(auth)/constants/validation';
 import LoginCheckbox from './LoginCheckbox';
+
+interface ILoginErrMsg {
+  email: string;
+  password: string;
+}
 
 export default function Login({ callbackUrl }: { callbackUrl: string }) {
   const {
@@ -25,7 +29,14 @@ export default function Login({ callbackUrl }: { callbackUrl: string }) {
     register('email', {
       onBlur: () => trigger('email'),
     });
-  }, []);
+    register('password', {
+      onBlur: () =>
+        setErrMsg((prev: ILoginErrMsg) => {
+          return { ...prev, password: '' };
+        }),
+    });
+  }, [register, trigger]);
+
   const [errMsg, setErrMsg] = useState({
     email: '',
     password: '',
@@ -38,29 +49,20 @@ export default function Login({ callbackUrl }: { callbackUrl: string }) {
 
     try {
       setIsLoading(true);
-      body = {
-        ...body,
-        password: await bcrypt.hash(body.password, 12),
-      };
+
       const res = await signIn('credentials', {
         ...body,
         callbackUrl,
         redirect: false,
       });
 
-      if (!res?.error) {
+      if (res?.status === 200) {
         router.push(callbackUrl);
-      } else {
-        //추후 수정 필요
-        if (res!.error.includes('비밀번호')) {
-          setErrMsg((prev: any) => {
-            return { ...prev, password: res?.error, email: '' };
-          });
-        } else {
-          setErrMsg((prev: any) => {
-            return { ...prev, password: '', email: res?.error };
-          });
-        }
+      }
+      if (res?.status === 401) {
+        setErrMsg((prev): ILoginErrMsg => {
+          return { ...prev, password: res?.error as string, email: '' };
+        });
       }
     } catch (error) {
       console.error(error);
@@ -71,7 +73,7 @@ export default function Login({ callbackUrl }: { callbackUrl: string }) {
 
   return (
     <div>
-      <h2 className="mb-[2.5rem] text-center text-[1.75rem] font-bold leading-[2.375rem]">
+      <h2 className="mb-[2.5rem] text-center text-[1.75rem] font-bold leading-0 max-md:text-[1.25rem]">
         로그인
       </h2>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -107,14 +109,16 @@ export default function Login({ callbackUrl }: { callbackUrl: string }) {
           <div>
             <Link
               href="/"
-              className="inline-block -mt-[1.25rem] mb-[3.75rem] underline text-[0.875rem] font-bold leading-none text-[#8d8d9b]"
+              className="inline-block -mt-[1.25rem] mb-[3.75rem] underline text-[0.875rem] font-bold leading-none text-[#8d8d9b]
+              max-md:mb-[2.5rem] max-md:-mt-[0.25rem] max-md:text-[0.75rem]
+              "
             >
               비밀번호를 잊으셨나요?
             </Link>
           </div>
           <LoginCheckbox register={register}>로그인 상태 유지</LoginCheckbox>
         </div>
-        <div className="mt-[1.5rem]">
+        <div className="mt-[1.5rem] max-md:mt-[0.6rem]">
           <BlueSquareBtn
             name="로그인"
             type="submit"

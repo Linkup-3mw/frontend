@@ -1,68 +1,38 @@
 import API from '@/utils/axios';
-import bcrypt from 'bcryptjs';
 import { FormValues } from '@/app/(auth)/components/signup/SignupForm';
+import { signOut } from 'next-auth/react';
+import { deleteCookie } from '../serverAction/auth';
 
 interface ICredentials {
   email: string;
   password: string;
+  remember_me: boolean;
 }
 
-export const signInWithCredentials = async (credentials: ICredentials) => {
-  //(mock api)
-  const { data: users } = await API.get('/users');
-  const user = users.find(
-    (user: ICredentials) => user.email === credentials.email,
-  );
+//로그인
+export const signInWithCredentials = async (params: ICredentials) => {
+  return await API.post('/member/login', params);
+};
 
-  if (!user || !user?.password) {
-    throw new Error('이메일을 다시 확인해 주세요.');
-  }
+//로그아웃
+export const signoutWithCredentials = () => {
+  ('use server');
+  deleteCookie('refresh-token');
+  deleteCookie('access-token');
 
-  const isCorrectPassword = bcrypt.compare(user.password, credentials.password);
-
-  if (!isCorrectPassword) {
-    throw new Error('비밀번호를 다시 확인해 주세요.');
-  }
-
-  const userInfo = {
-    name: user.name,
-    username: user.username,
-    email: user.email,
-    profile_image: user.profile_image,
-    current_location: user.current_location,
-    //token 임시 값
-    accessToken: `${user.email}accessTokenqwerqwer`,
-    refreshToken: `${user.email}refreshTokenTokenqwerqwer`,
-  };
-  return userInfo;
+  signOut({ callbackUrl: '/' });
 };
 
 //회사 검증
 export const verifyCompany = async (authCode: string) => {
-  // const res = await API.post('/test', {
-  //   body: JSON.stringify({ auth_code: authCode }),
-  // });
-  // return JSON.parse(res);
-  //임시
-  return {
-    status_code: 200,
-    message: '요청이 성공적으로 처리되었습니다.',
-    status: 'OK',
-    data: 'OK',
-    company_id: 1,
-    success: true,
-  };
+  const res = await API.post('/member/verify/company', { auth_code: authCode });
+  return res.data;
 };
 
 //이메일 검증
 export const validateEmail = async (email: string) => {
-  return {
-    status_code: 200,
-    message: '요청이 성공적으로 처리되었습니다.',
-    status: 'OK',
-    data: 'OK',
-    success: true,
-  };
+  const res = await API.post('/member/validate/email', { email });
+  return res.data;
 };
 
 //이메일 검증 번호 입력
@@ -73,32 +43,21 @@ export const verifyEmail = async ({
   email: string;
   authCode: string;
 }) => {
-  return {
-    status_code: 200,
-    message: '요청이 성공적으로 처리되었습니다.',
-    status: 'OK',
-    data: 'OK',
-    success: true,
-  };
+  const res = await API.post('/member/verify/email', {
+    email,
+    auth_code: authCode,
+  });
+  return res.data;
 };
 
 //닉네임 검증
 export const validateNickname = async (username: string) => {
-  return {
-    status_code: 200,
-    message: '요청이 성공적으로 처리되었습니다.',
-    status: 'OK',
-    data: 'OK',
-    success: true,
-  };
+  const res = await API.post('/member/validate/username', { username });
+  return res.data;
 };
 
 //회원가입
 export const signUp = async (formValues: FormValues) => {
-  //json-server
-  const res = await API.post('/users', formValues);
-  // const res = await API.post('/users', {
-  //   body: JSON.stringify(formValues),
-  // });
-  return res;
+  const res = await API.post('/member/register', formValues);
+  return res.data;
 };

@@ -1,16 +1,23 @@
-import { AuthUser } from './user';
+import { DefaultSession } from 'next-auth';
+import { IUser } from './user';
+import { RequestCookie } from 'next/dist/compiled/@edge-runtime/cookies';
+import { DefaultJWT } from 'next-auth/jwt';
 
-declare module 'next-auth' {
-  interface User extends AuthUser {}
-  interface Session {
-    Authorization: any;
-    RefreshToken: any;
+export declare module 'next-auth' {
+  interface User extends IUser {}
+  interface Session extends DefaultSession {
+    accessToken: string | unknown;
+    expiresAt: number;
+    error: string;
+    user: IUser;
+    sessionExpiresAt: number;
   }
 }
 
 export declare module '@auth/core/jwt' {
   interface JWT {
     accessToken: string;
-    refreshToken: string;
+    expiresAt: number;
+    user: IUser;
   }
 }

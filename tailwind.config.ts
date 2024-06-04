@@ -8,6 +8,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      screens: {
+        mb: '360px',
+      },
       colors: {
         'main-black': '#171717',
         'main-blue': '#97BAFE',
@@ -27,6 +30,7 @@ const config: Config = {
         'gray-300': '#B9B9C3',
         'gray-400': '#A3A3AF',
         'gray-500': '#8D8D9B',
+        'gray-600': '#797986',
         'gray-700': '#646472',
         'gray-800': '#51515D',
         'main-red': '#FF513F',

@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   FieldValues,
   UseFormClearErrors,
@@ -12,6 +12,7 @@ import InputBox from '@common/components/form/InputBox';
 import { EMAIL_VALIDATION } from '@/app/(auth)/constants/validation';
 import ButtonInInput from '@/app/(auth)/components/common/ButtonInInput';
 import { validateEmail, verifyEmail } from '@/app/service/auth';
+import debounce from 'lodash.debounce';
 
 interface Props {
   error: FieldValues | undefined;
@@ -33,29 +34,46 @@ export default function EmailInput({
   const [showVerify, setShowVerify] = useState(false);
   const [isVerify, setIsVerify] = useState(false);
   const [errMsg, setErrMsg] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     register('email', {
-      onBlur: () => trigger('email'),
+      onBlur: () => {
+        setErrMsg('');
+        trigger('email');
+      },
     });
   }, []);
 
   //이메일 확인
-  const validateEmailFn = async () => {
+  const validateEmailFn = debounce(async () => {
     const emailValue = getValues('email');
     if (!emailValue) return;
 
-    const res = await validateEmail(emailValue);
-    if (res.status_code === 200) {
-      //확인 성공
-      setShowVerify(true);
-      setErrMsg('');
-      clearErrors('email_verified');
-    } else {
-      //확인 실패
-      setErrMsg('이메일 인증을 다시 시도해주세요.');
+    if (isLoading) return;
+
+    try {
+      setIsLoading(true);
+      const res = await validateEmail(emailValue);
+      if (res.status_code === 200) {
+        //확인 성공
+        setShowVerify(true);
+        setErrMsg('');
+        clearErrors('email_verified');
+      }
+    } catch (e: any) {
+      const res = e.response.data;
+      if (res.status_code === 400) {
+        //이미 가입된 계정
+        setErrMsg(res.message);
+      } else {
+        //확인 실패
+        setErrMsg('이메일 인증을 다시 시도해주세요.');
+      }
+    } finally {
+      setIsLoading(false);
     }
-  };
+  }, 500);
 
   //이메일 인증번호 처리
   const verifyEmailFn = async () => {
@@ -64,19 +82,23 @@ export default function EmailInput({
 
     if (!emailValue || !authCode) return;
 
-    const res = await verifyEmail({ email: emailValue, authCode });
-    if (res.status_code === 200) {
-      //성공
-      setIsVerify(true);
-      setErrMsg('');
-      setValue('email_verified', true, {
-        shouldDirty: true,
-        shouldValidate: true,
-      });
-      clearErrors('email_verified');
-    } else {
-      //실패
-      setErrMsg('인증번호 6자리를 다시 확인해 주세요.');
+    try {
+      const res = await verifyEmail({ email: emailValue, authCode });
+      if (res.status_code === 200 && res.data === 'OK') {
+        //성공
+        setIsVerify(true);
+        setErrMsg('');
+        setValue('email_verified', true, {
+          shouldDirty: true,
+          shouldValidate: true,
+        });
+        clearErrors('email_verified');
+      } else {
+        //인증번호 틀림
+        setErrMsg('인증번호 6자리를 다시 확인해 주세요.');
+      }
+    } catch (e) {
+      console.error(e);
     }
   };
   return (
@@ -85,14 +107,22 @@ export default function EmailInput({
       errorMsg={
         error?.email?.message || error?.email_verified?.message || errMsg
       }
-      msg={isVerify ? '인증이 완료되었습니다.' : ''}
+      msg={
+        isVerify
+          ? '인증이 완료되었습니다.'
+          : '' || isLoading
+            ? '잠시만 기다려 주세요.'
+            : ''
+      }
     >
       <span className="block relative">
         <Input
           placeholder="이메일을 입력하고 인증하기를 눌러주세요."
           register={register}
           name="email"
-          isError={error?.email !== undefined}
+          isError={
+            error?.email !== undefined || (!showVerify && errMsg.length > 0)
+          }
           validation={EMAIL_VALIDATION}
           readOnly={isVerify}
         />

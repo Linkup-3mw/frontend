@@ -1,8 +1,8 @@
 'use client';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
-import bcrypt from 'bcryptjs';
 
+import { useIndustryQuery, useOccupationQuery } from '@/hooks/useCategory';
 import { NAME_VALIDATION } from '@/app/(auth)/constants/validation';
 import InputBox from '@common/components/form/InputBox';
 import Input from '@common/components/form/Input';
@@ -25,6 +25,9 @@ export interface FormValues {
 }
 
 export default function SignupForm({ type }: Props) {
+  const { data: industryList } = useIndustryQuery();
+  const { data: occupationList } = useOccupationQuery();
+
   const router = useRouter();
   const {
     register,
@@ -58,25 +61,27 @@ export default function SignupForm({ type }: Props) {
       return;
     }
 
-    const hashedPassword = await bcrypt.hash(data.password, 12);
     const params: FormValues = {
       ...data,
       birthday: data.birthday.replaceAll('/', '-') as string,
-      company_verified: true,
-      password: hashedPassword,
     };
     delete params.auth_code;
     delete params.confirm_password;
     delete params.email_confirm;
 
+    if (type === 'enterprise') {
+      params.company_verified = true;
+    }
+
     try {
       const res = await signUp(params);
-      if (res.status == 201) {
+      if (res.status_code === 200) {
         alert('가입이 완료되었습니다.');
         router.push('/signin');
       }
     } catch (e) {
       console.error(e);
+      alert('오류가 발생했습니다. 잠시 후 다시 시도해 주세요.');
     }
   };
 
@@ -165,13 +170,13 @@ export default function SignupForm({ type }: Props) {
         />
 
         <InputBox text="산업군" errorMsg={errors.industry?.message}>
-          <div className="flex flex-wrap gap-[1rem] my-[1rem]">
-            {INDUSTRY.map((item) => (
+          <div className="flex flex-wrap gap-[1rem] my-[1rem] max-md:gap-[0.55rem] max-md:[&_label]:min-w-[calc((100%_-_1.65rem)/4)] max-[290px]:[&_label]:min-w-[calc((100%_-_1.65rem)/3)]">
+            {industryList.map((item: string, index: number) => (
               <RadioButton
-                key={item.id}
+                key={index}
                 name="industry"
-                value={item.id}
-                text={item.text}
+                value={item}
+                text={item}
                 classname="grow-0"
                 register={register}
                 errMsg="산업군을 선택해 주세요."
@@ -179,14 +184,15 @@ export default function SignupForm({ type }: Props) {
             ))}
           </div>
         </InputBox>
+
         <InputBox text="직무" errorMsg={errors.occupation?.message}>
-          <div className="flex flex-wrap gap-[1rem] my-[1rem]">
-            {JOB.map((item) => (
+          <div className="flex flex-wrap gap-[1rem] my-[1rem] max-md:gap-[0.55rem] max-md:[&_label]:min-w-[calc((100%_-_1.65rem)/4)] max-[290px]:[&_label]:min-w-[calc((100%_-_1.65rem)/3)]">
+            {occupationList.map((item: string, index: number) => (
               <RadioButton
-                key={item.id}
+                key={index}
                 name="occupation"
-                value={item.id}
-                text={item.text}
+                value={item}
+                text={item}
                 classname="grow-0"
                 register={register}
                 errMsg="직무를 선택해 주세요."
@@ -196,7 +202,7 @@ export default function SignupForm({ type }: Props) {
         </InputBox>
 
         <BlueSquareBtn
-          classname="mt-[5rem]"
+          classname="mt-[5rem] max-md:mt-[1.5rem]"
           name="가입 완료"
           type="submit"
           disabled={!isDirty || !isValid}
@@ -205,31 +211,3 @@ export default function SignupForm({ type }: Props) {
     </div>
   );
 }
-
-//임시값
-const JOB = [
-  { id: 'JOB001', text: '개발' },
-  { id: 'JOB002', text: '기획' },
-  { id: 'JOB003', text: '분석' },
-  { id: 'JOB004', text: '디자인' },
-  { id: 'JOB005', text: '마케팅' },
-  { id: 'JOB006', text: '컨설팅' },
-  { id: 'JOB007', text: '영업 판매' },
-  { id: 'JOB008', text: '촬영 편집' },
-  { id: 'JOB009', text: '회계' },
-  { id: 'JOB010', text: '세무' },
-];
-
-const INDUSTRY = [
-  { id: 'IND001', text: 'IT' },
-  { id: 'IND002', text: '건설' },
-  { id: 'IND003', text: '부동산' },
-  { id: 'IND004', text: '생산 제조' },
-  { id: 'IND005', text: '연구개발' },
-  { id: 'IND006', text: '금융' },
-  { id: 'IND007', text: '금융' },
-  { id: 'IND008', text: '통신' },
-  { id: 'IND009', text: '무역' },
-  { id: 'IND010', text: '물류' },
-  { id: 'IND011', text: '의료' },
-];

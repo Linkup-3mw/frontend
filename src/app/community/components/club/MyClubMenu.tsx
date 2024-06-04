@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 interface MyClubMenuProps {
   onSelect: (selection: string) => void;
@@ -6,11 +6,26 @@ interface MyClubMenuProps {
 
 export default function MyClubMenu({ onSelect }: MyClubMenuProps) {
   const [selectedMenu, setSelectedMenu] = useState<string>('myClubs');
+  const [isMobile, setIsMobile] = useState<boolean>(false);
 
   const handleSelect = (selection: string) => {
     setSelectedMenu(selection);
     onSelect(selection);
   };
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    handleResize();
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   return (
     <div className="flex items-center space-x-4">
@@ -22,7 +37,7 @@ export default function MyClubMenu({ onSelect }: MyClubMenuProps) {
             : 'bg-white text-black'
         }`}
       >
-        가입한 모든 모임
+        {isMobile ? '가입한 모임' : '가입한 모든 모임'}
       </button>
       <button
         onClick={() => handleSelect('unapprovedClubs')}
@@ -32,7 +47,7 @@ export default function MyClubMenu({ onSelect }: MyClubMenuProps) {
             : 'bg-white text-black'
         }`}
       >
-        승인 대기중인 모임
+        {isMobile ? '승인 대기 모임' : '승인 대기중인 모임'}
       </button>
       <button
         onClick={() => handleSelect('manageableClubs')}
@@ -42,7 +57,7 @@ export default function MyClubMenu({ onSelect }: MyClubMenuProps) {
             : 'bg-white text-black'
         }`}
       >
-        모임 관리하기
+        {isMobile ? '모임 관리' : '모임 관리하기'}
       </button>
     </div>
   );

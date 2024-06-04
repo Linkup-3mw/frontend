@@ -63,10 +63,10 @@ export default function PlaceDropdown({
   return (
     <div ref={dropdownRef} className="relative">
       <div
-        className="selected-option w-[18.3rem] cursor-pointer"
+        className="selected-option w-[16rem] cursor-pointer"
         onClick={toggleDropdown}
       >
-        <div className="flex items-center justify-between w-[18.3rem] h-[3.5rem] px-[0.5rem]">
+        <div className="flex items-center justify-between w-[16rem] h-[3.5rem] px-[0.5rem]">
           <div className="font-semibold text-2xl">{getOptionText()}</div>
           <img
             src={isOpen ? '/svg/club/arrowDown.svg' : '/svg/club/arrowUp.svg'}
@@ -76,7 +76,7 @@ export default function PlaceDropdown({
         </div>
       </div>
       {isOpen && (
-        <div className="absolute top-[3.3rem] bg-white rounded-b w-[18.3rem] border-t border-gray-100 cursor-pointer">
+        <div className="absolute top-[3.3rem] bg-white rounded-b w-[16rem] border-t border-gray-100 cursor-pointer">
           {options.map((option, index) => (
             <div
               key={option}
