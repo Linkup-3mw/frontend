@@ -1,12 +1,13 @@
 'use client';
 import { FormEvent, useCallback, useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import BlueSquareBtn from '@common/components/form/BlueSquareBtn';
 import TermsContent from './TermsContent';
 
 interface Props {
   requiredTerms: ITerm[];
   optionalTerms: ITerm[];
+  type: string;
 }
 export interface ITerm {
   id: string;
@@ -14,11 +15,10 @@ export interface ITerm {
   isChecked?: boolean;
 }
 
-export default function Terms({ requiredTerms, optionalTerms }: Props) {
+export default function Terms({ requiredTerms, optionalTerms, type }: Props) {
   const [requiredData, setRequiredData] = useState(requiredTerms);
   const [optionalData, setOptionalData] = useState(optionalTerms);
   const router = useRouter();
-  const searchParams = useSearchParams();
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -30,18 +30,15 @@ export default function Terms({ requiredTerms, optionalTerms }: Props) {
 
     const newQueryString = createQueryString('agrees', agrees);
 
-    router.push(`/signup?${newQueryString}`);
+    router.push(`/signup?type=${type}&${newQueryString}`);
   };
 
-  const createQueryString = useCallback(
-    (name: string, value: string) => {
-      const params = new URLSearchParams(searchParams.toString());
-      params.set(name, value);
+  const createQueryString = useCallback((name: string, value: string) => {
+    const params = new URLSearchParams();
+    params.set(name, value);
 
-      return params.toString();
-    },
-    [searchParams],
-  );
+    return params.toString();
+  }, []);
 
   return (
     <form onSubmit={handleSubmit}>

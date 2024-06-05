@@ -1,10 +1,5 @@
 import { OfficeBuilding } from '@/types/office/office';
-import {
-  useRecoilState,
-  useRecoilValue,
-  useResetRecoilState,
-  useSetRecoilState,
-} from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import {
   Rtab,
   selectedSeatAllState,
@@ -19,16 +14,7 @@ import OnePassMembership from './OnePassMembership';
 import MonthPassMembership from './MonthPassMembership';
 import EnterPriseMembership from './EnterPriseMembership';
 
-import { showMobileTableState } from '@/app/(search)/atom/media';
-import { useEffect } from 'react';
-
-export default function ReservationInfo({
-  BuildingId,
-  currentBuilding,
-}: {
-  BuildingId: string;
-  currentBuilding: OfficeBuilding;
-}) {
+export default function ReservationInfo() {
   const [RTab, setRTab] = useRecoilState(Rtab);
   const [membershipChoose, setMembershipChoose] =
     useRecoilState(MembershipChoose);
@@ -124,7 +110,6 @@ export default function ReservationInfo({
           </div>
         </div>
       </div>
-
       <>
         {RTab === '좌석' ? (
           <div className="mt-4">

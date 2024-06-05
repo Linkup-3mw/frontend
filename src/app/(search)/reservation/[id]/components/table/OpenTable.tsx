@@ -5,7 +5,7 @@ import {
   selectedSeatAllState,
   confirmedState,
 } from '@/app/(search)/atom/office';
-
+import { addDays, format } from 'date-fns';
 import {
   minDeskLayoutState,
   mobileReservationLayoutState,
@@ -42,10 +42,20 @@ export default function OpenTable() {
     setSelectedSeatAll((prev) => ({
       ...prev,
       code: seatNumber,
-      start_date: prev?.start_date || '',
-      end_date: prev?.end_date || '',
+      start_date: prev?.start_date || ' ',
+      end_date: prev?.end_date || ' ',
       type: prev?.type || '',
     }));
+    const queryParams = new URLSearchParams(window.location.search);
+    queryParams.set('start_date', selectedSeatAll?.start_date!);
+    queryParams.set('end_date', selectedSeatAll?.end_date!);
+    queryParams.set('code', seatNumber);
+
+    window.history.replaceState(
+      {},
+      '',
+      `${window.location.pathname}?${queryParams.toString()}`,
+    );
   };
 
   const isMobile = useRecoilValue(mobileReservationLayoutState);

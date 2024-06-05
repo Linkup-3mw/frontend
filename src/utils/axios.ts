@@ -17,7 +17,7 @@ API.interceptors.request.use(async (config) => {
   const token = session?.accessToken;
 
   if (token) {
-    API.defaults.headers.Cookie = `access-token=${token}`;
+    config.headers['Authorization'] = `Bearer ${token}`;
   }
 
   return config;

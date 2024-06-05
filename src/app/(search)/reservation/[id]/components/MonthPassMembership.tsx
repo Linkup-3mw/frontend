@@ -144,14 +144,16 @@ export default function MonthPassMembership({
               />
             )}
 
-            <div className="hidden-desk w-full text-center my-4">
-              <button
-                onClick={() => setShowMobileTable(true)}
-                className=" w-[5.5rem] h-[2.5rem] bg-blue-400 text-white rounded-lg leading-[1.375rem]"
-              >
-                좌석 선택
-              </button>
-            </div>
+            {isMobile ? (
+              <div className="hidden-desk w-full text-center my-4">
+                <button
+                  onClick={() => setShowMobileTable(true)}
+                  className=" w-[5.5rem] h-[2.5rem] bg-blue-400 text-white rounded-lg leading-[1.375rem]"
+                >
+                  좌석 선택
+                </button>
+              </div>
+            ) : null}
 
             {!selectedSeatAll?.start_date && (
               <p className="mb-4 text-[#6377E9] text-sm">
@@ -174,18 +176,17 @@ export default function MonthPassMembership({
                     >
                       <div className="flex mb:gap-1 md:gap-2 mb:p-2 md:p-4 justify-between">
                         <div className="pr-4 border-gray-300 flex">
-                          <div className="pr-4 border-r-2 ">
-                            <p className="mb:text-[0.75rem] md:text-[1rem] md:leading-7 mb:leading-5">
+                          <div className="pr-4 border-r-2">
+                            <p className="mb:text-[0.75rem]  md:text-[1rem] md:leading-7 mb:leading-5">
                               {seat.type}
                             </p>
                             <p className="mb:text-[0.875rem] md:text-[1.25rem] font-bold ">
                               {seat.code}
                             </p>
                           </div>
-                          <div className="w-[8.75rem] pl-4 md:font-normal md:text-lg mb:text-sm">
-                            <p>
-                              {seat.start_date} ~ {seat.end_date}
-                            </p>
+                          <div className="pl-4 md:font-normal md:text-lg mb:text-[0.25rem] mb:leading-5 md:leading-7">
+                            <p>{seat.start_date} ~ </p>
+                            <p> {seat.end_date}</p>
                           </div>
                         </div>
                         <div className="flex items-center">
@@ -341,24 +342,27 @@ export default function MonthPassMembership({
                     {seatList.map((seat, index) => (
                       <div
                         key={index}
-                        className="mb:w-[18rem] md:w-[26.6875rem] mb:h-[4.1875rem] md:h-[5.625rem] bg-white text-lg rounded-xl p-1 pl-2 mb-2"
+                        className="flex items-center mb:w-[18rem] md:w-[26.6875rem] mb:h-[4.1875rem] md:h-[5.625rem] bg-white text-lg rounded-xl p-1 pl-2 mb-2"
                       >
                         <div className="flex mb:gap-1 md:gap-2 mb:p-2 md:p-4 justify-between">
-                          <div className="pr-4 border-gray-300 flex">
-                            <div className="pr-4 border-r-2 ">
+                          <div className="pr-4 border-gray-300 flex items-center">
+                            <div className="pr-4 border-r-2">
                               <p className="mb:text-[0.75rem] md:text-[1rem] md:leading-7 mb:leading-5">
                                 {seat.type}
                               </p>
-                              <p className="mb:text-[0.875rem] md:text-[1.25rem] font-bold ">
+                              <p className="mb:text-[0.875rem] md:text-[1.25rem] font-bold">
                                 {seat.code}
                               </p>
                             </div>
-                            <div className="pl-4 md:font-normal md:text-lg mb:text-[0.75rem]">
-                              <p>{seat.start_date}</p>
+                            <div className="bg-red-300 pl-4 md:font-normal md:text-lg mb:text-[0.75rem]">
+                              <p>
+                                {seat.start_date} - {seat.end_date}
+                              </p>
                             </div>
                           </div>
+
                           <div className="flex items-center">
-            
+                            {!isMobile ? (
                               <div className="hidden-desk hidden-md">
                                 <button
                                   className="rounded-lg w-[4.625rem] h-[2rem] text-sm text-white font-semibold bg-[#FF4163]"
@@ -367,16 +371,16 @@ export default function MonthPassMembership({
                                   선택 취소
                                 </button>
                               </div>
-                    <div className="hidden-360">
-                        <button
-                                    className=" rounded-lg w-[1.75rem] h-[1.75rem] text-sm text-white font-semibold bg-[#FF4163]"
-                                    onClick={() => removeReservation(index)}
-                                  >
-                                    X
-                                  </button>
-                    </div>
-                
-                     
+                            ) : (
+                              <div className="hidden-360">
+                                <button
+                                  className=" rounded-lg w-[1.75rem] h-[1.75rem] text-sm text-white font-semibold bg-[#FF4163]"
+                                  onClick={() => removeReservation(index)}
+                                >
+                                  X
+                                </button>
+                              </div>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -384,28 +388,28 @@ export default function MonthPassMembership({
                     {spaceList.map((space, index) => (
                       <div
                         key={index}
-                        className="mb:w-[18rem] md:w-[26.6875rem] mb:h-[4.1875rem] md:h-[5.625rem] bg-white text-lg rounded-xl p-1 pl-2 mb-2"
+                        className="flex items-center mb:w-[18rem] md:w-[26.6875rem] mb:h-[4.1875rem] md:h-[5.625rem] bg-white text-lg rounded-xl p-1 pl-2 mb-2"
                       >
                         <div className="flex mb:gap-1 md:gap-2 mb:p-2 md:p-4 justify-between">
-                          <div className="pr-4 border-gray-300 flex">
-                            <div className="pr-4 border-r-2 ">
+                          <div className="pr-4 border-gray-300 flex items-center">
+                            <div className="pr-4 border-r-2">
                               <p className="mb:text-[0.75rem] md:text-[1rem] md:leading-7 mb:leading-5">
                                 {space.type}
                               </p>
-                              <p className="mb:text-[0.875rem] md:text-[1.25rem] font-bold ">
+                              <p className="mb:text-[0.875rem] md:text-[1.25rem] font-bold">
                                 {space.code}
                               </p>
                             </div>
-                            <div className="pl-4 md:font-normal md:text-lg mb:text-[0.75rem]">
-                              <p>{space.start_date}</p>
-                              <p className="font-bold md:leading-[1.375rem] md:text-[1rem] mb:leading-[1.125rem] mb:text-[0.75rem]">
-                                {space.start_time} - {space.end_time}
+                            <div className="bg-red-300 pl-4 md:font-normal md:text-lg mb:text-[0.75rem]">
+                              <p>
+                                {space.start_date} - {space.end_date}
                               </p>
                             </div>
                           </div>
+
                           <div className="flex items-center">
                             {!isMobile ? (
-                              <div className="">
+                              <div className="hidden-desk hidden-md">
                                 <button
                                   className="rounded-lg w-[4.625rem] h-[2rem] text-sm text-white font-semibold bg-[#FF4163]"
                                   onClick={() => removeReservation(index)}
@@ -414,12 +418,14 @@ export default function MonthPassMembership({
                                 </button>
                               </div>
                             ) : (
-                              <button
-                                className="rounded-lg w-[1.75rem] h-[1.75rem] text-sm text-white font-semibold bg-[#FF4163]"
-                                onClick={() => removeReservation(index)}
-                              >
-                                X
-                              </button>
+                              <div className="hidden-360">
+                                <button
+                                  className=" rounded-lg w-[1.75rem] h-[1.75rem] text-sm text-white font-semibold bg-[#FF4163]"
+                                  onClick={() => removeReservation(index)}
+                                >
+                                  X
+                                </button>
+                              </div>
                             )}
                           </div>
                         </div>

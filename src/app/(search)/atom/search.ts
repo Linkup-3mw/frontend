@@ -1,20 +1,24 @@
 import { atom } from 'recoil';
-import { OfficeBuilding, OfficeBuildingList } from '@/types/office/office';
+import { Building } from '@/types/office/office';
 
 export const mapState = atom<any>({
   key: 'map',
   default: null,
   dangerouslyAllowMutability: true,
 });
-export const buildingState = atom<OfficeBuilding[]>({
+export const buildingState = atom<Building[]>({
   key: 'building',
   default: [],
 });
-export const currentBuildingState = atom<OfficeBuilding | null>({
+export const currentBuildingState = atom<Building | null>({
   key: 'currentBuilding',
   default: null,
 });
-export const showInfoState = atom<boolean> ({
+export const showInfoState = atom<boolean>({
   key: 'showInfo',
-  default: false
-})
+  default: false,
+});
+export const filterDataState = atom<Building[]>({
+  key: 'filterData',
+  default: [],
+});

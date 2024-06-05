@@ -1,29 +1,44 @@
 import { useEffect, useState } from 'react';
-import { OfficeBuilding } from '@/types/office/office';
+import { Building, OfficeBuilding } from '@/types/office/office';
 import Image from 'next/image';
+import { useRecoilState } from 'recoil';
+import { buildingState, filterDataState } from '../../atom/search';
+import API from '@/utils/axios';
 
 interface BuildingFilterProps {
-  officeBuildings: OfficeBuilding[] | null;
-  isUp: boolean
-  
+  isUp: boolean;
 }
 
-export default function BuildingFilter({
-  officeBuildings, isUp
-}: BuildingFilterProps) {
+export default function BuildingFilter({ isUp }: BuildingFilterProps) {
   const [selectedRegion, setSelectedRegion] = useState(false);
   const [selectedIndustry, setSelectedIndustry] = useState(false);
   const [selectedOccupation, setSelectedOccupation] = useState(false);
+  const [selectedR, setSelectedR] = useState('');
+  const [officeBuildings, setOfficeBuildings] =
+    useRecoilState<Building[]>(buildingState);
 
-  const GangNamGoo = [
-    '강남구',
-    '서초구',
-    '영등포구',
-    '관악구',
-    '구로구',
-    '강서구',
-  ];
-  const GangBookGoo = ['중구', '종로구', '용산구', '성동구', '마포구'];
+  const [filterData, setFilterData] = useRecoilState(filterDataState);
+
+  const handleFilterClick = (city: string) => {
+    setSelectedR(city);
+    const fetchBuildingsData = async () => {
+      try {
+        const response = await API.get(`office/search?city=${city}`);
+        const filter = response.data.data.content;
+        setFilterData(filter);
+      } catch (error) {
+        console.error('error :', error);
+      }
+    };
+    fetchBuildingsData();
+  };
+  const handleResetFilter = () => {
+    setFilterData(officeBuildings);
+    console.log('리셋됫을때 데이터값', officeBuildings);
+  };
+
+  const GangNamGoo = ['강남', '서초', '영등포', '관악', '구로', '강서'];
+  const GangBookGoo = ['중구', '종로', '용산', '성동', '마포'];
   const Gyeonggi = '성남시';
   const Industry = [
     'IT',
@@ -61,13 +76,14 @@ export default function BuildingFilter({
     '사무지원',
     '기타',
   ];
+
   useEffect(() => {
-    if(!isUp) {
+    if (!isUp) {
       setSelectedRegion(false);
       setSelectedIndustry(false);
-      setSelectedOccupation(false)
+      setSelectedOccupation(false);
     }
-  })
+  });
   const handleRegionClick = () => {
     setSelectedRegion(!selectedRegion);
     setSelectedIndustry(false);
@@ -96,7 +112,7 @@ export default function BuildingFilter({
         }`}
       >
         <div
-          onClick={handleRegionClick}
+          onClick={() => handleRegionClick()}
           className="flex mx-auto
           mb:w-[6.5625rem] mb:h-[2rem] mb:text-[0.75rem]  
           md:text-[1rem] md:w-[10.0625rem] md:h-[2.5rem] rounded-md items-center justify-center cursor-pointer shadow-md transition-all duration-1000"
@@ -127,9 +143,12 @@ export default function BuildingFilter({
             >
               강남
             </h1>
-            
+
             <div className="flex gap-5 items-center">
-              <div className="flex gap-2 items-center">
+              <div
+                onClick={handleResetFilter}
+                className="flex gap-2 items-center cursor-pointer"
+              >
                 <p className="font-normal md:text-sm mb:text-[0.625rem]">
                   선택 초기화
                 </p>
@@ -155,6 +174,7 @@ export default function BuildingFilter({
             {GangNamGoo.map((city) => (
               <li key={city}>
                 <button
+                  onClick={() => handleFilterClick(city)}
                   className="md:w-[5.25rem] md:h-[3rem] mb:w-[4.25rem] mb:h-[2rem] bg-white border-2 rounded-xl
                 mb:text-xs md:text-[1rem]"
                 >
@@ -175,6 +195,7 @@ export default function BuildingFilter({
             {GangBookGoo.map((city) => (
               <li key={city}>
                 <button
+                  onClick={() => handleFilterClick(city)}
                   className="md:w-[5.25rem] md:h-[3rem] mb:w-[4.25rem] mb:h-[2rem] bg-white border-2 rounded-xl
                  mb:text-xs md:text-[1rem]"
                 >
@@ -218,10 +239,12 @@ export default function BuildingFilter({
         </div>
       </div>
       {selectedIndustry && (
-        <div className="
+        <div
+          className="
         md:absolute md:top-[70px] md:w-[26.6875rem] md:h-[30rem]
         mb:absolute mb:w-[20.5rem] mb:h-[22.25rem] p-4 mb:top-[70px] 
-        bg-white z-50 shadow-lg rounded-xl border border-gray-300 transform -translate-x-1 -translate-y-1">
+        bg-white z-50 shadow-lg rounded-xl border border-gray-300 transform -translate-x-1 -translate-y-1"
+        >
           <h1
             className="
                    mb:text-[1rem] md:font-bold
@@ -234,8 +257,10 @@ export default function BuildingFilter({
           <ul className="p-2 grid grid-cols-4 gap-4">
             {Industry.map((industry) => (
               <li key={industry}>
-                <button className="md:w-[5.25rem] md:h-[3rem] mb:w-[4.25rem] mb:h-[2rem] bg-white border-2 rounded-xl
-                mb:text-xs md:text-[1rem]">
+                <button
+                  className="md:w-[5.25rem] md:h-[3rem] mb:w-[4.25rem] mb:h-[2rem] bg-white border-2 rounded-xl
+                mb:text-xs md:text-[1rem]"
+                >
                   {industry}
                 </button>
               </li>
@@ -262,10 +287,12 @@ export default function BuildingFilter({
         </div>
       </div>
       {selectedOccupation && (
-        <div className="
+        <div
+          className="
         md:absolute md:top-[70px] md:w-[26.6875rem] md:h-[30rem]
         mb:absolute mb:w-[20.5rem] mb:h-[22.25rem] p-4 mb:top-[70px] 
-        bg-white z-50 shadow-lg rounded-xl border border-gray-300 transform -translate-x-1 -translate-y-1">
+        bg-white z-50 shadow-lg rounded-xl border border-gray-300 transform -translate-x-1 -translate-y-1"
+        >
           <h1
             className="
                    mb:text-[1rem] md:font-bold
@@ -277,8 +304,10 @@ export default function BuildingFilter({
           <ul className="p-2 grid grid-cols-4 gap-4">
             {Occupation.map((occupation) => (
               <li key={occupation}>
-                <button className="md:w-[5.25rem] md:h-[3rem] mb:w-[4.25rem] mb:h-[2rem] bg-white border-2 rounded-xl
-                mb:text-xs md:text-[1rem]">
+                <button
+                  className="md:w-[5.25rem] md:h-[3rem] mb:w-[4.25rem] mb:h-[2rem] bg-white border-2 rounded-xl
+                mb:text-xs md:text-[1rem]"
+                >
                   {occupation}
                 </button>
               </li>
@@ -286,8 +315,7 @@ export default function BuildingFilter({
           </ul>
         </div>
       )}
-         <div className="border-t border-blue-500 md:my-2 mb:my-1"></div>
+      <div className="border-t border-blue-500 md:my-2 mb:my-1"></div>
     </div>
-    
   );
 }

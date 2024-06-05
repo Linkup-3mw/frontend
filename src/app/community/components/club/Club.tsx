@@ -3,14 +3,13 @@ import React, { useState } from 'react';
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 
 import ContentWrap from '@common/components/frame/ContentWrap';
-import Dropdown from '@/app/community/components/club/PlaceDropdown';
+import PlaceDropdown from '@/app/community/components/club/PlaceDropdown';
 import MenuButtons from '@components/club/MenuButtons';
 import CategoryDropdown from '@components/club/CategoryDropdown';
 import TeamExclusionButton from '@components/club/TeamExclusionButton';
 import SearchInput from '@components/club/SearchInput';
 import { ClubCardProps } from '@components/club/ClubCard';
 import Pagination from '@components/club/Pagination';
-import MyClubMenu from '@components/club/MyClubMenu';
 import CreateGroupForm from '@components/club/CreateGroupForm';
 import {
   hotClubs,
@@ -21,6 +20,8 @@ import {
   manageableClubs,
 } from '../../data/clubs.js';
 import ClubList from '@components/club/ClubList';
+import MyClubsSubMenu from '@components/club/MyClubsSubMenu';
+
 export default function Club() {
   const router = useRouter();
   const pathname = usePathname();
@@ -73,6 +74,7 @@ export default function Club() {
     params.set('page', `${pageNumber}`);
     router.push(`${pathname}?${params.toString()}`);
   };
+
   const getPaginatedClubs = (clubs: ClubCardProps[]) => {
     const indexOfLastClub = currentPage * itemsPerPage;
     const indexOfFirstClub = indexOfLastClub - itemsPerPage;
@@ -100,10 +102,7 @@ export default function Club() {
   let displayedClubs: ClubCardProps[] = [];
   let totalItems = 0;
 
-  if (menuSelection === '찜') {
-    displayedClubs = getPaginatedClubs(bookmarkedClubs);
-    totalItems = bookmarkedClubs.length;
-  } else if (menuSelection === '내 소모임') {
+  if (menuSelection === '내 소모임') {
     if (subMenuSelection === 'myClubs') {
       displayedClubs = getPaginatedClubs(myClubs);
       totalItems = myClubs.length;
@@ -114,9 +113,6 @@ export default function Club() {
       displayedClubs = getPaginatedClubs(manageableClubs);
       totalItems = manageableClubs.length;
     }
-  } else {
-    displayedClubs = getPaginatedClubs(allClubs);
-    totalItems = allClubs.length;
   }
 
   return (
@@ -125,16 +121,14 @@ export default function Club() {
         <CreateGroupForm onClose={handleCloseForm} />
       ) : (
         <ContentWrap>
-          <div className="bg-blue-50 rounded-2xl p-[2rem] relative z-10">
+          <div className="bg-blue-50 rounded-2xl md:p-[2rem] p-4 relative z-10">
             {menuSelection === '전체' && (
               <>
-                <div className="relative z-20">
-                  <Dropdown
-                    options={dropdownOptions}
-                    selectedOption={selectedOption}
-                    onSelect={handleOptionSelect}
-                  />
-                </div>
+                <PlaceDropdown
+                  options={dropdownOptions}
+                  selectedOption={selectedOption}
+                  onSelect={handleOptionSelect}
+                />
                 {/* 전체, 찜, 내 소모임 메뉴 */}
                 <MenuButtons
                   menuSelection={menuSelection}
@@ -142,21 +136,28 @@ export default function Club() {
                 />
                 <div className="md:flex items-center justify-between mt-5 relative z-10">
                   <div className="flex items-center mb-4 md:mb-0">
-                    <div className="flex space-x-4">
+                    <div className="flex md:space-x-4 space-x-2">
                       <CategoryDropdown />
                       <TeamExclusionButton />
                     </div>
                     <button
-                      className="md:hidden bg-blue-400 text-white px-4 py-2 rounded-full ml-auto"
+                      className="md:hidden text-2xl bg-blue-400 text-white h-[2rem] w-[2rem] rounded-full ml-auto leading-none"
                       onClick={handleButtonClick}
                     >
                       +
                     </button>
                   </div>
+                  <SearchInput
+                    placeholder="찾고 싶은 소모임을 검색하세요."
+                    className="md:hidden w-full text-xs"
+                  />
                   <div className="flex items-center space-x-4">
-                    <SearchInput />
+                    <SearchInput
+                      placeholder="찾고 싶은 소모임 제목, 내용 등을 입력해 주세요."
+                      className="md:w-[30rem] w-full hidden md:flex"
+                    />
                     <button
-                      className="bg-blue-400 text-white px-4 py-2 rounded-full hidden md:flex"
+                      className="bg-blue-400 text-white text-2xl h-[2.5rem] w-[2.5rem] rounded-full items-center justify-center hidden md:flex"
                       onClick={handleButtonClick}
                     >
                       +
@@ -181,7 +182,13 @@ export default function Club() {
                       전체 소모임
                     </div>
                   )}
-                  <div>{renderClubs(displayedClubs, totalItems, true)}</div>
+                  <div>
+                    {renderClubs(
+                      getPaginatedClubs(allClubs),
+                      allClubs.length,
+                      true,
+                    )}
+                  </div>
                 </div>
               </>
             )}
@@ -194,27 +201,38 @@ export default function Club() {
                 />
                 <div className="md:flex items-center justify-between mt-5 relative z-10">
                   <div className="flex items-center mb-4 md:mb-0">
-                    <div className="flex space-x-4">
-                      <CategoryDropdown />
-                    </div>
+                    <CategoryDropdown />
                     <button
-                      className="md:hidden bg-blue-400 text-white px-4 py-2 rounded-full ml-auto"
+                      className="md:hidden text-2xl bg-blue-400 text-white h-[2rem] w-[2rem] rounded-full ml-auto leading-none"
                       onClick={handleButtonClick}
                     >
                       +
                     </button>
                   </div>
+                  <SearchInput
+                    placeholder="찾고 싶은 소모임을 검색하세요."
+                    className="md:hidden w-full text-xs"
+                  />
                   <div className="flex items-center space-x-4">
-                    <SearchInput />
+                    <SearchInput
+                      placeholder="찾고 싶은 소모임 제목, 내용 등을 입력해 주세요."
+                      className="md:w-[30rem] w-full hidden md:flex"
+                    />
                     <button
-                      className="bg-blue-400 text-white px-4 py-2 rounded-full hidden md:flex"
+                      className="bg-blue-400 text-white text-2xl h-[2.5rem] w-[2.5rem] rounded-full items-center justify-center hidden md:flex"
                       onClick={handleButtonClick}
                     >
                       +
                     </button>
                   </div>
                 </div>
-                <div>{renderClubs(displayedClubs, totalItems, true)}</div>
+                <div>
+                  {renderClubs(
+                    getPaginatedClubs(bookmarkedClubs),
+                    bookmarkedClubs.length,
+                    true,
+                  )}
+                </div>
               </>
             )}
             {menuSelection === '내 소모임' && (
@@ -224,22 +242,30 @@ export default function Club() {
                   menuSelection={menuSelection}
                   handleMenuSelect={handleMenuSelect}
                 />
+
                 <div className="md:flex items-center justify-between mt-5 relative z-10">
                   <div className="flex items-center mb-4 md:mb-0">
                     <div className="flex space-x-4">
-                      <MyClubMenu onSelect={handleSubMenuSelect} />
+                      <MyClubsSubMenu onSelect={handleSubMenuSelect} />
                     </div>
                     <button
-                      className="md:hidden bg-blue-400 text-white px-4 py-2 rounded-full ml-auto"
+                      className="md:hidden text-2xl bg-blue-400 text-white h-[2rem] w-[2rem] rounded-full ml-auto leading-none"
                       onClick={handleButtonClick}
                     >
                       +
                     </button>
                   </div>
+                  <SearchInput
+                    placeholder="찾고 싶은 소모임을 검색하세요."
+                    className="md:hidden w-full text-xs"
+                  />
                   <div className="flex items-center space-x-4">
-                    <SearchInput />
+                    <SearchInput
+                      placeholder="찾고 싶은 소모임 제목, 내용 등을 입력해 주세요."
+                      className="md:w-[30rem] w-full hidden md:flex"
+                    />
                     <button
-                      className="bg-blue-400 text-white px-4 py-2 rounded-full hidden md:flex"
+                      className="bg-blue-400 text-white text-2xl h-[2.5rem] w-[2.5rem] rounded-full items-center justify-center hidden md:flex"
                       onClick={handleButtonClick}
                     >
                       +

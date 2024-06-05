@@ -11,7 +11,8 @@ export const getNewAccessToken = async (accessToken: string) => {
 
     return await API.get('/member/token', {
       headers: {
-        cookie: `access-token=${accessToken}; refresh-token=${value}`,
+        'refresh-token': `Bearer ${value}`,
+        Authorization: `Bearer ${accessToken}`,
       },
     });
   } catch (e) {
@@ -39,7 +40,7 @@ export const setNewCookie = async (cookie: string) => {
   cookies().set({
     name: cookieName,
     value: cookieValue,
-    httpOnly: cookieName === 'refresh-token' ? true : false,
+    httpOnly: true,
     maxAge: parseInt(parsedCookie['Max-Age']),
     path: parsedCookie.path,
     // sameSite: parsedCookie.samesite,
