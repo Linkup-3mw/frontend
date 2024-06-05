@@ -30,9 +30,11 @@ export default function Marker() {
     fetchBuildingsData();
   }, [setOfficeBuildings]);
 
-  const overlays = document.querySelectorAll('.overlay');
-  overlays.forEach((overlays) => {
-    overlays.parentNode?.removeChild(overlays);
+  useEffect(() => {
+    const overlays = document.querySelectorAll('.overlay');
+    overlays.forEach((overlays) => {
+      overlays.parentNode?.removeChild(overlays);
+    });
   });
   const buildingOverlayContent = officeBuildings?.map((office) => ({
     buildingId: office.id,
