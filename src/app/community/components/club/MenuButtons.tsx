@@ -8,7 +8,7 @@ export default function MenuButtons({
   handleMenuSelect,
 }: MenuButtonsProps) {
   return (
-    <div className="flex font-semibold text-xl border-b border-gray-300">
+    <div className="flex font-semibold md:text-xl text-xs border-b border-gray-300">
       <button
         onClick={() => handleMenuSelect('전체')}
         className={`h-[3.31rem] px-5 border-b-2 ${

@@ -58,7 +58,7 @@ export default function Header() {
           {/* part2 */}
           <div className="hidden md:flex md:flex-1 justify-center items-center max-w-[15rem] shrink-0">
             <Link href="/">
-              <img className="" src="svg/header/logo.svg" alt="Logo" />
+              <img className="" src="/svg/header/logo.svg" alt="Logo" />
             </Link>
           </div>
 
@@ -66,22 +66,22 @@ export default function Header() {
           <div className="hidden md:flex items-center max-w-[25.625rem]">
             <Profile />
             <div className="mx-3">
-              <img src="svg/header/chatIcon.svg" alt="Chat Icon" />
+              <img src="/svg/header/chatIcon.svg" alt="Chat Icon" />
             </div>
             <div className="mx-3">
-              <img src="svg/header/friendIcon.svg" alt="Friend Icon" />
+              <img src="/svg/header/friendIcon.svg" alt="Friend Icon" />
             </div>
             <div className="mx-3">
               <img
-                src="svg/header/unconfirmedAlarmIcon.svg"
+                src="/svg/header/unconfirmedAlarmIcon.svg"
                 alt="Unconfirmed Alarm Icon"
               />
             </div>
             <div className="mx-3 relative cursor-pointer">
               <img
-                src="svg/header/hamburgerMenuIcon.svg"
+                src="/svg/header/hamburgerMenuIcon.svg"
                 alt="Hamburger Menu Icon"
-                onClick={() => setIsModalOpen(true)}
+                onClick={toggleModal}
               />
               {/* Modal */}
               <HamburgerMenuModal
