@@ -67,9 +67,7 @@ export default function PlaceDropdown({
         onClick={toggleDropdown}
       >
         <div className="flex items-center justify-between md:h-[3.5rem] h-[3rem] px-[0.5rem]">
-          <div className="font-semibold md:text-2xl text-lg">
-            {getOptionText()}
-          </div>
+          <div className="font-semibold md:text-2xl">{getOptionText()}</div>
           <img
             src={isOpen ? '/svg/club/arrowDown.svg' : '/svg/club/arrowUp.svg'}
             alt={isOpen ? 'Arrow Down Icon' : 'Arrow Up Icon'}

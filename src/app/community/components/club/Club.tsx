@@ -149,7 +149,7 @@ export default function Club() {
                   </div>
                   <SearchInput
                     placeholder="찾고 싶은 소모임을 검색하세요."
-                    className="md:hidden w-full text-sm"
+                    className="md:hidden w-full text-xs"
                   />
                   <div className="flex items-center space-x-4">
                     <SearchInput
@@ -201,20 +201,25 @@ export default function Club() {
                 />
                 <div className="md:flex items-center justify-between mt-5 relative z-10">
                   <div className="flex items-center mb-4 md:mb-0">
-                    <div className="flex space-x-4">
-                      <CategoryDropdown />
-                    </div>
+                    <CategoryDropdown />
                     <button
-                      className="md:hidden bg-blue-400 text-white px-4 py-2 rounded-full ml-auto"
+                      className="md:hidden text-2xl bg-blue-400 text-white h-[2rem] w-[2rem] rounded-full ml-auto leading-none"
                       onClick={handleButtonClick}
                     >
                       +
                     </button>
                   </div>
+                  <SearchInput
+                    placeholder="찾고 싶은 소모임을 검색하세요."
+                    className="md:hidden w-full text-xs"
+                  />
                   <div className="flex items-center space-x-4">
-                    <SearchInput />
+                    <SearchInput
+                      placeholder="찾고 싶은 소모임 제목, 내용 등을 입력해 주세요."
+                      className="md:w-[30rem] w-full hidden md:flex"
+                    />
                     <button
-                      className="bg-blue-400 text-white px-4 py-2 rounded-full hidden md:flex"
+                      className="bg-blue-400 text-white text-2xl h-[2.5rem] w-[2.5rem] rounded-full items-center justify-center hidden md:flex"
                       onClick={handleButtonClick}
                     >
                       +
@@ -237,22 +242,30 @@ export default function Club() {
                   menuSelection={menuSelection}
                   handleMenuSelect={handleMenuSelect}
                 />
+
                 <div className="md:flex items-center justify-between mt-5 relative z-10">
                   <div className="flex items-center mb-4 md:mb-0">
                     <div className="flex space-x-4">
                       <MyClubsSubMenu onSelect={handleSubMenuSelect} />
                     </div>
                     <button
-                      className="md:hidden bg-blue-400 text-white px-4 py-2 rounded-full ml-auto"
+                      className="md:hidden text-2xl bg-blue-400 text-white h-[2rem] w-[2rem] rounded-full ml-auto leading-none"
                       onClick={handleButtonClick}
                     >
                       +
                     </button>
                   </div>
+                  <SearchInput
+                    placeholder="찾고 싶은 소모임을 검색하세요."
+                    className="md:hidden w-full text-xs"
+                  />
                   <div className="flex items-center space-x-4">
-                    <SearchInput />
+                    <SearchInput
+                      placeholder="찾고 싶은 소모임 제목, 내용 등을 입력해 주세요."
+                      className="md:w-[30rem] w-full hidden md:flex"
+                    />
                     <button
-                      className="bg-blue-400 text-white px-4 py-2 rounded-full hidden md:flex"
+                      className="bg-blue-400 text-white text-2xl h-[2.5rem] w-[2.5rem] rounded-full items-center justify-center hidden md:flex"
                       onClick={handleButtonClick}
                     >
                       +

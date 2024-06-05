@@ -66,11 +66,11 @@ export default function ClubCard({
             <div className="flex justify-between items-center pb-1">
               <h3 className="font-bold text-sm truncate ...">{title}</h3>
             </div>
-            <p className="text-ellipsis overflow-hidden ... text-sm line-clamp-2">
+            <p className="text-ellipsis overflow-hidden ... text-xs line-clamp-2">
               {description}
             </p>
 
-            <div className="text-sm mt-2 flex gap-2">
+            <div className="text-xs mt-2 flex gap-2">
               <div className="flex items-center">
                 <img
                   src="/svg/club/locationIcon.svg"
@@ -90,7 +90,7 @@ export default function ClubCard({
             </div>
           </div>
         </div>
-        <div className="flex justify-between items-center text-sm mt-4 font-semibold">
+        <div className="flex justify-between items-center text-xs mt-4 font-semibold">
           <div className="flex gap-4">
             <div className="bg-yellow-600 p-[0.5rem] rounded leading-none">
               {category}
@@ -162,7 +162,7 @@ export default function ClubCard({
             <p className="mt-2 overflow-hidden overflow-ellipsis">
               {description}
             </p>
-            <div className="text-sm mt-2 flex gap-4">
+            <div className="text-xs mt-2 flex gap-4">
               <div className="flex items-center">
                 <img
                   src="/svg/club/locationIcon.svg"
@@ -180,7 +180,7 @@ export default function ClubCard({
                 {currentMembers}/{maxMembers}
               </div>
             </div>
-            <div className="flex justify-between items-center text-sm mt-2 font-semibold">
+            <div className="flex justify-between items-center text-xs mt-2 font-semibold">
               <div className="flex gap-4">
                 <div className="bg-yellow-600 p-[0.5rem] rounded">
                   {category}

@@ -71,7 +71,7 @@ export default function CategoryDropdown() {
     <div className="relative z-10" ref={dropdownRef}>
       <button
         onClick={toggleDropdown}
-        className=" md:h-[2.38rem] h-[2rem] font-semibold md:text-lg text-sm bg-white px-2 flex items-center justify-center rounded border border-gray-200"
+        className=" md:h-[2.38rem] h-[2rem] font-semibold md:text-lg text-xs bg-white px-2 flex items-center justify-center rounded border border-gray-200"
       >
         <span>카테고리</span>
         <img
@@ -87,7 +87,7 @@ export default function CategoryDropdown() {
             {topics.map((topic) => (
               <button
                 key={topic}
-                className={`py-[0.5rem] rounded-lg border md:w-[5.4372rem] text-sm ${
+                className={`py-[0.5rem] rounded-lg border md:w-[5.4372rem] md:text-sm text-xs ${
                   selectedTopics.includes(topic) ? 'bg-blue-400 text-white' : ''
                 }`}
                 onClick={() => handleTopicSelect(topic)}
@@ -119,7 +119,7 @@ export default function CategoryDropdown() {
               <div className="flex flex-wrap gap-2 pb-5">
                 {selectedTopics.map((topic, index) => (
                   <div key={index} className="">
-                    <button className="py-[0.5rem] rounded-lg border text-sm flex px-2 justify-between">
+                    <button className="py-[0.5rem] rounded-lg border md:text-sm text-xs flex px-2 justify-between">
                       {topic}
                       <div onClick={() => removeTopic(topic)} className="ml-2">
                         ✕

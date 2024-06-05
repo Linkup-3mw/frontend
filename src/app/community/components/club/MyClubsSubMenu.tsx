@@ -31,7 +31,7 @@ export default function MyClubsSubMenu({ onSelect }: MyClubsSubMenuProps) {
     <div className="flex items-center md:space-x-4 space-x-2">
       <button
         onClick={() => handleSelect('myClubs')}
-        className={`font-semibold md:text-lg text-sm px-2 md:h-[2.38rem] h-[2rem] flex items-center justify-center rounded ${
+        className={`leading-none font-semibold md:text-lg text-xs px-2 md:h-[2.38rem] h-[2rem] flex items-center justify-center rounded ${
           selectedMenu === 'myClubs'
             ? 'bg-blue-400 text-white'
             : 'bg-white text-black'
@@ -41,7 +41,7 @@ export default function MyClubsSubMenu({ onSelect }: MyClubsSubMenuProps) {
       </button>
       <button
         onClick={() => handleSelect('unapprovedClubs')}
-        className={`font-semibold md:text-lg text-sm px-2 md:h-[2.38rem] h-[2rem] flex items-center justify-center rounded ${
+        className={`leading-none font-semibold md:text-lg text-xs px-2 md:h-[2.38rem] h-[2rem] flex items-center justify-center rounded ${
           selectedMenu === 'unapprovedClubs'
             ? 'bg-blue-400 text-white'
             : 'bg-white text-black'
@@ -51,7 +51,7 @@ export default function MyClubsSubMenu({ onSelect }: MyClubsSubMenuProps) {
       </button>
       <button
         onClick={() => handleSelect('manageableClubs')}
-        className={`font-semibold md:text-lg text-sm px-2 md:h-[2.38rem] h-[2rem] flex items-center justify-center rounded ${
+        className={`leading-none font-semibold md:text-lg text-xs px-2 md:h-[2.38rem] h-[2rem] flex items-center justify-center rounded ${
           selectedMenu === 'manageableClubs'
             ? 'bg-blue-400 text-white'
             : 'bg-white text-black'
