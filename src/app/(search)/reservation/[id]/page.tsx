@@ -18,19 +18,29 @@ export default function Reservation({ params }: ReservationParamProps) {
   const showMobileTable = useRecoilValue(showMobileTableState);
   const selectedSeatAll = useRecoilValue(selectedSeatAllState);
   const selectedSpaceAll = useRecoilValue(selectedSpaceAllState);
+  // api/v1/reservation/{office_id}?type={string}&start={(string)연도-월-일}&end={string}
+  // useEffect(() => {
+  //   const fetchBuildingsData = async () => {
+  //     try {
+  //       const response = await API.get('/office/search');
+  //       const seatData = response;
+  //       // setOfficeBuildings(content);
+  //       // console.log('officeBuildings2@@@', content);
+  //       console.log('seatData', seatData);
+  //     } catch (error) {
+  //       console.error('Error fetching buildings data:', error);
+  //     }
+  //   };
 
+  //   fetchBuildingsData();
+  // }, []);
   return (
     <>
       <div className="mt-[5rem] md:flex justify-center">
         <div className="md:flex md:w-[95rem] mb:w-full mx-auto pt-2 gap-4">
           <div className="flex justify-center">
             {/* 패스구입  UI*/}
-            {!showMobileTable && (
-              <ReservationInfo
-                BuildingId={id}
-                currentBuilding={currentBuilding!}
-              />
-            )}
+            {!showMobileTable && <ReservationInfo />}
           </div>
           <div>{!showMobileTable && <SeatInformation />}</div>
         </div>

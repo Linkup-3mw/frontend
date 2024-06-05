@@ -155,9 +155,11 @@ export default function EnterPriseMembership({
                 예상 견적을 확인하세요.
               </div>
               <div className="md:w-[26.6875rem] md:h-[3.875rem] mb:w-[18rem] mb:h-[2.625rem] rounded-2xl bg-white border">
-                <p className="md:leading-none font-bold md:text-xl md:p-6 mb:p-2">
-                  {peopleCount && peopleCount * 2700000}
-                </p>
+                {isNaN(peopleCount) ? null : (
+                  <p className="md:leading-none font-bold md:text-xl md:p-6 mb:p-2">
+                    {peopleCount && peopleCount * 2700000}
+                  </p>
+                )}
               </div>
               <div>
                 {hasError && (
