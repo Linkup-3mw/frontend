@@ -12,7 +12,7 @@ import {
   OnePassMembershipState,
 } from '@/app/(search)/atom/office';
 import { DayPicker } from 'react-day-picker';
-import { format, isToday } from 'date-fns';
+import { addDays, format, formatDate, isToday } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import { SpaceReservation } from '@/types/office/reservation';
 import { useState } from 'react';
@@ -37,7 +37,7 @@ interface SeatReservation {
 
 export default function OnePassMembership({
   seatType,
-  spaceType
+  spaceType,
 }: OnePassMembershipProps) {
   const [RTab, setRTab] = useRecoilState(Rtab);
   const [seatList, setSeatList] = useRecoilState(seatListReservation);
@@ -50,14 +50,14 @@ export default function OnePassMembership({
   const [selectedSpaceAll, setSelectedSpaceAll] = useRecoilState(
     selectedSpaceAllState,
   );
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const content = `예약을 추가하려면 위에서 날짜와 좌석 유형을 선택해 주세요.
 당일권은 최대 5개까지 예약할 수 있습니다.`;
 
-
   const handleDayClick = (day: Date) => {
     setSelectedDate(day);
+    console.log('tq', day);
     setSelectedSeatAll({});
-
     const formmatedDate = format(day, 'yyyy-MM-dd');
 
     const newSelectedSeatAll: SeatReservation = {
@@ -110,9 +110,9 @@ export default function OnePassMembership({
     },
   };
   const info = useLineBreak({ content });
+
   return (
     <>
-    
       <div className="flex flex-col gap-6 mb-6">
         {RTab === '좌석' ? (
           <>
@@ -139,7 +139,7 @@ export default function OnePassMembership({
             />
           </>
         )}
-
+        <div className="text-[#6377E9]">{errorMessage}</div>
         {RTab === '좌석' && (
           <div>
             <div className="mb:text-[0.875rem] md:text-lg font-bold mb-4">
@@ -151,10 +151,15 @@ export default function OnePassMembership({
                 <div
                   key={seatStyle}
                   onClick={() => {
-                    setSelectedSeatAll((prev) => ({
-                      ...prev,
-                      type: seatStyle,
-                    }));
+                    if (selectedSeatAll) {
+                      setErrorMessage(null);
+                      setSelectedSeatAll((prev) => ({
+                        ...prev,
+                        type: seatStyle,
+                      }));
+                    } else if (!selectedDate) {
+                      setErrorMessage('날짜를 선택하세요.');
+                    }
                   }}
                   className={`mb:w-[4.125rem] mb:h-[4.6875rem] md:w-[6.29688rem] md:h-[7.75rem] flex flex-col justify-center items-center p-2 gap-2 rounded-lg ${
                     seatStyle === selectedSeatAll?.type
@@ -175,16 +180,18 @@ export default function OnePassMembership({
               ))}
             </div>
 
-            <div className="hidden-desk w-full text-center my-4 hidden-desk">
-              <button
-                onClick={() => setShowMobileTable(true)}
-                className="w-[5.5rem] h-[2.5rem] bg-blue-400 text-white rounded-lg leading-[1.375rem]"
-              >
-                좌석 선택
-              </button>
-            </div>
+            {isMobile ? (
+              <div className="hidden-desk w-full text-center my-4 hidden-desk">
+                <button
+                  onClick={() => setShowMobileTable(true)}
+                  className="hidden deskw-[5.5rem] h-[2.5rem] bg-blue-400 text-white rounded-lg leading-[1.375rem]"
+                >
+                  좌석 선택
+                </button>
+              </div>
+            ) : null}
 
-            <div className="hidden-360">
+            <div className="">
               {selectedSeatAll?.start_date && !selectedSeatAll.code ? (
                 <p className="mb-4 text-[#6377E9]">
                   오른쪽에서 좌석을 선택하세요.
@@ -225,21 +232,19 @@ export default function OnePassMembership({
                           </div>
                         </div>
                         <div className="flex items-center">
-                          {!isMobile ? (
-                            <div className="">
-                              <button
-                                className="rounded-lg w-[4.625rem] h-[2rem] text-sm text-white font-semibold bg-[#FF4163]"
-                                onClick={() => removeReservation(index)}
-                              >
-                                선택 취소
-                              </button>
-                            </div>
-                          ) : (
+                          {isMobile ? (
                             <button
                               className="rounded-lg w-[1.75rem] h-[1.75rem] text-sm text-white font-semibold bg-[#FF4163]"
                               onClick={() => removeReservation(index)}
                             >
                               X
+                            </button>
+                          ) : (
+                            <button
+                              className="rounded-lg w-[4.625rem] h-[2rem] text-sm text-white font-semibold bg-[#FF4163]"
+                              onClick={() => removeReservation(index)}
+                            >
+                              선택 취소
                             </button>
                           )}
                         </div>
@@ -402,21 +407,19 @@ export default function OnePassMembership({
                           </div>
                         </div>
                         <div className="flex items-center">
-                          {!isMobile ? (
-                            <div className="">
-                              <button
-                                className="rounded-lg w-[4.625rem] h-[2rem] text-sm text-white font-semibold bg-[#FF4163]"
-                                onClick={() => removeReservation(index)}
-                              >
-                                선택 취소
-                              </button>
-                            </div>
-                          ) : (
+                          {isMobile ? (
                             <button
                               className="rounded-lg w-[1.75rem] h-[1.75rem] text-sm text-white font-semibold bg-[#FF4163]"
                               onClick={() => removeReservation(index)}
                             >
                               X
+                            </button>
+                          ) : (
+                            <button
+                              className="rounded-lg w-[4.625rem] h-[2rem] text-sm text-white font-semibold bg-[#FF4163]"
+                              onClick={() => removeReservation(index)}
+                            >
+                              선택 취소
                             </button>
                           )}
                         </div>

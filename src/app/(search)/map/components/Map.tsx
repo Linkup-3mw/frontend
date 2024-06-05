@@ -1,8 +1,8 @@
 /*global kakao*/
 'use client';
 import Script from 'next/script';
-import { useSetRecoilState } from 'recoil';
-import { mapState } from '../../atom/search';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { filterDataState, mapState } from '../../atom/search';
 
 declare global {
   interface Window {
@@ -19,13 +19,14 @@ interface MapProps {
 }
 export default function MapCompnent({ lat, lng, zoom }: MapProps) {
   const setMap = useSetRecoilState(mapState);
+  const filterdata = useRecoilValue(filterDataState);
 
   const loadKakaoMap = () => {
     window.kakao.maps.load(() => {
       const mapContainer = document.getElementById('map');
       const mapOption = {
         center: new window.kakao.maps.LatLng(DEFAULT_LAT, DEFAULT_LNG),
-        level: 2,
+        level: 3,
       };
       const map = new window.kakao.maps.Map(mapContainer, mapOption);
       setMap(map);

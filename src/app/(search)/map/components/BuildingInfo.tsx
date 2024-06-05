@@ -1,13 +1,29 @@
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { currentBuildingState } from '../../atom/search';
 import BuildingServiceView from './BuildingInfoServiceView';
 import BuildingImageSlider from './BuildingImageSlider';
+import { useEffect } from 'react';
+import API from '@/utils/axios';
 
 export default function BuildingInfo() {
-  const currentBuilding = useRecoilValue(currentBuildingState);
-
-  const BuildingImageUrl = currentBuilding?.building.images;
-  const BuildingId = currentBuilding?.building.id;
+  const [currentBuilding, setCurrentBuilding] =
+    useRecoilState(currentBuildingState);
+  const BuildingId = currentBuilding?.id;
+  const id = currentBuilding?.id;
+  useEffect(() => {
+    const fetchBuildingsData = async () => {
+      try {
+        const response = await API.get(`/office/${BuildingId}`);
+        console.log('오오오오오오오', response.data);
+        const content = response.data.data.content;
+        // setCurrentBuilding(content);
+        console.log('gg', currentBuilding);
+      } catch (error) {
+        console.error('Error fetching buildings data:', error);
+      }
+    };
+    if (id) fetchBuildingsData();
+  }, []);
   return (
     <>
       <div
@@ -17,10 +33,7 @@ export default function BuildingInfo() {
        "
       >
         <div className="">
-          <BuildingImageSlider
-            images={BuildingImageUrl!}
-            buildingId={BuildingId!}
-          />
+          <BuildingImageSlider buildingId={BuildingId!} />
         </div>
 
         <div className="flex flex-col justify-start items-center bg-[#E4EEFF] overflow-hidden overflow-y-scroll scrollbar-hide rounded-b-3xl">
