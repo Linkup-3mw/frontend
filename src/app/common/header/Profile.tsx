@@ -19,7 +19,7 @@ export default function Profile() {
               />
             ) : (
               <img
-                src="svg/header/profileDefault.svg"
+                src="/svg/header/profileDefault.svg"
                 alt="Profile Default"
                 className="h-full w-full object-cover"
               />
