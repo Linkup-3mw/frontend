@@ -1,5 +1,6 @@
 'use client';
 
+import { signoutWithCredentials } from '@/app/service/auth';
 import { signOut, useSession } from 'next-auth/react';
 import { useEffect } from 'react';
 
@@ -28,13 +29,13 @@ export default function AuthorizationHeader({ children }: Props) {
     if (!isLogin) return;
 
     if (Date.now() > session.sessionExpiresAt) {
-      signOut({ redirect: false });
+      signoutWithCredentials();
     }
 
     if (session?.error === 'RefreshAccessTokenError') {
       // 리프레시 토큰 만료
       alert('세션이 만료되었습니다.');
-      signOut({ redirect: false });
+      signoutWithCredentials();
     }
   }, [isLogin, session]);
 
