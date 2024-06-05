@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 
-interface MyClubMenuProps {
+interface MyClubsSubMenuProps {
   onSelect: (selection: string) => void;
 }
 
-export default function MyClubMenu({ onSelect }: MyClubMenuProps) {
+export default function MyClubsSubMenu({ onSelect }: MyClubsSubMenuProps) {
   const [selectedMenu, setSelectedMenu] = useState<string>('myClubs');
   const [isMobile, setIsMobile] = useState<boolean>(false);
 

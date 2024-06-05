@@ -1,7 +1,7 @@
 'use client';
 import React, { useState, useRef, useEffect } from 'react';
 
-interface DropdownProps {
+interface PlaceDropdownProps {
   options: string[];
   selectedOption: string | null;
   onSelect: (value: string) => void;
@@ -11,7 +11,7 @@ export default function PlaceDropdown({
   options,
   selectedOption,
   onSelect,
-}: DropdownProps) {
+}: PlaceDropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -61,22 +61,24 @@ export default function PlaceDropdown({
   };
 
   return (
-    <div ref={dropdownRef} className="relative">
+    <div ref={dropdownRef} className="relative z-20">
       <div
-        className="selected-option w-[16rem] cursor-pointer"
+        className="selected-option md:w-[16rem] w-[12rem] cursor-pointer"
         onClick={toggleDropdown}
       >
-        <div className="flex items-center justify-between w-[16rem] h-[3.5rem] px-[0.5rem]">
-          <div className="font-semibold text-2xl">{getOptionText()}</div>
+        <div className="flex items-center justify-between md:h-[3.5rem] h-[3rem] px-[0.5rem]">
+          <div className="font-semibold md:text-2xl text-lg">
+            {getOptionText()}
+          </div>
           <img
             src={isOpen ? '/svg/club/arrowDown.svg' : '/svg/club/arrowUp.svg'}
             alt={isOpen ? 'Arrow Down Icon' : 'Arrow Up Icon'}
-            className="w-5 h-5 ml-2"
+            className="w-5 h-5 "
           />
         </div>
       </div>
       {isOpen && (
-        <div className="absolute top-[3.3rem] bg-white rounded-b w-[16rem] border-t border-gray-100 cursor-pointer">
+        <div className="absolute top-[3rem] md:top-[3.3rem] bg-white rounded-b md:w-[16rem] w-[12rem] border-t border-gray-100 cursor-pointer">
           {options.map((option, index) => (
             <div
               key={option}

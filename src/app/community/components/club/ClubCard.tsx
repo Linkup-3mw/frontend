@@ -45,26 +45,37 @@ export default function ClubCard({
         className={`bg-white ${showCancelButton || showManageButton ? 'rounded-t-2xl' : 'rounded-2xl'} relative p-4 block md:hidden`}
       >
         <div className="overflow-hidden relative flex">
-          <div className="w-24 h-24 relative mr-4">
+          <div className="w-24 h-24 relative mb:mr-3 mr-2 flex-shrink-0">
             <img
               src={imageUrl}
               alt={title}
               className="w-full h-full object-cover rounded-md"
             />
+            {isHost && (
+              <div className="h-[1.5rem] w-[1.5rem] absolute top-2 left-2 bg-yellow-600 p-[0.25rem] rounded-full z-10">
+                <img src="/svg/club/crownIcon.svg" alt="Host Badge Icon" />
+              </div>
+            )}
+            {isAdmin && !isHost && (
+              <div className="h-[1.5rem] w-[1.5rem] absolute top-2 left-2 bg-main-blue p-[0.25rem] rounded-full z-10">
+                <img src="/svg/club/crownIcon.svg" alt="Admin Badge Icon" />
+              </div>
+            )}
           </div>
           <div className="flex-1">
-            <div className="flex justify-between items-center">
-              <h3 className="text-lg font-bold">{title}</h3>
+            <div className="flex justify-between items-center pb-1">
+              <h3 className="font-bold text-sm truncate ...">{title}</h3>
             </div>
-            <p className="mt-2 overflow-hidden overflow-ellipsis">
+            <p className="text-ellipsis overflow-hidden ... text-sm line-clamp-2">
               {description}
             </p>
-            <div className="text-sm mt-2 flex gap-4">
+
+            <div className="text-sm mt-2 flex gap-2">
               <div className="flex items-center">
                 <img
                   src="/svg/club/locationIcon.svg"
                   alt="Location Icon"
-                  className="mr-1"
+                  className="mr-[.25rem] w-4"
                 />
                 <div className="font-bold">{location}</div>
               </div>
@@ -72,17 +83,19 @@ export default function ClubCard({
                 <img
                   src="/svg/club/peoplesIcon.svg"
                   alt="Peoples Icon"
-                  className="mr-1"
+                  className="mr-[.25rem] w-4"
                 />
                 {currentMembers}/{maxMembers}
               </div>
             </div>
           </div>
         </div>
-        <div className="flex justify-between items-center text-sm mt-2 font-semibold">
+        <div className="flex justify-between items-center text-sm mt-4 font-semibold">
           <div className="flex gap-4">
-            <div className="bg-yellow-600 p-[0.5rem] rounded">{category}</div>
-            <div className="bg-yellow-600 p-[0.5rem] rounded">
+            <div className="bg-yellow-600 p-[0.5rem] rounded leading-none">
+              {category}
+            </div>
+            <div className="bg-yellow-600 p-[0.5rem] rounded leading-none">
               모임 {meetingDday}
             </div>
           </div>
@@ -94,7 +107,7 @@ export default function ClubCard({
                   : '/svg/club/unbookmarkedHeart.svg'
               }
               alt="Heart Icon"
-              className="w-6 h-6"
+              className="w-7 h-7"
             />
           </button>
         </div>
@@ -119,15 +132,15 @@ export default function ClubCard({
           <img
             src={imageUrl}
             alt={title}
-            className="w-full object-cover absolute inset-0"
+            className="object-cover absolute inset-0 "
           />
           {isHost && (
-            <div className="absolute top-2 left-2 bg-yellow-600 p-2 rounded-full z-10">
+            <div className="h-[3rem] w-[3rem] absolute top-2 left-2 bg-yellow-600 p-2 rounded-full z-10">
               <img src="/svg/club/crownIcon.svg" alt="Host Badge Icon" />
             </div>
           )}
           {isAdmin && !isHost && (
-            <div className="absolute top-2 left-2 bg-main-blue p-2 rounded-full z-10">
+            <div className="h-[3rem] w-[3rem] absolute top-2 left-2 bg-main-blue p-2 rounded-full z-10">
               <img src="/svg/club/crownIcon.svg" alt="Admin Badge Icon" />
             </div>
           )}

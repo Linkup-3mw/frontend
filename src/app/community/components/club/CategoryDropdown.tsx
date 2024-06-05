@@ -71,7 +71,7 @@ export default function CategoryDropdown() {
     <div className="relative z-10" ref={dropdownRef}>
       <button
         onClick={toggleDropdown}
-        className="font-semibold text-lg bg-white px-2 h-[2.38rem] flex items-center justify-center rounded border border-gray-200"
+        className=" md:h-[2.38rem] h-[2rem] font-semibold md:text-lg text-sm bg-white px-2 flex items-center justify-center rounded border border-gray-200"
       >
         <span>카테고리</span>
         <img
@@ -81,13 +81,13 @@ export default function CategoryDropdown() {
         />
       </button>
       {isOpen && (
-        <div className="absolute mt-2 py-[2.5rem] px-[1.5rem] w-[34rem] bg-white border rounded-lg shadow-lg">
+        <div className="absolute mt-2 md:py-[2.5rem] p-[1.5rem] md:w-[34rem] w-[18rem] bg-white border rounded-lg shadow-lg">
           {/* 주제 버튼 */}
-          <div className="grid grid-cols-5 gap-2">
+          <div className="md:grid md:grid-cols-5 md:gap-2 grid grid-cols-3 gap-2">
             {topics.map((topic) => (
               <button
                 key={topic}
-                className={`py-[0.5rem] rounded-lg border w-[5.4372rem] text-sm ${
+                className={`py-[0.5rem] rounded-lg border md:w-[5.4372rem] text-sm ${
                   selectedTopics.includes(topic) ? 'bg-blue-400 text-white' : ''
                 }`}
                 onClick={() => handleTopicSelect(topic)}
