@@ -119,7 +119,7 @@ export default function ClubCard({
       )}
       {showManageButton && (
         <Link href={`/community/club/manage/${clubId}`}>
-          <button className="w-full bg-blue-400 text-white py-[1.3rem] leading-none text-xl font-medium rounded-b-2xl md:hidden">
+          <button className="w-full bg-blue-400 text-white md:py-[1.3rem] py-4 leading-none md:text-base text-sm font-medium rounded-b-2xl md:hidden">
             관리하기
           </button>
         </Link>
