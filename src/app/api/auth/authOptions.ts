@@ -116,12 +116,11 @@ async function refreshAccessToken(token: JWT) {
       token.expiresAt = Math.floor(Date.now() + EXPIRES_AT * 1000) as number;
       console.log('Access token issuance completed!!');
       token.accessToken = res?.data.data;
-    } else if (res?.status === 403) {
-      console.log(res.data);
-      throw new Error('Access token issuance failure 403');
+      return token;
+    } else if ((res?.status as number) >= 400) {
+      console.log(res?.data);
+      throw new Error('Access token issuance failure');
     }
-
-    return token;
   } catch (e: any) {
     console.error('Error refreshing access Token : ', e.message);
     return { ...token, error: 'RefreshAccessTokenError' };
