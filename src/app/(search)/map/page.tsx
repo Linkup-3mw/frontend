@@ -36,12 +36,12 @@ export default function MapPage() {
 
   return (
     <>
-      <div>
+      <div className="overflow-hidden relative mt-[5rem] max-md:mt-[3.375rem] max-md:h-[calc(100vh_-_3.45rem)]">
         <CurrentLocationButton />
         <ComponentMap />
         <Marker />
         <Zoom />
-        <div className="">
+        <div className="absolute right-[4.44rem] top-[2rem] z-[200] flex flex-row-reverse gap-[1.5rem] h-[calc(100vh_-_7rem_-_9.25rem)] max-h-[50.75rem] min-h-[80.4%] max-md:min-h-0 max-md:h-[calc(100vh_-_4.37rem)] max-md:static">
           <BuildingList />
           {currentBuilding && <BuildingInfo />}
         </div>

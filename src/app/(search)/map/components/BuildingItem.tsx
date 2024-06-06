@@ -34,7 +34,7 @@ export default function BuildingItem() {
               }}
             >
               <div
-                className="md:w-[26.6875rem] md:h-[8.5rem] mb:w-[20.5rem] mb:h-[5.875rem]  
+                className="md:w-[26.6875rem] md:h-[8.5rem] max-md:w-full mb:h-[5.875rem]  
               flex gap-5 p-4 items-center bg-white rounded-md active:bg-blue-500 active:rounded-md active:text-white"
               >
                 <div>
@@ -45,7 +45,7 @@ export default function BuildingItem() {
                     alt={`${office.location}`}
                   />
                 </div>
-                <div className="flex flex-col mb:w-[14.125rem] md:w-[16.6875rem] mb:h-[3.875rem] md:h-[5.125rem] justify-between">
+                <div className="flex flex-col max-md:w-full  md:w-[16.6875rem] mb:h-[3.875rem] md:h-[5.125rem] justify-between">
                   <div className="flex justify-between">
                     <p className="font-bold mb:text-[1rem] md:text-lg">
                       {office.location}

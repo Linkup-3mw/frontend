@@ -4,12 +4,15 @@ import {
   seatListReservation,
   selectedSeatAllState,
   confirmedState,
+  selectedSpaceAllState,
 } from '@/app/(search)/atom/office';
 import { addDays, format } from 'date-fns';
 import {
   minDeskLayoutState,
   mobileReservationLayoutState,
 } from '@/app/(search)/atom/media';
+import { useEffect } from 'react';
+import API from '@/utils/axios';
 
 export default function OpenTable() {
   const [selectedSeatAll, setSelectedSeatAll] =
@@ -49,7 +52,10 @@ export default function OpenTable() {
     const queryParams = new URLSearchParams(window.location.search);
     queryParams.set('start_date', selectedSeatAll?.start_date!);
     queryParams.set('end_date', selectedSeatAll?.end_date!);
+    queryParams.set('type', selectedSeatAll?.type!);
     queryParams.set('code', seatNumber);
+    queryParams.set('start-time', '');
+    queryParams.set('end-time', '');
 
     window.history.replaceState(
       {},
