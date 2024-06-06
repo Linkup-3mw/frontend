@@ -148,7 +148,6 @@ export interface Rating {
 
 // 빌딩
 export interface Building {
-  buildingId: any;
   id: number;
   location: string;
   region: string;

@@ -55,7 +55,7 @@ export default function Marker() {
     if (map) {
       buildingOverlayContent?.forEach((office) => {
         const customContent = `
-            <div id=${office.buildingId} class="overlay bg-white group absolute z-10 left-0 bottom-0 -translate-x-1/2 p-4 box-border text-nowrap rounded-[0.25rem] text-sm shadow-xl after:absolute after:left-1/2 after:top-[100%] after:-translate-x-1/2 after:w-[1.2625rem] after:h-[1.0625rem] after:bg-[url(/svg/map/tail.svg)] after:bg-no-repeat after:bg-center after:bg-[length:100%]">
+            <div id=${office.buildingId} class="overlay bg-white group absolute z-10 left-0 bottom-0 -translate-x-1/2 p-4 box-border text-nowrap rounded-[0.25rem] text-sm shadow-lg after:absolute after:left-1/2 after:top-[100%] after:-translate-x-1/2 after:w-[1.2625rem] after:h-[1.0625rem] after:bg-[url(/svg/map/tail.svg)] after:bg-no-repeat after:bg-center after:bg-[length:100%]">
               <div class="flex gap-4 items-center">
                 <p class="font-bold text-sm">${office.location}</p>
                 <div class="bg-white text-black group-hover:block hidden items-center">
@@ -114,29 +114,29 @@ export default function Marker() {
     if (map && filterData.length > 0) {
       filterOverlayContent?.forEach((office) => {
         const customContent = `
-            <div id=${office.buildingId} class="overlay  text-white  bg-[#688AF2] group absolute z-10 left-0 bottom-0 -translate-x-1/2 p-4 box-border text-nowrap rounded-[0.25rem] text-sm after:absolute after:left-1/2 after:top-[100%] after:-translate-x-1/2 after:w-[1.2625rem] after:h-[1.0625rem] after:bg-[url(/svg/map/tailblue.svg)] after:bg-no-repeat after:bg-center after:bg-[length:100%]">
-              <div class="flex gap-4 items-center">
-                <p class="font-bold text-lg">${office.location}</p>
-                <div class="group-hover:block hidden items-center">
-                  <div class="flex gap-1 items-center">
-                    <Image src="/svg/map/star.svg" width={18} height={18} alt="별점이미지" />
-                    <b>별점 리뷰갯수</b>
-                  </div>
-                </div>
-              </div>
-              <div class="group-hover:h-[6rem] group-hover:w-[11.1875rem] group-hover:opacity-100 opacity-0 h-0 w-0 overflow-hidden flex flex-col gap-3 transition-all">
-                <span>
-                  <p class="text-xs">${office.traffic}</p>
-                </span>
-                <span class="flex gap-2 items-center text-white">
-                  <Image src="/svg/map/cow.svg" width={18} height={18} alt="소이미지" />
-                  <span>소모임  개</span>
-                </span>
-                <button class="absolute bottom-4 right-5 font-bold w-[4rem] h-[2rem] bg-white rounded-xl text-blue-600">
-                  바로 예약
-                </button>
-              </div>
+        <div id=${office.buildingId} class="overlay text-[1rem] text-white bg-[#688AF2]  group absolute z-10 left-0 bottom-0 -translate-x-1/2 p-4 box-border text-nowrap rounded-[0.25rem] text-sm shadow-lg after:absolute after:left-1/2 after:top-[100%] after:-translate-x-1/2 after:w-[1.2625rem] after:h-[1.0625rem] after:bg-[url(/svg/map/tailblue.svg)] after:bg-no-repeat after:bg-center after:bg-[length:100%]">
+        <div class="flex gap-4 items-center">
+          <p class="font-bold text-sm">${office.location}</p>
+          <div class="text-white group-hover:block hidden items-center">
+            <div class="flex gap-1 items-center">
+              <Image src="/svg/map/star.svg" width={18} height={18} alt="별점이미지" />
+              <b>별점 리뷰갯수</b>
             </div>
+          </div>
+        </div>
+        <div class="group-hover:h-[6rem] group-hover:w-[11.1875rem] group-hover:opacity-100 opacity-0 h-0 w-0 overflow-hidden flex flex-col gap-3 transition-all">
+          <span>
+            <p class="text-xs">${office.traffic}</p>
+          </span>
+          <span class="flex gap-2 items-center ">
+            <Image src="/svg/map/cow.svg" width={18} height={18} alt="소이미지" />
+            <span>소모임  개</span>
+          </span>
+          <button class="absolute bottom-4 right-5 font-bold w-[4rem] h-[2rem] bg-white rounded-xl text-[#688AF2]">
+            바로 예약
+          </button>
+        </div>
+      </div>
           `;
 
         const markerPosition = new window.kakao.maps.LatLng(

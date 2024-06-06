@@ -18,6 +18,7 @@ export default function BuildingImageSlider({
         // src={`${images}/${buildingId}.jpeg`}
         src={'/images/office/info/office.jpeg'}
         alt="오피스 이미지"
+        className="w-full h-auto aspect-1.7/1"
       />
     </div>
   );

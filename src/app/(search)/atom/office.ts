@@ -1,6 +1,7 @@
 import {
   Membership,
   OnePassMembership,
+  Remaining,
   Reservation,
 } from '@/types/office/reservation';
 import { SeatReservation, SpaceReservation } from '@/types/office/reservation';
@@ -62,4 +63,9 @@ export const spaceListReservation = atom<SpaceReservation[]>({
 export const infoMsgState = atom<boolean>({
   key: 'infoMsgState',
   default: false,
+});
+//잔여 좌석 조회 주머니
+export const searchRemainingState = atom<Remaining[]>({
+  key: 'searchRemaining',
+  default: [],
 });

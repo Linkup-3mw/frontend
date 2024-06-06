@@ -10,7 +10,6 @@ import {
 import { selectedSeatAllState } from '@/app/(search)/atom/office';
 import Image from 'next/image';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { mobileReservationLayoutState } from '@/app/(search)/atom/media';
 
 export default function OpenDeskMobile() {
   const [selectedSeatAll, setSelectedSeatAll] =
@@ -118,18 +117,17 @@ export default function OpenDeskMobile() {
                   </div>
                 </div>
                 <button
-                className={`w-[5.75rem] h-[2.5rem] rounded-lg text-white ${
-                  selectedSeatAll?.start_date &&
-                  selectedSeatAll?.type &&
-                  selectedSeatAll?.code
-                    ? 'bg-[#688AF2]'
-                    : 'bg-[#A3A3AF]'
-                }`}
-                onClick={handleSeatReady}
-              >
-                확정
-              </button>
-
+                  className={`w-[5.75rem] h-[2.5rem] rounded-lg text-white ${
+                    selectedSeatAll?.start_date &&
+                    selectedSeatAll?.type &&
+                    selectedSeatAll?.code
+                      ? 'bg-[#688AF2]'
+                      : 'bg-[#A3A3AF]'
+                  }`}
+                  onClick={handleSeatReady}
+                >
+                  확정
+                </button>
               </div>
             </div>
           </div>
