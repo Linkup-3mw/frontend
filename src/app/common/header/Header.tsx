@@ -37,23 +37,23 @@ export default function Header() {
       href: '/community',
       isActive: pathname.startsWith('/community'),
     },
-    {
-      label: '공지사항',
-      href: '/notice',
-      isActive: pathname.startsWith('/notice'),
-    },
+    // {
+    //   label: '공지사항',
+    //   href: '/notice',
+    //   isActive: pathname.startsWith('/notice'),
+    // },
   ];
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 h-[5rem] bg-blue-100 text-main-black px-[1.25rem] flex items-center">
       <ContentWrap>
-        <div className="flex justify-between items-center h-full w-full">
+        <MobileHeader isModalOpen={isModalOpen} toggleModal={toggleModal} />
+        <div className="flex justify-between items-center">
           {/* part1 */}
-          <div className="flex items-center max-w-[25.625rem] md:flex-1">
+          <div className="md:justify-start">
             <HeaderMenu menuItems={menuItems} />
           </div>
           {/* 모바일 사이즈의 로고와 아이콘들 */}
-          <MobileHeader isModalOpen={isModalOpen} toggleModal={toggleModal} />
 
           {/* part2 */}
           <div className="hidden md:flex md:flex-1 justify-center items-center max-w-[15rem] shrink-0">
@@ -65,7 +65,7 @@ export default function Header() {
           {/* part3 */}
           <div className="hidden md:flex items-center max-w-[25.625rem]">
             <Profile />
-            <div className="mx-3">
+            {/* <div className="mx-3">
               <img src="/svg/header/chatIcon.svg" alt="Chat Icon" />
             </div>
             <div className="mx-3">
@@ -76,7 +76,7 @@ export default function Header() {
                 src="/svg/header/unconfirmedAlarmIcon.svg"
                 alt="Unconfirmed Alarm Icon"
               />
-            </div>
+            </div> */}
             <div className="mx-3 relative cursor-pointer">
               <img
                 src="/svg/header/hamburgerMenuIcon.svg"

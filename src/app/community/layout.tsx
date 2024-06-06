@@ -1,4 +1,3 @@
-import React from 'react';
 import CommunityNav from './components/CommunityNav';
 
 export default function layout({

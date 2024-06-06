@@ -1,4 +1,3 @@
-'use client';
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import Profile from './Profile';
@@ -17,26 +16,25 @@ export default function MobileHeader({
   const { data: session } = useSession();
 
   return (
-    <div
-      className={`flex mb:flex md:hidden w-full justify-between items-center`}
-    >
-      <div className="flex-1 justify-start">
+    <div className="flex md:hidden justify-between items-center">
+      <div className="flex justify-start items-center flex-1">
         <Profile />
       </div>
-      <div className="flex justify-center items-center flex-1">
+      <div className="flex justify-center items-center flex-1 max-w-[10rem]">
         <Link href="/">
-          <img className="" src="/svg/header/logo.svg" alt="Logo" />
+          <img className="w-auto" src="/svg/header/logo.svg" alt="Logo" />
         </Link>
       </div>
-      <div className="flex flex-1 justify-end shrink-0">
-        <img
+      {/* <div className="flex flex-1 justify-end shrink-0"> */}
+      {/* <img
           className="h-8 mr-[0.62rem]"
           src="/svg/header/unconfirmedAlarmIcon.svg"
           alt="Unconfirmed Alarm Icon"
-        />
-        <div className="relative cursor-pointer">
+        /> */}
+      <div className="flex justify-end items-center flex-1">
+        <div className="relative">
           <img
-            className="h-8 cursor-pointer mr-[0.62rem]"
+            className="h-7 cursor-pointer"
             src="/svg/header/hamburgerMenuIcon.svg"
             alt="Hamburger Menu Icon"
             onClick={toggleModal}
@@ -49,6 +47,7 @@ export default function MobileHeader({
           />
         </div>
       </div>
+      {/* </div> */}
     </div>
   );
 }
