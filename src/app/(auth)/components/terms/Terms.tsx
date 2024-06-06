@@ -30,7 +30,11 @@ export default function Terms({ requiredTerms, optionalTerms, type }: Props) {
 
     const newQueryString = createQueryString('agrees', agrees);
 
-    router.push(`/signup?type=${type}&${newQueryString}`);
+    if (type) {
+      router.push(`/signup?type=${type}&${newQueryString}`);
+    } else {
+      router.push(`/signup?&${newQueryString}`);
+    }
   };
 
   const createQueryString = useCallback((name: string, value: string) => {
