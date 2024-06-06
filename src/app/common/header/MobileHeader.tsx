@@ -25,19 +25,19 @@ export default function MobileHeader({
       </div>
       <div className="flex justify-center items-center flex-1">
         <Link href="/">
-          <img className="" src="svg/header/logo.svg" alt="Logo" />
+          <img className="" src="/svg/header/logo.svg" alt="Logo" />
         </Link>
       </div>
       <div className="flex flex-1 justify-end shrink-0">
         <img
           className="h-8 mr-[0.62rem]"
-          src="svg/header/unconfirmedAlarmIcon.svg"
+          src="/svg/header/unconfirmedAlarmIcon.svg"
           alt="Unconfirmed Alarm Icon"
         />
         <div className="relative cursor-pointer">
           <img
             className="h-8 cursor-pointer mr-[0.62rem]"
-            src="svg/header/hamburgerMenuIcon.svg"
+            src="/svg/header/hamburgerMenuIcon.svg"
             alt="Hamburger Menu Icon"
             onClick={toggleModal}
           />

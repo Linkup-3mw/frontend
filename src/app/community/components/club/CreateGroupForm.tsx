@@ -2,7 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import Modal from './Modal';
+import Modal from './common/Modal';
+import Club from './Club';
+// import { i_club, CLUB } from '@/app/model/club';
+import RoundedFrame from './common/RoundedFrame';
+import MobileBackBtn from '@/app/common/components/form/MobileBackBtn';
+import BlueSquareBtn from '@/app/common/components/form/BlueSquareBtn';
 
 interface CreateGroupFormProps {
   onClose: () => void;
@@ -83,12 +88,15 @@ export default function CreateGroupForm({ onClose }: CreateGroupFormProps) {
     clearErrors,
   } = useForm<FormData>({
     resolver: zodResolver(Schema),
+    mode: 'onChange',
   });
 
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [submitted, setSubmitted] = useState(false); // 제출 여부 상태 추가
+  // const [formData, setFormData] = useState<i_club>(new CLUB);  //TODO clue interface 추가하세요
+  // const [test, setTest] = useState<i_club>(new CLUB);  //TODO cosole.log 해서 봐라
   const [formData, setFormData] = useState({});
 
   const onSubmit = async (data: FormData) => {
@@ -184,7 +192,7 @@ export default function CreateGroupForm({ onClose }: CreateGroupFormProps) {
 
   return (
     <div className="flex items-center justify-center">
-      {submitted ? ( // 제출 후에는 폼 대신 모달을 렌더링합니다.
+      {submitted ? (
         <Modal
           isOpen={isModalOpen}
           onClose={closeModal}
@@ -195,19 +203,24 @@ export default function CreateGroupForm({ onClose }: CreateGroupFormProps) {
           buttonText="확인"
         />
       ) : (
-        <div className="bg-blue-50 px-6 pb-6 rounded-lg shadow-lg w-[46.75rem]">
-          <div className="flex items-center font-semibold border-b border-gray-300 py-[2rem]">
-            <button onClick={onClose} className="mr-2 text-xl">
+        <div className="bg-blue-50 px-6 pb-6 rounded-lg shadow-lg w-[46.75rem] ">
+          <div className="flex items-center font-semibold md:border-b md:border-gray-300 py-[2rem]">
+            <button
+              onClick={onClose}
+              className="mr-2 md:text-[1.5rem] text-[1rem]"
+            >
               &lt;
             </button>
-            <h2 className="flex-1 text-center text-2xl font-bold">
+            <h2 className="flex-1 text-center md:text-[1.5rem] text-[1rem] font-bold">
               소모임 개설
             </h2>
           </div>
-          <form className="mt-[2.5rem]" onSubmit={handleSubmit(onSubmit)}>
+          <form className="md:mt-[2.5rem]" onSubmit={handleSubmit(onSubmit)}>
             {/* 승인 유형 */}
-            <div className="space-y-4 text-sm mb-[2rem]">
-              <label className="font-bold text-xl">승인 유형</label>
+            <div className="space-y-4 text-sm mb-[2.5rem] leading-none">
+              <label className="font-bold md:text-xl text-sm leading-none">
+                승인 유형
+              </label>
               <div className="flex space-x-4">
                 {approvalType.map((type) => (
                   <button
@@ -224,7 +237,7 @@ export default function CreateGroupForm({ onClose }: CreateGroupFormProps) {
                         setApplicationFormVisible(false);
                       }
                     }}
-                    className={`px-4 py-2 rounded-lg ${
+                    className={`md:px-4 px-[0.62rem] py-2 h-[2.5rem] rounded-lg md:text-sm text-xs ${
                       selectedApprovalType === type
                         ? 'bg-blue-400 text-white border border-white border-opacity-10'
                         : 'bg-white border border-gray-200'
@@ -235,15 +248,17 @@ export default function CreateGroupForm({ onClose }: CreateGroupFormProps) {
                 ))}
               </div>
               {errors.approvalType && (
-                <p className="text-[14px] font-normal leading-none text-red-danger">
+                <p className="md:text-sm text-xs font-normal text-red-danger leading-none">
                   {errors.approvalType.message}
                 </p>
               )}
             </div>
             {/* 모임 카테고리 */}
-            <div className="space-y-4 text-sm mb-[2rem]">
-              <label className="font-bold text-xl">모임 카테고리</label>
-              <div className="grid grid-cols-6 gap-4">
+            <div className="space-y-4 text-sm mb-[2.5rem] leading-none">
+              <label className="font-bold md:text-xl text-sm leading-none">
+                모임 카테고리
+              </label>
+              <div className="grid xl:grid-cols-6 lg:grid-cols-5 md:grid-cols-4 grid-cols-3 gap-4">
                 {categories.map((category, index) => (
                   <button
                     key={index}
@@ -253,7 +268,7 @@ export default function CreateGroupForm({ onClose }: CreateGroupFormProps) {
                       setSelectedCategory(category);
                       clearErrors('category');
                     }}
-                    className={`py-[0.5rem] rounded-lg ${
+                    className={`md:px-2 px-[0.62rem] py-2 rounded-lg h-[2.5rem] md:text-sm text-xs ${
                       selectedCategory === category
                         ? 'bg-blue-400 text-white border border-white border-opacity-10'
                         : 'bg-white border border-gray-200'
@@ -265,15 +280,17 @@ export default function CreateGroupForm({ onClose }: CreateGroupFormProps) {
               </div>
               {errors.category && (
                 <>
-                  <p className="text-[14px] font-normal leading-none text-red-danger">
+                  <p className="md:text-sm text-xs font-normal text-red-danger leading-none">
                     {errors.category.message}
                   </p>
                 </>
               )}
             </div>
             {/* 모집 정원 */}
-            <div className="space-y-4 text-sm mb-[2rem]">
-              <label className="font-bold text-xl">모집 정원</label>
+            <div className="space-y-4 text-sm mb-[2.5rem] leading-none">
+              <label className="font-bold md:text-xl text-sm leading-none">
+                모집 정원
+              </label>
               <div className="relative">
                 <input
                   type="number"
@@ -286,33 +303,35 @@ export default function CreateGroupForm({ onClose }: CreateGroupFormProps) {
                     errors.capacity
                       ? 'border-red-500'
                       : 'border-gray-200 focus:border-blue-300 focus:ring-blue-300'
-                  } focus:outline-none`}
+                  } focus:outline-none md:placeholder:text-sm placeholder:text-xs`}
                 />
-                <div className="absolute inset-y-0 right-2 flex items-center pr-3 pointer-events-none">
+                <div className="md:text-sm text-xs font-bold absolute inset-y-0 right-2 flex items-center pr-3 pointer-events-none">
                   <span className="">명</span>
                 </div>
               </div>
               {errors.capacity && (
                 <>
-                  <p className="text-[14px] font-normal leading-none text-red-danger">
+                  <p className="md:text-sm text-xs font-normal text-red-danger leading-none">
                     {errors.capacity.message}
                   </p>
                 </>
               )}
             </div>
             {/* 베이스 지점 */}
-            <div className="space-y-4 text-sm mb-[2rem]">
-              <label className="font-bold text-xl">베이스 지점</label>
+            <div className="space-y-4 text-sm mb-[2.5rem] leading-none">
+              <label className="font-bold md:text-xl text-sm leading-none">
+                베이스 지점
+              </label>
               <div className="relative">
                 <input
                   type="text"
                   {...register('basePoint')}
                   placeholder="지점을 검색해 주세요."
-                  className={`pl-10 py-2 pr-10 w-full min-h-[3.5rem] rounded-lg border ${
+                  className={`md:pl-10 pl-11 py-2 pr-10 w-full min-h-[3.5rem] rounded-lg border ${
                     errors.basePoint
                       ? 'border-red-500'
                       : 'border-gray-200 focus:border-blue-300 focus:ring-blue-300'
-                  } focus:outline-none`}
+                  } focus:outline-none md:placeholder:text-sm placeholder:text-xs`}
                 />
                 <img
                   src="/svg/club/search.svg"
@@ -322,15 +341,17 @@ export default function CreateGroupForm({ onClose }: CreateGroupFormProps) {
               </div>
               {errors.basePoint && (
                 <>
-                  <p className="text-[14px] font-normal leading-none text-red-danger">
+                  <p className="md:text-sm text-xs font-normal text-red-danger leading-none">
                     {errors.basePoint.message}
                   </p>
                 </>
               )}
             </div>
             {/* 소모임 이름 */}
-            <div className="space-y-4 text-sm mb-[2rem]">
-              <label className="font-bold text-xl">소모임 이름</label>
+            <div className="space-y-4 text-sm mb-[2.5rem] leading-none">
+              <label className="font-bold md:text-xl text-sm leading-none">
+                소모임 이름
+              </label>
               <div className="relative">
                 <input
                   type="text"
@@ -340,60 +361,66 @@ export default function CreateGroupForm({ onClose }: CreateGroupFormProps) {
                     errors.clubName
                       ? 'border-red-500'
                       : 'border-gray-200 focus:border-blue-300 focus:ring-blue-300'
-                  } focus:outline-none`}
+                  } focus:outline-none md:placeholder:text-sm placeholder:text-xs`}
                 />
               </div>
               {errors.clubName && (
-                <p className="text-[14px] font-normal leading-none text-red-danger">
+                <p className="md:text-sm text-xs font-normal text-red-danger leading-none">
                   {errors.clubName.message}
                 </p>
               )}
             </div>
             {/* 한 줄 소개 */}
-            <div className="space-y-4 text-sm mb-[2rem]">
-              <label className="font-bold text-xl">한 줄 소개</label>
+            <div className="space-y-4 text-sm mb-[2.5rem] leading-none">
+              <label className="font-bold md:text-xl text-sm leading-none">
+                한 줄 소개
+              </label>
               <div className="relative">
                 <input
                   type="text"
                   {...register('shortDescription')}
-                  placeholder="제목과 함께 보일 간단한 한 줄 소개를 입력해 주세요. (40자 이내)"
-                  className={`px-4 py-2 pr-10 w-full min-h-[3.5rem] rounded-lg border ${
+                  placeholder="간단한 소개를 입력해주세요. (40자 이내)"
+                  className={` px-4 py-2 pr-10 w-full min-h-[3.5rem] rounded-lg border ${
                     errors.shortDescription
                       ? 'border-red-500'
                       : 'border-gray-200 focus:border-blue-300 focus:ring-blue-300'
-                  } focus:outline-none`}
+                  } focus:outline-none md:placeholder:text-sm placeholder:text-xs`}
                 />
               </div>
               {errors.shortDescription && (
-                <p className="text-[14px] font-normal leading-none text-red-danger">
+                <p className="md:text-sm text-xs font-normal text-red-danger leading-none">
                   {errors.shortDescription.message}
                 </p>
               )}
             </div>
             {/* 상세 소개 */}
-            <div className="space-y-4 text-sm mb-[2rem]">
-              <label className="font-bold text-xl">상세 소개</label>
+            <div className="space-y-4 text-sm mb-[2.5rem] leading-none">
+              <label className="font-bold md:text-xl text-sm leading-none">
+                상세 소개
+              </label>
               <div className="">
                 <textarea
                   {...register('detailedDescription')}
-                  placeholder="규칙, 유의사항 등을 자세하게 적을 수록 알맞는 사람을 모집할 수 있어요. (1000자 이내)"
-                  className={`px-4 py-2 pr-10 w-full min-h-[3.5rem] rounded-lg border overflow-y-auto ${
+                  placeholder={`규칙, 유의사항 등을 자세하게 적을 수록 \n알맞는 사람을 모집 가능해요. (1000자 이내)`}
+                  className={` px-4 py-2 pr-10 w-full min-h-[3.5rem] rounded-lg border overflow-y-auto ${
                     errors.detailedDescription
                       ? 'border-red-500'
                       : 'border-gray-200 focus:border-blue-300 focus:ring-blue-300'
-                  } focus:outline-none`}
+                  } focus:outline-none md:placeholder:text-sm placeholder:text-xs`}
                 />
               </div>
               {errors.detailedDescription && (
-                <p className="text-[14px] font-normal leading-none text-red-danger">
+                <p className="md:text-sm text-xs font-normal text-red-danger leading-none">
                   {errors.detailedDescription.message}
                 </p>
               )}
             </div>
             {/* 이미지 첨부 */}
-            <div className="space-y-2 text-sm mb-[2rem]">
-              <label className="font-bold text-xl">이미지 첨부</label>
-              <p className="text-gray-400 pb-2">
+            <div className="space-y-4 text-sm mb-[2.5rem] leading-none">
+              <label className="font-bold md:text-xl text-sm leading-none">
+                이미지 첨부
+              </label>
+              <p className="text-gray-400 md:text-sm text-xs leading-none">
                 모임의 성격을 드러내는 사진 1장을 첨부해 주세요.
               </p>
               <div
@@ -407,7 +434,7 @@ export default function CreateGroupForm({ onClose }: CreateGroupFormProps) {
                   className="hidden"
                   id="image-upload"
                   {...register('image', {
-                    onChange: (e) => handleImageChange(e), // 이 부분을 추가합니다.
+                    onChange: (e) => handleImageChange(e),
                   })}
                 />
                 <label
@@ -426,7 +453,7 @@ export default function CreateGroupForm({ onClose }: CreateGroupFormProps) {
                 </label>
               </div>
               {errors.image && (
-                <p className="text-[14px] font-normal leading-none text-red-danger py-2">
+                <p className="md:text-sm text-xs font-normal text-red-danger leading-none">
                   {errors.image.message}
                 </p>
               )}
@@ -434,7 +461,7 @@ export default function CreateGroupForm({ onClose }: CreateGroupFormProps) {
             {/* 제출 버튼 */}
             <button
               type="submit"
-              className="px-4 py-2 pr-10 w-full min-h-[3.5rem] rounded-lg bg-blue-500 text-white leading-none font-bold"
+              className="px-4 py-2 pr-10 w-full md:h-[3.875rem] h-[2.75rem] rounded-lg bg-blue-400 text-white leading-none font-bold text-[1rem] md:text-[1.25rem]"
             >
               개설하기
             </button>
