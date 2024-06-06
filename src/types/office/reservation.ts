@@ -35,3 +35,11 @@ export interface OnePassMembership {
   seat: SeatReservation[];
   space: SpaceReservation[];
 }
+
+//남은 좌석 주머니
+export interface Remaining {
+  id: number;
+  type: string;
+  code: string;
+  available: boolean;
+}

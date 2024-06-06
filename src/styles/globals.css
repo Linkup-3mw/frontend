@@ -64,18 +64,15 @@ input:-webkit-autofill {
   -webkit-box-orient: vertical;
 }
 
-/* 반응형 (rem기준 px) */
+/* 반응형 (rem기준 px)  */
 @media (min-width: 768px) and (max-width: 920px) {
-
   html,
   body {
     font-size: 11px;
   }
-
 }
 
 @media (min-width: 921px) and (max-width: 1024px) {
-
   html,
   body {
     font-size: 12px;
@@ -83,7 +80,6 @@ input:-webkit-autofill {
 }
 
 @media (min-width: 1025px) and (max-width: 1280px) {
-
   html,
   body {
     font-size: 13px;

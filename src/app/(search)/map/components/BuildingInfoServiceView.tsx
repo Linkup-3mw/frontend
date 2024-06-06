@@ -25,7 +25,7 @@ export default function BuildingServiceView({
   return (
     <>
       <>
-        <div className="flex flex-col gap-y-3 mb:w-[20.5rem] md:w-[26.6875rem] my-6 mx-auto">
+        <div className="flex flex-col gap-y-3  my-6 mx-auto">
           <div className="flex justify-between items-center mx-2">
             <p className="text-black text-lg font-bold leading-[1.75rem]">
               {currentBuilding?.location}
