@@ -1,12 +1,8 @@
 import Link from 'next/link';
 
-export default function Profile({ session, loading }: any) {
-  if (loading) {
-    return <div className="flex items-center shrink-0 mr-4"></div>;
-  }
-
+export default function Profile({ session, className }: any) {
   return (
-    <div className="flex items-center shrink-0 mr-4">
+    <div className={`flex items-center shrink-0 ${className}`}>
       {session ? (
         <>
           <div className="md:h-6 md:w-6 h-5 w-5 border border-[#45AD56] rounded-full overflow-hidden">
