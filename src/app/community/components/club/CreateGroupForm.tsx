@@ -1,3 +1,4 @@
+'use client';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -8,10 +9,7 @@ import Club from './Club';
 import RoundedFrame from './common/RoundedFrame';
 import MobileBackBtn from '@/app/common/components/form/MobileBackBtn';
 import BlueSquareBtn from '@/app/common/components/form/BlueSquareBtn';
-
-interface CreateGroupFormProps {
-  onClose: () => void;
-}
+import router, { useRouter } from 'next/navigation';
 
 const approvalType = ['immediate', 'approval'] as const;
 
@@ -78,7 +76,7 @@ const Schema = z.object({
 
 type FormData = z.infer<typeof Schema>;
 
-export default function CreateGroupForm({ onClose }: CreateGroupFormProps) {
+export default function CreateGroupForm() {
   const {
     handleSubmit,
     setValue,
@@ -98,7 +96,7 @@ export default function CreateGroupForm({ onClose }: CreateGroupFormProps) {
   // const [formData, setFormData] = useState<i_club>(new CLUB);  //TODO clue interface 추가하세요
   // const [test, setTest] = useState<i_club>(new CLUB);  //TODO cosole.log 해서 봐라
   const [formData, setFormData] = useState({});
-
+  const router = useRouter();
   const onSubmit = async (data: FormData) => {
     console.log('Submitted data:', data);
     setFormData(data);
@@ -113,7 +111,6 @@ export default function CreateGroupForm({ onClose }: CreateGroupFormProps) {
 
   const closeModal = () => {
     setIsModalOpen(false);
-    onClose();
   };
 
   useEffect(() => {
@@ -203,11 +200,11 @@ export default function CreateGroupForm({ onClose }: CreateGroupFormProps) {
           buttonText="확인"
         />
       ) : (
-        <div className="bg-blue-50 px-6 pb-6 rounded-lg shadow-lg w-[46.75rem] ">
+        <div className="bg-blue-50 md:px-[2.5rem] px-4 md:pb-[2.5rem] pb-4 rounded-2xl shadow-lg md:w-[62.875rem] w-[20rem] mx-auto">
           <div className="flex items-center font-semibold md:border-b md:border-gray-300 py-[2rem]">
             <button
-              onClick={onClose}
               className="mr-2 md:text-[1.5rem] text-[1rem]"
+              onClick={() => router.back()}
             >
               &lt;
             </button>
