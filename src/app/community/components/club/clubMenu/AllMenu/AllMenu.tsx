@@ -10,30 +10,10 @@ import RenderClubs from '../../RenderClubs';
 import { allClubs, hotClubs } from '@/app/community/data/clubs';
 
 export default function AllMenu() {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-
-  const dropdownOptions = ['이용 지점', '주변 지점', '전체 지점'];
-  const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
-
-  const handleOptionSelect = (value: string) => {
-    const formattedValue = value.replace(/\s/g, '');
-    setSelectedOption(value);
-    setCurrentPage(1);
-    const params = new URLSearchParams(searchParams);
-    params.set('location', formattedValue);
-    router.push(`${pathname}?${params.toString()}`);
-  };
 
   return (
     <>
-      <PlaceDropdown
-        options={dropdownOptions}
-        selectedOption={selectedOption}
-        onSelect={handleOptionSelect}
-      />
       <div className="md:flex items-center justify-between mt-5 relative z-10">
         <div className="flex items-center mb-4 md:mb-0">
           <div className="flex md:space-x-4 space-x-2">

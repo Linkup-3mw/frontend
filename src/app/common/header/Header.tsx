@@ -64,7 +64,7 @@ export default function Header({ initialSession }: any) {
             />
             <div className="relative cursor-pointer">
               <img
-                className="h-7 md:h-12"
+                className="h-7 md:h-12 md:ml-0 ml-6"
                 src="/svg/header/hamburgerMenuIcon.svg"
                 alt="Hamburger Menu Icon"
                 onClick={toggleModal}
