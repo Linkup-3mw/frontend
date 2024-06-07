@@ -1,7 +1,4 @@
-import PlaceDropdown from '@components/club/PlaceDropdown';
 import { useState } from 'react';
-import { useRouter, useSearchParams, usePathname } from 'next/navigation';
-
 import CategoryDropdown from '@components/club/CategoryDropdown';
 import TeamExclusionButton from '@components/club/TeamExclusionButton';
 import AddClubButton from '@components/club/common/AddClubButton';
