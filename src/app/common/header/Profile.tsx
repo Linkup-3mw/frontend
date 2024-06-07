@@ -1,12 +1,12 @@
-import { Session } from 'next-auth';
 import Link from 'next/link';
-import { useSession } from 'next-auth/react';
 
-export default function Profile() {
-  const { data: session } = useSession();
+export default function Profile({ session, loading }: any) {
+  if (loading) {
+    return <div className="flex items-center shrink-0 mr-4"></div>;
+  }
 
   return (
-    <div className="flex flex-1  items-center shrink-0">
+    <div className="flex items-center shrink-0 mr-4">
       {session ? (
         <>
           <div className="md:h-6 md:w-6 h-5 w-5 border border-[#45AD56] rounded-full overflow-hidden">
