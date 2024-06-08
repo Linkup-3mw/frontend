@@ -21,8 +21,7 @@ API.interceptors.request.use(async (config) => {
     const session = await getSession();
     token = session?.accessToken;
   } else {
-    // server
-    ('use server');
+    //server
     const { getSession } = await import('./getSession');
     const session = await getSession();
     token = session?.accessToken;
