@@ -171,7 +171,7 @@ export default function SignupForm({ type }: Props) {
 
         <InputBox text="산업군" errorMsg={errors.industry?.message}>
           <div className="flex flex-wrap gap-[1rem] my-[1rem] max-md:gap-[0.55rem] max-md:[&_label]:min-w-[calc((100%_-_1.65rem)/4)] max-[290px]:[&_label]:min-w-[calc((100%_-_1.65rem)/3)]">
-            {industryList.map((item: string, index: number) => (
+            {industryList?.map((item: string, index: number) => (
               <RadioButton
                 key={index}
                 name="industry"
@@ -187,7 +187,7 @@ export default function SignupForm({ type }: Props) {
 
         <InputBox text="직무" errorMsg={errors.occupation?.message}>
           <div className="flex flex-wrap gap-[1rem] my-[1rem] max-md:gap-[0.55rem] max-md:[&_label]:min-w-[calc((100%_-_1.65rem)/4)] max-[290px]:[&_label]:min-w-[calc((100%_-_1.65rem)/3)]">
-            {occupationList.map((item: string, index: number) => (
+            {occupationList?.map((item: string, index: number) => (
               <RadioButton
                 key={index}
                 name="occupation"
