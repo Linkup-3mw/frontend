@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import {
   mobileConfirmedState,
+  searchRemainingState,
   selectedSeatAllState,
   selectedSpaceAllState,
   spaceListReservation,
@@ -15,13 +16,14 @@ export default function MettingRoom4Mobile() {
   );
   const selectedSeatAll = useRecoilValue(selectedSeatAllState);
   const [isUp, setIsUp] = useState(false);
-
+  const remaining = useRecoilValue(searchRemainingState);
   const [spaceList, setSpaceList] = useRecoilState(spaceListReservation);
-  const amTime = ['8:00', '9:00', '9:30', '10:30'];
-  const pmTime = ['12:00', '12:30', '1:00', '1:30'];
+  const amTime = ['08:00', '09:00', '09:30', '10:30'];
+  const pmTime = ['12:00', '12:30', '01:00', '01:30'];
   const setMobileConfirm = useSetRecoilState(mobileConfirmedState);
   const setMobileTable = useSetRecoilState(showMobileTableState);
-
+  console.log(selectedSpaceAll);
+  console.log('왜 안더시발진자');
   const handleSpaceReady = () => {
     if (
       selectedSpaceAll?.start_date &&
@@ -67,9 +69,9 @@ export default function MettingRoom4Mobile() {
 
   return (
     <>
-      <div className="hidden-desk w-[22.5rem]  mx-auto">
+      <div className="hidden-desk w-full mx-auto">
         <Image
-          className=""
+          layout="responsive"
           src="/images/office/1.jpeg"
           height={290}
           width={360}
@@ -78,41 +80,35 @@ export default function MettingRoom4Mobile() {
         <div>
           <div
             onClick={toggleUp}
-            className={`overflow-y-scroll scrollbar-hide flex flex-col items-center  pt-3 rounded-t-3xl  bg-[#E4EEFF] w-[22.5rem] transition-transform duration-1000 ${
-              isUp ? 'translate-y-[-190px]' : ''
+            className={`overflow-y-scroll scrollbar-hide flex flex-col items-center  pt-3 rounded-t-3xl  bg-[#E4EEFF] w-ful transition-transform duration-1000 ${
+              isUp ? 'translate-y-[-120px]' : ''
             }`}
             style={{ height: isUp ? '42.25rem' : '42.25rem' }}
           >
-            <div className="z-40 ">
-              <button
-                className="z-10 w-[2rem] h-[0.25rem] bg-[#BFD4FF]"
-                onClick={toggleUp}
-              ></button>
+            <div className="">
+              <div className="w-[2rem] h-[0.25rem] bg-[#BFD4FF]"></div>
             </div>
             <div className="flex flex-col gap-4">
               <p className="text-[0.875rem] leading-5 font-bold">
-                좌석을 선택하세요
+                공간을 선택하세요
               </p>
               <div className="flex flex-wrap w-[20.5rem] gap-2">
-                {Array.from({ length: 30 }, (area, i) => i + 1).map(
-                  (area, i) => {
-                    const spaceNumber = `E-${String(area).padStart(2, '0')}`;
-                    return (
-                      <div key={i}>
-                        <button
-                          onClick={() => handleSpaceClick(spaceNumber)}
-                          className={`rounded-lg w-[3rem] h-[2rem] text-xs ${
-                            selectedSpaceAll?.code === spaceNumber
-                              ? 'bg-[#688AF2] text-white'
-                              : 'bg-white'
-                          }`}
-                        >
-                          {spaceNumber}
-                        </button>
-                      </div>
-                    );
-                  },
-                )}
+                {remaining.map((space, i) => (
+                  <div key={i}>
+                    <button
+                      onClick={() => handleSpaceClick(space.id)}
+                      className={`rounded-lg w-[3rem] h-[2rem] text-xs ${
+                        space.available === false
+                          ? 'bg-gray-400 text-black'
+                          : selectedSpaceAll?.code === space.code
+                            ? 'bg-[#688AF2] text-white'
+                            : 'bg-white'
+                      }`}
+                    >
+                      {space.code}
+                    </button>
+                  </div>
+                ))}
               </div>
               <div className="flex flex-col gap-4">
                 <p className="text-[0.875rem] leading-5 font-bold">

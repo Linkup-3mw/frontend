@@ -27,15 +27,15 @@ function ReservationTableStyleSeat({
 }) {
   if (selectedSeatAll && selectedSeatAll.type) {
     switch (selectedSeatAll.type) {
-      case '오픈테이블':
+      case '오픈데스크':
         return <OpenTable />;
       case '포커스데스크':
         return <FocusDesk />;
       case '1인실':
         return <OneRoom />;
-      case '모니터 데스크':
+      case '모니터데스크':
         return <MonitorDesk />;
-      case '지정 좌석':
+      case '지정좌석':
         return <Reserved />;
       case '기업 전용 지정 좌석':
         return <OnlyEnter />;
@@ -54,11 +54,11 @@ function ReservationTableStyleSpace({
 }) {
   if (selectedSpaceAll && selectedSpaceAll.type) {
     switch (selectedSpaceAll.type) {
-      case '회의실 (4인)':
+      case '미팅룸(4인)':
         return <MettingRoom4 />;
-      case '회의실 (8인)':
+      case '미팅룸(8인)':
         return <MeetingRoom8 />;
-      case '세미나실':
+      case '컨퍼런스룸':
         return <SeminarRoom />;
       case '스튜디오':
         return <Studio />;

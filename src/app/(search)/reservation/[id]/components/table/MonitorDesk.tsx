@@ -5,22 +5,35 @@ import {
   selectedSeatAllState,
   confirmedState,
   infoMsgState,
+  searchRemainingState,
 } from '@/app/(search)/atom/office';
-
-import {
-  minDeskLayoutState,
-  mobileReservationLayoutState,
-} from '@/app/(search)/atom/media';
+import { currentBuildingState } from '@/app/(search)/atom/search';
 
 export default function MonitorDesk() {
   const [selectedSeatAll, setSelectedSeatAll] =
     useRecoilState(selectedSeatAllState);
   const [confirm, setConfirm] = useRecoilState(confirmedState);
   const [seatList, setSeatList] = useRecoilState(seatListReservation);
+  const [remaining, setSearchRemaining] = useRecoilState(searchRemainingState);
+  const currentOffice = useRecoilValue(currentBuildingState);
+  const id = currentOffice?.id;
+
+  // const fetchSeatData = async () => {
+  //   try {
+  //     const res = await API.get(
+  //       `reservation/${id}?type=${selectedSeatAll?.type}&start=${selectedSeatAll?.start_date}&end=${selectedSeatAll?.end_date}`,
+  //     );
+  //     console.log('res', res.data.data);
+  //     setSearchRemaining(res.data.data);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   const handleSeatReady = () => {
     if (
       selectedSeatAll?.start_date &&
+      selectedSeatAll?.end_date &&
       selectedSeatAll?.type &&
       selectedSeatAll?.code
     ) {
@@ -40,6 +53,11 @@ export default function MonitorDesk() {
   };
 
   const handleSeatClick = (seatNumber: string) => {
+    // 좌석 클릭
+    const searchParams = new URLSearchParams(window.location.search);
+    searchParams.set('seatId', seatNumber);
+    const url = `${window.location.pathname}?${searchParams.toString()}`;
+    window.history.pushState(null, '', url);
     setSelectedSeatAll((prev) => ({
       ...prev,
       code: seatNumber,
@@ -64,23 +82,22 @@ export default function MonitorDesk() {
           <div className="flex flex-col gap-4 w-[44.5rem]">
             <p className="text-[1.25rem] font-semibold">좌석 선택</p>
             <div className="flex flex-wrap gap-2">
-              {Array.from({ length: 10 }, (area, i) => i + 1).map((area, i) => {
-                const seatNumber = `D-${String(area).padStart(2, '0')}`;
-                return (
-                  <div key={i}>
-                    <button
-                      onClick={() => handleSeatClick(seatNumber)}
-                      className={`rounded-lg w-[4rem] h-[2.5rem] ${
-                        selectedSeatAll?.code === seatNumber
+              {remaining.map((seat, i) => (
+                <div key={i}>
+                  <button
+                    onClick={() => handleSeatClick(seat.id)}
+                    className={`rounded-lg w-[4rem] h-[2.5rem] ${
+                      seat.available === false
+                        ? 'bg-gray-400 text-black'
+                        : selectedSeatAll?.code === seat.code
                           ? 'bg-[#688AF2] text-white'
                           : 'bg-white'
-                      }`}
-                    >
-                      {seatNumber}
-                    </button>
-                  </div>
-                );
-              })}
+                    }`}
+                  >
+                    {seat.code}
+                  </button>
+                </div>
+              ))}
             </div>
           </div>
           <div className="flex flex-col gap-4 justify-start">

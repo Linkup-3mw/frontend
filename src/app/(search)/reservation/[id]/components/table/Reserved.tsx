@@ -5,12 +5,12 @@ import {
   selectedSeatAllState,
   confirmedState,
   infoMsgState,
+  searchRemainingState,
 } from '@/app/(search)/atom/office';
 import { useFormatDate } from '@/app/(search)/map/hooks/useFormatDate';
-import {
-  minDeskLayoutState,
-  mobileReservationLayoutState,
-} from '@/app/(search)/atom/media';
+import API from '@/utils/axios';
+import { currentBuildingState } from '@/app/(search)/atom/search';
+import { useQuery } from '@tanstack/react-query';
 
 export default function Reserved() {
   const [selectedSeatAll, setSelectedSeatAll] =
@@ -18,12 +18,31 @@ export default function Reserved() {
   const [confirm, setConfirm] = useRecoilState(confirmedState);
   const [seatList, setSeatList] = useRecoilState(seatListReservation);
   const [infoMsg, setInfoMsg] = useRecoilState(infoMsgState);
-  const isMobile = useRecoilValue(mobileReservationLayoutState);
-  const minDesk = useRecoilValue(minDeskLayoutState);
-
+  const [remaining, setSearchRemaining] = useRecoilState(searchRemainingState);
+  const currentOffice = useRecoilValue(currentBuildingState);
+  // const fetchReservedData = async () => {
+  //   try {
+  //     console.log('안녕');
+  //     const res = await API.get(
+  //       `reservation/${id}?type=${selectedSeatAll?.type}&start=${selectedSeatAll?.start_date}&end=${selectedSeatAll?.end_date}`,
+  //     );
+  //     console.log('reservedRes', res.data.data);
+  //     setSearchRemaining(res.data.data);
+  //     res.data.data;
+  //     return res.data.data;
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+  // const { isError, data } = useQuery({
+  //   queryKey: ['reserved'],
+  //   queryFn: fetchReservedData,
+  // });
+  // console.log('useQueryData', data);
   const handleSeatReady = () => {
     if (
       selectedSeatAll?.start_date &&
+      selectedSeatAll?.end_date &&
       selectedSeatAll?.type &&
       selectedSeatAll?.code
     ) {
@@ -66,7 +85,23 @@ export default function Reserved() {
           <div className="flex flex-col gap-4 w-[44.5rem]">
             <p className="text-[1.25rem] font-semibold">좌석 선택</p>
             <div className="flex flex-wrap gap-2">
-              {Array.from({ length: 30 }, (area, i) => i + 1).map((area, i) => {
+              {remaining.map((seat, i) => (
+                <div key={i}>
+                  <button
+                    onClick={() => handleSeatClick(seat.id)}
+                    className={`rounded-lg w-[4rem] h-[2.5rem] ${
+                      seat.available === false
+                        ? 'bg-gray-400 text-black'
+                        : selectedSeatAll?.code === seat.code
+                          ? 'bg-[#688AF2] text-white'
+                          : 'bg-white'
+                    }`}
+                  >
+                    {seat.code}
+                  </button>
+                </div>
+              ))}
+              {/* {Array.from({ length: 30 }, (area, i) => i + 1).map((area, i) => {
                 const seatNumber = `I-${String(area).padStart(2, '0')}`;
                 return (
                   <div key={i}>
@@ -82,7 +117,7 @@ export default function Reserved() {
                     </button>
                   </div>
                 );
-              })}
+              })} */}
             </div>
           </div>
           <div className="flex flex-col gap-4 justify-start">

@@ -5,35 +5,35 @@ import {
   selectedSeatAllState,
   confirmedState,
   selectedSpaceAllState,
+  searchRemainingState,
 } from '@/app/(search)/atom/office';
-import { addDays, format } from 'date-fns';
-import {
-  minDeskLayoutState,
-  mobileReservationLayoutState,
-} from '@/app/(search)/atom/media';
-import { useEffect } from 'react';
-import API from '@/utils/axios';
+
+import { currentBuildingState } from '@/app/(search)/atom/search';
 
 export default function OpenTable() {
   const [selectedSeatAll, setSelectedSeatAll] =
     useRecoilState(selectedSeatAllState);
   const [confirm, setConfirm] = useRecoilState(confirmedState);
   const [seatList, setSeatList] = useRecoilState(seatListReservation);
+  const [remaining, setSearchRemaining] = useRecoilState(searchRemainingState);
+  const currentOffice = useRecoilValue(currentBuildingState);
+  const id = currentOffice?.id;
 
   const handleSeatReady = () => {
     if (
       selectedSeatAll?.start_date &&
+      selectedSeatAll?.end_date &&
       selectedSeatAll?.type &&
       selectedSeatAll?.code
     ) {
       if (seatList.length < 5) {
         setSeatList([...seatList, { ...selectedSeatAll }]);
-        setSelectedSeatAll({
-          type: '',
-          start_date: '',
-          end_date: '',
-          code: '',
-        });
+        // setSelectedSeatAll({
+        //   type: '',
+        //   start_date: '',
+        //   end_date: '',
+        //   code: '',
+        // });
         setConfirm(true);
       } else {
         return;
@@ -42,30 +42,19 @@ export default function OpenTable() {
   };
 
   const handleSeatClick = (seatNumber: string) => {
+    // 좌석 클릭
+    const searchParams = new URLSearchParams(window.location.search);
+    searchParams.set('seatId', seatNumber);
+    const url = `${window.location.pathname}?${searchParams.toString()}`;
+    window.history.pushState(null, '', url);
     setSelectedSeatAll((prev) => ({
       ...prev,
       code: seatNumber,
       start_date: prev?.start_date || ' ',
-      end_date: prev?.end_date || ' ',
+      end_date: prev?.end_date || '',
       type: prev?.type || '',
     }));
-    const queryParams = new URLSearchParams(window.location.search);
-    queryParams.set('start_date', selectedSeatAll?.start_date!);
-    queryParams.set('end_date', selectedSeatAll?.end_date!);
-    queryParams.set('type', selectedSeatAll?.type!);
-    queryParams.set('code', seatNumber);
-    queryParams.set('start-time', '');
-    queryParams.set('end-time', '');
-
-    window.history.replaceState(
-      {},
-      '',
-      `${window.location.pathname}?${queryParams.toString()}`,
-    );
   };
-
-  const isMobile = useRecoilValue(mobileReservationLayoutState);
-  const minDesk = useRecoilValue(minDeskLayoutState);
 
   return (
     <>
@@ -83,23 +72,22 @@ export default function OpenTable() {
           <div className="flex flex-col gap-4 w-[44.5rem]">
             <p className="text-[1.25rem] font-semibold">좌석 선택</p>
             <div className="flex flex-wrap gap-2">
-              {Array.from({ length: 10 }, (area, i) => i + 1).map((area, i) => {
-                const seatNumber = `A-${String(area).padStart(2, '0')}`;
-                return (
-                  <div key={i}>
-                    <button
-                      onClick={() => handleSeatClick(seatNumber)}
-                      className={`rounded-lg w-[4rem] h-[2.5rem] ${
-                        selectedSeatAll?.code === seatNumber
+              {remaining.map((seat, i) => (
+                <div key={i}>
+                  <button
+                    onClick={() => handleSeatClick(seat.id)}
+                    className={`rounded-lg w-[4rem] h-[2.5rem] ${
+                      seat.available === false
+                        ? 'bg-gray-400 text-black'
+                        : selectedSeatAll?.code === seat.code
                           ? 'bg-[#688AF2] text-white'
                           : 'bg-white'
-                      }`}
-                    >
-                      {seatNumber}
-                    </button>
-                  </div>
-                );
-              })}
+                    }`}
+                  >
+                    {seat.code}
+                  </button>
+                </div>
+              ))}
             </div>
           </div>
 

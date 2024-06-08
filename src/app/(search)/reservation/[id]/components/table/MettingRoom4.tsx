@@ -5,19 +5,37 @@ import {
   confirmedState,
   spaceListReservation,
   seatListReservation,
+  searchRemainingState,
 } from '@/app/(search)/atom/office';
+import { currentBuildingState } from '@/app/(search)/atom/search';
 
 export default function MeetingRoom4() {
   const [selectedSpaceAll, setSelectedSpaceAll] = useRecoilState(
     selectedSpaceAllState,
   );
-
   const [confirm, setConfirm] = useRecoilState(confirmedState);
   const [spaceList, setSpaceList] = useRecoilState(spaceListReservation);
-  const selectedSeatAll = useRecoilValue(selectedSpaceAllState);
+  const [remaining, setSearchRemaining] = useRecoilState(searchRemainingState);
+  const currentOffice = useRecoilValue(currentBuildingState);
+  const id = currentOffice?.id;
 
-  const amTime = ['8:00', '9:00', '9:30', '10:30'];
-  const pmTime = ['12:00', '12:30', '1:00', '1:30'];
+  const amTime = ['08:00', '09:00', '09:30', '10:30'];
+  const pmTime = ['12:00', '12:30', '01:00', '01:30'];
+  console.log('remaining@@@@', remaining);
+  // console.log(selectedSpaceAll);
+  // useEffect(() => {
+  //   const fetchSpaceData = async () => {
+  //     try {
+  //       const res = await API.get(
+  //         `reservation/${id}?type=${selectedSpaceAll?.type}&start=${selectedSpaceAll?.start_date}&end=${selectedSpaceAll?.end_date}`,
+  //       );
+  //       setSearchRemaining(res.data.data);
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   };
+  //   fetchSpaceData();
+  // });
 
   const handleSpaceReady = () => {
     if (
@@ -34,8 +52,6 @@ export default function MeetingRoom4() {
           start_date: '',
           end_date: '',
           code: '',
-          start_time: '',
-          end_time: '',
         });
         setConfirm(true);
       } else {
@@ -45,6 +61,10 @@ export default function MeetingRoom4() {
   };
 
   const handleSpaceClick = (spaceNumber: string) => {
+    // const searchParams = new URLSearchParams(window.location.search);
+    // searchParams.set('spaceId', spaceNumber);
+    // const url = `${window.location.pathname}?${searchParams.toString()}`;
+    // window.history.pushState(null, '', url);
     setSelectedSpaceAll((prev) => ({
       ...prev,
       code: spaceNumber,
@@ -87,23 +107,22 @@ export default function MeetingRoom4() {
               공간을 선택하세요
             </p>
             <div className="flex flex-wrap gap-2">
-              {Array.from({ length: 4 }, (_, i) => i + 1).map((area) => {
-                const spaceNumber = `F-${String(area).padStart(2, '0')}`;
-                return (
-                  <div key={area}>
-                    <button
-                      onClick={() => handleSpaceClick(spaceNumber)}
-                      className={`rounded-lg w-[4rem] h-[2.5rem] ${
-                        selectedSpaceAll?.code === spaceNumber
+              {remaining.map((space, i) => (
+                <div key={i}>
+                  <button
+                    onClick={() => handleSpaceClick(space.id)}
+                    className={`rounded-lg w-[4rem] h-[2.5rem] ${
+                      space.available === false
+                        ? 'bg-gray-400 text-black'
+                        : selectedSpaceAll?.code === space.code
                           ? 'bg-[#688AF2] text-white'
                           : 'bg-white'
-                      }`}
-                    >
-                      {spaceNumber}
-                    </button>
-                  </div>
-                );
-              })}
+                    }`}
+                  >
+                    {space.code}
+                  </button>
+                </div>
+              ))}
             </div>
             <div className="flex flex-col gap-6">
               <p className="text-[1.25rem] font-bold leading-7">
@@ -115,15 +134,18 @@ export default function MeetingRoom4() {
                   {amTime.map((am) => (
                     <button
                       key={am}
-                      onClick={() => {
-                        handleSpaceTimeClick(am);
-                      }}
+                      onClick={() => handleSpaceTimeClick(am)}
                       className={`rounded-lg w-[4rem] h-[2.5rem] ${
-                        selectedSpaceAll?.start_time === am ||
-                        selectedSpaceAll?.end_time === am
-                          ? 'bg-[#688AF2] text-white'
-                          : 'bg-white'
+                        remaining.map((item) => item.toString()).includes(am)
+                          ? 'bg-gray-500 text-white'
+                          : selectedSpaceAll?.start_time === am ||
+                              selectedSpaceAll?.end_time === am
+                            ? 'bg-[#688AF2] text-white'
+                            : 'bg-white'
                       }`}
+                      disabled={remaining
+                        .map((item) => item.toString())
+                        .includes(am)}
                     >
                       {am}
                     </button>
@@ -133,19 +155,22 @@ export default function MeetingRoom4() {
 
               <div className="flex flex-col gap-4">
                 <p className="font-bold leading-[1.375rem]">오후</p>
-                <div className="flex flex-wrap gap-2 ">
+                <div className="flex flex-wrap gap-2">
                   {pmTime.map((pm) => (
                     <button
                       key={pm}
-                      onClick={() => {
-                        handleSpaceTimeClick(pm);
-                      }}
+                      onClick={() => handleSpaceTimeClick(pm)}
                       className={`rounded-lg w-[4rem] h-[2.5rem] ${
-                        selectedSpaceAll?.start_time === pm ||
-                        selectedSpaceAll?.end_time === pm
-                          ? 'bg-[#688AF2] text-white'
-                          : 'bg-white'
+                        remaining.some((item) => item.toString() === pm)
+                          ? 'bg-gray-500 text-white'
+                          : selectedSpaceAll?.start_time === pm ||
+                              selectedSpaceAll?.end_time === pm
+                            ? 'bg-[#688AF2] text-white'
+                            : 'bg-white'
                       }`}
+                      disabled={remaining.some(
+                        (item) => item.toString() === pm,
+                      )}
                     >
                       {pm}
                     </button>

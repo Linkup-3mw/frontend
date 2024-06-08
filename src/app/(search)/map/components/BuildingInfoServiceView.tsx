@@ -3,10 +3,12 @@ import Crt from './Chart';
 import ReviewInfo from './ReviewInfo';
 import ClubInfo from './ClubInfo';
 import { useLineBreak } from '../hooks/useLineBreak';
-import Link from 'next/link';
 import Image from 'next/image';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { currentBuildingState } from '../../atom/search';
+import { useSetRecoilState } from 'recoil';
+import { currentBuildingState, modalState } from '../../atom/search';
+import { useRouter } from 'next/navigation';
+import { getSession } from 'next-auth/react';
+
 interface OfficeBuildingServiceViewProps {
   currentBuilding: Building | null;
 }
@@ -19,14 +21,27 @@ export default function BuildingServiceView({
   const rules = useLineBreak({ content: rule });
   const id = currentBuilding?.id;
   // const officeDetail = currentBuilding?.office_detail;
-
+  const setModal = useSetRecoilState(modalState);
   const setCurrentBuilding = useSetRecoilState(currentBuildingState);
+  const router = useRouter();
+
+  const handleReservationClick = async () => {
+    console.log('우씌');
+    const session = await getSession();
+    if (!session) {
+      console.log('session이 없뗘어어', session);
+      setModal(true);
+    } else if (session) {
+      console.log('session', session);
+      router.push(`/reservation/${id}`);
+    }
+  };
 
   return (
     <>
       <>
-        <div className="flex flex-col gap-y-3  my-6 mx-auto">
-          <div className="flex justify-between items-center mx-2">
+        <div className="flex flex-col gap-y-3 my-6 md:w-[26.6875rem] max-md:w-[20.5rem]">
+          <div className="flex justify-between items-center mx-2 ">
             <p className="text-black text-lg font-bold leading-[1.75rem]">
               {currentBuilding?.location}
             </p>
@@ -39,7 +54,7 @@ export default function BuildingServiceView({
               alt="취소"
             />
           </div>
-          <div className="bg-white rounded-lg shadow-md p-4 md:w-[26.6875rem] mb:w-full">
+          <div className="bg-white rounded-lg shadow-md p-4 ">
             <div className="text-gray-800">
               {currentBuilding?.region} {currentBuilding?.city}{' '}
               {currentBuilding?.address}
@@ -147,13 +162,16 @@ export default function BuildingServiceView({
           <div className="mb:p-4 md:py-6 md:px-8 bg-white flex flex-col justify-start mb:text-[0.75rem] md:text-[1rem] mb:h-[4.8125rem] md:h-[6.75rem] rounded-2xl ">
             {rules}
           </div>
-          <Link href={`/reservation/${id}`}>
-            <div className="flex justify-center items-center">
-              <button className="left-0 bottom-0 right-0 w-[5.5rem] h-[2.5rem] bg-blue-400 text-white rounded-2xl">
-                예약하기
-              </button>
-            </div>
-          </Link>
+
+          <div
+            // eslint-disable-next-line react-hooks/rules-of-hooks
+            onClick={() => handleReservationClick()}
+            className="flex justify-center items-center"
+          >
+            <button className="left-0 bottom-0 right-0 w-[5.5rem] h-[2.5rem] bg-blue-400 text-white rounded-2xl">
+              예약하기
+            </button>
+          </div>
         </div>
       </>
     </>

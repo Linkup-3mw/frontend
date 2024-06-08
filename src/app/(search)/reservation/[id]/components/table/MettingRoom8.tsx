@@ -4,6 +4,7 @@ import {
   selectedSpaceAllState,
   confirmedState,
   spaceListReservation,
+  searchRemainingState,
 } from '@/app/(search)/atom/office';
 
 export default function MeetingRoom8() {
@@ -12,9 +13,9 @@ export default function MeetingRoom8() {
   );
   const [confirm, setConfirm] = useRecoilState(confirmedState);
   const [spaceList, setSpaceList] = useRecoilState(spaceListReservation);
-
-  const amTime = ['8:00', '9:00', '9:30', '10:30'];
-  const pmTime = ['12:00', '12:30', '1:00', '1:30'];
+  const remaining = useRecoilValue(searchRemainingState);
+  const amTime = ['08:00', '09:00', '09:30', '10:30'];
+  const pmTime = ['12:00', '12:30', '01:00', '01:30'];
 
   const handleSpaceReady = () => {
     if (
@@ -48,6 +49,8 @@ export default function MeetingRoom8() {
       start_date: prev?.start_date || '',
       end_date: prev?.end_date || '',
       type: prev?.type || '',
+      start_time: prev?.start_time || '',
+      end_time: prev?.end_time || '',
     }));
     setSelectedSpaceAll((prev) => ({
       ...prev,
@@ -82,23 +85,22 @@ export default function MeetingRoom8() {
           <div className="flex flex-col gap-4 w-[44.5rem] overflow-y-scroll scrollbar-hide">
             <p className="text-[1.25rem] font-semibold">공간 선택</p>
             <div className="flex flex-wrap gap-2">
-              {Array.from({ length: 2 }, (_, i) => i + 1).map((area) => {
-                const spaceNumber = `G-${String(area).padStart(2, '0')}`;
-                return (
-                  <div key={area}>
-                    <button
-                      onClick={() => handleSpaceClick(spaceNumber)}
-                      className={`rounded-lg w-[4rem] h-[2.5rem] ${
-                        selectedSpaceAll?.code === spaceNumber
+              {remaining.map((space, i) => (
+                <div key={i}>
+                  <button
+                    onClick={() => handleSpaceClick(space.id)}
+                    className={`rounded-lg w-[4rem] h-[2.5rem] ${
+                      space.available === false
+                        ? 'bg-gray-400 text-black'
+                        : selectedSpaceAll?.code === space.code
                           ? 'bg-[#688AF2] text-white'
                           : 'bg-white'
-                      }`}
-                    >
-                      {spaceNumber}
-                    </button>
-                  </div>
-                );
-              })}
+                    }`}
+                  >
+                    {space.code}
+                  </button>
+                </div>
+              ))}
             </div>
             <div>
               <div className="flex flex-col gap-6">

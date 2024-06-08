@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import {
   mobileConfirmedState,
+  searchRemainingState,
   selectedSeatAllState,
   selectedSpaceAllState,
   spaceListReservation,
@@ -15,10 +16,10 @@ export default function MettingRoom8Mobile() {
   );
   const selectedSeatAll = useRecoilValue(selectedSeatAllState);
   const [isUp, setIsUp] = useState(false);
-
+  const remaining = useRecoilValue(searchRemainingState);
   const [spaceList, setSpaceList] = useRecoilState(spaceListReservation);
-  const amTime = ['8:00', '9:00', '9:30', '10:30'];
-  const pmTime = ['12:00', '12:30', '1:00', '1:30'];
+  const amTime = ['08:00', '09:00', '09:30', '10:30'];
+  const pmTime = ['12:00', '12:30', '01:00', '01:30'];
   const setMobileConfirm = useSetRecoilState(mobileConfirmedState);
   const setMobileTable = useSetRecoilState(showMobileTableState);
 
@@ -26,11 +27,12 @@ export default function MettingRoom8Mobile() {
     if (
       selectedSpaceAll?.start_date &&
       selectedSpaceAll?.type &&
-      selectedSpaceAll?.code
+      selectedSpaceAll?.code &&
+      selectedSpaceAll?.start_time &&
+      selectedSpaceAll?.end_time
     ) {
       if (spaceList.length < 5) {
         setSpaceList([...spaceList, { ...selectedSpaceAll }]);
-
         setMobileConfirm(true);
         setMobileTable(false);
       } else {
@@ -40,11 +42,17 @@ export default function MettingRoom8Mobile() {
   };
 
   const handleSpaceClick = (spaceNumber: string) => {
+    const searchParams = new URLSearchParams(window.location.search);
+    searchParams.set('spacetId', spaceNumber);
+    const url = `${window.location.pathname}?${searchParams.toString()}`;
+    window.history.pushState(null, '', url);
     setSelectedSpaceAll((prev) => ({
       ...prev,
       code: spaceNumber,
       start_date: prev?.start_date ?? selectedSeatAll?.start_date,
       end_date: prev?.end_date || '',
+      start_time: prev?.start_time || '',
+      end_time: prev?.end_time || '',
       type: prev?.type || '',
     }));
   };
@@ -67,9 +75,9 @@ export default function MettingRoom8Mobile() {
 
   return (
     <>
-      <div className="hidden-desk w-[22.5rem]  mx-auto">
+      <div className="hidden-desk w-full  mx-auto">
         <Image
-          className=""
+          layout="responsive"
           src="/images/office/1.jpeg"
           height={290}
           width={360}
@@ -78,8 +86,8 @@ export default function MettingRoom8Mobile() {
         <div>
           <div
             onClick={toggleUp}
-            className={`overflow-y-scroll scrollbar-hide flex flex-col items-center  pt-3 rounded-t-3xl  bg-[#E4EEFF] w-[22.5rem] transition-transform duration-1000 ${
-              isUp ? 'translate-y-[-190px]' : ''
+            className={`overflow-y-scroll scrollbar-hide flex flex-col items-center  pt-3 rounded-t-3xl  bg-[#E4EEFF] w-ful transition-transform duration-1000 ${
+              isUp ? 'translate-y-[-120px]' : ''
             }`}
             style={{ height: isUp ? '42.25rem' : '42.25rem' }}
           >
@@ -94,25 +102,22 @@ export default function MettingRoom8Mobile() {
                 좌석을 선택하세요
               </p>
               <div className="flex flex-wrap w-[20.5rem] gap-2">
-                {Array.from({ length: 30 }, (area, i) => i + 1).map(
-                  (area, i) => {
-                    const spaceNumber = `G-${String(area).padStart(2, '0')}`;
-                    return (
-                      <div key={i}>
-                        <button
-                          onClick={() => handleSpaceClick(spaceNumber)}
-                          className={`rounded-lg w-[3rem] h-[2rem] text-xs ${
-                            selectedSpaceAll?.code === spaceNumber
-                              ? 'bg-[#688AF2] text-white'
-                              : 'bg-white'
-                          }`}
-                        >
-                          {spaceNumber}
-                        </button>
-                      </div>
-                    );
-                  },
-                )}
+                {remaining.map((space, i) => (
+                  <div key={i}>
+                    <button
+                      onClick={() => handleSpaceClick(space.id)}
+                      className={`rounded-lg w-[3rem] h-[2rem] text-xs ${
+                        space.available === false
+                          ? 'bg-gray-400 text-black'
+                          : selectedSpaceAll?.code === space.code
+                            ? 'bg-[#688AF2] text-white'
+                            : 'bg-white'
+                      }`}
+                    >
+                      {space.code}
+                    </button>
+                  </div>
+                ))}
               </div>
               <div className="flex flex-col gap-4">
                 <p className="text-[0.875rem] leading-5 font-bold">

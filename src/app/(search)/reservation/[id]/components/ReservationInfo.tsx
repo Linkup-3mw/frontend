@@ -25,8 +25,8 @@ export default function ReservationInfo() {
     selectedSpaceAllState,
   );
 
-  const seatTypes = ['오픈테이블', '포커스데스크', '1인실', '모니터 데스크'];
-  const spaceTypes = ['회의실 (4인)', '회의실 (8인)', '세미나실', '스튜디오'];
+  const seatTypes = ['오픈데스크', '포커스데스크', '1인실', '모니터데스크'];
+  const spaceTypes = ['미팅룸(4인)', '미팅룸(8인)', '컨퍼런스룸', '스튜디오'];
   const seatList = useSetRecoilState(seatListReservation);
   const spaceList = useSetRecoilState(spaceListReservation);
 

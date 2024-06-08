@@ -1,4 +1,6 @@
 import {
+  CompanyEnter,
+  EnterPriseResponse,
   Membership,
   OnePassMembership,
   Remaining,
@@ -58,6 +60,14 @@ export const seatListReservation = atom<SeatReservation[]>({
 export const spaceListReservation = atom<SpaceReservation[]>({
   key: 'spaceListReservation',
   default: [],
+});
+// 기업 리스트
+export const enterPriseConsultingState = atom<EnterPriseResponse>({
+  key: 'EnterPriseResponse',
+});
+export const companyState = atom<CompanyEnter | null>({
+  key: 'company',
+  default: null,
 });
 // 안내메시지
 export const infoMsgState = atom<boolean>({

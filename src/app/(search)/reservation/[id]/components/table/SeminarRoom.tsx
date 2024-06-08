@@ -5,10 +5,6 @@ import {
   confirmedState,
   spaceListReservation,
 } from '@/app/(search)/atom/office';
-import {
-  minDeskLayoutState,
-  mobileReservationLayoutState,
-} from '@/app/(search)/atom/media';
 
 export default function SeminarRoom() {
   const [selectedSpaceAll, setSelectedSpaceAll] = useRecoilState(
@@ -17,8 +13,8 @@ export default function SeminarRoom() {
   const [confirm, setConfirm] = useRecoilState(confirmedState);
   const [spaceList, setSpaceList] = useRecoilState(spaceListReservation);
 
-  const amTime = ['8:00', '9:00', '9:30', '10:30'];
-  const pmTime = ['12:00', '12:30', '1:00', '1:30'];
+  const amTime = ['08:00', '09:00', '09:30', '10:30'];
+  const pmTime = ['12:00', '12:30', '01:00', '01:30'];
 
   const handleSpaceReady = () => {
     if (
@@ -70,8 +66,7 @@ export default function SeminarRoom() {
       }));
     }
   };
-  const isMobile = useRecoilValue(mobileReservationLayoutState);
-  const minDesk = useRecoilValue(minDeskLayoutState);
+
   return (
     <>
       <div className="hidden-360 flex flex-col relative w-[61.8125rem] h-[51.25rem] rounded-md justify-end">

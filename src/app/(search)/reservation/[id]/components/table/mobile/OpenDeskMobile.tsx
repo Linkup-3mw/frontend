@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import {
   mobileConfirmedState,
+  searchRemainingState,
   seatListReservation,
 } from '@/app/(search)/atom/office';
 import {
@@ -16,7 +17,7 @@ export default function OpenDeskMobile() {
     useRecoilState(selectedSeatAllState);
   const [isUp, setIsUp] = useState(false);
   const [seatList, setSeatList] = useRecoilState(seatListReservation);
-
+  const remaining = useRecoilValue(searchRemainingState);
   const setMobileConfirm = useSetRecoilState(mobileConfirmedState);
   const setMobileTable = useSetRecoilState(showMobileTableState);
   const handleSeatReady = () => {
@@ -75,25 +76,20 @@ export default function OpenDeskMobile() {
                 좌석을 선택하세요
               </p>
               <div className="flex flex-wrap w-[20.5rem] gap-2">
-                {Array.from({ length: 30 }, (area, i) => i + 1).map(
-                  (area, i) => {
-                    const seatNumber = `A-${String(area).padStart(2, '0')}`;
-                    return (
-                      <div key={i}>
-                        <button
-                          onClick={() => handleSeatClick(seatNumber)}
-                          className={`rounded-lg w-[3rem] h-[2rem] text-xs ${
-                            selectedSeatAll?.code === seatNumber
-                              ? 'bg-[#688AF2] text-white'
-                              : 'bg-white'
-                          }`}
-                        >
-                          {seatNumber}
-                        </button>
-                      </div>
-                    );
-                  },
-                )}
+                {remaining.map((seat, i) => (
+                  <div key={i}>
+                    <button
+                      onClick={() => handleSeatClick(seat.id)}
+                      className={`rounded-lg w-[3rem] h-[2rem] text-xs ${
+                        selectedSeatAll?.code === seat.code
+                          ? 'bg-[#688AF2] text-white'
+                          : 'bg-white'
+                      }`}
+                    >
+                      {seat.code}
+                    </button>
+                  </div>
+                ))}
               </div>
 
               <p className="text-[0.875rem] leading-5 font-bold">예약 정보</p>
