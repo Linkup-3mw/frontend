@@ -1,6 +1,7 @@
 'use client';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
+import debounce from 'lodash.debounce';
 
 import { useIndustryQuery, useOccupationQuery } from '@/hooks/useCategory';
 import { NAME_VALIDATION } from '@/app/(auth)/constants/validation';
@@ -129,7 +130,6 @@ export default function SignupForm({ type }: Props) {
           register={register}
           setValue={setValue}
         />
-
         <InputBox text="성별" errorMsg={errors.gender?.message}>
           <div className="flex justify-between gap-[1rem] my-[1rem]">
             <RadioButton
@@ -204,8 +204,9 @@ export default function SignupForm({ type }: Props) {
         <BlueSquareBtn
           classname="mt-[5rem] max-md:mt-[1.5rem]"
           name="가입 완료"
-          type="submit"
+          type="button"
           disabled={!isDirty || !isValid}
+          onClick={debounce(handleSubmit(onSubmit), 1000)}
         />
       </form>
     </div>
