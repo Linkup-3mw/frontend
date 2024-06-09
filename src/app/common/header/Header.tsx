@@ -34,9 +34,7 @@ export default function Header({ initialSession }: any) {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 h-[5rem] bg-blue-100 text-main-black px-[1.25rem] flex items-center ${
-        showHeader ? 'block' : 'hidden'
-      }`}
+      className={`fixed top-0 left-0 right-0 z-50 h-[5rem] bg-blue-100 text-main-black px-[1.25rem] flex items-center`}
     >
       <ContentWrap>
         <div className="flex md:grid md:grid-cols-3 justify-between items-center w-full">
