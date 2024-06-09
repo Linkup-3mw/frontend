@@ -167,6 +167,7 @@ export default function SignupForm({ type }: Props) {
           register={register}
           setError={setError}
           clearErrors={clearErrors}
+          trigger={trigger}
         />
 
         <InputBox text="산업군" errorMsg={errors.industry?.message}>
@@ -205,7 +206,7 @@ export default function SignupForm({ type }: Props) {
           classname="mt-[5rem] max-md:mt-[1.5rem]"
           name="가입 완료"
           type="button"
-          disabled={!isDirty || !isValid}
+          // disabled={!isDirty || !isValid}
           onClick={debounce(handleSubmit(onSubmit), 1000)}
         />
       </form>
