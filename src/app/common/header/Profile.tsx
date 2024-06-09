@@ -1,16 +1,11 @@
-import { Session } from 'next-auth';
 import Link from 'next/link';
-import React from 'react';
-import { useSession } from 'next-auth/react';
 
-export default function Profile() {
-  const { data: session } = useSession();
-
+export default function Profile({ session, className }: any) {
   return (
-    <div className="flex-1 mx-3 items-center shrink-0">
+    <div className={`flex items-center shrink-0 ${className}`}>
       {session ? (
         <>
-          <div className="h-6 w-6 border border-[#45AD56] rounded-full overflow-hidden">
+          <div className="md:h-6 md:w-6 h-5 w-5 border border-[#45AD56] rounded-full overflow-hidden">
             {session.user.profile_image ? (
               <img
                 src={session.user.profile_image}
@@ -25,13 +20,15 @@ export default function Profile() {
               />
             )}
           </div>
-          <div className="flex mx-2 font-bold text-sm md:text-base">
+          <div className="flex md:mx-2 mx-[0.44rem] font-bold md:text-base text-xs">
             {session?.user.name} 님
           </div>
         </>
       ) : (
         <Link href="/signin" className="flex font-bold items-center">
-          <span className="whitespace-nowrap">로그인 하기</span>
+          <span className="whitespace-nowrap md:text-base text-xs">
+            로그인 하기
+          </span>
         </Link>
       )}
     </div>
