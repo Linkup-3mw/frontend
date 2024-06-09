@@ -58,6 +58,7 @@ export default function Login({ callbackUrl }: { callbackUrl: string }) {
 
       if (res?.status === 200) {
         router.push(callbackUrl);
+        window.location.reload();
       }
       if (res?.status === 401) {
         setErrMsg((prev): ILoginErrMsg => {
