@@ -27,10 +27,13 @@ export default function CompanyInput({
 }: Props) {
   const [isVerify, setIsVerify] = useState(false);
   const [errMsg, setErrMsg] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const verifyCompanyFn = debounce(async () => {
     const value = getValues('auth_code');
     if (value.length == 0) return;
+
+    setIsLoading(true);
 
     try {
       const data = await verifyCompany(value);
@@ -48,6 +51,8 @@ export default function CompanyInput({
       setIsVerify(false);
       setErrMsg('기업 전용 코드가 정확한지 확인해 주세요.');
       console.log(e);
+    } finally {
+      setIsLoading(false);
     }
   }, 500);
 
@@ -72,6 +77,7 @@ export default function CompanyInput({
           text={isVerify ? '인증완료' : '인증하기'}
           onClick={verifyCompanyFn}
           disabled={isVerify}
+          isLoading={isLoading}
         />
       </span>
       <input type="hidden" {...register('company_id')} />

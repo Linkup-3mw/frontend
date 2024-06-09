@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { signIn } from 'next-auth/react';
+import debounce from 'lodash.debounce';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 
 import InputBox from '@common/components/form/InputBox';
@@ -107,22 +108,23 @@ export default function Login({ callbackUrl }: { callbackUrl: string }) {
             />
           </InputBox>
           <div>
-            <Link
+            {/* <Link
               href="/"
               className="inline-block -mt-[1.25rem] mb-[3.75rem] underline text-[0.875rem] font-bold leading-none text-[#8d8d9b]
               max-md:mb-[2.5rem] max-md:-mt-[0.25rem] max-md:text-[0.75rem]
               "
             >
               비밀번호를 잊으셨나요?
-            </Link>
+            </Link> */}
           </div>
           <LoginCheckbox register={register}>로그인 상태 유지</LoginCheckbox>
         </div>
         <div className="mt-[1.5rem] max-md:mt-[0.6rem]">
           <BlueSquareBtn
             name="로그인"
-            type="submit"
+            type="button"
             disabled={!isDirty || !isValid}
+            onClick={debounce(handleSubmit(onSubmit), 1000)}
           />
         </div>
       </form>

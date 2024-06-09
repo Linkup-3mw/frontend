@@ -130,6 +130,7 @@ export default function EmailInput({
           text={!isVerify ? '인증하기' : '인증완료'}
           onClick={validateEmailFn}
           disabled={error?.email !== undefined || isVerify}
+          isLoading={isLoading}
         />
       </span>
       {showVerify && (

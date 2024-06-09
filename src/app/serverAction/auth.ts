@@ -1,15 +1,15 @@
 'use server';
 import { cookies } from 'next/headers';
 import { RequestCookie } from 'next/dist/compiled/@edge-runtime/cookies';
-import API from '@/utils/axios';
 import { parse } from 'cookie';
+import axios from 'axios';
 
 // AccessToken 재발급
 export const getNewAccessToken = async (accessToken: string) => {
   try {
     const { value } = cookies().get('refresh-token') as RequestCookie;
 
-    return await API.get('/member/token', {
+    return await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/member/token`, {
       headers: {
         'refresh-token': `Bearer ${value}`,
         Authorization: `Bearer ${accessToken}`,
