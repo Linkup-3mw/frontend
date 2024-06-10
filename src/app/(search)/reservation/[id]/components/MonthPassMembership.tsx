@@ -114,9 +114,8 @@ export default function MonthPassMembership({
       price: 100000,
     };
 
-    console.log('30d일 패스 멤버십', membership);
     const seatReservations = seatList.map((seat) => ({
-      type: '자율 좌석',
+      type: '지정석',
       start_date: seat.start_date,
       start_time: '00:00',
       end_date: seat.end_date,
@@ -152,7 +151,7 @@ export default function MonthPassMembership({
     };
 
     const seatReservations = seatList.map((seat) => ({
-      type: '자율 좌석',
+      type: '지정석',
       start_date: seat.start_date,
       start_time: '00:00',
       end_date: seat.end_date,
@@ -170,13 +169,14 @@ export default function MonthPassMembership({
       seat_id: space.code,
     }));
     const all = [...seatReservations, ...spaceReservations];
+    console.log('씻 레저베이션@@@@@@', seatReservations);
     const fetchSpaceReserved = async () => {
       try {
         const res = await API.post(`reservation/individual/${id}`, {
           membership,
           reservations: all,
         });
-        console.log('dndpdpdpdfsdkjflsd우에에엥', res);
+        console.log('dndpdpdpdfsdkjflsd우에에엥뿌뿌부', res);
       } catch (error) {
         console.log('예약에러', error);
       }
@@ -200,7 +200,7 @@ export default function MonthPassMembership({
       ...selectedSeatAll,
       start_date: format(day, 'yyyy-MM-dd', { locale: ko }),
       end_date: format(endDate, 'yyyy-MM-dd', { locale: ko }),
-      type: '지정좌석',
+      type: '지정좌석', // DESIGNATED_SEAT("지정좌석"),
       code: selectedSeatAll?.code ?? '',
     };
     const newSelectedSpaceAll: SpaceReservation = {

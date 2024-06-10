@@ -6,6 +6,9 @@ import {
   spaceListReservation,
   searchRemainingState,
 } from '@/app/(search)/atom/office';
+import { useEffect, useState } from 'react';
+import FullPageLoader from '@/app/(search)/map/components/Loader/FullPageLoader';
+import TimeSkeleton from '../skeleton/TimeSkeleton';
 
 export default function MeetingRoom8() {
   const [selectedSpaceAll, setSelectedSpaceAll] = useRecoilState(
@@ -14,8 +17,45 @@ export default function MeetingRoom8() {
   const [confirm, setConfirm] = useRecoilState(confirmedState);
   const [spaceList, setSpaceList] = useRecoilState(spaceListReservation);
   const remaining = useRecoilValue(searchRemainingState);
-  const amTime = ['08:00', '09:00', '09:30', '10:30'];
-  const pmTime = ['12:00', '12:30', '01:00', '01:30'];
+  const [loading, setLoading] = useState(true);
+  const [click, setClick] = useState('');
+  const [amTime, setAmTime] = useState([
+    '08:00',
+    '08:30',
+    '09:00',
+    '09:30',
+    '10:00',
+    '10:30',
+    '11:00',
+    '11:30',
+  ]);
+  const pmTime = [
+    '12:00',
+    '12:30',
+    '13:00',
+    '13:30',
+    '14:00',
+    '14:30',
+    '15:00',
+    '15:30',
+    '16:00',
+    '16:30',
+    '17:00',
+    '17:30',
+    '18:00',
+    '18:30',
+    '19:00',
+    '19:30',
+    '20:00',
+    '20:30',
+    '21:00',
+    '21:30',
+  ];
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  });
 
   const handleSpaceReady = () => {
     if (
@@ -42,19 +82,16 @@ export default function MeetingRoom8() {
     }
   };
 
-  const handleSpaceClick = (spaceNumber: string) => {
+  const renderTime = Array.isArray(remaining)
+    ? remaining.filter((item) => item.id === click)
+    : [];
+
+  const handleSpaceClick = (spaceCode: string) => {
     setSelectedSpaceAll((prev) => ({
       ...prev,
-      code: spaceNumber,
-      start_date: prev?.start_date || '',
-      end_date: prev?.end_date || '',
-      type: prev?.type || '',
-      start_time: prev?.start_time || '',
-      end_time: prev?.end_time || '',
+      code: spaceCode,
     }));
-    setSelectedSpaceAll((prev) => ({
-      ...prev,
-    }));
+    setClick(spaceCode);
   };
   const handleSpaceTimeClick = (time: string) => {
     if (selectedSpaceAll?.start_time) {
@@ -75,7 +112,7 @@ export default function MeetingRoom8() {
       <div className="hidden-360 flex flex-col relative w-[61.8125rem] h-[51.25rem] rounded-md justify-end">
         <div className="absolute inset-0">
           <Image
-            src="/images/office/2.jpeg"
+            src="/svg/reservation/imageView/mettingRoom8.svg"
             layout="fill"
             objectFit="cover"
             alt="오피스이미지"
@@ -83,7 +120,7 @@ export default function MeetingRoom8() {
         </div>
         <div className="relative flex gap-4 h-[19.35rem] bottom-0 bg-[#E4EEFF] p-8 ">
           <div className="flex flex-col gap-4 w-[44.5rem] overflow-y-scroll scrollbar-hide">
-            <p className="text-[1.25rem] font-semibold">공간 선택</p>
+            <p className="text-[1.25rem] font-semibold">공간을 선택하세요</p>
             <div className="flex flex-wrap gap-2">
               {remaining.map((space, i) => (
                 <div key={i}>
@@ -110,44 +147,74 @@ export default function MeetingRoom8() {
                 <div className="flex flex-col gap-4">
                   <p className="font-bold leading-[1.375rem]">오전</p>
                   <div className="flex flex-wrap gap-2">
-                    {amTime.map((am) => (
-                      <button
-                        key={am}
-                        onClick={() => {
-                          handleSpaceTimeClick(am);
-                        }}
-                        className={`rounded-lg w-[4rem] h-[2.5rem] ${
-                          selectedSpaceAll?.start_time === am ||
-                          selectedSpaceAll?.end_time === am
-                            ? 'bg-[#688AF2] text-white'
-                            : 'bg-white'
-                        }`}
-                      >
-                        {am}
-                      </button>
-                    ))}
+                    {loading ? (
+                      amTime.map((item, index) => (
+                        <div key={index}>
+                          <TimeSkeleton />
+                        </div>
+                      ))
+                    ) : (
+                      <>
+                        {amTime.map((am, idx) => {
+                          const isAvailable = renderTime.some((item) =>
+                            Array.isArray(item.am)
+                              ? item.am.includes(am)
+                              : false,
+                          );
+                          return (
+                            <button
+                              key={idx}
+                              onClick={() => handleSpaceTimeClick(am)}
+                              className={`rounded-lg w-[4rem] h-[2.5rem] ${
+                                isAvailable
+                                  ? 'bg-white text-black'
+                                  : 'bg-gray-500 text-white'
+                              }`}
+                              disabled={!isAvailable}
+                            >
+                              {am}
+                            </button>
+                          );
+                        })}
+                      </>
+                    )}
                   </div>
                 </div>
 
                 <div className="flex flex-col gap-4">
                   <p className="font-bold leading-[1.375rem]">오후</p>
                   <div className="flex flex-wrap gap-2 ">
-                    {pmTime.map((pm) => (
-                      <button
-                        key={pm}
-                        onClick={() => {
-                          handleSpaceTimeClick(pm);
-                        }}
-                        className={`rounded-lg w-[4rem] h-[2.5rem] ${
-                          selectedSpaceAll?.start_time === pm ||
-                          selectedSpaceAll?.end_time === pm
-                            ? 'bg-[#688AF2] text-white'
-                            : 'bg-white'
-                        }`}
-                      >
-                        {pm}
-                      </button>
-                    ))}
+                    {loading ? (
+                      pmTime.map((item, index) => (
+                        <div key={index}>
+                          <TimeSkeleton />
+                        </div>
+                      ))
+                    ) : (
+                      <>
+                        {pmTime.map((pm, idx) => {
+                          const isAvailable = renderTime.some((item) =>
+                            Array.isArray(item.pm)
+                              ? item.pm.includes(pm)
+                              : false,
+                          );
+                          return (
+                            <button
+                              key={idx}
+                              onClick={() => handleSpaceTimeClick(pm)}
+                              className={`rounded-lg w-[4rem] h-[2.5rem] ${
+                                isAvailable
+                                  ? 'bg-white text-black'
+                                  : 'bg-gray-500 text-white'
+                              }`}
+                              disabled={!isAvailable}
+                            >
+                              {pm}
+                            </button>
+                          );
+                        })}
+                      </>
+                    )}
                   </div>
                 </div>
               </div>
@@ -187,6 +254,7 @@ export default function MeetingRoom8() {
           </div>
         </div>
       </div>
+      {loading && <FullPageLoader />}
     </>
   );
 }

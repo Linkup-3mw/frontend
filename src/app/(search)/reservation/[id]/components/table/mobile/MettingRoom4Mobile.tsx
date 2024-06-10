@@ -72,7 +72,7 @@ export default function MettingRoom4Mobile() {
       <div className="hidden-desk w-full mx-auto">
         <Image
           layout="responsive"
-          src="/images/office/1.jpeg"
+          src="/svg/reservation/imageView/mobile/mettingRoom4Mobile.svg"
           height={290}
           width={360}
           alt="요미"

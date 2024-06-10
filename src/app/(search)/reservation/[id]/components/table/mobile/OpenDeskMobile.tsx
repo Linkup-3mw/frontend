@@ -54,7 +54,7 @@ export default function OpenDeskMobile() {
     <>
       <div className="hidden-desk w-full mx-auto">
         <Image
-          src="/images/office/1.jpeg"
+          src="/svg/reservation/imageView/mobile/openDeskMobile.svg"
           layout="responsive"
           height={293}
           width={360}

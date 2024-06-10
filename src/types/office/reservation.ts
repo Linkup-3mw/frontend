@@ -1,6 +1,6 @@
 import { number } from 'zod';
 
-//사용자멤버십전체조회
+// 멤버십 선택 타입
 export interface Membership {
   // id: number;
   // location: string;
@@ -57,6 +57,7 @@ export interface CompanyEnter {
   consent_promotion: boolean;
 }
 export interface EnterpriseMembership {
+  office_id: number | string;
   location: string;
   duration: number | null;
   start_date: string;

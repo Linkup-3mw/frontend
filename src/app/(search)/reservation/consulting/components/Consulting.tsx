@@ -79,12 +79,20 @@ export default function Consulting() {
       consent_contact: Boolean(dataCollectionAgree),
       consent_promotion: Boolean(marketingAgree),
     });
-    console.log('@#@#@#@#@#@#consulting', consulting);
+
+    console.log(
+      '@#@#@#@#@#@#consulting',
+      consulting,
+      'currentBuildingID',
+      currentBuilding?.id,
+    );
+
     const company_membership: EnterpriseMembership = {
+      office_id: currentBuilding?.id!,
       location: currentBuilding?.location!,
       duration: null,
       start_date: selectedSeatAll?.start_date!,
-      end_date: selectedSpaceAll?.end_date!,
+      end_date: selectedSeatAll?.end_date!,
       staff_count: 14,
       price: 37800000!,
     };
@@ -101,10 +109,13 @@ export default function Consulting() {
     });
     const fetchEnter = async () => {
       try {
-        const res = await API.post(`reservation/company`, {
-          company_membership,
-          company,
-        });
+        const res = await API.post(
+          `reservation/company/${currentBuilding?.id}`,
+          {
+            company_membership,
+            company,
+          },
+        );
         console.log('enterprise!@!@!@!', res);
       } catch (error) {
         console.log('예약에러', error);

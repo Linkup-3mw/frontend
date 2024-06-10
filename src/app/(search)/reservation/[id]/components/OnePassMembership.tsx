@@ -17,13 +17,13 @@ import { ko } from 'date-fns/locale';
 import { SpaceReservation } from '@/types/office/reservation';
 import { useEffect, useState } from 'react';
 import {
+  loadingState,
   mobileReservationLayoutState,
   showMobileTableState,
 } from '@/app/(search)/atom/media';
 import { useLineBreak } from '@/app/(search)/map/hooks/useLineBreak';
 import API from '@/utils/axios';
 import { currentBuildingState, modalState } from '@/app/(search)/atom/search';
-import Reservation from '../page';
 
 interface OnePassMembershipProps {
   seatType: string[];
@@ -61,7 +61,7 @@ export default function OnePassMembership({
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const content = `예약을 추가하려면 위에서 날짜와 좌석 유형을 선택해 주세요.
 당일권은 최대 5개까지 예약할 수 있습니다.`;
-
+  const [loading, setLoading] = useRecoilState(loadingState);
   const handleDayClick = (day: Date) => {
     setSelectedDate(day);
     setSelectedSeatAll({});
@@ -116,34 +116,45 @@ export default function OnePassMembership({
   };
   const info = useLineBreak({ content });
   const id = currentOffice?.id;
+  const path = window.location.pathname;
+  const parts = path.split('/');
+  const reservationId = parts[parts.length - 1];
+
   //좌석 조회
-  const fetchSeatData = async () => {
-    try {
-      const res = await API.get(
-        `reservation/${id}?type=${selectedSeatAll?.type}&start=${selectedSeatAll?.start_date}&end=${selectedSeatAll?.end_date}`,
-      );
-      console.log('요청', res.data.data);
-      setSearchRemaining(res.data.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  console.log(
+    '뭐가 빠져서 이러는걸까.',
+    id,
+    selectedSeatAll?.type,
+    selectedSeatAll?.start_date,
+    RTab,
+  );
   useEffect(() => {
-    if (
-      RTab === '좌석' &&
-      selectedSeatAll?.type &&
-      selectedSeatAll?.start_date
-    ) {
-      fetchSeatData();
-    }
-  }, [selectedSeatAll]);
+    const fetchSeatData = async () => {
+      if (
+        RTab === '좌석' &&
+        selectedSeatAll?.type &&
+        selectedSeatAll?.start_date
+      ) {
+        try {
+          const res = await API.get(
+            `reservation/${reservationId}?type=${selectedSeatAll?.type}&start=${selectedSeatAll?.start_date}&end=${selectedSeatAll?.end_date}`,
+          );
+          console.log('요청', res.data.data);
+          setSearchRemaining(res.data.data);
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    };
+    fetchSeatData();
+  }, [RTab, selectedSeatAll?.type, selectedSeatAll?.start_date]);
   // 공간 조회
   const fetchSpaceData = async () => {
     try {
       const res = await API.get(
-        `reservation/${id}?type=${selectedSpaceAll?.type}&start=${selectedSpaceAll?.start_date}&end=${selectedSpaceAll?.end_date}`,
+        `reservation/${reservationId}?type=${selectedSpaceAll?.type}&start=${selectedSpaceAll?.start_date}&end=${selectedSpaceAll?.end_date}`,
       );
-      console.log('요청', res.data.data);
+      console.log('요청요처어어어어어어엉어', res.data.data);
       setSearchRemaining(res.data.data);
     } catch (error) {
       console.error(error);
@@ -158,8 +169,9 @@ export default function OnePassMembership({
       fetchSpaceData();
     }
   }, [selectedSpaceAll]);
+
   // 좌석 예약
-  const handleSeatReservationClick = () => {
+  const handleSeatReservationClick = async () => {
     const st = seatList.length > 0 ? seatList[0].start_date : null;
     const membership = {
       location: currentOffice?.location,
@@ -196,7 +208,7 @@ export default function OnePassMembership({
   };
 
   // 공간 예약
-  const handleSpaceReservationClick = () => {
+  const handleSpaceReservationClick = async () => {
     // setShowMobileTable(true);
     const st = seatList.length > 0 ? seatList[0].start_date : null;
     const membership = {
@@ -228,7 +240,6 @@ export default function OnePassMembership({
     }));
     const all = [...seatReservations, ...spaceReservations];
 
-    console.log('이시발', { membership, all });
     const fetchSpaceReservation = async () => {
       try {
         const res = await API.post(`reservation/individual/${id}`, {

@@ -17,7 +17,6 @@ import {
   showMobileTableState,
 } from '@/app/(search)/atom/media';
 import TextField from './filed/TextField';
-import { currentBuildingState } from '@/app/(search)/atom/search';
 
 interface MonthMembershipProps {
   seatType: string[];
@@ -38,12 +37,11 @@ export default function EnterPriseMembership({
   const [selectedMonth, setSelectedMonth] = useState<number | null>(1);
   const [consulting, setConsulting] = useRecoilState(companyState);
   const spaceImages: Record<string, string> = {
-    '회의실 (4인)': '/svg/reservation/mettingRoom4.svg',
-    '회의실 (8인)': '/svg/reservation/mettingRoom8.svg',
+    '미팅룸(4인)': '/svg/reservation/mettingRoom4.svg',
+    '미팅룸(8인)': '/svg/reservation/mettingRoom8.svg',
     세미나실: '/svg/reservation/seminar.svg',
     스튜디오: '/svg/reservation/studio.svg',
   };
-
   const handleMonthClick = (month: number) => {
     setSelectedMonth(month);
     const startDate = new Date();

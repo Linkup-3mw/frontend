@@ -1,5 +1,5 @@
 'use client';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { selectedSeatAllState, selectedSpaceAllState } from '../../atom/office';
 import {
@@ -9,15 +9,8 @@ import {
 import SeatInformation from './components/SeatInfomation';
 import ReservationInfo from './components/ReservationInfo';
 import OpenTableMobile from './components/table/mobile/OpenTableMobile';
-import Modal from '../../map/components/Loader/Modal';
 import { modalState } from '../../atom/search';
 import ReservationSuccess from './components/table/modal/ReservationSuccess';
-
-interface ReservationProps {
-  params: {
-    id: string;
-  };
-}
 
 export default function Reservation() {
   const [isMobile, setIsMobile] = useRecoilState(mobileReservationLayoutState);
@@ -25,6 +18,7 @@ export default function Reservation() {
   const selectedSeatAll = useRecoilValue(selectedSeatAllState);
   const selectedSpaceAll = useRecoilValue(selectedSpaceAllState);
   const [modal, setModal] = useRecoilState(modalState);
+
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 550);

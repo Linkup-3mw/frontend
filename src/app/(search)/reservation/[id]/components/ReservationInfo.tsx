@@ -1,5 +1,5 @@
 'use client';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import {
   Rtab,
   selectedSeatAllState,
@@ -13,12 +13,15 @@ import Image from 'next/image';
 import OnePassMembership from './OnePassMembership';
 import MonthPassMembership from './MonthPassMembership';
 import EnterPriseMembership from './EnterPriseMembership';
+import { useEffect } from 'react';
+import FullPageLoader from '@/app/(search)/map/components/Loader/FullPageLoader';
+import { loadingState } from '@/app/(search)/atom/media';
 
 export default function ReservationInfo() {
   const [RTab, setRTab] = useRecoilState(Rtab);
   const [membershipChoose, setMembershipChoose] =
     useRecoilState(MembershipChoose);
-
+  const [loading, setLoading] = useRecoilState(loadingState);
   const [selectedSeatAll, setSelectedSeatAll] =
     useRecoilState(selectedSeatAllState);
   const [selectedSpaceAll, setSelectedSpaceAll] = useRecoilState(
@@ -54,10 +57,13 @@ export default function ReservationInfo() {
       duration: null,
     },
   ];
-  // useEffect(() => {
-  //   seatList([]);
-  //   spaceList([]);
-  // }, [membershipChoose]);
+  useEffect(() => {
+    seatList([]);
+    spaceList([]);
+    setTimeout(() => {
+      setLoading(false);
+    }, 4000);
+  }, [membershipChoose]);
 
   const RenderMembershipUI = (membership: Membership) => {
     switch (membership.type) {
@@ -80,6 +86,7 @@ export default function ReservationInfo() {
 
   return (
     <div className="flex flex-col  bg-[#E4EEFF] md:px-8 md:w-[30.6875rem] mb:w-[90%] mb:px-4  overflow-y-scroll scrollbar-hide rounded-3xl pt-4 h-[51.25rem]">
+      {loading && <FullPageLoader />}
       <div className="h-[48px] text-[20px] font-bold mt-3 text-gray-300 cursor-pointer">
         <div className="flex justify-start items-center h-[48px] w-full mx-auto">
           <div className="h-[40px] w-[122.5px] text-center">

@@ -69,7 +69,7 @@ export default function SeminarRoomMobile() {
       <div className="hidden-desk w-[22.5rem] mx-auto">
         <Image
           className=""
-          src="/images/office/1.jpeg"
+          src="/svg/reservation/imageView/mobile/seminarRoom"
           height={290}
           width={360}
           alt="요미"

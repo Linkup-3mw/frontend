@@ -53,7 +53,7 @@ export default function MonitorDeskMobile() {
     <>
       <div className="hidden-desk w-full mx-auto">
         <Image
-          src="/images/office/1.jpeg"
+          src="/svg/reservation/imageView/mobile/monitorDeskMobile.svg"
           layout="responsive"
           height={293}
           width={360}

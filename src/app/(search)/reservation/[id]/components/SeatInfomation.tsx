@@ -19,6 +19,8 @@ import FocusDesk from './table/FocusDesk';
 import Reserved from './table/Reserved';
 import OnlyEnter from './table/OnlyEnter';
 import { mobileReservationLayoutState } from '@/app/(search)/atom/media';
+import { useEffect, useState } from 'react';
+import { userUpdateRlistPutState } from '@/app/(search)/atom/membership';
 
 function ReservationTableStyleSeat({
   selectedSeatAll,
@@ -76,33 +78,53 @@ export default function SeatInformation() {
   const [showImage, setShowImage] = useRecoilState(showImageState);
   const RTab = useRecoilValue(Rtab);
   const isMobile = useRecoilValue(mobileReservationLayoutState);
-
+  const [loading, setLoading] = useState(true);
+  const seatReservationList = useRecoilValue(userUpdateRlistPutState);
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 6000);
+  });
   return (
-    <div
-      className={`relative md:w-[61.8125rem] ${
-        isMobile ? '' : 'md:h-[51.25rem]'
-      }`}
-    >
-      {showImage && (
-        <div
-          className=" md:w-[61.8126rem] mb:hidden md:block absolute md:inset-0 z-0"
-          style={{ objectFit: 'cover' }}
-        >
-          <Image
-            src="/images/office/info/office.jpeg"
-            layout="fill"
-            alt="오피스이미지"
-          />
+    <>
+      <div
+        className={`relative md:w-[61.8125rem] ${
+          isMobile ? '' : 'md:h-[51.25rem]'
+        }`}
+      >
+        {showImage && (
+          <div
+            className=" md:w-[61.8126rem] mb:hidden md:block absolute md:inset-0 z-0"
+            style={{ objectFit: 'cover' }}
+          >
+            <Image
+              src="/images/office/info/office.jpeg"
+              layout="fill"
+              alt="오피스이미지"
+            />
+          </div>
+        )}
+        <div>
+          {!loading && (
+            <>
+              {RTab === '좌석' && selectedSeatAll && (
+                <ReservationTableStyleSeat selectedSeatAll={selectedSeatAll} />
+              )}
+              {RTab === '공간' && selectedSpaceAll && (
+                <ReservationTableStyleSpace
+                  selectedSpaceAll={selectedSpaceAll}
+                />
+              )}
+              {/* {RTab === '공간' ||
+                (selectedSpaceAll?.type && seatReservationList && (
+                  <ReservationTableStyleSpace
+                    selectedSpaceAll={selectedSpaceAll}
+                  />
+                ))} */}
+            </>
+          )}
         </div>
-      )}
-      <div>
-        {RTab === '좌석' && selectedSeatAll && (
-          <ReservationTableStyleSeat selectedSeatAll={selectedSeatAll} />
-        )}
-        {RTab === '공간' && selectedSpaceAll && (
-          <ReservationTableStyleSpace selectedSpaceAll={selectedSpaceAll} />
-        )}
       </div>
-    </div>
+    </>
   );
 }

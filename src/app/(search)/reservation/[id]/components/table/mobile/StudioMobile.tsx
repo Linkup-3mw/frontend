@@ -79,7 +79,7 @@ export default function StudioMobile() {
       <div className="hidden-desk w-full  mx-auto">
         <Image
           layout="responsive"
-          src="/images/office/1.jpeg"
+          src="/svg/reservation/imageView/mobile/studioMobile.svg"
           height={290}
           width={360}
           alt="요미"
