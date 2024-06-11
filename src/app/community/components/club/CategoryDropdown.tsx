@@ -1,6 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-export default function CategoryDropdown() {
+interface CategoryDropdownProps {
+  onSearch: (selectedTopics: string[]) => void;
+}
+
+export default function CategoryDropdown({ onSearch }: CategoryDropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
   const [searchBoxVisible, setSearchBoxVisible] = useState<boolean>(false);
@@ -23,20 +27,16 @@ export default function CategoryDropdown() {
   ];
 
   const handleTopicSelect = (topic: string) => {
-    // 이미 선택된 주제인지 확인
     const alreadySelected = selectedTopics.includes(topic);
 
     if (alreadySelected) {
-      // 이미 선택된 주제라면 선택 취소
       setSelectedTopics((prev) =>
         prev.filter((selectedTopic) => selectedTopic !== topic),
       );
     } else {
-      // 선택되지 않은 주제라면 추가
       setSelectedTopics((prev) => [...prev, topic]);
     }
 
-    // 검색 상자 표시
     setSearchBoxVisible(true);
   };
 
@@ -49,6 +49,14 @@ export default function CategoryDropdown() {
   const resetSelection = () => {
     setSelectedTopics([]);
     setSearchBoxVisible(false);
+  };
+
+  const handleSearch = () => {
+    // 검색하기 버튼을 클릭할 때 선택된 주제를 부모 컴포넌트로 전달
+    onSearch(selectedTopics);
+    // Dropdown을 닫음
+    setIsOpen(false);
+    console.log('선택된 주제들:', selectedTopics);
   };
 
   useEffect(() => {
@@ -132,7 +140,7 @@ export default function CategoryDropdown() {
           )}
           <div className="flex items-center justify-center">
             <button
-              onClick={toggleDropdown}
+              onClick={handleSearch}
               className="bg-blue-400 text-white px-6 py-2 rounded-lg mt-4"
             >
               검색하기

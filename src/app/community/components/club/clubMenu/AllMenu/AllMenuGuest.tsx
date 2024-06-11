@@ -5,7 +5,7 @@ import AddClubButton from '../../common/AddClubButton';
 import SearchInput from '../../SearchInput';
 import API from '@/utils/axios';
 
-export default function AllMenu() {
+export default function AllMenuGuest() {
   const [clubs, setClubs] = useState<ClubCardProps[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -17,7 +17,7 @@ export default function AllMenu() {
 
       console.log('Fetching clubs with params:', params.toString());
 
-      const response = await API.get(`/club/authenticated/search`, { params });
+      const response = await API.get(`/club/search`, { params });
       const data = response.data;
       console.log('API Response:', data);
 
@@ -143,17 +143,6 @@ export default function AllMenu() {
                       </div>
                     )}
                   </div>
-                  <button className="mr-2">
-                    <img
-                      src={
-                        club.liked
-                          ? '/svg/club/bookmarkedHeart.svg'
-                          : '/svg/club/unbookmarkedHeart.svg'
-                      }
-                      alt="Heart Icon"
-                      className="w-7 h-7"
-                    />
-                  </button>
                 </div>
               </div>
               {/* PC 화면 */}
@@ -169,17 +158,6 @@ export default function AllMenu() {
                   <div className="absolute bottom-0 w-full p-4 bg-white backdrop-blur-sm">
                     <div className="flex justify-between items-center">
                       <h3 className="text-lg font-bold"> {club.title}</h3>
-                      <button>
-                        <img
-                          src={
-                            club.liked
-                              ? '/svg/club/bookmarkedHeart.svg'
-                              : '/svg/club/unbookmarkedHeart.svg'
-                          }
-                          alt="Heart Icon"
-                          className="w-6 h-6"
-                        />
-                      </button>
                     </div>
                     <p className="mt-2 overflow-hidden overflow-ellipsis">
                       {club.introduction}
