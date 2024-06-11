@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import CategoryDropdown from '@components/club/CategoryDropdown';
 import { ClubCardProps } from '@/app/api/club/fetchClubs';
-import AddClubButton from '../../common/AddClubButton';
-import SearchInput from '../../SearchInput';
+import AddClubButton from '@components/club/common/AddClubButton';
+import SearchInput from '@components/club/SearchInput';
 import API from '@/utils/axios';
 
 export default function AllMenu() {
