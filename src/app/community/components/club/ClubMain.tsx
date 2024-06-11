@@ -4,10 +4,10 @@ import ContentWrap from '@common/components/frame/ContentWrap';
 import MenuButtons from '@components/club/MenuButtons';
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { useSession } from 'next-auth/react';
-import MyClubsMenu from './clubMenu/myClubsMenu/MyClubsMenu';
-import AllMenuGuest from './clubMenu/allMenu/AllMenuGuest';
-import BookmarkMenu from './clubMenu/bookmarkMenu/BookmarkMenu';
-import AllMenu from './clubMenu/allMenu/AllMenu';
+import MyClubsMenu from '@components/club/clubMenu/myClubsMenu/MyClubsMenu';
+import AllMenuGuest from '@components/club/clubMenu/allMenu/AllMenuGuest';
+import BookmarkMenu from '@components/club/clubMenu/bookmarkMenu/BookmarkMenu';
+import AllMenu from '@components/club/clubMenu/allMenu/AllMenu';
 
 export default function ClubMain() {
   const { data: session } = useSession();
