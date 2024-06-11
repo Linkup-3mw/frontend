@@ -2,11 +2,13 @@ import ArrowBtn from '@/app/(auth)/components/terms/ArrowBtn';
 import Calendar from '@/app/common/components/form/Calendar';
 import { format } from 'date-fns';
 import { useState } from 'react';
+import { FieldValues, UseFormRegister } from 'react-hook-form';
 
 interface Props {
   className: string;
+  register: UseFormRegister<FieldValues>;
 }
-export default function SelectDateInput({ className }: Props) {
+export default function SelectDateInput({ className, register }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
   const [inputValue, setInputValue] = useState('');
@@ -19,6 +21,7 @@ export default function SelectDateInput({ className }: Props) {
       setSelectedDate(date);
       setInputValue(format(date, 'yyyy.MM.dd'));
     }
+    setIsOpen(false);
   };
 
   const handleInputClick = () => {
@@ -31,10 +34,11 @@ export default function SelectDateInput({ className }: Props) {
         <input
           type="text"
           placeholder="날짜"
-          className={`${className} !mb-0 ${isOpen ? 'rounded-b-none' : ''}`}
+          className={`${className} !mb-0 ${isOpen ? 'rounded-b-none' : ''} focus:border-gray-200`}
           readOnly
           value={inputValue}
           onClick={handleInputClick}
+          {...register('date', { required: true })}
         />
         <ArrowBtn
           handleClick={handleInputClick}
