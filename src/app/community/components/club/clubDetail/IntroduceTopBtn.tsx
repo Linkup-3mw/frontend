@@ -5,7 +5,7 @@ import HeartBtn from './HeartBtn';
 import MoreBtn from './MoreBtn';
 import { useSession } from 'next-auth/react';
 import { useState } from 'react';
-import Confirm from '@/app/common/components/modal/confirm';
+import Confirm from '@/app/common/components/modal/Confirm';
 import Alert from '@/app/common/components/modal/Alert';
 import { useRecoilState } from 'recoil';
 import { clubUserTypeState } from '@/app/community/atoms/clubDetail';
