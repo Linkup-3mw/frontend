@@ -7,6 +7,7 @@
   position: relative;
   width: 100%;
   text-align: center;
+  color: #2b2b2b;
 }
 
 .rdp-caption {
@@ -95,7 +96,7 @@
   }
 }
 .rdp-cell .rdp-button[disabled] {
-  color: gray;
+  color: #d3d3d3;
 }
 
 .rdp-day_selected {

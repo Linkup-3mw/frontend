@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { Building, OfficeBuildingsResponse } from '@/types/office/office';
+import { Building } from '@/types/office/office';
 import Zoom from './components/Zoom';
 import Marker from './components/Marker';
 import ComponentMap from './components/Map';
@@ -8,16 +8,23 @@ import BuildingList from './components/BuildingList';
 import CurrentLocationButton from './components/LocationButton';
 import BuildingInfo from './components/BuildingInfo';
 import { useRecoilState } from 'recoil';
-import { buildingState, currentBuildingState } from '../atom/search';
+import {
+  buildingState,
+  currentBuildingState,
+  modalState,
+} from '../atom/search';
 import API from '@/utils/axios';
+import Modal from './components/Loader/Modal';
+import { seatListReservation, spaceListReservation } from '../atom/office';
 
 export default function MapPage() {
   const [currentBuilding, setCurrentBuilding] =
     useRecoilState(currentBuildingState);
-
+  const [modal, setModal] = useRecoilState(modalState);
   const [officeBuildings, setOfficeBuildings] =
     useRecoilState<Building[]>(buildingState);
-
+  const [seatList, setSeatList] = useRecoilState(seatListReservation);
+  const [spaceList, setSpaceList] = useRecoilState(spaceListReservation);
   const [isUp, setIsUp] = useState(false);
 
   useEffect(() => {
@@ -30,9 +37,10 @@ export default function MapPage() {
         console.error('Error fetching buildings data:', error);
       }
     };
-
+    setSeatList([]);
+    setSpaceList([]);
     fetchBuildingsData();
-  }, []);
+  }, [setOfficeBuildings]);
 
   return (
     <>
@@ -44,6 +52,9 @@ export default function MapPage() {
         <div className="absolute right-[4.44rem] top-[2rem] z-[200] flex flex-row-reverse gap-[1.5rem] h-[calc(100vh_-_7rem_-_9.25rem)] max-h-[50.75rem] min-h-[80.4%] max-md:min-h-0 max-md:h-[calc(100vh_-_4.37rem)] max-md:static">
           <BuildingList />
           {currentBuilding && <BuildingInfo />}
+        </div>
+        <div className="absolute right-[5.44rem] top-[2rem] z-[201]">
+          {modal && <Modal />}
         </div>
       </div>
     </>

@@ -51,7 +51,7 @@ const MenuItems = ({ onClose }: HamburgerMenuModalProps) => (
         </li>
       </ul>
     </div>
-    <div className="p-[2rem] border-b border-gray-100">
+    {/* <div className="p-[2rem] border-b border-gray-100">
       <div className="pb-[1.5rem] leading-none text-lg md:text-xl lg:text-2xl">
         고객센터
       </div>
@@ -76,7 +76,7 @@ const MenuItems = ({ onClose }: HamburgerMenuModalProps) => (
           </li>
         </ul>
       </div>
-    </div>
+    </div> */}
   </>
 );
 

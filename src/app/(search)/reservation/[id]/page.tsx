@@ -1,25 +1,23 @@
 'use client';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { currentBuildingState } from '../../atom/search';
 import { selectedSeatAllState, selectedSpaceAllState } from '../../atom/office';
 import {
   mobileReservationLayoutState,
   showMobileTableState,
 } from '../../atom/media';
-import { format } from 'date-fns';
-import { ko } from 'date-fns/locale';
 import SeatInformation from './components/SeatInfomation';
 import ReservationInfo from './components/ReservationInfo';
 import OpenTableMobile from './components/table/mobile/OpenTableMobile';
-import API from '@/utils/axios';
+import { modalState } from '../../atom/search';
+import ReservationSuccess from './components/table/modal/ReservationSuccess';
 
-export default function Reservation(params: string) {
+export default function Reservation() {
   const [isMobile, setIsMobile] = useRecoilState(mobileReservationLayoutState);
-  const currentBuilding = useRecoilValue(currentBuildingState);
   const showMobileTable = useRecoilValue(showMobileTableState);
   const selectedSeatAll = useRecoilValue(selectedSeatAllState);
   const selectedSpaceAll = useRecoilValue(selectedSpaceAllState);
+  const [modal, setModal] = useRecoilState(modalState);
 
   useEffect(() => {
     const handleResize = () => {
@@ -39,7 +37,7 @@ export default function Reservation(params: string) {
       <div className="mt-[5rem] md:flex justify-center">
         <div className="md:flex md:w-[95rem] mb:w-full mx-auto pt-2 gap-4">
           <div className="flex justify-center">
-            {/* 패스구입  UI*/}
+            {/* 패스구입 UI */}
             {!showMobileTable && <ReservationInfo />}
           </div>
           <div>{!showMobileTable && <SeatInformation />}</div>
@@ -56,6 +54,9 @@ export default function Reservation(params: string) {
             </div>
           </>
         )}
+        <div className="absolute right-[5.44rem] top-[2rem] z-[201]">
+          {modal && <ReservationSuccess />}
+        </div>
       </div>
     </>
   );

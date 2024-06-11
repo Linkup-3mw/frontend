@@ -1,6 +1,6 @@
 interface Props {
   size?: string;
-  className: string;
+  className?: string;
 }
 const XIcon = ({ size = '14', className }: Props) => {
   return (

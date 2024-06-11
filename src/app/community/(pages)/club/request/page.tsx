@@ -1,4 +1,3 @@
-// /community/club/request
 import ClubRequestForm from '@/app/community/components/club/ClubRequestForm';
 
 export default function ClubRequestPage() {

@@ -23,10 +23,10 @@ export default function BuildingInfo() {
       }
     };
     if (id) fetchBuildingsData();
-  }, []);
+  }, [BuildingId, currentBuilding, id]);
   return (
     <>
-      {/* <div
+      {/* <div>
         className="hidden-md mb:h-full mb:w-full md:w-[30.6875rem] md:h-[50.75rem] mb:bottom-0 z-[991]
         md:absolute md:top-[110px] md:rounded-3xl md:shadow-2xl md:right-[580px] md:bottom-5 
         rounded-3xl flex flex-col mb:top-[70px]  ease-in duration-300 shadow-2xl mb:right-[0px] bottom-5 bg-white p-0 m-0 

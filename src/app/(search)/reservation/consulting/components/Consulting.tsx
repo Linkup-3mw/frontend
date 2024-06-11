@@ -4,9 +4,16 @@ import { useState } from 'react';
 import ConsentCheckbox from '../../[id]/components/filed/ConsentCheckbox';
 import React, { ChangeEventHandler } from 'react';
 import { useForm, FieldValues } from 'react-hook-form';
-
+import { currentBuildingState } from '@/app/(search)/atom/search';
 import { mobileReservationLayoutState } from '@/app/(search)/atom/media';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import API from '@/utils/axios';
+import { CompanyEnter, EnterpriseMembership } from '@/types/office/reservation';
+import {
+  companyState,
+  selectedSeatAllState,
+  selectedSpaceAllState,
+} from '@/app/(search)/atom/office';
 
 export default function Consulting() {
   const [companyName, setCompanyName] = useState('');
@@ -15,6 +22,13 @@ export default function Consulting() {
   const [hasError, setHasError] = useState({ contact: false, email: false });
   const [modal, setIsModal] = useState(false);
   const isMobile = useRecoilValue(mobileReservationLayoutState);
+  const [consulting, setConsulting] = useRecoilState(companyState);
+  const [selectedSeatAll, setSelectedSeatAll] =
+    useRecoilState(selectedSeatAllState);
+  const [selectedSpaceAll, setSelectedSpaceAll] = useRecoilState(
+    selectedSpaceAllState,
+  );
+  const currentBuilding = useRecoilValue(currentBuildingState);
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement>,
     type: string,
@@ -58,6 +72,56 @@ export default function Consulting() {
 
   const handleModalOpen = () => {
     setIsModal(true);
+    setConsulting({
+      name: companyName,
+      manager_phone: contactNumber,
+      manager_email: email,
+      consent_contact: Boolean(dataCollectionAgree),
+      consent_promotion: Boolean(marketingAgree),
+    });
+
+    console.log(
+      '@#@#@#@#@#@#consulting',
+      consulting,
+      'currentBuildingID',
+      currentBuilding?.id,
+    );
+
+    const company_membership: EnterpriseMembership = {
+      office_id: currentBuilding?.id!,
+      location: currentBuilding?.location!,
+      duration: null,
+      start_date: selectedSeatAll?.start_date!,
+      end_date: selectedSeatAll?.end_date!,
+      staff_count: 14,
+      price: 37800000!,
+    };
+    const company: CompanyEnter = {
+      name: consulting?.name!,
+      manager_phone: consulting?.manager_phone!,
+      manager_email: consulting?.manager_email!,
+      consent_contact: consulting?.consent_contact!,
+      consent_promotion: consulting?.consent_promotion!,
+    };
+    console.log('@@@#$$@#$@#$@#$@#$!@#SDFASGA', {
+      company_membership,
+      company,
+    });
+    const fetchEnter = async () => {
+      try {
+        const res = await API.post(
+          `reservation/company/${currentBuilding?.id}`,
+          {
+            company_membership,
+            company,
+          },
+        );
+        console.log('enterprise!@!@!@!', res);
+      } catch (error) {
+        console.log('예약에러', error);
+      }
+    };
+    fetchEnter();
   };
 
   const handleModalClose = () => {

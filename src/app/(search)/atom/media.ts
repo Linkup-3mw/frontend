@@ -12,3 +12,7 @@ export const minDeskLayoutState = atom<boolean>({
   key: 'minDesk',
   default: false,
 });
+export const loadingState = atom<boolean>({
+  key: 'loading',
+  default: true,
+});

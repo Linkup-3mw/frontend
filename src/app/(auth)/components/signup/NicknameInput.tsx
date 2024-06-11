@@ -4,6 +4,7 @@ import {
   UseFormClearErrors,
   UseFormRegister,
   UseFormSetError,
+  UseFormTrigger,
 } from 'react-hook-form';
 import Input from '@common/components/form/Input';
 import InputBox from '@common/components/form/InputBox';
@@ -15,6 +16,7 @@ interface Props {
   register: UseFormRegister<FieldValues>;
   setError: UseFormSetError<FieldValues>;
   clearErrors: UseFormClearErrors<FieldValues>;
+  trigger: UseFormTrigger<FieldValues>;
 }
 
 export default function NicknameInput({
@@ -22,6 +24,7 @@ export default function NicknameInput({
   register,
   setError,
   clearErrors,
+  trigger,
 }: Props) {
   const [message, setMessage] = useState('');
 
@@ -32,11 +35,16 @@ export default function NicknameInput({
       return;
     }
 
+    if (username.length > 6) {
+      setMessage('');
+      return;
+    }
+
     try {
       const res = await validateNickname(username);
       if (res.status_code === 200) {
         setMessage('사용할 수 있는 닉네임입니다.');
-        clearErrors('username');
+        // clearErrors('username');
       }
     } catch (e: any) {
       if (e.response.data.status_code === 400) {
@@ -52,7 +60,10 @@ export default function NicknameInput({
 
   useEffect(() => {
     register('username', {
-      onBlur: (e) => verifyNickname(e.target.value),
+      onBlur: (e) => {
+        trigger('username');
+        verifyNickname(e.target.value);
+      },
     });
   }, [verifyNickname]);
 

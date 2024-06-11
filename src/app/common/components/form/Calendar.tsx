@@ -43,7 +43,7 @@ export default function Calendar({ onSelect, selected }: Props) {
           day_outside: '!text-gray-400',
           day_selected: '!text-white !bg-blue-400 !rounded-full',
           button:
-            'relative mx-auto pt-[0.4rem] pb-[1.25rem] w-[2.5rem] h-[2.5rem] font-medium leading-none box-border max-md:text-[0.75rem] max-md:w-[2.25rem] max-md:h-[2.25rem] ',
+            'relative mx-auto pt-[0.4rem] pb-[1.25rem] w-[2.5rem] h-[2.5rem] font-medium leading-none box-border max-md:text-[0.75rem] max-md:w-[2.25rem] max-md:h-[2.25rem] disabled:text-gray-400',
         }}
       />
     </>

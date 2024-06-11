@@ -9,8 +9,16 @@ import MettingRoom4Mobile from './MettingRoom4Mobile';
 import MeetingRoom8Mobile from './MeetingRoom8Mobile';
 import SeminarRoomMobile from './SeminarRoomMobile';
 import StudioMobile from './StudioMobile';
-import { useRecoilValue } from 'recoil';
-import { Rtab } from '@/app/(search)/atom/office';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import {
+  Rtab,
+  searchRemainingState,
+  seatListReservation,
+  spaceListReservation,
+} from '@/app/(search)/atom/office';
+import { useEffect } from 'react';
+import { currentBuildingState } from '@/app/(search)/atom/search';
+import API from '@/utils/axios';
 
 // opentalemobile -> opendeskmobile
 interface OpenTaleMobileProps {
@@ -22,7 +30,44 @@ export default function OpenTableMobile({
   selectedSpaceAll,
 }: OpenTaleMobileProps) {
   const RTab = useRecoilValue(Rtab);
+  const currentOffice = useRecoilValue(currentBuildingState);
+  const [seatList, setSeatList] = useRecoilState(seatListReservation);
+  const [spaceList, setSpaceList] = useRecoilState(spaceListReservation);
+  const [searchRemaining, setSearchRemaining] =
+    useRecoilState(searchRemainingState);
 
+  useEffect(() => {
+    const id = currentOffice?.id;
+
+    const fetchRemainingData = async () => {
+      console.log('요청요청요청');
+      console.log(selectedSeatAll, id);
+      if (RTab === '좌석') {
+        try {
+          const response = await API.get(
+            `reservation/${id}?type=${selectedSeatAll?.type}&start=${selectedSeatAll?.start_date}&end=${selectedSeatAll?.end_date}`,
+          );
+          console.log('Response:', response.data.data);
+          setSearchRemaining(response.data.data);
+        } catch (error) {
+          console.error('Error fetching seat data:', error);
+        }
+      } else if (RTab === '공간') {
+        try {
+          console.log(selectedSpaceAll, id);
+          const response = await API.get(
+            `reservation/${id}?type=${selectedSpaceAll?.type}&start=${selectedSpaceAll?.start_date}&end=${selectedSpaceAll?.end_date}`,
+          );
+          console.log('Response:', response.data.data);
+          setSearchRemaining(response.data.data);
+        } catch (error) {
+          console.error('Error fetching space data:', error);
+        }
+      }
+    };
+
+    fetchRemainingData();
+  }, []);
   function ReservationTableStyleSeat({
     selectedSeatAll,
   }: {
@@ -30,15 +75,15 @@ export default function OpenTableMobile({
   }) {
     if (selectedSeatAll && selectedSeatAll.type) {
       switch (selectedSeatAll.type) {
-        case '오픈테이블':
+        case '오픈데스크':
           return <OpenDeskMobile />;
         case '포커스데스크':
           return <FocusDeskMobile />;
         case '1인실':
           return <OneRoomMobile />;
-        case '모니터 데스크':
+        case '모니터데스크':
           return <MonitorDeskMobile />;
-        case '지정 좌석':
+        case '지정좌석':
           return <ReservedMobile />;
         case '기업 전용 지정 좌석':
           return <OnlyEnterMobile />;
@@ -57,9 +102,9 @@ export default function OpenTableMobile({
   }) {
     if (selectedSpaceAll && selectedSpaceAll.type) {
       switch (selectedSpaceAll.type) {
-        case '회의실 (4인)':
+        case '미팅룸(4인)':
           return <MettingRoom4Mobile />;
-        case '회의실 (8인)':
+        case '미팅룸(8인)':
           return <MeetingRoom8Mobile />;
         case '세미나실':
           return <SeminarRoomMobile />;

@@ -15,7 +15,7 @@ export default function ArrowBtn({
     <button
       type="button"
       onClick={handleClick}
-      className="w-[1.5rem] h-[1.5rem] max-md:w-[1rem] max-md:h-[1rem]"
+      className={`w-[1.5rem] h-[1.5rem] max-md:w-[1rem] max-md:h-[1rem] ${className}`}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"

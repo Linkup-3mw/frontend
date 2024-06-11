@@ -6,7 +6,7 @@ import TabMenu from './TabMenu';
 import { BlackRightArrow } from '@/app/common/components/icons/BlackArrow';
 
 interface Props {
-  id: string;
+  id: number;
 }
 
 export default function NoneMemberBoardsSection({ id }: Props) {

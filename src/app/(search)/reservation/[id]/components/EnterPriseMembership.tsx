@@ -2,14 +2,10 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import Image from 'next/image';
 import Link from 'next/link';
 import {
-  seatListReservation,
   selectedSeatAllState,
-  confirmedState,
   Rtab,
-  infoMsgState,
   selectedSpaceAllState,
-  spaceListReservation,
-  EnterPriseConsultingState,
+  companyState,
 } from '@/app/(search)/atom/office';
 import { DayPicker } from 'react-day-picker';
 import { useState } from 'react';
@@ -39,14 +35,13 @@ export default function EnterPriseMembership({
   );
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [selectedMonth, setSelectedMonth] = useState<number | null>(1);
-  const setConsulting = useSetRecoilState(EnterPriseConsultingState);
+  const [consulting, setConsulting] = useRecoilState(companyState);
   const spaceImages: Record<string, string> = {
-    '회의실 (4인)': '/svg/reservation/mettingRoom4.svg',
-    '회의실 (8인)': '/svg/reservation/mettingRoom8.svg',
+    '미팅룸(4인)': '/svg/reservation/mettingRoom4.svg',
+    '미팅룸(8인)': '/svg/reservation/mettingRoom8.svg',
     세미나실: '/svg/reservation/seminar.svg',
     스튜디오: '/svg/reservation/studio.svg',
   };
-
   const handleMonthClick = (month: number) => {
     setSelectedMonth(month);
     const startDate = new Date();
@@ -62,7 +57,7 @@ export default function EnterPriseMembership({
       ...selectedSeatAll,
       start_date: format(day, 'yyyy-MM-dd', { locale: ko }),
       end_date: format(endDate, 'yyyy-MM-dd', { locale: ko }),
-      type: '기업 전용 지정 좌석',
+      type: '기업 지정석',
       code: selectedSeatAll?.code ?? '',
     };
     const newSelectedSpaceAll: SpaceReservation = {
@@ -94,7 +89,6 @@ export default function EnterPriseMembership({
   const handleBlur = () => {
     setPeopleCount(parseInt(inputValue));
   };
-
   return (
     <>
       <div className="">
@@ -126,9 +120,16 @@ export default function EnterPriseMembership({
             </div>
             <div className="flex flex-col gap-4">
               <DayPicker
+                selected={selectedDate}
                 locale={ko}
                 onDayClick={handleDayClick}
-                disabled={true}
+                toMonth={addMonths(new Date(), selectedMonth ?? 0)}
+                disabled={{
+                  before: new Date(),
+                  after: new Date(
+                    new Date().setMonth(new Date().getMonth() + 1),
+                  ),
+                }}
               />
 
               <div className="hidden-desk w-full text-center my-4">
@@ -182,7 +183,7 @@ export default function EnterPriseMembership({
               <Link href="/reservation/consulting">
                 <div className="w-full text-center my-4">
                   <button
-                    onClick={() => setShowMobileTable(true)}
+                    // onClick={() => setShowMobileTable(true)}
                     className="w-[7.375rem] h-[3rem] bg-[#688AF2] text-white rounded-lg leading-none font-bold text-xl"
                   >
                     문의하기

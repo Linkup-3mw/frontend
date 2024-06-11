@@ -10,9 +10,10 @@ import {
   selectedSpaceAllState,
   spaceListReservation,
   mobileConfirmedState,
+  searchRemainingState,
 } from '@/app/(search)/atom/office';
 import { DayPicker } from 'react-day-picker';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { format, addMonths, addDays } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import { SeatReservation, SpaceReservation } from '@/types/office/reservation';
@@ -21,6 +22,8 @@ import {
   showMobileTableState,
 } from '@/app/(search)/atom/media';
 import { useLineBreak } from '@/app/(search)/map/hooks/useLineBreak';
+import { currentBuildingState, modalState } from '@/app/(search)/atom/search';
+import API from '@/utils/axios';
 
 interface MonthMembershipProps {
   seatType: string[];
@@ -41,21 +44,151 @@ export default function MonthPassMembership({
   const [selectedSpaceAll, setSelectedSpaceAll] = useRecoilState(
     selectedSpaceAllState,
   );
+  const [modal, setModal] = useRecoilState(modalState);
+  const [searchRemaining, setSearchRemaining] =
+    useRecoilState(searchRemainingState);
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [selectedMonth, setSelectedMonth] = useState<number | null>(1);
   const content = `멤버십 구매 후 모든 지점에서 자율 좌석을 자유롭게 예약할 수 있습니다.`;
-
+  const currentOffice = useRecoilValue(currentBuildingState);
   const spaceImages: Record<string, string> = {
-    '회의실 (4인)': '/svg/reservation/mettingRoom4.svg',
-    '회의실 (8인)': '/svg/reservation/mettingRoom8.svg',
-    세미나실: '/svg/reservation/seminar.svg',
+    '미팅룸(4인)': '/svg/reservation/mettingRoom4.svg',
+    '미팅룸(8인)': '/svg/reservation/mettingRoom8.svg',
+    컨퍼런스룸: '/svg/reservation/seminar.svg',
     스튜디오: '/svg/reservation/studio.svg',
+  };
+  const id = currentOffice?.id;
+  //좌석 조회
+  const fetchSeatData = async () => {
+    try {
+      const res = await API.get(
+        `reservation/${id}?type=${selectedSeatAll?.type}&start=${selectedSeatAll?.start_date}&end=${selectedSeatAll?.end_date}`,
+      );
+      console.log('요청', res.data.data);
+      setSearchRemaining(res.data.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  useEffect(() => {
+    if (
+      RTab === '좌석' &&
+      selectedSeatAll?.type &&
+      selectedSeatAll?.start_date
+    ) {
+      fetchSeatData();
+    }
+  }, [selectedSeatAll]);
+  //공간 조회
+  const fetchSpaceData = async () => {
+    try {
+      const res = await API.get(
+        `reservation/${id}?type=${selectedSpaceAll?.type}&start=${selectedSpaceAll?.start_date}&end=${selectedSpaceAll?.end_date}`,
+      );
+      console.log('지정좌석 공간요청', res.data.data);
+      setSearchRemaining(res.data.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  useEffect(() => {
+    if (
+      RTab === '공간' &&
+      selectedSpaceAll?.type &&
+      selectedSpaceAll?.start_date
+    ) {
+      fetchSpaceData();
+    }
+  }, [selectedSpaceAll]);
+  // 지정좌석 예약
+  const handleReservedReservationClick = () => {
+    const st = seatList.length > 0 ? seatList[0].start_date : null;
+    const end = seatList.length > 0 ? seatList[0].end_date : null;
+    console.log('선택된 좌석', selectedSeatAll);
+    const membership = {
+      location: currentOffice?.location,
+      type: '30일 패스',
+      duration: null,
+      start_date: st,
+      end_date: end,
+      price: 100000,
+    };
+
+    const seatReservations = seatList.map((seat) => ({
+      type: '지정석',
+      start_date: seat.start_date,
+      start_time: '00:00',
+      end_date: seat.end_date,
+      end_time: '00:00',
+      price: 20000,
+      seat_id: seat.code,
+    }));
+    const fetchSeatReserved = async () => {
+      try {
+        const res = await API.post(`reservation/individual/${id}`, {
+          membership,
+          reservations: seatReservations,
+        });
+        console.log('dndpdpdpdfsdkjflsd우에에엥', res);
+      } catch (error) {
+        console.log('예약에러', error);
+      }
+    };
+    fetchSeatReserved();
+    setModal(true);
+  };
+  const handleSpaceReservedReservationClick = () => {
+    const st = seatList.length > 0 ? seatList[0].start_date : null;
+    const end = seatList.length > 0 ? seatList[0].end_date : null;
+    console.log('선택된 좌석', selectedSeatAll);
+    const membership = {
+      location: currentOffice?.location,
+      type: '30일 패스',
+      duration: null,
+      start_date: st,
+      end_date: end,
+      price: 100000,
+    };
+
+    const seatReservations = seatList.map((seat) => ({
+      type: '지정석',
+      start_date: seat.start_date,
+      start_time: '00:00',
+      end_date: seat.end_date,
+      end_time: '00:00',
+      price: 20000,
+      seat_id: seat.code,
+    }));
+    const spaceReservations = spaceList.map((space) => ({
+      type: '공간',
+      start_date: space.start_date,
+      start_time: space.start_time,
+      end_date: space.start_date,
+      end_time: space.end_time,
+      price: 15000,
+      seat_id: space.code,
+    }));
+    const all = [...seatReservations, ...spaceReservations];
+    console.log('씻 레저베이션@@@@@@', seatReservations);
+    const fetchSpaceReserved = async () => {
+      try {
+        const res = await API.post(`reservation/individual/${id}`, {
+          membership,
+          reservations: all,
+        });
+        console.log('dndpdpdpdfsdkjflsd우에에엥뿌뿌부', res);
+      } catch (error) {
+        console.log('예약에러', error);
+      }
+    };
+    fetchSpaceReserved();
+    setModal(true);
   };
 
   const handleMonthClick = (month: number) => {
     setSelectedMonth(month);
     const startDate = new Date();
-    const endDate = addMonths(startDate, month);
+    const endDate = format(addMonths(startDate, month), 'yyyy-MM-dd');
     setSelectedDate(startDate);
   };
 
@@ -67,7 +200,7 @@ export default function MonthPassMembership({
       ...selectedSeatAll,
       start_date: format(day, 'yyyy-MM-dd', { locale: ko }),
       end_date: format(endDate, 'yyyy-MM-dd', { locale: ko }),
-      type: '지정 좌석',
+      type: '지정좌석', // DESIGNATED_SEAT("지정좌석"),
       code: selectedSeatAll?.code ?? '',
     };
     const newSelectedSpaceAll: SpaceReservation = {
@@ -79,7 +212,7 @@ export default function MonthPassMembership({
       start_time: selectedSpaceAll?.start_time ?? '',
       end_time: selectedSpaceAll?.end_time ?? '',
     };
-    setSelectedSeatAll(null);
+
     setSelectedSeatAll(newSelectedSeatAll);
     setSelectedSpaceAll(newSelectedSpaceAll);
   };
@@ -98,11 +231,11 @@ export default function MonthPassMembership({
     <>
       <div className="">
         {RTab === '좌석' && (
-          <div className="flex flex-col gap-3 mt-6">
+          <div className="flex flex-col gap-4 mt-6">
             <div className="mb:text-sm md:text-lg font-bold mb-2">
               예약 기간을 선택하세요.
             </div>
-            <div className="flex mb:gap-[2px] md:gap-2 mb:w-[18rem] md:w-[26.6875rem] h-[6rem] flex-wrap">
+            <div className="flex gap-1 mb:w-full md:w-full h-[6rem] flex-wrap mx-auto">
               {Array.from({ length: 12 }, (_, i) => i + 1).map(
                 (month, index) => (
                   <div
@@ -113,9 +246,9 @@ export default function MonthPassMembership({
                       onClick={() => handleMonthClick(month)}
                       className={`w-full h-full  ${
                         selectedMonth === month
-                          ? 'bg-blue-400 text-white border-2 border-blue-500'
-                          : 'bg-white border-2 text-[#171717] border-gray-300'
-                      } rounded-lg md:text-sm mb:text-[0.75rem] font-normal md:p-[0.63rem] border-1 border-gray-300 border-solid`}
+                          ? 'bg-blue-400 text-white  border-blue-500'
+                          : 'bg-white text-[#171717] border-gray-300'
+                      } rounded-lg md:text-sm mb:text-[0.75rem] font-normal md:p-[0.63rem]`}
                     >
                       {month}개월
                     </button>
@@ -210,7 +343,7 @@ export default function MonthPassMembership({
                         </div>
                       </div>
                     </div>
-                  ))}{' '}
+                  ))}
                   {mobileConfirm && (
                     <div className="hidden-desk w-full flex h-[2.25rem] text-[0.625rem] gap-2 mt-2 mb-4 leading-4 border-4">
                       <p className="h-[1.4375rem] w-[11.1875rem] border-4">
@@ -268,6 +401,29 @@ export default function MonthPassMembership({
                     </div>
                   )}
                 </div>
+                {!isMobile ? (
+                  <Link href="">
+                    <div
+                      className="flex justify-center items-center"
+                      onClick={() => handleReservedReservationClick()}
+                    >
+                      <button className="left-0 bottom-0 right-0 w-[7.375rem] h-[3rem] font-normal text-xl leading bg-blue-400 px-6 py-3 mt-6 text-white rounded-md">
+                        예약하기
+                      </button>
+                    </div>
+                  </Link>
+                ) : (
+                  <Link href="">
+                    <div
+                      onClick={() => handleReservedReservationClick()}
+                      className="flex justify-center items-center"
+                    >
+                      <button className="left-0 bottom-0 right-0 w-[5.5rem] h-[2.5rem] bg-blue-400  mt-6 text-white rounded-md">
+                        예약하기
+                      </button>
+                    </div>
+                  </Link>
+                )}
               </>
             )}
           </div>
@@ -338,32 +494,29 @@ export default function MonthPassMembership({
                     <div className="mb:text-sm md:text-lg font-bold mb-4">
                       예약 정보를 확인하세요
                     </div>
-
                     {seatList.map((seat, index) => (
                       <div
                         key={index}
-                        className="flex items-center mb:w-[18rem] md:w-[26.6875rem] mb:h-[4.1875rem] md:h-[5.625rem] bg-white text-lg rounded-xl p-1 pl-2 mb-2"
+                        className="mb:w-[18rem] md:w-[26.6875rem] mb:h-[4.1875rem] md:h-[5.625rem] bg-white text-lg rounded-xl p-1 pl-2 mb-2"
                       >
                         <div className="flex mb:gap-1 md:gap-2 mb:p-2 md:p-4 justify-between">
-                          <div className="pr-4 border-gray-300 flex items-center">
+                          <div className="pr-4 border-gray-300 flex">
                             <div className="pr-4 border-r-2">
-                              <p className="mb:text-[0.75rem] md:text-[1rem] md:leading-7 mb:leading-5">
+                              <p className="mb:text-[0.75rem]  md:text-[1rem] md:leading-7 mb:leading-5">
                                 {seat.type}
                               </p>
-                              <p className="mb:text-[0.875rem] md:text-[1.25rem] font-bold">
+                              <p className="mb:text-[0.875rem] md:text-[1.25rem] font-bold ">
                                 {seat.code}
                               </p>
                             </div>
-                            <div className="bg-red-300 pl-4 md:font-normal md:text-lg mb:text-[0.75rem]">
-                              <p>
-                                {seat.start_date} - {seat.end_date}
-                              </p>
+                            <div className="pl-4 md:font-normal md:text-lg mb:text-[0.25rem] mb:leading-5 md:leading-7">
+                              <p>{seat.start_date} ~ </p>
+                              <p> {seat.end_date}</p>
                             </div>
                           </div>
-
                           <div className="flex items-center">
                             {!isMobile ? (
-                              <div className="hidden-desk hidden-md">
+                              <div className="">
                                 <button
                                   className="rounded-lg w-[4.625rem] h-[2rem] text-sm text-white font-semibold bg-[#FF4163]"
                                   onClick={() => removeReservation(index)}
@@ -372,14 +525,12 @@ export default function MonthPassMembership({
                                 </button>
                               </div>
                             ) : (
-                              <div className="hidden-360">
-                                <button
-                                  className=" rounded-lg w-[1.75rem] h-[1.75rem] text-sm text-white font-semibold bg-[#FF4163]"
-                                  onClick={() => removeReservation(index)}
-                                >
-                                  X
-                                </button>
-                              </div>
+                              <button
+                                className="rounded-lg w-[1.75rem] h-[1.75rem] text-sm text-white font-semibold bg-[#FF4163]"
+                                onClick={() => removeReservation(index)}
+                              >
+                                X
+                              </button>
                             )}
                           </div>
                         </div>
@@ -388,28 +539,26 @@ export default function MonthPassMembership({
                     {spaceList.map((space, index) => (
                       <div
                         key={index}
-                        className="flex items-center mb:w-[18rem] md:w-[26.6875rem] mb:h-[4.1875rem] md:h-[5.625rem] bg-white text-lg rounded-xl p-1 pl-2 mb-2"
+                        className="mb:w-[18rem] md:w-[26.6875rem] mb:h-[4.1875rem] md:h-[5.625rem] bg-white text-lg rounded-xl p-1 pl-2 mb-2"
                       >
                         <div className="flex mb:gap-1 md:gap-2 mb:p-2 md:p-4 justify-between">
-                          <div className="pr-4 border-gray-300 flex items-center">
+                          <div className="pr-4 border-gray-300 flex">
                             <div className="pr-4 border-r-2">
-                              <p className="mb:text-[0.75rem] md:text-[1rem] md:leading-7 mb:leading-5">
+                              <p className="mb:text-[0.75rem]  md:text-[1rem] md:leading-7 mb:leading-5">
                                 {space.type}
                               </p>
-                              <p className="mb:text-[0.875rem] md:text-[1.25rem] font-bold">
+                              <p className="mb:text-[0.875rem] md:text-[1.25rem] font-bold ">
                                 {space.code}
                               </p>
                             </div>
-                            <div className="bg-red-300 pl-4 md:font-normal md:text-lg mb:text-[0.75rem]">
-                              <p>
-                                {space.start_date} - {space.end_date}
-                              </p>
+                            <div className="pl-4 md:font-normal md:text-lg mb:text-[0.25rem] mb:leading-5 md:leading-7">
+                              <p>{space.start_date} ~ </p>
+                              <p> {space.end_date}</p>
                             </div>
                           </div>
-
                           <div className="flex items-center">
                             {!isMobile ? (
-                              <div className="hidden-desk hidden-md">
+                              <div className="">
                                 <button
                                   className="rounded-lg w-[4.625rem] h-[2rem] text-sm text-white font-semibold bg-[#FF4163]"
                                   onClick={() => removeReservation(index)}
@@ -418,14 +567,12 @@ export default function MonthPassMembership({
                                 </button>
                               </div>
                             ) : (
-                              <div className="hidden-360">
-                                <button
-                                  className=" rounded-lg w-[1.75rem] h-[1.75rem] text-sm text-white font-semibold bg-[#FF4163]"
-                                  onClick={() => removeReservation(index)}
-                                >
-                                  X
-                                </button>
-                              </div>
+                              <button
+                                className="rounded-lg w-[1.75rem] h-[1.75rem] text-sm text-white font-semibold bg-[#FF4163]"
+                                onClick={() => removeReservation(index)}
+                              >
+                                X
+                              </button>
                             )}
                           </div>
                         </div>
@@ -485,18 +632,17 @@ export default function MonthPassMembership({
                           </div>
                         </div>
                       </div>
-                      <Link href="">
-                        <div className="flex justify-center items-center">
-                          <div className="w-full text-center my-4">
-                            <button
-                              onClick={() => setShowMobileTable(true)}
-                              className="w-[5.5rem] h-[2.5rem] bg-blue-400 text-white rounded-lg leading-[1.375rem]"
-                            >
-                              예약 하기
-                            </button>
-                          </div>
+
+                      <div
+                        className="flex justify-center items-center cursor-pointer"
+                        onClick={() => handleSpaceReservedReservationClick()}
+                      >
+                        <div className="w-full text-center my-4">
+                          <button className="w-[5.5rem] h-[2.5rem] bg-blue-400 text-white rounded-lg leading-[1.375rem]">
+                            예약 하기
+                          </button>
                         </div>
-                      </Link>
+                      </div>
                     </div>
                   </div>
                 </>

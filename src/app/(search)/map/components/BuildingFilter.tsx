@@ -136,9 +136,9 @@ export default function BuildingFilter({ isUp }: BuildingFilterProps) {
       {selectedRegion && (
         <div
           className="
-        md:absolute md:top-[60px] 
+        md:absolute md:top-[70px] 
         mb:absolute p-4 mb:top-[-40px]
-        bg-white z-100 shadow-lg rounded-xl border border-gray-300 transform -translate-x-1 -translate-y-1"
+        bg-white z-100 shadow-lg rounded-xl border border-gray-300 transform -translate-x-1 -translate-y-1 "
         >
           <div className=" flex flex-col mx-auto">
             <div className="flex justify-between items-center">
@@ -176,7 +176,7 @@ export default function BuildingFilter({ isUp }: BuildingFilterProps) {
               </div>
             </div>
 
-            <ul className="p-2 grid grid-cols-4 gap-4">
+            <ul className="p-2 grid grid-cols-4 gap-4 ">
               {GangNamGoo.map((city) => (
                 <li key={city}>
                   <button
@@ -247,7 +247,7 @@ export default function BuildingFilter({ isUp }: BuildingFilterProps) {
       {selectedIndustry && (
         <div
           className="
-          md:absolute md:top-[60px] 
+          md:absolute md:top-[70px] 
         mb:absolute p-4 mb:top-[-40px]
         bg-white z-100 shadow-lg rounded-xl border border-gray-300 transform -translate-x-1 -translate-y-1"
         >
@@ -322,7 +322,7 @@ export default function BuildingFilter({ isUp }: BuildingFilterProps) {
       {selectedOccupation && (
         <div
           className="
-          md:absolute md:top-[60px] 
+          md:absolute md:top-[70px] 
           mb:absolute p-4 mb:top-[-40px]
           bg-white z-100 shadow-lg rounded-xl border border-gray-300 transform -translate-x-1 -translate-y-1"
         >

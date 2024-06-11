@@ -29,3 +29,13 @@
     display: block;
   }
 }
+@media (min-width: 361px) and (max-width: 768px) {
+  .cancel-md {
+    display: block;
+  }
+}
+@media (max-width: 500px) {
+  .cancel-md {
+    display: none;
+  }
+}
