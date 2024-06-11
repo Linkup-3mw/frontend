@@ -13,9 +13,6 @@ import { loadingState } from '@/app/(search)/atom/media';
 import FullPageLoader from '@/app/(search)/map/components/Loader/FullPageLoader';
 import { useSelectRange } from 'react-day-picker';
 import TimeSkeleton from '../skeleton/TimeSkeleton';
-import ReservationMiniInfo, {
-  ReservationTitleSkeleton,
-} from '../skeleton/ReservationMiniInfo';
 
 export default function FocusDesk() {
   const seatReservationList = useRecoilValue(userUpdateRlistPutState);
@@ -88,11 +85,7 @@ export default function FocusDesk() {
 
             <div className="relative flex gap-4 h-[19.375rem] bg-[#E4EEFF] p-8">
               <div className="flex flex-col gap-4 w-[44.5rem]">
-                {loading ? (
-                  <div>
-                    <ReservationTitleSkeleton />
-                  </div>
-                ) : (
+                {loading ? null : (
                   <>
                     <p className="text-[1.25rem] font-semibold">좌석 선택</p>
                     <div className="flex flex-wrap gap-2">

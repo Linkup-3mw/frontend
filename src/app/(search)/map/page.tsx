@@ -15,6 +15,7 @@ import {
 } from '../atom/search';
 import API from '@/utils/axios';
 import Modal from './components/Loader/Modal';
+import { seatListReservation, spaceListReservation } from '../atom/office';
 
 export default function MapPage() {
   const [currentBuilding, setCurrentBuilding] =
@@ -22,7 +23,8 @@ export default function MapPage() {
   const [modal, setModal] = useRecoilState(modalState);
   const [officeBuildings, setOfficeBuildings] =
     useRecoilState<Building[]>(buildingState);
-
+  const [seatList, setSeatList] = useRecoilState(seatListReservation);
+  const [spaceList, setSpaceList] = useRecoilState(spaceListReservation);
   const [isUp, setIsUp] = useState(false);
 
   useEffect(() => {
@@ -35,7 +37,8 @@ export default function MapPage() {
         console.error('Error fetching buildings data:', error);
       }
     };
-
+    setSeatList([]);
+    setSpaceList([]);
     fetchBuildingsData();
   }, [setOfficeBuildings]);
 

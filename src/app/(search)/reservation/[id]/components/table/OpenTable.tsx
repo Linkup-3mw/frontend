@@ -12,7 +12,6 @@ import { useEffect, useState } from 'react';
 import { loadingState } from '@/app/(search)/atom/media';
 import FullPageLoader from '@/app/(search)/map/components/Loader/FullPageLoader';
 import TimeSkeleton from '../skeleton/TimeSkeleton';
-import { ReservationTitleSkeleton } from '../skeleton/ReservationMiniInfo';
 
 export default function OpenTable() {
   const seatReservationList = useRecoilValue(userUpdateRlistPutState);
@@ -98,11 +97,7 @@ export default function OpenTable() {
 
             <div className="relative flex gap-4 h-[19.375rem] bg-[#E4EEFF] p-8">
               <div className="flex flex-col gap-4 w-[44.5rem]">
-                {loading ? (
-                  <div>
-                    <ReservationTitleSkeleton />
-                  </div>
-                ) : (
+                {loading ? null : (
                   <>
                     <p className="text-[1.25rem] font-semibold">좌석 선택</p>
 

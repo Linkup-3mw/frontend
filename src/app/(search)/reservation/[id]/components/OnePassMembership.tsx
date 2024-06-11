@@ -24,7 +24,7 @@ import {
 import { useLineBreak } from '@/app/(search)/map/hooks/useLineBreak';
 import API from '@/utils/axios';
 import { currentBuildingState, modalState } from '@/app/(search)/atom/search';
-import CalendarSkeleton from '@/app/(search)/map/components/skeleton/CalendarSkeleton';
+// import CalendarSkeleton from '@/app/(search)/map/components/skeleton/CalendarSkeleton';
 
 interface OnePassMembershipProps {
   seatType: string[];
@@ -46,8 +46,9 @@ export default function OnePassMembership({
 }: OnePassMembershipProps) {
   const [RTab, setRTab] = useRecoilState(Rtab);
   const [seatList, setSeatList] = useRecoilState(seatListReservation);
-  const [selectedDate, setSelectedDate] = useState<Date>();
   const [spaceList, setSpaceList] = useRecoilState(spaceListReservation);
+  const [selectedDate, setSelectedDate] = useState<Date>();
+
   const [confirm, setConfirm] = useRecoilState(confirmedState);
 
   const mobileConfirm = useRecoilValue(mobileConfirmedState);
@@ -259,6 +260,7 @@ export default function OnePassMembership({
         console.log('예약에러', error);
       }
     };
+
     fetchSpaceReservation();
     setModal(true);
   };
@@ -294,9 +296,8 @@ export default function OnePassMembership({
               />
             </>
           )
-        ) : (
-          <CalendarSkeleton />
-        )}
+        ) : // <CalendarSkeleton />
+        null}
 
         <div className="text-[#6377E9]">{errorMessage}</div>
         {RTab === '좌석' && (

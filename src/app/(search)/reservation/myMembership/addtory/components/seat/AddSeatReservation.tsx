@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { DayPicker } from 'react-day-picker';
 import Image from 'next/image';
 import {
@@ -17,7 +17,10 @@ import {
   confirmedState,
   mobileConfirmedState,
 } from '@/app/(search)/atom/office';
-import { mobileReservationLayoutState } from '@/app/(search)/atom/media';
+import {
+  mobileReservationLayoutState,
+  showMobileTableState,
+} from '@/app/(search)/atom/media';
 import API from '@/utils/axios';
 import { SeatReservation, SpaceReservation } from '@/types/office/reservation';
 import { addDays, format } from 'date-fns';
@@ -36,16 +39,17 @@ export default function AddSeatReservation() {
     selectedSpaceAllState,
   );
   const MembershipId = useRecoilValue(selectedMembershipId);
+  const showMobileTable = useRecoilValue(showMobileTableState);
   const [searchRemaining, setSearchRemaining] =
     useRecoilState(searchRemainingState);
-  const [isMobile, setIsMobile] = useRecoilState(mobileReservationLayoutState);
+  const isMobile = useRecoilValue(mobileReservationLayoutState);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [RTab, setRTab] = useRecoilState(Rtab);
   const [confirm, setConfirm] = useRecoilState(confirmedState);
   const [modal, setModal] = useRecoilState(modalState);
   const mobileConfirm = useRecoilValue(mobileConfirmedState);
+  const setShowMobileTable = useSetRecoilState(showMobileTableState);
   const seatTypes = ['오픈데스크', '포커스데스크', '1인실', '모니터데스크'];
-
   const seatImages: Record<string, string> = {
     오픈데스크: '/svg/reservation/opendesk.svg',
     포커스데스크: '/svg/reservation/focusdesk.svg',
@@ -192,7 +196,19 @@ export default function AddSeatReservation() {
           ))}
         </div>
       </div>
-
+      <div className="btn-hidden w-full text-center my-4">
+        <button
+          disabled={!selectedSeatAll?.start_date || !selectedSeatAll.type}
+          onClick={() => setShowMobileTable(true)}
+          className={`${
+            selectedSeatAll?.start_date && selectedSeatAll?.type
+              ? 'w-[5.5rem] h-[2.5rem]  bg-blue-400 text-white rounded-lg leading-[1.375rem]'
+              : 'w-[5.5rem] h-[2.5rem]  bg-gray-400 text-main-black rounded-lg leading-[1.375rem]'
+          } `}
+        >
+          좌석 선택
+        </button>
+      </div>
       {seatList.length > 0 && (
         <div className="">
           <div className="">
@@ -264,12 +280,14 @@ export default function AddSeatReservation() {
       )}
       <div className="flex justify-center items-center">
         <div className="w-full text-center my-4">
-          <button
-            onClick={() => handleSeatReservationClick()}
-            className="w-[5.5rem] h-[2.5rem] bg-blue-400 text-white rounded-lg leading-[1.375rem]"
-          >
-            예약 하기
-          </button>
+          {seatList.length < 0 && (
+            <button
+              onClick={() => handleSeatReservationClick()}
+              className="w-[5.5rem] h-[2.5rem] bg-blue-400 text-white rounded-lg leading-[1.375rem]"
+            >
+              예약 하기
+            </button>
+          )}
         </div>
       </div>
     </div>
