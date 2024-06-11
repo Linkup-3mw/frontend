@@ -1,5 +1,5 @@
 'use client';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { SwiperOptions } from 'swiper/types';
 import { Navigation, Grid } from 'swiper/modules';
@@ -14,27 +14,36 @@ import 'swiper/css/grid';
 interface Props {
   size?: 'small' | 'regular';
   swiperOption?: SwiperOptions;
+  members: {
+    member_id: number;
+    member_name: string;
+    profile_image: string;
+    ishost: undefined | boolean;
+  }[];
 }
 
 export default function MemberSwiper({
   size = 'regular',
   swiperOption,
+  members,
 }: Props) {
   const swiperRef = useRef<any>(null);
+  const prevRef = useRef<HTMLButtonElement>(null);
+  const nextRef = useRef<HTMLButtonElement>(null);
 
   return (
     <div className={`relative px-[2rem] max-md:!px-0`}>
       <button
-        className="absolute left-0 top-1/2 -translate-y-1/2 disabled:opacity-5 max-md:hidden"
-        onClick={() => swiperRef.current?.slidePrev()}
+        ref={prevRef}
+        className={`swiper_prev absolute disabled left-0 top-1/2 -translate-y-1/2 disabled:opacity-[0.3]  max-md:hidden`}
       >
         <SquareBlueArrowPrev />
         <span className="hide">Prev</span>
       </button>
 
       <button
-        className="test absolute right-0 top-1/2 -translate-y-1/2 disabled:opacity-5 max-md:hidden"
-        onClick={() => swiperRef.current?.slideNext()}
+        ref={nextRef}
+        className={`swiper_next absolute right-0 top-1/2 -translate-y-1/2 disabled:opacity-[0.3] max-md:hidden`}
       >
         <SquareBlueArrowNext />
         <span className="hide">Next</span>
@@ -55,11 +64,15 @@ export default function MemberSwiper({
         }  
         `}
         {...swiperOption}
+        navigation={{
+          nextEl: nextRef.current,
+          prevEl: prevRef.current,
+        }}
       >
-        {MEMBER_LIST.map(({ id, username, profile }) => {
+        {members?.map(({ member_id, member_name, profile_image, ishost }) => {
           return (
             <SwiperSlide
-              key={id}
+              key={member_id}
               className={`
               ${
                 size === 'small'
@@ -76,16 +89,16 @@ export default function MemberSwiper({
                 }`}
               >
                 <Avatar
-                  image={`/images/home/${profile}`}
-                  name={username}
-                  type="host"
+                  image={profile_image || '/svg/header/profileDefault.svg'}
+                  name={member_name}
+                  type={(ishost && 'host') || undefined}
                   className={`block mx-auto ${
                     size === 'small'
                       ? 'mb-[0.25rem] !w-[1.75rem] !h-[1.75rem]'
                       : 'mb-[0.5rem]'
                   } `}
                 />
-                {username}
+                {member_name}
               </div>
             </SwiperSlide>
           );
@@ -94,151 +107,3 @@ export default function MemberSwiper({
     </div>
   );
 }
-
-//임시
-const MEMBER_LIST = [
-  {
-    id: 31,
-    member_id: 1,
-    username: '테스트',
-    profile: 'img_office_1.png',
-  },
-  {
-    id: 25,
-    member_id: 2,
-    username: '빨리하자눙',
-    profile: 'img_office_2.png',
-  },
-  {
-    id: 13,
-    member_id: 1,
-    username: '테스트',
-    profile: 'img_office_1.png',
-  },
-  {
-    id: 29,
-    member_id: 2,
-    username: '빨리하자눙',
-    profile: 'img_office_2.png',
-  },
-  {
-    id: 15,
-    member_id: 1,
-    username: '테스트',
-    profile: 'img_office_1.png',
-  },
-  {
-    id: 32,
-    member_id: 2,
-    username: '빨리하자눙',
-    profile: 'img_office_2.png',
-  },
-  {
-    id: 1,
-    member_id: 1,
-    username: '테스트',
-    profile: 'img_office_1.png',
-  },
-  {
-    id: 2,
-    member_id: 2,
-    username: '빨리하자눙',
-    profile: 'img_office_2.png',
-  },
-  {
-    id: 3,
-    member_id: 1,
-    username: '테스트',
-    profile: 'img_office_1.png',
-  },
-  {
-    id: 4,
-    member_id: 2,
-    username: '빨리하자눙',
-    profile: 'img_office_2.png',
-  },
-  {
-    id: 5,
-    member_id: 1,
-    username: '테스트',
-    profile: 'img_office_1.png',
-  },
-  {
-    id: 6,
-    member_id: 2,
-    username: '빨리하자눙',
-    profile: 'img_office_2.png',
-  },
-  {
-    id: 8,
-    member_id: 1,
-    username: '테스트',
-    profile: 'img_office_1.png',
-  },
-  {
-    id: 72,
-    member_id: 2,
-    username: '빨리하자눙',
-    profile: 'img_office_2.png',
-  },
-  {
-    id: 16,
-    member_id: 1,
-    username: '테스트',
-    profile: 'img_office_1.png',
-  },
-  {
-    id: 52,
-    member_id: 2,
-    username: '빨리하자눙',
-    profile: 'img_office_2.png',
-  },
-  {
-    id: 53,
-    member_id: 2,
-    username: '빨리하자눙',
-    profile: 'img_office_2.png',
-  },
-  {
-    id: 54,
-    member_id: 2,
-    username: '빨리하자눙',
-    profile: 'img_office_2.png',
-  },
-  {
-    id: 55,
-    member_id: 2,
-    username: '빨리하자눙',
-    profile: 'img_office_2.png',
-  },
-  {
-    id: 56,
-    member_id: 2,
-    username: '빨리하자눙',
-    profile: 'img_office_2.png',
-  },
-  {
-    id: 57,
-    member_id: 2,
-    username: '빨리하자눙',
-    profile: 'img_office_2.png',
-  },
-  {
-    id: 58,
-    member_id: 2,
-    username: '빨리하자눙',
-    profile: 'img_office_2.png',
-  },
-  {
-    id: 59,
-    member_id: 2,
-    username: '빨리하자눙',
-    profile: 'img_office_2.png',
-  },
-  {
-    id: 60,
-    member_id: 2,
-    username: '빨리하자눙',
-    profile: 'img_office_2.png',
-  },
-];

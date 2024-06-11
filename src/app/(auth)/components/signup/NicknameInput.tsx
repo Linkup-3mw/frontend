@@ -61,7 +61,7 @@ export default function NicknameInput({
   useEffect(() => {
     register('username', {
       onBlur: (e) => {
-        trigger();
+        trigger('username');
         verifyNickname(e.target.value);
       },
     });
