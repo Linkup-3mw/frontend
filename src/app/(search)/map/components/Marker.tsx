@@ -19,7 +19,7 @@ export default function Marker() {
   useEffect(() => {
     const fetchBuildingsData = async () => {
       try {
-        const response = await API.get('/office/search');
+        const response = await API.get('/office/search?page=0&size=44');
         const content = response.data.data.content;
         setOfficeBuildings(content);
       } catch (error) {

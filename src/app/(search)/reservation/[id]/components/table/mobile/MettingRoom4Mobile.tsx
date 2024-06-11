@@ -69,7 +69,7 @@ export default function MettingRoom4Mobile() {
 
   return (
     <>
-      <div className="hidden-desk w-full mx-auto">
+      <div className="hidden-desk w-full mt-[6rem] mx-auto">
         <Image
           layout="responsive"
           src="/svg/reservation/imageView/mobile/mettingRoom4Mobile.svg"
@@ -80,13 +80,13 @@ export default function MettingRoom4Mobile() {
         <div>
           <div
             onClick={toggleUp}
-            className={`overflow-y-scroll scrollbar-hide flex flex-col items-center  pt-3 rounded-t-3xl  bg-[#E4EEFF] w-ful transition-transform duration-1000 ${
-              isUp ? 'translate-y-[-120px]' : ''
+            className={`overflow-y-scroll scrollbar-hide flex flex-col items-center  pt-3 rounded-t-3xl  bg-[#E4EEFF] w-full transition-transform duration-1000 ${
+              isUp ? 'translate-y-[-120px]' : 'translate-y-[-220px]'
             }`}
             style={{ height: isUp ? '42.25rem' : '42.25rem' }}
           >
             <div className="">
-              <div className="w-[2rem] h-[0.25rem] bg-[#BFD4FF]"></div>
+              <div className="w-[2rem] h-[0.25rem]  bg-[#BFD4FF]"></div>
             </div>
             <div className="flex flex-col gap-4">
               <p className="text-[0.875rem] leading-5 font-bold">

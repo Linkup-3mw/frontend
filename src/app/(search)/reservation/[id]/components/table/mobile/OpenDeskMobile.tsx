@@ -69,21 +69,24 @@ export default function OpenDeskMobile() {
   }, [setLoading]);
   return (
     <>
-      <div className="hidden-desk w-full mx-auto">
-        <Image
-          src="/svg/reservation/imageView/mobile/openDeskMobile.svg"
-          layout="responsive"
-          height={293}
-          width={360}
-          alt="요미"
-        />
-        <div className="">
+      <div className="hidden-desk  mt-[6rem] mx-auto">
+        <div className="w-full mx-auto">
+          <Image
+            layout="responsive"
+            src="/svg/reservation/imageView/mobile/openDeskMobile.svg"
+            height={290}
+            width={360}
+            alt="요미"
+          />
+        </div>
+
+        <div className="w-full bottom-0">
           <div
             onClick={toggleUp}
-            className={`overflow-y-scroll scrollbar-hide flex flex-col items-center  pt-3 rounded-t-3xl  bg-[#E4EEFF] w-ful transition-transform duration-1000 ${
-              isUp ? 'translate-y-[-120px]' : ''
+            className={`overflow-y-scroll bottom-10 mt-[6rem] scrollbar-hide  flex flex-col items-center  pt-3 rounded-t-3xl  bg-[#E4EEFF] w-full transition-transform duration-1000 ${
+              isUp ? 'translate-y-[-120px]' : 'translate-y-[-220px]'
             }`}
-            style={{ height: isUp ? '42.25rem' : '42.25rem' }}
+            style={{ height: isUp ? '62.25rem' : '42.25rem' }}
           >
             <div className="">
               <div className="w-[2rem] h-[0.25rem] bg-[#BFD4FF]"></div>

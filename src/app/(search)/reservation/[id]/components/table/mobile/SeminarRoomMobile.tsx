@@ -66,7 +66,7 @@ export default function SeminarRoomMobile() {
 
   return (
     <>
-      <div className="hidden-desk w-[22.5rem] mx-auto">
+      <div className="hidden-desk w-[22.5rem] mt-[6rem] mx-auto">
         <Image
           className=""
           src="/svg/reservation/imageView/mobile/seminarRoom"

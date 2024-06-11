@@ -10,6 +10,7 @@ import {
   spaceListReservation,
   mobileConfirmedState,
   searchRemainingState,
+  reservationErrorMsgState,
 } from '@/app/(search)/atom/office';
 import { DayPicker } from 'react-day-picker';
 import { addDays, format, formatDate, isToday } from 'date-fns';
@@ -48,7 +49,7 @@ export default function OnePassMembership({
   const [seatList, setSeatList] = useRecoilState(seatListReservation);
   const [spaceList, setSpaceList] = useRecoilState(spaceListReservation);
   const [selectedDate, setSelectedDate] = useState<Date>();
-
+  const error = useRecoilValue(reservationErrorMsgState);
   const [confirm, setConfirm] = useRecoilState(confirmedState);
 
   const mobileConfirm = useRecoilValue(mobileConfirmedState);
@@ -126,56 +127,95 @@ export default function OnePassMembership({
   const reservationId = parts[parts.length - 1];
 
   //좌석 조회
-
   useEffect(() => {
-    const fetchSeatData = async () => {
-      if (
-        RTab === '좌석' &&
-        selectedSeatAll?.type &&
-        selectedSeatAll?.start_date
-      ) {
+    if (
+      RTab === '좌석' &&
+      selectedSeatAll?.type &&
+      selectedSeatAll?.start_date
+    ) {
+      const fetchSeatData = async () => {
         try {
           const res = await API.get(
-            `reservation/${reservationId}?type=${selectedSeatAll?.type}&start=${selectedSeatAll?.start_date}&end=${selectedSeatAll?.end_date}`,
+            `reservation/${id}?type=${selectedSeatAll?.type}&start=${selectedSeatAll?.start_date}&end=${selectedSeatAll?.end_date}`,
           );
           console.log('요청', res.data.data);
           setSearchRemaining(res.data.data);
         } catch (error) {
           console.error(error);
         }
-      }
-    };
-    fetchSeatData();
-    // }, [RTab, selectedSeatAll?.type, selectedSeatAll?.start_date]);
-  }, [
-    RTab,
-    selectedSeatAll?.type,
-    selectedSeatAll?.start_date,
-    selectedSeatAll?.end_date,
-    reservationId,
-    setSearchRemaining,
-  ]);
-  // 공간 조회
-  const fetchSpaceData = async () => {
-    try {
-      const res = await API.get(
-        `reservation/${reservationId}?type=${selectedSpaceAll?.type}&start=${selectedSpaceAll?.start_date}&end=${selectedSpaceAll?.end_date}`,
-      );
-      console.log('요청요처어어어어어어엉어', res.data.data);
-      setSearchRemaining(res.data.data);
-    } catch (error) {
-      console.error(error);
+      };
+      fetchSeatData();
     }
-  };
+  }, [RTab, id, selectedSeatAll, setSearchRemaining]);
+  // useEffect(() => {
+  //   const fetchSeatData = async () => {
+  //     if (
+  //       RTab === '좌석' &&
+  //       selectedSeatAll?.type &&
+  //       selectedSeatAll?.start_date
+  //     ) {
+  //       try {
+  //         const res = await API.get(
+  //           `reservation/${reservationId}?type=${selectedSeatAll?.type}&start=${selectedSeatAll?.start_date}&end=${selectedSeatAll?.end_date}`,
+  //         );
+  //         console.log('요청', res.data.data);
+  //         setSearchRemaining(res.data.data);
+  //       } catch (error) {
+  //         console.error(error);
+  //       }
+  //     }
+  //   };
+  //   fetchSeatData();
+  //   // }, [RTab, selectedSeatAll?.type, selectedSeatAll?.start_date]);
+  // }, [
+  //   RTab,
+  //   selectedSeatAll?.type,
+  //   selectedSeatAll?.start_date,
+  //   selectedSeatAll?.end_date,
+  //   reservationId,
+  //   setSearchRemaining,
+  // ]);
+  // 공간 조회
   useEffect(() => {
     if (
       RTab === '공간' &&
       selectedSpaceAll?.type &&
       selectedSpaceAll?.start_date
     ) {
+      const fetchSpaceData = async () => {
+        try {
+          const res = await API.get(
+            `reservation/${id}?type=${selectedSpaceAll?.type}&start=${selectedSpaceAll?.start_date}&end=${selectedSpaceAll?.end_date}`,
+          );
+          console.log('지정좌석 공간요청', res.data.data);
+          setSearchRemaining(res.data.data);
+        } catch (error) {
+          console.error(error);
+        }
+      };
       fetchSpaceData();
     }
-  }, [selectedSpaceAll]);
+  }, [RTab, id, selectedSpaceAll, setSearchRemaining]);
+  // const fetchSpaceData = async () => {
+  //   try {
+  //     const res = await API.get(
+  //       `reservation/${reservationId}?type=${selectedSpaceAll?.type}&start=${selectedSpaceAll?.start_date}&end=${selectedSpaceAll?.end_date}`,
+  //     );
+  //     console.log('요청요처어어어어어어엉어', res.data.data);
+  //     setSearchRemaining(res.data.data);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+  // useEffect(() => {
+  //   if (
+  //     RTab === '공간' &&
+  //     selectedSpaceAll?.type &&
+  //     selectedSpaceAll?.start_date
+  //   ) {
+  //     fetchSpaceData();
+  //   }
+  // }, [selectedSpaceAll]);
 
   // 좌석 예약
   const handleSeatReservationClick = async () => {
@@ -311,6 +351,7 @@ export default function OnePassMembership({
                   onClick={() => {
                     if (selectedSeatAll) {
                       setErrorMessage(null);
+
                       setSelectedSeatAll((prev) => ({
                         ...prev,
                         type: seatStyle,
@@ -344,16 +385,18 @@ export default function OnePassMembership({
             </div>
 
             <div className="flex flex-col">
-              {isMobile ? (
-                <div className="w-full text-center my-4 hidden-desk">
-                  <button
-                    onClick={() => setShowMobileTable(true)}
-                    className="w-[5.5rem] h-[2.5rem] bg-blue-400 text-white rounded-lg leading-[1.375rem]"
-                  >
-                    좌석 선택
-                  </button>
-                </div>
-              ) : null}
+              {isMobile
+                ? selectedSeatAll?.start_date && (
+                    <div className="w-full text-center my-4 hidden-desk">
+                      <button
+                        onClick={() => setShowMobileTable(true)}
+                        className="w-[5.5rem] h-[2.5rem] bg-blue-400 text-white rounded-lg leading-[1.375rem]"
+                      >
+                        좌석 선택
+                      </button>
+                    </div>
+                  )
+                : null}
               {selectedSeatAll?.start_date && !selectedSeatAll.code ? (
                 <p className="mb-4 text-[#6377E9]">
                   오른쪽에서 좌석을 선택하세요.
@@ -444,7 +487,7 @@ export default function OnePassMembership({
                       </button>
                     </div>
                   </div>
-
+                  <div>도도레레미미{error}</div>
                   {(seatList || selectedSeatAll) && (
                     <div className="py-4">
                       <p className="mb:text-sm md:text-lg font-bold mb-1">
@@ -705,9 +748,12 @@ export default function OnePassMembership({
                               </p>
                             ))}
                           </div>
+                          <div>
+                            <p>{error}</p>
+                          </div>
                           <p className="border-b-2"></p>
                           <p className="pt-2 font-semibold">
-                            총{' '}
+                            총
                             {seatList.length * 20000 + spaceList.length * 15000}
                             원
                           </p>

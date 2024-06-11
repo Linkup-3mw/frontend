@@ -1,10 +1,12 @@
 import Image from 'next/image';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import {
   seatListReservation,
   selectedSeatAllState,
   confirmedState,
   searchRemainingState,
+  infoMsgState,
+  reservationErrorMsgState,
 } from '@/app/(search)/atom/office';
 import { currentBuildingState } from '@/app/(search)/atom/search';
 import { userUpdateRlistPutState } from '@/app/(search)/atom/membership';
@@ -31,26 +33,26 @@ export default function OpenTable() {
   };
 
   useEffect(() => {
+    setSeatClick(true);
     setTimeout(() => {
       setLoading(false);
     }, 2000);
   }, [setLoading]);
 
   const handleSeatClick = (seatNumber: string) => {
-    setSeatClick(true);
     const searchParams = new URLSearchParams(window.location.search);
     searchParams.set('seatId', seatNumber);
 
     const url = `${window.location.pathname}?${searchParams.toString()}`;
     window.history.pushState(null, '', url);
-    //  추가한 부분
+
     if (
       selectedSeatAll &&
       seatList.some((seat) => seat.code === selectedSeatAll.code)
     ) {
-      setSelectedSeatAll(null);
+      // setSelectedSeatAll(null);
     } else if (!selectedSeatAll?.start_date) {
-      setSelectedSeatAll(null);
+      // setSelectedSeatAll(null);
     }
 
     setSelectedSeatAll((prev) => ({
@@ -61,6 +63,7 @@ export default function OpenTable() {
       type: prev?.type || '',
     }));
   };
+
   const handleSeatReady = () => {
     if (
       selectedSeatAll?.start_date &&
@@ -69,15 +72,14 @@ export default function OpenTable() {
       selectedSeatAll?.code
     ) {
       if (seatList.length < 5) {
-        setSeatList([...seatList, { ...selectedSeatAll }]);
-        setSelectedSeatAll({});
-        setConfirm(true);
-      } else {
-        return;
+        if (!seatList.some((seat) => seat.code === selectedSeatAll.code)) {
+          setSeatList([...seatList, { ...selectedSeatAll }]);
+
+          setConfirm(true);
+        }
       }
     }
   };
-  console.log('@@@@@@@@', selectedSeatAll);
 
   return (
     <>

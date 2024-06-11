@@ -15,12 +15,12 @@ export default function FocusDeskMobile() {
     useRecoilState(selectedSeatAllState);
   const [isUp, setIsUp] = useState(false);
   const remaining = useRecoilValue(searchRemainingState);
+  const [seatClick, setSeatClick] = useState(false);
   const isMobile = useRecoilValue(mobileReservationLayoutState);
   const [seatList, setSeatList] = useRecoilState(seatListReservation);
   const [loading, setLoading] = useRecoilState(loadingState);
   const setMobileConfirm = useSetRecoilState(mobileConfirmedState);
   const setMobileTable = useSetRecoilState(showMobileTableState);
-  const [seatClick, setSeatClick] = useState(false);
 
   const handleSeatReady = () => {
     if (
@@ -59,7 +59,7 @@ export default function FocusDeskMobile() {
 
   return (
     <>
-      <div className="hidden-desk w-full  mx-auto">
+      <div className="hidden-desk w-full mt-[6rem] mx-auto">
         <Image
           src="/svg/reservation/imageView/mobile/focusDeskMobile.svg"
           layout="responsive"
@@ -70,17 +70,17 @@ export default function FocusDeskMobile() {
         <div>
           <div
             onClick={toggleUp}
-            className={`overflow-y-scroll scrollbar-hide flex flex-col items-center  pt-3 rounded-t-3xl  bg-[#E4EEFF] w-ful transition-transform duration-1000 ${
-              isUp ? 'translate-y-[-120px]' : ''
+            className={`overflow-y-scroll scrollbar-hide flex flex-col items-center mt-[6rem] pt-3 rounded-t-3xl  bg-[#E4EEFF] w-full transition-transform duration-1000 ${
+              isUp ? 'translate-y-[-120px]' : 'translate-y-[-220px]'
             }`}
-            style={{ height: isUp ? '42.25rem' : '42.25rem' }}
+            style={{ height: isUp ? '62.25rem' : '42.25rem' }}
           >
             <div className="">
               <div className="w-[2rem] h-[0.25rem] bg-[#BFD4FF]"></div>
             </div>
             <div className="flex flex-col gap-4">
-              <p className="text-[0.875rem] leading-5 font-bold">
-                좌석을 선택하세요
+              <p className="mt-4 text-md leading-5 font-bold">
+                좌석을 선택해주세요.
               </p>
               <div className="flex flex-wrap w-[20.5rem] gap-2">
                 {remaining.map((seat, i) => (

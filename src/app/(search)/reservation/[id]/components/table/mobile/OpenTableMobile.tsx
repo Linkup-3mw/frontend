@@ -14,6 +14,8 @@ import {
   Rtab,
   searchRemainingState,
   seatListReservation,
+  selectedSeatAllState,
+  selectedSpaceAllState,
   spaceListReservation,
 } from '@/app/(search)/atom/office';
 import { useEffect } from 'react';
@@ -21,21 +23,17 @@ import { currentBuildingState } from '@/app/(search)/atom/search';
 import API from '@/utils/axios';
 
 // opentalemobile -> opendeskmobile
-interface OpenTaleMobileProps {
-  selectedSeatAll: SeatReservation;
-  selectedSpaceAll: SpaceReservation;
-}
-export default function OpenTableMobile({
-  selectedSeatAll,
-  selectedSpaceAll,
-}: OpenTaleMobileProps) {
+
+export default function OpenTableMobile() {
   const RTab = useRecoilValue(Rtab);
   const currentOffice = useRecoilValue(currentBuildingState);
   const [seatList, setSeatList] = useRecoilState(seatListReservation);
   const [spaceList, setSpaceList] = useRecoilState(spaceListReservation);
   const [searchRemaining, setSearchRemaining] =
     useRecoilState(searchRemainingState);
-
+  const [selectedSeatAll, setSelectedSeatAll] =
+    useRecoilState(selectedSeatAllState);
+  const [selectedSpaceAll] = useRecoilState(selectedSpaceAllState);
   useEffect(() => {
     const id = currentOffice?.id;
 

@@ -59,47 +59,50 @@ export default function MonthPassMembership({
   };
   const id = currentOffice?.id;
   //좌석 조회
-  const fetchSeatData = async () => {
-    try {
-      const res = await API.get(
-        `reservation/${id}?type=${selectedSeatAll?.type}&start=${selectedSeatAll?.start_date}&end=${selectedSeatAll?.end_date}`,
-      );
-      console.log('요청', res.data.data);
-      setSearchRemaining(res.data.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+
   useEffect(() => {
     if (
       RTab === '좌석' &&
       selectedSeatAll?.type &&
       selectedSeatAll?.start_date
     ) {
+      const fetchSeatData = async () => {
+        try {
+          const res = await API.get(
+            `reservation/${id}?type=${selectedSeatAll?.type}&start=${selectedSeatAll?.start_date}&end=${selectedSeatAll?.end_date}`,
+          );
+          console.log('요청', res.data.data);
+          setSearchRemaining(res.data.data);
+        } catch (error) {
+          console.error(error);
+        }
+      };
       fetchSeatData();
     }
-  }, [selectedSeatAll]);
+  }, [RTab, id, selectedSeatAll, setSearchRemaining]);
   //공간 조회
-  const fetchSpaceData = async () => {
-    try {
-      const res = await API.get(
-        `reservation/${id}?type=${selectedSpaceAll?.type}&start=${selectedSpaceAll?.start_date}&end=${selectedSpaceAll?.end_date}`,
-      );
-      console.log('지정좌석 공간요청', res.data.data);
-      setSearchRemaining(res.data.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+
   useEffect(() => {
     if (
       RTab === '공간' &&
       selectedSpaceAll?.type &&
       selectedSpaceAll?.start_date
     ) {
+      const fetchSpaceData = async () => {
+        try {
+          const res = await API.get(
+            `reservation/${id}?type=${selectedSpaceAll?.type}&start=${selectedSpaceAll?.start_date}&end=${selectedSpaceAll?.end_date}`,
+          );
+          console.log('지정좌석 공간요청', res.data.data);
+          setSearchRemaining(res.data.data);
+        } catch (error) {
+          console.error(error);
+        }
+      };
       fetchSpaceData();
     }
-  }, [selectedSpaceAll]);
+  }, [RTab, id, selectedSpaceAll, setSearchRemaining]);
   // 지정좌석 예약
   const handleReservedReservationClick = () => {
     const st = seatList.length > 0 ? seatList[0].start_date : null;

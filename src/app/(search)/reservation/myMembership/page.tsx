@@ -18,19 +18,20 @@ export default function MyMembership() {
   const router = useRouter();
 
   //처음 들어올때 조회
-  const fetchAllMembershipData = async () => {
-    try {
-      const res = await API.get('reservation/my-membership');
-      console.log('멤버십조회 res', res.data.data);
-      setUserMembership(res.data.data);
-    } catch (error) {
-      console.error('allmymembership req error', error);
-    }
-  };
 
   useEffect(() => {
+    const fetchAllMembershipData = async () => {
+      try {
+        const res = await API.get('reservation/my-membership');
+        console.log('멤버십아이디 들어있는 res', res.data.data);
+        setUserMembership(res.data.data);
+      } catch (error) {
+        console.error('allmymembership req error', error);
+      }
+    };
+
     fetchAllMembershipData();
-  }, []);
+  }, [setUserMembership]);
 
   useEffect(() => {
     const isCorporateMembership = useMembership.some(

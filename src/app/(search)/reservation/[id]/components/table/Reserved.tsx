@@ -47,7 +47,6 @@ export default function Reserved() {
       if (seatList.length < 5) {
         setSeatList([...seatList, { ...selectedSeatAll }]);
         setConfirm(true);
-        console.log(confirm);
       } else {
         return;
       }

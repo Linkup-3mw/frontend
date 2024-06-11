@@ -7,8 +7,6 @@ import {
   rsInfoState,
   selectedMembershipId,
   selectedOfficeId,
-  useMembershipState,
-  userUpdateRlistPutState,
 } from '@/app/(search)/atom/membership';
 import {
   selectedSeatAllState,
@@ -117,10 +115,10 @@ export default function AddSeatReservation() {
       console.log(error);
     }
   };
-  console.log('흠흠흠흠흠흠흠', searchRemaining);
+
   const handleDayClick = (day: Date) => {
     setSelectedDate(day);
-    setSelectedSeatAll({});
+    // setSelectedSeatAll({});
 
     const formmatedDate = format(day, 'yyyy-MM-dd');
 
@@ -171,16 +169,14 @@ export default function AddSeatReservation() {
             <div
               key={spaceStyle}
               onClick={() => {
-                if (selectedSpaceAll) {
-                  setErrorMessage(null);
-                  setSelectedSpaceAll((prev) => ({
-                    ...prev,
-                    type: spaceStyle,
-                  }));
-                  handleSpaceStyleClick(spaceStyle);
-                } else if (!selectedDate) {
-                  setErrorMessage('날짜를 선택하세요.');
-                }
+                setErrorMessage(null);
+                setSelectedSpaceAll((prev) => ({
+                  ...prev,
+                  start_date: selectedSeatAll?.start_date,
+                  end_date: selectedSeatAll?.end_date,
+                  type: spaceStyle,
+                }));
+                handleSpaceStyleClick(spaceStyle);
               }}
               className={`mb:w-full mr-2 mb:h-auto md:w-[6.29688rem] md:h-[7.75rem] flex flex-col justify-center items-center p-2 gap-2 rounded-lg ${
                 spaceStyle === selectedSpaceAll?.type
@@ -324,7 +320,7 @@ export default function AddSeatReservation() {
       )}
       <div className="flex justify-center items-center">
         <div className="w-full text-center my-4">
-          {spaceList.length < 0 && (
+          {spaceList.length > 0 && (
             <button
               onClick={() => handleSpaceReservationClick()}
               className="w-[5.5rem] h-[2.5rem] bg-blue-400 text-white rounded-lg leading-[1.375rem]"
