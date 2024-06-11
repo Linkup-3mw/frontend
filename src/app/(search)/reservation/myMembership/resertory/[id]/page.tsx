@@ -120,16 +120,13 @@ export default function Resertory() {
   );
 
   useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
     // 개인멤버십 하나의 예약 전체 조회
-
     const fetchAllReservationData = async () => {
       try {
         const res = await API.get(
           `reservation/individual/my-membership/${membershipId}`,
         );
+        console.log(res.data.data);
         setUserReservationList(res.data.data);
       } catch (error) {
         console.error('allmymembership req error', error);
@@ -137,7 +134,11 @@ export default function Resertory() {
     };
 
     fetchAllReservationData();
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
   }, [membershipId, setLoading, setUserReservationList]);
+
   // }, [membershipId]);
 
   console.log('안녕');
@@ -146,7 +147,7 @@ export default function Resertory() {
     <>
       {loading && <FullPageLoader />}
 
-      <div className="mt-[5rem] md:flex justify-center">
+      <div className="mt-[9rem] md:flex justify-center gap-4">
         <div className="flex flex-col  bg-[#E4EEFF] md:px-8 md:w-[30.6875rem] mb:w-[90%] mb:px-4 overflow-y-scroll scrollbar-hide rounded-3xl pt-4 h-[51.25rem]">
           {!rsInfo && (
             <div className="h-48px text-20px font-bold mt-3 text-gray-300 cursor-pointer">
@@ -154,10 +155,12 @@ export default function Resertory() {
                 {loading && <ResertoryTitleSkeleton />}
                 {!loading && (
                   <>
-                    <p className="text-xl font-bold text-black">
+                    <p className="text-xl font-bold text-black mt-4">
                       기존 예약 정보를 확인하세요.
                     </p>
-                    <p className="text-lg font-bold text-black">자율 좌석</p>
+                    <p className="text-md font-semibold text-black">
+                      자율 좌석
+                    </p>
                   </>
                 )}
                 {loading &&
@@ -260,7 +263,7 @@ export default function Resertory() {
                   ))}
                 {loading && <ResertoryTitleSkeleton />}
                 {!loading && (
-                  <p className="text-lg font-bold text-black">공간</p>
+                  <p className="text-md font-semibold text-black">공간</p>
                 )}
 
                 {loading &&

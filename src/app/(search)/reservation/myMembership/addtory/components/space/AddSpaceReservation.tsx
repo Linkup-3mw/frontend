@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { DayPicker } from 'react-day-picker';
 import Image from 'next/image';
 import {
@@ -20,7 +20,10 @@ import {
   confirmedState,
   Rtab,
 } from '@/app/(search)/atom/office';
-import { mobileReservationLayoutState } from '@/app/(search)/atom/media';
+import {
+  mobileReservationLayoutState,
+  showMobileTableState,
+} from '@/app/(search)/atom/media';
 import API from '@/utils/axios';
 import { SeatReservation, SpaceReservation } from '@/types/office/reservation';
 import { addDays, format } from 'date-fns';
@@ -47,6 +50,7 @@ export default function AddSeatReservation() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [RTab, setRTab] = useRecoilState(Rtab);
   const MembershipId = useRecoilValue(selectedMembershipId);
+  const setShowMobileTable = useSetRecoilState(showMobileTableState);
   const spaceTypes = ['미팅룸(4인)', '미팅룸(8인)', '컨퍼런스룸', '스튜디오'];
   const spaceImages: Record<string, string> = {
     '미팅룸(4인)': '/svg/reservation/mettingRoom4.svg',
@@ -197,6 +201,19 @@ export default function AddSeatReservation() {
           ))}
         </div>
       </div>
+      <div className="btn-hidden w-full text-center my-4">
+        <button
+          disabled={!selectedSeatAll?.start_date || !selectedSeatAll.type}
+          onClick={() => setShowMobileTable(true)}
+          className={`${
+            selectedSeatAll?.start_date && selectedSeatAll?.type
+              ? 'w-[5.5rem] h-[2.5rem]  bg-blue-400 text-white rounded-lg leading-[1.375rem]'
+              : 'w-[5.5rem] h-[2.5rem]  bg-gray-400 text-main-black rounded-lg leading-[1.375rem]'
+          } `}
+        >
+          좌석 선택
+        </button>
+      </div>
       {spaceList.length > 0 && (
         <div className="">
           <div className="">
@@ -307,12 +324,14 @@ export default function AddSeatReservation() {
       )}
       <div className="flex justify-center items-center">
         <div className="w-full text-center my-4">
-          <button
-            onClick={() => handleSpaceReservationClick()}
-            className="w-[5.5rem] h-[2.5rem] bg-blue-400 text-white rounded-lg leading-[1.375rem]"
-          >
-            예약 하기
-          </button>
+          {spaceList.length < 0 && (
+            <button
+              onClick={() => handleSpaceReservationClick()}
+              className="w-[5.5rem] h-[2.5rem] bg-blue-400 text-white rounded-lg leading-[1.375rem]"
+            >
+              예약 하기
+            </button>
+          )}
         </div>
       </div>
     </div>

@@ -223,7 +223,7 @@ export default function FocusDesk() {
 
                   <button
                     onClick={handleSeatReady}
-                    className="rounded-xl text-white w-[10.3125rem] h-[2.5rem] bg-[#688AF2]"
+                    className={`rounded-xl text-white w-[10.3125rem] h-[2.5rem] ${selectedSeatAll?.code ? 'bg-[#688AF2]' : 'bg-[#D3D3D3]'}`}
                   >
                     확정
                   </button>

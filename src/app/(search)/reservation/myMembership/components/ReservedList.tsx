@@ -2,6 +2,7 @@ import { mobileReservationLayoutState } from '@/app/(search)/atom/media';
 import {
   rsInfoState,
   selectedMembershipId,
+  selectedOfficeId,
   userUpdateRlistPutState,
 } from '@/app/(search)/atom/membership';
 import {
@@ -32,6 +33,7 @@ export default function ReservedList({ seatTypes }: { seatTypes: string[] }) {
   const lastPart = parts[parts.length - 1];
   const mid = parseInt(lastPart);
   const [confirm, setConfirm] = useRecoilState(confirmedState);
+  const officeId = useRecoilValue(selectedOfficeId);
   //날짜
   const [selectedDate, setSelectedDate] = useState<Date>();
   const seatImages: Record<string, string> = {
@@ -51,12 +53,11 @@ export default function ReservedList({ seatTypes }: { seatTypes: string[] }) {
 
   const handleSeatStyleClick = async (seatStyle: string) => {
     setSeatReservationList(true);
-    const office_id = rsInfo?.id;
-    console.log('seatreservation에서 오피스아이디', office_id);
+
     const fetchSeatReservationListData = async () => {
       try {
         const res = await API.get(
-          `reservation/${office_id}?type=${seatStyle}&start=${rsInfo?.start_date}&end=${rsInfo?.end_date}`,
+          `reservation/${officeId}?type=${seatStyle}&start=${rsInfo?.start_date}&end=${rsInfo?.end_date}`,
         );
         console.log('SeatReservationList에서의 요청', res.data.data);
         setSearchRemaining(res.data.data);
@@ -75,8 +76,6 @@ export default function ReservedList({ seatTypes }: { seatTypes: string[] }) {
 
     fetchSeatReservationListData();
   };
-  console.log('dldidkdkdkdkdk이야아아아ㅏ아아앙', selectedSeatAll?.code);
-  console.log('왜그래', confirm);
 
   const fetchSeatReservationUpdate = async () => {
     const updateMembership = {

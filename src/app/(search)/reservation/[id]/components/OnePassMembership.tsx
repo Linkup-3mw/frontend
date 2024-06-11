@@ -66,12 +66,10 @@ export default function OnePassMembership({
 당일권은 최대 5개까지 예약할 수 있습니다.`;
   const [loading, setLoading] = useRecoilState(loadingState);
 
-  useEffect(() => {
-    console.log('SeatList', seatList);
-  });
   const handleDayClick = (day: Date) => {
     setSelectedDate(day);
     setSelectedSeatAll({});
+
     const formmatedDate = format(day, 'yyyy-MM-dd');
 
     const newSelectedSeatAll: SeatReservation = {

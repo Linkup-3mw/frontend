@@ -34,7 +34,7 @@ export default function Reservation() {
 
   return (
     <>
-      <div className="mt-[5rem] md:flex justify-center">
+      <div className="mt-[9rem] md:flex justify-center">
         <div className="md:flex md:w-[95rem] mb:w-full mx-auto pt-2 gap-4">
           <div className="flex justify-center">
             {/* 패스구입 UI */}

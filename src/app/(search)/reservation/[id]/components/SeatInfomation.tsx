@@ -4,6 +4,7 @@ import {
   showImageState,
   selectedSeatAllState,
   selectedSpaceAllState,
+  searchRemainingState,
 } from '@/app/(search)/atom/office';
 import Image from 'next/image';
 import OpenTable from './table/OpenTable';

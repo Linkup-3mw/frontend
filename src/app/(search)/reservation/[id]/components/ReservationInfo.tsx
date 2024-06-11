@@ -6,6 +6,7 @@ import {
   selectedSpaceAllState,
   seatListReservation,
   spaceListReservation,
+  searchRemainingState,
 } from '@/app/(search)/atom/office';
 import { Membership } from '@/types/office/reservation';
 import Image from 'next/image';
@@ -16,6 +17,7 @@ import { useEffect } from 'react';
 import FullPageLoader from '@/app/(search)/map/components/Loader/FullPageLoader';
 import { loadingState } from '@/app/(search)/atom/media';
 import ListSkeleton from '@/app/(search)/map/components/skeleton/listSkeleton';
+import { useRouter } from 'next/navigation';
 
 export default function ReservationInfo() {
   const [RTab, setRTab] = useRecoilState(Rtab);
@@ -29,10 +31,9 @@ export default function ReservationInfo() {
   );
   const seatList = useSetRecoilState(seatListReservation);
   const spaceList = useSetRecoilState(spaceListReservation);
-
+  const router = useRouter();
   const seatTypes = ['오픈데스크', '포커스데스크', '1인실', '모니터데스크'];
   const spaceTypes = ['미팅룸(4인)', '미팅룸(8인)', '컨퍼런스룸', '스튜디오'];
-
   const memberships: Membership[] = [
     {
       type: '1일 패스',
@@ -59,11 +60,29 @@ export default function ReservationInfo() {
   ];
 
   useEffect(() => {
+    const path = window.location.pathname;
+    const parts = path.split('/');
+    const reservationId = parts[parts.length - 1];
+    console.log('뭐가 찍힐까?', reservationId);
+    if (!reservationId) {
+      router.push('/');
+    }
     setRTab('좌석');
+    seatList([]);
+    spaceList([]);
+
     setTimeout(() => {
       setLoading(false);
     }, 3000);
-  }, [membershipChoose]);
+  }, [
+    membershipChoose,
+    setLoading,
+    setRTab,
+    setMembershipChoose,
+    seatList,
+    spaceList,
+    router,
+  ]);
 
   const RenderMembershipUI = (membership: Membership) => {
     switch (membership.type) {
@@ -125,7 +144,11 @@ export default function ReservationInfo() {
                 key={membership.type}
                 className={`mb:w-full mb:h-[7.5rem] md:h-[10rem] md:w-[26.6875rem] mb-2 grid grid-cols-2 items-center rounded-2xl cursor-pointer
                   ${membershipChoose?.type === membership.type ? 'bg-[#688AF2]' : 'bg-white'}`}
-                onClick={() => setMembershipChoose(membership)}
+                onClick={() => {
+                  setMembershipChoose(membership);
+                  setSelectedSeatAll(null);
+                  setSelectedSeatAll(null);
+                }}
               >
                 <div className="flex flex-col justify-start w-[15.75rem] h-[8rem] p-4">
                   <p

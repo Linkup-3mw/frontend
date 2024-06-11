@@ -70,12 +70,14 @@ export default function OpenTable() {
     ) {
       if (seatList.length < 5) {
         setSeatList([...seatList, { ...selectedSeatAll }]);
+        setSelectedSeatAll({});
         setConfirm(true);
       } else {
         return;
       }
     }
   };
+  console.log('@@@@@@@@', selectedSeatAll);
 
   return (
     <>
@@ -147,10 +149,9 @@ export default function OpenTable() {
                       </div>
                     </div>
                   </div>
-
                   <button
                     onClick={handleSeatReady}
-                    className="rounded-xl text-white w-[10.3125rem] h-[2.5rem] bg-[#688AF2]"
+                    className={`rounded-xl text-white w-[10.3125rem] h-[2.5rem] ${selectedSeatAll?.code ? 'bg-[#D3D3D3]' : 'bg-[#688AF2]'}`}
                   >
                     확정
                   </button>
@@ -251,7 +252,7 @@ export default function OpenTable() {
 
                   <button
                     onClick={handleSeatReady}
-                    className="rounded-xl text-white w-[10.3125rem] h-[2.5rem] bg-[#688AF2]"
+                    className={`rounded-xl text-white w-[10.3125rem] h-[2.5rem] ${selectedSeatAll?.code ? 'bg-[#688AF2]' : 'bg-[#D3D3D3]'}`}
                   >
                     확정
                   </button>

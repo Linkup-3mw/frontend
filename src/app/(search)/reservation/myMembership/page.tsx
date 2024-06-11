@@ -40,6 +40,7 @@ export default function MyMembership() {
   }, [useMembership, setIsEnter]);
 
   const handleGoClick = (membershipId: number, officeId: number) => {
+    setOfficeId(officeId);
     router.push(`/reservation/myMembership/resertory/${membershipId}`);
     setMembershipId(membershipId);
   };

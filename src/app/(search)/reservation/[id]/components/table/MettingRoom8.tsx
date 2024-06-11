@@ -486,7 +486,7 @@ export default function MeetingRoom8() {
 
                   <button
                     onClick={handleSpaceReady}
-                    className="rounded-xl text-white w-[10.3125rem] h-[2.5rem] bg-[#688AF2]"
+                    className={`rounded-xl text-white w-[10.3125rem] h-[2.5rem] ${selectedSpaceAll?.code && selectedSpaceAll?.start_time && selectedSpaceAll?.end_time ? 'bg-[#688AF2]' : 'bg-[#D3D3D3]'}`}
                   >
                     확정
                   </button>
