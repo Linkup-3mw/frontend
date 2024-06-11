@@ -14,7 +14,7 @@ import ReservationInfo from './components/ReservationInfo';
 import OpenTableMobile from './components/table/mobile/OpenTableMobile';
 import API from '@/utils/axios';
 
-export default function Reservation(params: string) {
+export default function Reservation() {
   const [isMobile, setIsMobile] = useRecoilState(mobileReservationLayoutState);
   const currentBuilding = useRecoilValue(currentBuildingState);
   const showMobileTable = useRecoilValue(showMobileTableState);
