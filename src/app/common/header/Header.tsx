@@ -20,7 +20,7 @@ export default function Header({ session }: any) {
     { label: '탐색', href: '/map', isActive: pathname.startsWith('/map') },
     {
       label: '커뮤니티',
-      href: '/community',
+      href: '/community/club',
       isActive: pathname.startsWith('/community'),
     },
   ];

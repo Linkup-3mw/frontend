@@ -30,34 +30,40 @@ export default function CommunityNav() {
   ) => {
     const isActive = activeIcon === iconName;
     const isHover = hoverIcon === iconName;
+    const isDisabled = [
+      '/community',
+      '/community/coffeechat',
+      '/community/collaboration',
+      '/community/event',
+    ].includes(path);
+
+    const iconProps = {
+      className: `flex flex-col items-center w-[3.5rem] mx-[0.5rem] ${isDisabled ? 'cursor-not-allowed ' : 'cursor-pointer'}`,
+      onMouseEnter: isDisabled ? undefined : () => setHoverIcon(iconName),
+      onMouseLeave: isDisabled ? undefined : () => setHoverIcon(''),
+      onClick: isDisabled ? undefined : () => setActiveIcon(iconName),
+    };
 
     return (
-      <Link href={path} key={iconName}>
-        <div
-          className="flex flex-col items-center w-[3.5rem] mx-[0.5rem] cursor-pointer "
-          onMouseEnter={() => setHoverIcon(iconName)}
-          onMouseLeave={() => setHoverIcon('')}
-          onClick={() => setActiveIcon(iconName)}
+      <div {...iconProps} key={iconName}>
+        <img
+          src={
+            isActive || isHover
+              ? `/svg/communityNav/${iconSource}Active.svg`
+              : `/svg/communityNav/${iconSource}.svg`
+          }
+          alt={`${text} Icon`}
+        />
+        <span
+          className={`text-[#8d8d9b] font-bold ${
+            isActive || isHover
+              ? 'text-black underline underline-offset-[0.5rem] decoration-1 box-border'
+              : 'box-border'
+          }`}
         >
-          <img
-            src={
-              isActive || isHover
-                ? `/svg/communityNav/${iconSource}Active.svg`
-                : `/svg/communityNav/${iconSource}.svg`
-            }
-            alt={`${text} Icon`}
-          />
-          <span
-            className={`text-[#8D8D9B] font-bold ${
-              isActive || isHover
-                ? 'text-black underline underline-offset-[0.5rem] decoration-1 box-border'
-                : 'box-border'
-            }`}
-          >
-            {text}
-          </span>
-        </div>
-      </Link>
+          {text}
+        </span>
+      </div>
     );
   };
 

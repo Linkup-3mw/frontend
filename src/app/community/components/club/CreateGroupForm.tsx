@@ -4,7 +4,6 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import Modal from './common/Modal';
-import Club from './Club';
 // import { i_club, CLUB } from '@/app/model/club';
 import RoundedFrame from './common/RoundedFrame';
 import MobileBackBtn from '@/app/common/components/form/MobileBackBtn';

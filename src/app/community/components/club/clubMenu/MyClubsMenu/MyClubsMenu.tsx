@@ -1,43 +1,30 @@
 import MyClubsSubMenu from '@components/club/MyClubsSubMenu';
-import { useState } from 'react';
-import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import AddClubButton from '@components/club/common/AddClubButton';
 import SearchInput from '@components/club/SearchInput';
-import RenderClubs from '../../RenderClubs';
-import {
-  manageableClubs,
-  myClubs,
-  unapprovedClubs,
-} from '@/app/community/data/clubs';
-import { ClubCardProps } from '@components/club/ClubCard';
+import { useState } from 'react';
+import AllMyClubs from './subMenu/AllMyClubs';
+import ManageableClubs from './subMenu/ManageableClubs';
+import UnapprovedClubs from './subMenu/UnapprovedClubs';
 
 export default function MyClubsMenu() {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
+  const [subMenuSelection, setSubMenuSelection] = useState('myClubs');
 
-  const [subMenuSelection, setSubMenuSelection] = useState<string>('myClubs');
   const handleSubMenuSelect = (selection: string) => {
-    const formattedSelection = selection.replace(/Clubs$/, '');
     setSubMenuSelection(selection);
-    const params = new URLSearchParams(searchParams);
-    params.set('submenu', `${formattedSelection}`);
-    router.push(`${pathname}?${params.toString()}`);
   };
 
-  let displayedClubs: ClubCardProps[] = [];
-  let totalItems = 0;
-
-  if (subMenuSelection === 'myClubs') {
-    displayedClubs = myClubs;
-    totalItems = myClubs.length;
-  } else if (subMenuSelection === 'unapprovedClubs') {
-    displayedClubs = unapprovedClubs;
-    totalItems = unapprovedClubs.length;
-  } else if (subMenuSelection === 'manageableClubs') {
-    displayedClubs = manageableClubs;
-    totalItems = manageableClubs.length;
-  }
+  const renderSubMenuComponent = (selection: string) => {
+    switch (selection) {
+      case 'myClubs':
+        return <AllMyClubs />;
+      case 'unapprovedClubs':
+        return <ManageableClubs />;
+      case 'manageableClubs':
+        return <UnapprovedClubs />;
+      default:
+        return null;
+    }
+  };
 
   return (
     <>
@@ -60,13 +47,7 @@ export default function MyClubsMenu() {
           <AddClubButton className="h-[2.5rem] w-[2.5rem] items-center justify-center hidden md:flex" />
         </div>
       </div>
-      <div>
-        <RenderClubs
-          clubs={displayedClubs}
-          totalItems={totalItems}
-          showPagination={true}
-        />
-      </div>
+      {renderSubMenuComponent(subMenuSelection)}
     </>
   );
 }
