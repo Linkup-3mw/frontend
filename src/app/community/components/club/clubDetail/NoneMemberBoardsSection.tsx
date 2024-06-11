@@ -31,18 +31,10 @@ export default function NoneMemberBoardsSection({ id }: Props) {
           ))}
         </ul>
         <ul className="px-[2.5rem] [&_>_li]:mb-[1.5rem] max-md:px-[1rem] max-md:[&_>_li]:mb-[1rem] ">
-          <li className="last:mb-0">
-            <MeetingCard />
-          </li>
-          <li className="last:mb-0">
-            <MeetingCard />
-          </li>
-          <li className="last:mb-0">
-            <MeetingCard />
-          </li>
-          <li className="last:mb-0">
-            <MeetingCard />
-          </li>
+          <li className="last:mb-0">{/* <MeetingCard /> */}</li>
+          <li className="last:mb-0">{/* <MeetingCard /> */}</li>
+          <li className="last:mb-0">{/* <MeetingCard /> */}</li>
+          <li className="last:mb-0">{/* <MeetingCard /> */}</li>
         </ul>
       </div>
     </>
