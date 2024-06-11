@@ -1,3 +1,3 @@
 export default function UnapprovedClubs() {
-  return <div>UnapprovedClubs</div>;
+  return <div></div>;
 }
