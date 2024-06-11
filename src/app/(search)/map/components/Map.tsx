@@ -9,8 +9,8 @@ declare global {
     kakao: any;
   }
 }
-const DEFAULT_LAT = 37.497625203;
-const DEFAULT_LNG = 127.03088379;
+const DEFAULT_LAT = 37.4974507;
+const DEFAULT_LNG = 127.0287938;
 
 interface MapProps {
   lat?: string | null;

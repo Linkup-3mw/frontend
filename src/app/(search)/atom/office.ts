@@ -1,4 +1,6 @@
 import {
+  CompanyEnter,
+  EnterPriseResponse,
   Membership,
   OnePassMembership,
   Remaining,
@@ -28,16 +30,42 @@ export const OnePassMembershipState = atom<OnePassMembership[] | null>({
   key: 'onepassMembership',
   default: null,
 });
-
+// export interface SeatReservation {
+//   start_date?: string;
+//   end_date?: string;
+//   type?: string;
+//   code?: string;
+//   month?: number;
+// }
+// export interface SpaceReservation {
+//   type?: string;
+//   code?: string;
+//   start_date?: string;
+//   end_date?: string;
+//   price?: number;
+//   start_time?: string;
+//   end_time?: string;
+// }
 // 좌석 예약 정보 담는
 export const selectedSeatAllState = atom<SeatReservation | null>({
   key: 'seatAll',
-  default: null,
+  default: {
+    start_date: '2024-06-09',
+    end_date: '2024-06-09',
+    type: '',
+    code: '',
+    month: 1,
+  },
 });
 // 공간 예약정보 담는
 export const selectedSpaceAllState = atom<SpaceReservation | null>({
   key: 'spaceAll',
-  default: null,
+  default: {
+    start_date: '2024-06-09',
+    end_date: '2024-06-09',
+    type: '미팅룸(4인)',
+    code: '',
+  },
 });
 
 // 확정 눌렀는지
@@ -58,6 +86,14 @@ export const seatListReservation = atom<SeatReservation[]>({
 export const spaceListReservation = atom<SpaceReservation[]>({
   key: 'spaceListReservation',
   default: [],
+});
+// 기업 리스트
+export const enterPriseConsultingState = atom<EnterPriseResponse>({
+  key: 'EnterPriseResponse',
+});
+export const companyState = atom<CompanyEnter | null>({
+  key: 'company',
+  default: null,
 });
 // 안내메시지
 export const infoMsgState = atom<boolean>({

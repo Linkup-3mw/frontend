@@ -7,6 +7,8 @@ import {
 import { useRecoilState } from 'recoil';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
+import ModalSkeleton from './skeleton/modalSkeleton';
+import ListSkeleton from './skeleton/listSkeleton';
 
 export default function BuildingItem() {
   const [filterData, setFilterData] = useRecoilState(filterDataState);
@@ -16,14 +18,20 @@ export default function BuildingItem() {
   );
   const [officeBuildings, setOfficeBuildings] =
     useRecoilState<Building[]>(buildingState);
-
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
-    console.log('officeBuildings 필터 된게 와야지', officeBuildings);
-  }, [officeBuildings]);
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <>
-      {filterData.length === 0
+      {loading &&
+        officeBuildings.map((office, index) => <ListSkeleton key={index} />)}
+      {!loading && filterData.length === 0
         ? officeBuildings?.map((office, index) => (
             <div
               key={index}

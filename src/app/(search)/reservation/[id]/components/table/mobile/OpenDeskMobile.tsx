@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
+  confirmedState,
   mobileConfirmedState,
+  searchRemainingState,
   seatListReservation,
 } from '@/app/(search)/atom/office';
 import {
+  loadingState,
   minDeskLayoutState,
   showMobileTableState,
 } from '@/app/(search)/atom/media';
@@ -16,26 +19,37 @@ export default function OpenDeskMobile() {
     useRecoilState(selectedSeatAllState);
   const [isUp, setIsUp] = useState(false);
   const [seatList, setSeatList] = useRecoilState(seatListReservation);
-
-  const setMobileConfirm = useSetRecoilState(mobileConfirmedState);
+  const remaining = useRecoilValue(searchRemainingState);
+  const setConfirmState = useSetRecoilState(confirmedState);
   const setMobileTable = useSetRecoilState(showMobileTableState);
-  const handleSeatReady = () => {
+  const [seatClick, setSeatClick] = useState(false);
+  const [loading, setLoading] = useRecoilState(loadingState);
+
+  const handleSeatMobileReady = async () => {
     if (
       selectedSeatAll?.start_date &&
+      selectedSeatAll?.end_date &&
       selectedSeatAll?.type &&
-      selectedSeatAll?.code
+      selectedSeatAll?.code &&
+      seatList.length <= 5
     ) {
-      if (seatList.length < 5) {
-        setSeatList([...seatList, { ...selectedSeatAll }]);
-        setMobileConfirm(true);
-        setMobileTable(false);
-      } else {
-        return;
-      }
+      // setSeatList((prev) => [...prev, { ...selectedSeatAll }]);
+      setSeatList([...seatList, { ...selectedSeatAll }]);
+
+      console.log('seatList after', seatList); //[]
+      setMobileTable(false);
+      setConfirmState(true);
+      // return seatList;
     }
   };
 
-  const handleSeatClick = (seatNumber: string) => {
+  const handleSeatMobileClick = (seatNumber: string) => {
+    const searchParams = new URLSearchParams(window.location.search);
+    searchParams.set('seatId', seatNumber);
+
+    const url = `${window.location.pathname}?${searchParams.toString()}`;
+    window.history.pushState(null, '', url);
+
     setSelectedSeatAll((prev) => ({
       ...prev,
       code: seatNumber,
@@ -48,12 +62,16 @@ export default function OpenDeskMobile() {
   const toggleUp = () => {
     setIsUp((prev) => !prev);
   };
-
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  }, [setLoading]);
   return (
     <>
       <div className="hidden-desk w-full mx-auto">
         <Image
-          src="/images/office/1.jpeg"
+          src="/svg/reservation/imageView/mobile/openDeskMobile.svg"
           layout="responsive"
           height={293}
           width={360}
@@ -75,25 +93,27 @@ export default function OpenDeskMobile() {
                 좌석을 선택하세요
               </p>
               <div className="flex flex-wrap w-[20.5rem] gap-2">
-                {Array.from({ length: 30 }, (area, i) => i + 1).map(
-                  (area, i) => {
-                    const seatNumber = `A-${String(area).padStart(2, '0')}`;
-                    return (
-                      <div key={i}>
-                        <button
-                          onClick={() => handleSeatClick(seatNumber)}
-                          className={`rounded-lg w-[3rem] h-[2rem] text-xs ${
-                            selectedSeatAll?.code === seatNumber
-                              ? 'bg-[#688AF2] text-white'
-                              : 'bg-white'
-                          }`}
-                        >
-                          {seatNumber}
-                        </button>
-                      </div>
-                    );
-                  },
-                )}
+                {remaining.map((seat, i) => (
+                  <div key={i}>
+                    <button
+                      onClick={
+                        seat.available
+                          ? () => handleSeatMobileClick(seat.id)
+                          : undefined
+                      }
+                      className={`rounded-lg w-[3rem] h-[2rem] text-xs ${
+                        seat.available
+                          ? seatClick
+                            ? 'bg-[#688AF2] text-white'
+                            : 'bg-white'
+                          : 'bg-gray-400 text-black cursor-not-allowed'
+                      }`}
+                      disabled={!seat.available}
+                    >
+                      {seat.code}
+                    </button>
+                  </div>
+                ))}
               </div>
 
               <p className="text-[0.875rem] leading-5 font-bold">예약 정보</p>
@@ -124,7 +144,7 @@ export default function OpenDeskMobile() {
                       ? 'bg-[#688AF2]'
                       : 'bg-[#A3A3AF]'
                   }`}
-                  onClick={handleSeatReady}
+                  onClick={handleSeatMobileReady}
                 >
                   확정
                 </button>

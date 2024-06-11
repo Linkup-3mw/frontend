@@ -16,8 +16,8 @@ export default function SeminarRoomMobile() {
   const selectedSeatAll = useRecoilValue(selectedSeatAllState);
   const [isUp, setIsUp] = useState(false);
   const [spaceList, setSpaceList] = useRecoilState(spaceListReservation);
-  const amTime = ['8:00', '9:00', '9:30', '10:30'];
-  const pmTime = ['12:00', '12:30', '1:00', '1:30'];
+  const amTime = ['08:00', '09:00', '09:30', '10:30'];
+  const pmTime = ['12:00', '12:30', '01:00', '01:30'];
   const setMobileConfirm = useSetRecoilState(mobileConfirmedState);
   const setMobileTable = useSetRecoilState(showMobileTableState);
 
@@ -69,7 +69,7 @@ export default function SeminarRoomMobile() {
       <div className="hidden-desk w-[22.5rem] mx-auto">
         <Image
           className=""
-          src="/images/office/1.jpeg"
+          src="/svg/reservation/imageView/mobile/seminarRoom"
           height={290}
           width={360}
           alt="요미"

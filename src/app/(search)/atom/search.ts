@@ -22,3 +22,8 @@ export const filterDataState = atom<Building[]>({
   key: 'filterData',
   default: [],
 });
+
+export const modalState = atom<boolean>({
+  key: 'modal',
+  default: false,
+});

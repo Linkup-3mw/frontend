@@ -4,6 +4,7 @@ import {
   showImageState,
   selectedSeatAllState,
   selectedSpaceAllState,
+  searchRemainingState,
 } from '@/app/(search)/atom/office';
 import Image from 'next/image';
 import OpenTable from './table/OpenTable';
@@ -19,6 +20,8 @@ import FocusDesk from './table/FocusDesk';
 import Reserved from './table/Reserved';
 import OnlyEnter from './table/OnlyEnter';
 import { mobileReservationLayoutState } from '@/app/(search)/atom/media';
+import { useEffect, useState } from 'react';
+import { userUpdateRlistPutState } from '@/app/(search)/atom/membership';
 
 function ReservationTableStyleSeat({
   selectedSeatAll,
@@ -27,15 +30,15 @@ function ReservationTableStyleSeat({
 }) {
   if (selectedSeatAll && selectedSeatAll.type) {
     switch (selectedSeatAll.type) {
-      case '오픈테이블':
+      case '오픈데스크':
         return <OpenTable />;
       case '포커스데스크':
         return <FocusDesk />;
       case '1인실':
         return <OneRoom />;
-      case '모니터 데스크':
+      case '모니터데스크':
         return <MonitorDesk />;
-      case '지정 좌석':
+      case '지정좌석':
         return <Reserved />;
       case '기업 전용 지정 좌석':
         return <OnlyEnter />;
@@ -54,11 +57,11 @@ function ReservationTableStyleSpace({
 }) {
   if (selectedSpaceAll && selectedSpaceAll.type) {
     switch (selectedSpaceAll.type) {
-      case '회의실 (4인)':
+      case '미팅룸(4인)':
         return <MettingRoom4 />;
-      case '회의실 (8인)':
+      case '미팅룸(8인)':
         return <MeetingRoom8 />;
-      case '세미나실':
+      case '컨퍼런스룸':
         return <SeminarRoom />;
       case '스튜디오':
         return <Studio />;
@@ -76,33 +79,53 @@ export default function SeatInformation() {
   const [showImage, setShowImage] = useRecoilState(showImageState);
   const RTab = useRecoilValue(Rtab);
   const isMobile = useRecoilValue(mobileReservationLayoutState);
-
+  const [loading, setLoading] = useState(true);
+  const seatReservationList = useRecoilValue(userUpdateRlistPutState);
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 6000);
+  });
   return (
-    <div
-      className={`relative md:w-[61.8125rem] ${
-        isMobile ? '' : 'md:h-[51.25rem]'
-      }`}
-    >
-      {showImage && (
-        <div
-          className=" md:w-[61.8126rem] mb:hidden md:block absolute md:inset-0 z-0"
-          style={{ objectFit: 'cover' }}
-        >
-          <Image
-            src="/images/office/info/office.jpeg"
-            layout="fill"
-            alt="오피스이미지"
-          />
+    <>
+      <div
+        className={`relative md:w-[61.8125rem] ${
+          isMobile ? '' : 'md:h-[51.25rem]'
+        }`}
+      >
+        {showImage && (
+          <div
+            className=" md:w-[61.8126rem] mb:hidden md:block md:inset-0 z-0"
+            style={{ objectFit: 'cover' }}
+          >
+            <Image
+              src="/svg/reservation/imageView/default.svg"
+              layout="fill"
+              alt="오피스이미지"
+            />
+          </div>
+        )}
+        <div>
+          {!loading && (
+            <>
+              {RTab === '좌석' && selectedSeatAll && (
+                <ReservationTableStyleSeat selectedSeatAll={selectedSeatAll} />
+              )}
+              {RTab === '공간' && selectedSpaceAll && (
+                <ReservationTableStyleSpace
+                  selectedSpaceAll={selectedSpaceAll}
+                />
+              )}
+              {/* {RTab === '공간' ||
+                (selectedSpaceAll?.type && seatReservationList && (
+                  <ReservationTableStyleSpace
+                    selectedSpaceAll={selectedSpaceAll}
+                  />
+                ))} */}
+            </>
+          )}
         </div>
-      )}
-      <div>
-        {RTab === '좌석' && selectedSeatAll && (
-          <ReservationTableStyleSeat selectedSeatAll={selectedSeatAll} />
-        )}
-        {RTab === '공간' && selectedSpaceAll && (
-          <ReservationTableStyleSpace selectedSpaceAll={selectedSpaceAll} />
-        )}
       </div>
-    </div>
+    </>
   );
 }
