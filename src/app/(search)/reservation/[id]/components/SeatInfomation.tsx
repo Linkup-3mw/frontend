@@ -94,11 +94,11 @@ export default function SeatInformation() {
       >
         {showImage && (
           <div
-            className=" md:w-[61.8126rem] mb:hidden md:block absolute md:inset-0 z-0"
+            className=" md:w-[61.8126rem] mb:hidden md:block md:inset-0 z-0"
             style={{ objectFit: 'cover' }}
           >
             <Image
-              src="/images/office/info/office.jpeg"
+              src="/svg/reservation/imageView/default.svg"
               layout="fill"
               alt="오피스이미지"
             />

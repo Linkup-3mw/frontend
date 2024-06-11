@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
+  confirmedState,
   mobileConfirmedState,
   searchRemainingState,
   seatListReservation,
 } from '@/app/(search)/atom/office';
 import {
+  loadingState,
   minDeskLayoutState,
   showMobileTableState,
 } from '@/app/(search)/atom/media';
@@ -18,25 +20,36 @@ export default function OpenDeskMobile() {
   const [isUp, setIsUp] = useState(false);
   const [seatList, setSeatList] = useRecoilState(seatListReservation);
   const remaining = useRecoilValue(searchRemainingState);
-  const setMobileConfirm = useSetRecoilState(mobileConfirmedState);
+  const setConfirmState = useSetRecoilState(confirmedState);
   const setMobileTable = useSetRecoilState(showMobileTableState);
-  const handleSeatReady = () => {
+  const [seatClick, setSeatClick] = useState(false);
+  const [loading, setLoading] = useRecoilState(loadingState);
+
+  const handleSeatMobileReady = async () => {
     if (
       selectedSeatAll?.start_date &&
+      selectedSeatAll?.end_date &&
       selectedSeatAll?.type &&
-      selectedSeatAll?.code
+      selectedSeatAll?.code &&
+      seatList.length <= 5
     ) {
-      if (seatList.length < 5) {
-        setSeatList([...seatList, { ...selectedSeatAll }]);
-        setMobileConfirm(true);
-        setMobileTable(false);
-      } else {
-        return;
-      }
+      // setSeatList((prev) => [...prev, { ...selectedSeatAll }]);
+      setSeatList([...seatList, { ...selectedSeatAll }]);
+
+      console.log('seatList after', seatList); //[]
+      setMobileTable(false);
+      setConfirmState(true);
+      // return seatList;
     }
   };
 
-  const handleSeatClick = (seatNumber: string) => {
+  const handleSeatMobileClick = (seatNumber: string) => {
+    const searchParams = new URLSearchParams(window.location.search);
+    searchParams.set('seatId', seatNumber);
+
+    const url = `${window.location.pathname}?${searchParams.toString()}`;
+    window.history.pushState(null, '', url);
+
     setSelectedSeatAll((prev) => ({
       ...prev,
       code: seatNumber,
@@ -49,7 +62,11 @@ export default function OpenDeskMobile() {
   const toggleUp = () => {
     setIsUp((prev) => !prev);
   };
-
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  }, [setLoading]);
   return (
     <>
       <div className="hidden-desk w-full mx-auto">
@@ -79,12 +96,19 @@ export default function OpenDeskMobile() {
                 {remaining.map((seat, i) => (
                   <div key={i}>
                     <button
-                      onClick={() => handleSeatClick(seat.id)}
+                      onClick={
+                        seat.available
+                          ? () => handleSeatMobileClick(seat.id)
+                          : undefined
+                      }
                       className={`rounded-lg w-[3rem] h-[2rem] text-xs ${
-                        selectedSeatAll?.code === seat.code
-                          ? 'bg-[#688AF2] text-white'
-                          : 'bg-white'
+                        seat.available
+                          ? seatClick
+                            ? 'bg-[#688AF2] text-white'
+                            : 'bg-white'
+                          : 'bg-gray-400 text-black cursor-not-allowed'
                       }`}
+                      disabled={!seat.available}
                     >
                       {seat.code}
                     </button>
@@ -120,7 +144,7 @@ export default function OpenDeskMobile() {
                       ? 'bg-[#688AF2]'
                       : 'bg-[#A3A3AF]'
                   }`}
-                  onClick={handleSeatReady}
+                  onClick={handleSeatMobileReady}
                 >
                   확정
                 </button>

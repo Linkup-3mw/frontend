@@ -1,4 +1,4 @@
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import Image from 'next/image';
 import Link from 'next/link';
 import {
@@ -24,6 +24,7 @@ import {
 import { useLineBreak } from '@/app/(search)/map/hooks/useLineBreak';
 import API from '@/utils/axios';
 import { currentBuildingState, modalState } from '@/app/(search)/atom/search';
+import CalendarSkeleton from '@/app/(search)/map/components/skeleton/CalendarSkeleton';
 
 interface OnePassMembershipProps {
   seatType: string[];
@@ -48,6 +49,7 @@ export default function OnePassMembership({
   const [selectedDate, setSelectedDate] = useState<Date>();
   const [spaceList, setSpaceList] = useRecoilState(spaceListReservation);
   const [confirm, setConfirm] = useRecoilState(confirmedState);
+
   const mobileConfirm = useRecoilValue(mobileConfirmedState);
   const [selectedSeatAll, setSelectedSeatAll] =
     useRecoilState(selectedSeatAllState);
@@ -62,6 +64,10 @@ export default function OnePassMembership({
   const content = `예약을 추가하려면 위에서 날짜와 좌석 유형을 선택해 주세요.
 당일권은 최대 5개까지 예약할 수 있습니다.`;
   const [loading, setLoading] = useRecoilState(loadingState);
+
+  useEffect(() => {
+    console.log('SeatList', seatList);
+  });
   const handleDayClick = (day: Date) => {
     setSelectedDate(day);
     setSelectedSeatAll({});
@@ -121,13 +127,7 @@ export default function OnePassMembership({
   const reservationId = parts[parts.length - 1];
 
   //좌석 조회
-  console.log(
-    '뭐가 빠져서 이러는걸까.',
-    id,
-    selectedSeatAll?.type,
-    selectedSeatAll?.start_date,
-    RTab,
-  );
+
   useEffect(() => {
     const fetchSeatData = async () => {
       if (
@@ -147,7 +147,15 @@ export default function OnePassMembership({
       }
     };
     fetchSeatData();
-  }, [RTab, selectedSeatAll?.type, selectedSeatAll?.start_date]);
+    // }, [RTab, selectedSeatAll?.type, selectedSeatAll?.start_date]);
+  }, [
+    RTab,
+    selectedSeatAll?.type,
+    selectedSeatAll?.start_date,
+    selectedSeatAll?.end_date,
+    reservationId,
+    setSearchRemaining,
+  ]);
   // 공간 조회
   const fetchSpaceData = async () => {
     try {
@@ -258,31 +266,38 @@ export default function OnePassMembership({
   return (
     <>
       <div className="flex flex-col gap-6 mb-6">
-        {RTab === '좌석' ? (
-          <>
-            {/* TODO오늘날짜표시하기 */}
-            <DayPicker
-              selected={selectedDate}
-              locale={ko}
-              onDayClick={handleDayClick}
-              modifiers={{ today: new Date() }}
-              modifiersStyles={today}
-              disabled={{
-                before: new Date(),
-                after: new Date(new Date().setMonth(new Date().getMonth() + 1)),
-              }}
-            />
-          </>
+        {!loading ? (
+          RTab === '좌석' ? (
+            <>
+              {/* TODO오늘날짜표시하기 */}
+              <DayPicker
+                selected={selectedDate}
+                locale={ko}
+                onDayClick={handleDayClick}
+                modifiers={{ today: new Date() }}
+                modifiersStyles={today}
+                disabled={{
+                  before: new Date(),
+                  after: new Date(
+                    new Date().setMonth(new Date().getMonth() + 1),
+                  ),
+                }}
+              />
+            </>
+          ) : (
+            <>
+              {/* TODO오늘날짜표시하기 */}
+              <DayPicker
+                locale={ko}
+                onDayClick={handleDayClick}
+                disabled={true}
+              />
+            </>
+          )
         ) : (
-          <>
-            {/* TODO오늘날짜표시하기 */}
-            <DayPicker
-              locale={ko}
-              onDayClick={handleDayClick}
-              disabled={true}
-            />
-          </>
+          <CalendarSkeleton />
         )}
+
         <div className="text-[#6377E9]">{errorMessage}</div>
         {RTab === '좌석' && (
           <div>
@@ -303,7 +318,12 @@ export default function OnePassMembership({
                       }));
                     } else if (!selectedDate) {
                       setErrorMessage('날짜를 선택하세요.');
+                      setSelectedSeatAll(null);
                     }
+                    setLoading(true);
+                    setTimeout(() => {
+                      setLoading(false);
+                    }, 1000);
                   }}
                   className={`mb:w-full mr-2 mb:h-auto md:w-[6.29688rem] md:h-[7.75rem] flex flex-col justify-center items-center p-2 gap-2 rounded-lg ${
                     seatStyle === selectedSeatAll?.type
@@ -324,24 +344,23 @@ export default function OnePassMembership({
               ))}
             </div>
 
-            {isMobile ? (
-              <div className="w-full text-center my-4 hidden-desk">
-                <button
-                  onClick={() => setShowMobileTable(true)}
-                  className="w-[5.5rem] h-[2.5rem] bg-blue-400 text-white rounded-lg leading-[1.375rem]"
-                >
-                  좌석 선택
-                </button>
-              </div>
-            ) : null}
-
-            <div className="">
+            <div className="flex flex-col">
+              {isMobile ? (
+                <div className="w-full text-center my-4 hidden-desk">
+                  <button
+                    onClick={() => setShowMobileTable(true)}
+                    className="w-[5.5rem] h-[2.5rem] bg-blue-400 text-white rounded-lg leading-[1.375rem]"
+                  >
+                    좌석 선택
+                  </button>
+                </div>
+              ) : null}
               {selectedSeatAll?.start_date && !selectedSeatAll.code ? (
                 <p className="mb-4 text-[#6377E9]">
                   오른쪽에서 좌석을 선택하세요.
                 </p>
               ) : (
-                <p className="mb-4 text-[#6377E9]">
+                <p className="mb-2 text-[#6377E9]">
                   최대 5개까지 예약할 수 있습니다.
                 </p>
               )}
@@ -350,7 +369,7 @@ export default function OnePassMembership({
             {seatList.length > 0 && (
               <>
                 <div className="">
-                  <div className="mb:text-sm md:text-lg font-bold mb-4">
+                  <div className="mb:text-sm md:text-lg font-bold mb-1">
                     예약 정보를 확인하세요
                   </div>
                   <div className="mb:text-[0.625rem] md:text-sm mb-4 mb:w-full md:w-[20.8125rem] text-[#8D8D9B]">
@@ -395,7 +414,7 @@ export default function OnePassMembership({
                       </div>
                     </div>
                   ))}
-                  {(mobileConfirm || confirm) && (
+                  {/* {mobileConfirm && (
                     <div className="flex text-xs h-[2.25rem] items-center gap-2 my-4 justify-between">
                       <p>
                         미팅룸, 컨퍼런스 룸, 스튜디오 등 다양한 공간이
@@ -410,11 +429,26 @@ export default function OnePassMembership({
                         </button>
                       </div>
                     </div>
-                  )}
+                  )} */}
+
+                  <div className="flex text-xs h-[2.25rem] items-center gap-2 my-4 justify-between">
+                    <p>
+                      미팅룸, 컨퍼런스 룸, 스튜디오 등 다양한 공간이
+                      필요하신가요?
+                    </p>
+                    <div>
+                      <button
+                        onClick={() => setRTab('공간')}
+                        className="w-[9.875rem] h-[2.5rem] leading-6 p-2 bg-[#688AF2] text-[0.875rem] text-white rounded-lg"
+                      >
+                        공간 예약 하러 가기
+                      </button>
+                    </div>
+                  </div>
 
                   {(seatList || selectedSeatAll) && (
                     <div className="py-4">
-                      <p className="mb:text-sm md:text-lg font-bold mb-4">
+                      <p className="mb:text-sm md:text-lg font-bold mb-1">
                         결제 금액을 확인하세요
                       </p>
                       <div>
@@ -450,7 +484,17 @@ export default function OnePassMembership({
                       className="flex justify-center items-center"
                       onClick={() => handleSeatReservationClick()}
                     >
-                      <button className="left-0 bottom-0 right-0 w-[7.375rem] h-[3rem] font-normal text-xl leading bg-blue-400 px-6 py-3 mt-6 text-white rounded-md">
+                      <button
+                        className={`left-0 bottom-0 right-0 w-[5.5rem] h-[2.5rem] mt-6 text-white rounded-md 
+        ${selectedSeatAll?.start_date && selectedSeatAll?.type && seatList.length > 0 ? 'bg-blue-400' : 'bg-gray-400 cursor-not-allowed'}`}
+                        disabled={
+                          !(
+                            selectedSeatAll?.start_date &&
+                            selectedSeatAll?.type &&
+                            seatList.length > 0
+                          )
+                        }
+                      >
                         예약하기
                       </button>
                     </div>
@@ -461,7 +505,17 @@ export default function OnePassMembership({
                       onClick={() => handleSeatReservationClick()}
                       className="flex justify-center items-center"
                     >
-                      <button className="left-0 bottom-0 right-0 w-[5.5rem] h-[2.5rem] bg-blue-400  mt-6 text-white rounded-md">
+                      <button
+                        className={`left-0 bottom-0 right-0 w-[5.5rem] h-[2.5rem] mt-6 text-white rounded-md 
+        ${selectedSeatAll?.start_date && selectedSeatAll?.type && seatList.length > 0 ? 'bg-blue-400' : 'bg-gray-400 cursor-not-allowed'}`}
+                        disabled={
+                          !(
+                            selectedSeatAll?.start_date &&
+                            selectedSeatAll?.type &&
+                            seatList.length > 0
+                          )
+                        }
+                      >
                         예약하기
                       </button>
                     </div>
@@ -481,10 +535,20 @@ export default function OnePassMembership({
                 <div
                   key={spaceStyle}
                   onClick={() => {
-                    setSelectedSpaceAll((prev) => ({
-                      ...prev,
-                      type: spaceStyle,
-                    }));
+                    if (selectedSeatAll) {
+                      setErrorMessage(null);
+                      setSelectedSpaceAll((prev) => ({
+                        ...prev,
+                        type: spaceStyle,
+                      }));
+                    } else if (!selectedDate) {
+                      setErrorMessage('날짜를 선택하세요.');
+                      setSelectedSpaceAll(null);
+                    }
+                    setLoading(true);
+                    setTimeout(() => {
+                      setLoading(false);
+                    }, 1000);
                   }}
                   className={`mb:w-full mr-2 mb:h-auto md:w-[6.29688rem] md:h-[7.75rem] flex flex-col justify-center items-center p-2 gap-2 rounded-lg ${
                     spaceStyle === selectedSpaceAll?.type

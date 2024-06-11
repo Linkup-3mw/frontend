@@ -21,7 +21,11 @@ export default function Reserved() {
   const currentOffice = useRecoilValue(currentBuildingState);
   const id = currentOffice?.id;
   const [loading, setLoading] = useRecoilState(loadingState);
-
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  }, [setLoading]);
   const handleSeatReady = () => {
     if (
       selectedSeatAll?.start_date &&
@@ -51,11 +55,12 @@ export default function Reserved() {
       end_date: prev?.end_date || '',
       type: prev?.type || '',
     }));
-  };
+    setLoading(true);
 
-  useEffect(() => {
-    console.log('Remaining seats:', remaining);
-  }, [remaining]);
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  };
 
   return (
     <>

@@ -22,6 +22,8 @@ export default function MeetingRoom4() {
   const seatReservationList = useRecoilValue(userUpdateRlistPutState);
   const [click, setClick] = useState('');
   const [loading, setLoading] = useRecoilState(loadingState);
+  const [isExpanded, setIsExpanded] = useState(true);
+  const [seatClick, setSeatClick] = useState(false);
   const [amTime, setAmTime] = useState([
     '08:00',
     '08:30',
@@ -55,10 +57,14 @@ export default function MeetingRoom4() {
     '21:30',
   ];
 
+  const handleClick = () => {
+    setIsExpanded(!isExpanded);
+  };
+
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
-    }, 1000);
+    }, 2000);
   }, [setLoading]);
 
   const handleSpaceReady = () => {
@@ -71,14 +77,6 @@ export default function MeetingRoom4() {
     ) {
       if (spaceList.length < 3) {
         setSpaceList([...spaceList, { ...selectedSpaceAll }]);
-        // setSelectedSpaceAll({
-        //   type: '',
-        //   start_date: '',
-        //   end_date: '',
-        //   code: '',
-        //   start_time: '',
-        //   end_time: '',
-        // });
         setConfirm(true);
       } else {
         return;
@@ -90,26 +88,42 @@ export default function MeetingRoom4() {
     ? remaining.filter((item) => item.id === click)
     : [];
 
-  const handleSpaceClick = (spaceCode: string) => {
+  // const handleSpaceClick = (spaceCode: string) => {
+  //   setSelectedSpaceAll((prev) => ({
+  //     ...prev,
+  //     code: spaceCode,
+  //   }));
+  //   setClick(spaceCode);
+
+  //   setTimeout(() => {
+  //     setLoading(false);
+  //   }, 2000);
+  // };
+  const handleSpaceClick = (seatNumber: string) => {
+    setSeatClick(true);
+    const searchParams = new URLSearchParams(window.location.search);
+    searchParams.set('seatId', seatNumber);
+
+    const url = `${window.location.pathname}?${searchParams.toString()}`;
+    window.history.pushState(null, '', url);
+    //  추가한 부분
+    if (
+      selectedSpaceAll &&
+      spaceList.some((space) => space.code === selectedSpaceAll.code)
+    ) {
+      setSelectedSpaceAll(null);
+    } else if (!selectedSpaceAll?.start_date) {
+      setSelectedSpaceAll(null);
+    }
+
     setSelectedSpaceAll((prev) => ({
       ...prev,
-      code: spaceCode,
+      code: seatNumber,
+      start_date: prev?.start_date || ' ',
+      end_date: prev?.end_date || '',
+      type: prev?.type || '',
     }));
-    // setSelectedSeatAll((prev) => ({
-    //   ...prev,
-    //   code: seatNumber,
-    //   start_date: prev?.start_date || ' ',
-    //   end_date: prev?.end_date || '',
-    //   type: prev?.type || '',
-    // }));
-    setClick(spaceCode);
-    setLoading(true);
-
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
   };
-
   const handleSpaceTimeClick = (time: string) => {
     if (selectedSpaceAll?.start_time) {
       setSelectedSpaceAll((prev) => ({
@@ -123,9 +137,7 @@ export default function MeetingRoom4() {
       }));
     }
   };
-  useEffect(() => {
-    console.log('Remaining seats:', remaining);
-  }, [remaining]);
+
   return (
     <>
       {Array.isArray(remaining) ? (
@@ -154,7 +166,7 @@ export default function MeetingRoom4() {
                         className={`rounded-lg w-[4rem] h-[2.5rem] ${
                           space.available === false
                             ? 'bg-gray-400 text-black'
-                            : selectedSpaceAll?.code === space.code
+                            : space.code === selectedSpaceAll?.code
                               ? 'bg-[#688AF2] text-white'
                               : 'bg-white'
                         }`}
@@ -183,16 +195,27 @@ export default function MeetingRoom4() {
                             <>
                               {amTime.map((am, idx) => {
                                 const isAvailable = renderTime.some((item) =>
-                                  item.am?.includes(am),
+                                  Array.isArray(item.am)
+                                    ? item.am.includes(am)
+                                    : false,
                                 );
+                                const isSelected =
+                                  selectedSpaceAll?.start_time === am;
+                                const handleClick = () => {
+                                  if (isAvailable) {
+                                    handleSpaceTimeClick(am);
+                                  }
+                                };
                                 return (
                                   <button
                                     key={idx}
-                                    onClick={() => handleSpaceTimeClick(am)}
+                                    onClick={handleClick}
                                     className={`rounded-lg w-[4rem] h-[2.5rem] ${
-                                      isAvailable
-                                        ? 'bg-white text-black'
-                                        : 'bg-gray-500 text-white'
+                                      isSelected
+                                        ? 'bg-[#688AF2] text-white'
+                                        : isAvailable
+                                          ? 'bg-white text-black'
+                                          : 'bg-gray-500 text-white'
                                     }`}
                                     disabled={!isAvailable}
                                   >
@@ -208,25 +231,6 @@ export default function MeetingRoom4() {
                     <div className="flex flex-col gap-4">
                       <p className="font-bold leading-[1.375rem]">오후</p>
                       <div className="flex flex-wrap gap-2">
-                        {/* {pmTime.map((pm, idx) => {
-                    const isAvailable = renderTime.some((item) =>
-                      item.pm.includes(pm),
-                    );
-                    return (
-                      <button
-                        key={idx}
-                        onClick={() => handleSpaceTimeClick(pm)}
-                        className={`rounded-lg w-[4rem] h-[2.5rem] ${
-                          isAvailable
-                            ? 'bg-white text-black'
-                            : 'bg-gray-500 text-white'
-                        }`}
-                        disabled={!isAvailable}
-                      >
-                        {pm}
-                      </button>
-                    );
-                  })} */}
                         {loading ? (
                           pmTime.map((item, index) => (
                             <div key={index}>
@@ -237,16 +241,27 @@ export default function MeetingRoom4() {
                           <>
                             {pmTime.map((pm, idx) => {
                               const isAvailable = renderTime.some((item) =>
-                                item.pm?.includes(pm),
+                                Array.isArray(item.pm)
+                                  ? item.pm.includes(pm)
+                                  : false,
                               );
+                              const isSelected =
+                                selectedSpaceAll?.end_time === pm;
+                              const handleClick = () => {
+                                if (isAvailable) {
+                                  handleSpaceTimeClick(pm);
+                                }
+                              };
                               return (
                                 <button
                                   key={idx}
-                                  onClick={() => handleSpaceTimeClick(pm)}
+                                  onClick={handleClick}
                                   className={`rounded-lg w-[4rem] h-[2.5rem] ${
-                                    isAvailable
-                                      ? 'bg-white text-black'
-                                      : 'bg-gray-500 text-white'
+                                    isSelected
+                                      ? 'bg-[#688AF2] text-white'
+                                      : isAvailable
+                                        ? 'bg-white text-black'
+                                        : 'bg-gray-500 text-white'
                                   }`}
                                   disabled={!isAvailable}
                                 >
@@ -304,7 +319,7 @@ export default function MeetingRoom4() {
             </div>
           </div>
         ) : (
-          <div className="hidden-360 flex flex-col relative w-[61.8125rem] h-[51.25rem] rounded-md justify-end">
+          <div className="hidden-360 flex flex-col relative w-[61.8125rem] h-[51.25rem] overflow-hidden rounded-md justify-end">
             <div className="absolute inset-0">
               <Image
                 src="/svg/reservation/imageView/mettingRoom4.svg"
@@ -313,8 +328,32 @@ export default function MeetingRoom4() {
                 alt="오피스이미지"
               />
             </div>
-
-            <div className="relative flex gap-4 h-[19.35rem] bottom-0 bg-[#E4EEFF] p-8 ">
+            <div
+              onClick={handleClick}
+              className="absolute bottom-0 shadow-2xl left-[50%] transform -translate-y-1/2 bg-[#688AF2] text-gray-500 rounded-[50%] p-4 z-10"
+            >
+              {isExpanded ? (
+                <Image
+                  src="/svg/map/arrow.svg"
+                  width={20}
+                  height={20}
+                  alt="업 아이콘"
+                />
+              ) : (
+                <Image
+                  className="rotate-180"
+                  src="/svg/map/arrow.svg"
+                  width={20}
+                  height={20}
+                  alt="업 아이콘"
+                />
+              )}
+            </div>
+            <div
+              className={`relative flex gap-4 h-[19.375rem] bg-[#E4EEFF] p-8 transition-transform duration-500 transform rounded-xl shadow-xl ${
+                isExpanded ? '-translate-y-[-5px]' : 'translate-y-[70%]'
+              }`}
+            >
               <div className="flex flex-col gap-6 w-[44.5rem] overflow-y-scroll scrollbar-hide">
                 <p className="text-[1.25rem] font-bold leading-7">
                   공간을 선택하세요
@@ -361,14 +400,23 @@ export default function MeetingRoom4() {
                                     ? item.am.includes(am)
                                     : false,
                                 );
+                                const isSelected =
+                                  selectedSpaceAll?.start_time === am;
+                                const handleClick = () => {
+                                  if (isAvailable) {
+                                    handleSpaceTimeClick(am);
+                                  }
+                                };
                                 return (
                                   <button
                                     key={idx}
-                                    onClick={() => handleSpaceTimeClick(am)}
+                                    onClick={handleClick}
                                     className={`rounded-lg w-[4rem] h-[2.5rem] ${
-                                      isAvailable
-                                        ? 'bg-white text-black'
-                                        : 'bg-gray-500 text-white'
+                                      isSelected
+                                        ? 'bg-[#688AF2] text-white'
+                                        : isAvailable
+                                          ? 'bg-white text-black'
+                                          : 'bg-gray-500 text-white'
                                     }`}
                                     disabled={!isAvailable}
                                   >
@@ -398,14 +446,23 @@ export default function MeetingRoom4() {
                                   ? item.pm.includes(pm)
                                   : false,
                               );
+                              const isSelected =
+                                selectedSpaceAll?.end_time === pm;
+                              const handleClick = () => {
+                                if (isAvailable) {
+                                  handleSpaceTimeClick(pm);
+                                }
+                              };
                               return (
                                 <button
                                   key={idx}
-                                  onClick={() => handleSpaceTimeClick(pm)}
+                                  onClick={handleClick}
                                   className={`rounded-lg w-[4rem] h-[2.5rem] ${
-                                    isAvailable
-                                      ? 'bg-white text-black'
-                                      : 'bg-gray-500 text-white'
+                                    isSelected
+                                      ? 'bg-[#688AF2] text-white'
+                                      : isAvailable
+                                        ? 'bg-white text-black'
+                                        : 'bg-gray-500 text-white'
                                   }`}
                                   disabled={!isAvailable}
                                 >

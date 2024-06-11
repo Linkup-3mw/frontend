@@ -22,8 +22,8 @@ export default function MettingRoom4Mobile() {
   const pmTime = ['12:00', '12:30', '01:00', '01:30'];
   const setMobileConfirm = useSetRecoilState(mobileConfirmedState);
   const setMobileTable = useSetRecoilState(showMobileTableState);
-  console.log(selectedSpaceAll);
-  console.log('왜 안더시발진자');
+  const [seatClick, setSeatClick] = useState(false);
+
   const handleSpaceReady = () => {
     if (
       selectedSpaceAll?.start_date &&
@@ -93,7 +93,7 @@ export default function MettingRoom4Mobile() {
                 공간을 선택하세요
               </p>
               <div className="flex flex-wrap w-[20.5rem] gap-2">
-                {remaining.map((space, i) => (
+                {/* {remaining.map((space, i) => (
                   <div key={i}>
                     <button
                       onClick={() => handleSpaceClick(space.id)}
@@ -106,6 +106,27 @@ export default function MettingRoom4Mobile() {
                       }`}
                     >
                       {space.code}
+                    </button>
+                  </div>
+                ))} */}
+                {remaining.map((seat, i) => (
+                  <div key={i}>
+                    <button
+                      onClick={
+                        seat.available
+                          ? () => handleSpaceClick(seat.id)
+                          : undefined
+                      }
+                      className={`rounded-lg w-[3rem] h-[2rem] text-xs ${
+                        seat.available === false
+                          ? seatClick
+                            ? 'bg-[#688AF2] text-white'
+                            : 'bg-white'
+                          : 'bg-gray-400 text-black cursor-not-allowed'
+                      }`}
+                      disabled={!seat.available}
+                    >
+                      {seat.code}
                     </button>
                   </div>
                 ))}

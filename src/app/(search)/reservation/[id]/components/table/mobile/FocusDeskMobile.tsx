@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   mobileConfirmedState,
   searchRemainingState,
   seatListReservation,
 } from '@/app/(search)/atom/office';
-import { showMobileTableState } from '@/app/(search)/atom/media';
+import { loadingState, showMobileTableState } from '@/app/(search)/atom/media';
 import { selectedSeatAllState } from '@/app/(search)/atom/office';
 import Image from 'next/image';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
@@ -17,12 +17,15 @@ export default function FocusDeskMobile() {
   const remaining = useRecoilValue(searchRemainingState);
   const isMobile = useRecoilValue(mobileReservationLayoutState);
   const [seatList, setSeatList] = useRecoilState(seatListReservation);
-
+  const [loading, setLoading] = useRecoilState(loadingState);
   const setMobileConfirm = useSetRecoilState(mobileConfirmedState);
   const setMobileTable = useSetRecoilState(showMobileTableState);
+  const [seatClick, setSeatClick] = useState(false);
+
   const handleSeatReady = () => {
     if (
       selectedSeatAll?.start_date &&
+      selectedSeatAll?.end_date &&
       selectedSeatAll?.type &&
       selectedSeatAll?.code
     ) {
@@ -35,8 +38,12 @@ export default function FocusDeskMobile() {
       }
     }
   };
-
-  const handleSeatClick = (seatNumber: string) => {
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  }, [setLoading]);
+  const handleSeatMobileClick = (seatNumber: string) => {
     setSelectedSeatAll((prev) => ({
       ...prev,
       code: seatNumber,
@@ -79,12 +86,19 @@ export default function FocusDeskMobile() {
                 {remaining.map((seat, i) => (
                   <div key={i}>
                     <button
-                      onClick={() => handleSeatClick(seat.id)}
+                      onClick={
+                        seat.available
+                          ? () => handleSeatMobileClick(seat.id)
+                          : undefined
+                      }
                       className={`rounded-lg w-[3rem] h-[2rem] text-xs ${
-                        selectedSeatAll?.code === seat.code
-                          ? 'bg-[#688AF2] text-white'
-                          : 'bg-white'
+                        seat.available
+                          ? seatClick
+                            ? 'bg-[#688AF2] text-white'
+                            : 'bg-white'
+                          : 'bg-gray-400 text-black cursor-not-allowed'
                       }`}
+                      disabled={!seat.available}
                     >
                       {seat.code}
                     </button>

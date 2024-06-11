@@ -6,12 +6,16 @@ import {
   confirmedState,
   searchRemainingState,
 } from '@/app/(search)/atom/office';
-import {
-  minDeskLayoutState,
-  mobileReservationLayoutState,
-} from '@/app/(search)/atom/media';
 import { currentBuildingState } from '@/app/(search)/atom/search';
 import { userUpdateRlistPutState } from '@/app/(search)/atom/membership';
+import { useEffect, useState } from 'react';
+import { loadingState } from '@/app/(search)/atom/media';
+import FullPageLoader from '@/app/(search)/map/components/Loader/FullPageLoader';
+import { useSelectRange } from 'react-day-picker';
+import TimeSkeleton from '../skeleton/TimeSkeleton';
+import ReservationMiniInfo, {
+  ReservationTitleSkeleton,
+} from '../skeleton/ReservationMiniInfo';
 
 export default function FocusDesk() {
   const seatReservationList = useRecoilValue(userUpdateRlistPutState);
@@ -22,27 +26,19 @@ export default function FocusDesk() {
   const [remaining, setSearchRemaining] = useRecoilState(searchRemainingState);
   const currentOffice = useRecoilValue(currentBuildingState);
   const id = currentOffice?.id;
+  const [loading, setLoading] = useRecoilState(loadingState);
+  const [seatClick, setSeatClick] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(true);
 
-  // useEffect(() => {
-  //   const fetchFocusData = async () => {
-  //     try {
-  //       const res = await API.get(
-  //         `reservation/${id}?type=${selectedSeatAll?.type}&start=${selectedSeatAll?.start_date}&end=${selectedSeatAll?.end_date}`,
-  //       );
-  //       console.log('res포커스데스크', res.data.data);
-  //       setSearchRemaining(res.data.data);
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //     fetchFocusData();
-  //   };
-  // }, [
-  //   id,
-  //   selectedSeatAll?.end_date,
-  //   selectedSeatAll?.start_date,
-  //   selectedSeatAll?.type,
-  //   setSearchRemaining,
-  // ]);
+  const handleClick = () => {
+    setIsExpanded(!isExpanded);
+  };
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  }, [setLoading]);
 
   const handleSeatReady = () => {
     if (
@@ -53,13 +49,8 @@ export default function FocusDesk() {
     ) {
       if (seatList.length < 5) {
         setSeatList([...seatList, { ...selectedSeatAll }]);
-        setSelectedSeatAll({
-          type: '',
-          start_date: '',
-          end_date: '',
-          code: '',
-        });
         setConfirm(true);
+        console.log(confirm);
       } else {
         return;
       }
@@ -67,6 +58,7 @@ export default function FocusDesk() {
   };
 
   const handleSeatClick = (seatNumber: string) => {
+    setSeatClick(true);
     const searchParams = new URLSearchParams(window.location.search);
     searchParams.set('seatId', seatNumber);
     const url = `${window.location.pathname}?${searchParams.toString()}`;
@@ -74,13 +66,12 @@ export default function FocusDesk() {
     setSelectedSeatAll((prev) => ({
       ...prev,
       code: seatNumber,
-      start_date: prev?.start_date || '',
+      start_date: prev?.start_date || ' ',
       end_date: prev?.end_date || '',
       type: prev?.type || '',
     }));
   };
-  const isMobile = useRecoilValue(mobileReservationLayoutState);
-  const minDesk = useRecoilValue(minDeskLayoutState);
+
   return (
     <>
       {Array.isArray(remaining) ? (
@@ -88,7 +79,7 @@ export default function FocusDesk() {
           <div className="hidden-360 flex flex-col justify-end w-[61.8125rem] h-[51.25rem] relative overflow-hidden rounded-md">
             <div className="mb:h-[18.3125rem] md:w-[61.8126rem] md:h-[51.25rem] absolute inset-0">
               <Image
-                src="/svg/reservation/imageView/focusDesk.svg"
+                src="/svg/reservation/imageView/focusdesk.svg"
                 layout="fill"
                 objectFit="cover"
                 alt="오피스이미지"
@@ -97,25 +88,33 @@ export default function FocusDesk() {
 
             <div className="relative flex gap-4 h-[19.375rem] bg-[#E4EEFF] p-8">
               <div className="flex flex-col gap-4 w-[44.5rem]">
-                <p className="text-[1.25rem] font-semibold">좌석 선택</p>
-                <div className="flex flex-wrap gap-2">
-                  {remaining.map((seat, i) => (
-                    <div key={i}>
-                      <button
-                        onClick={() => handleSeatClick(seat.id)}
-                        className={`rounded-lg w-[4rem] h-[2.5rem] ${
-                          seat.available === false
-                            ? 'bg-gray-400 text-black'
-                            : selectedSeatAll?.code === seat.code
-                              ? 'bg-[#688AF2] text-white'
-                              : 'bg-white'
-                        }`}
-                      >
-                        {seat.code}
-                      </button>
+                {loading ? (
+                  <div>
+                    <ReservationTitleSkeleton />
+                  </div>
+                ) : (
+                  <>
+                    <p className="text-[1.25rem] font-semibold">좌석 선택</p>
+                    <div className="flex flex-wrap gap-2">
+                      {remaining.map((seat, i) => (
+                        <div key={i}>
+                          <button
+                            onClick={() => handleSeatClick(seat.id)}
+                            className={`rounded-lg w-[4rem] h-[2.5rem] ${
+                              seat.available === false
+                                ? 'bg-gray-400 text-black'
+                                : seatClick
+                                  ? 'bg-[#688AF2] text-white'
+                                  : ''
+                            }`}
+                          >
+                            {seat.code}
+                          </button>
+                        </div>
+                      ))}
                     </div>
-                  ))}
-                </div>
+                  </>
+                )}
               </div>
 
               <div className="flex flex-col gap-4 justify-start">
@@ -147,36 +146,67 @@ export default function FocusDesk() {
             </div>
           </div>
         ) : (
-          <div className="hidden-360 flex flex-col justify-end w-[61.8125rem] h-[51.25rem] relative overflow-hidden rounded-md">
+          <div className="hidden-360  overflow-hidden flex flex-col justify-end w-[61.8125rem] h-[51.25rem] relative rounded-md">
             <div className="mb:h-[18.3125rem] md:w-[61.8126rem] md:h-[51.25rem] absolute inset-0">
               <Image
-                src="/svg/reservation/imageView/focusDesk.svg"
+                src="/svg/reservation/imageView/focusdesk.svg"
                 layout="fill"
                 objectFit="cover"
                 alt="오피스이미지"
               />
+              <div
+                onClick={() => handleClick()}
+                className="absolute bottom-0  shadow-2xl left-[50%] transform -translate-y-1/2 bg-[#688AF2] text-gray-500 rounded-[50%] p-4 z-10"
+              >
+                {isExpanded ? (
+                  <Image
+                    src="/svg/map/arrow.svg"
+                    width={20}
+                    height={20}
+                    alt="업 아이콘"
+                  />
+                ) : (
+                  <Image
+                    className="rotate-180"
+                    src="/svg/map/arrow.svg"
+                    width={20}
+                    height={20}
+                    alt="업 아이콘"
+                  />
+                )}
+              </div>
             </div>
-
-            <div className="relative flex gap-4 h-[19.375rem] bg-[#E4EEFF] p-8">
+            <div
+              className={`relative flex gap-4 h-[19.375rem] bg-[#E4EEFF] p-8 transition-transform duration-500 transform rounded-xl shadow-xl ${
+                isExpanded ? '-translate-y-[-5px]' : 'translate-y-[70%]'
+              }`}
+            >
               <div className="flex flex-col gap-4 w-[44.5rem]">
                 <p className="text-[1.25rem] font-semibold">좌석 선택</p>
                 <div className="flex flex-wrap gap-2">
-                  {remaining.map((seat, i) => (
-                    <div key={i}>
-                      <button
-                        onClick={() => handleSeatClick(seat.id)}
-                        className={`rounded-lg w-[4rem] h-[2.5rem] ${
-                          seat.available === false
-                            ? 'bg-gray-400 text-black'
-                            : selectedSeatAll?.code === seat.code
-                              ? 'bg-[#688AF2] text-white'
-                              : 'bg-white'
-                        }`}
-                      >
-                        {seat.code}
-                      </button>
-                    </div>
-                  ))}
+                  {loading &&
+                    remaining.map((item, idx) => (
+                      <div key={idx}>
+                        <TimeSkeleton />
+                      </div>
+                    ))}
+                  {!loading &&
+                    remaining.map((seat, i) => (
+                      <div key={i}>
+                        <button
+                          onClick={() => handleSeatClick(seat.id)}
+                          className={`rounded-lg w-[4rem] h-[2.5rem] ${
+                            seat.available === false
+                              ? 'bg-gray-400 text-black'
+                              : selectedSeatAll?.code === seat.code
+                                ? 'bg-[#688AF2] text-white'
+                                : 'bg-white'
+                          }`}
+                        >
+                          {seat.code}
+                        </button>
+                      </div>
+                    ))}
                 </div>
               </div>
 
@@ -212,6 +242,7 @@ export default function FocusDesk() {
       ) : (
         <div>Error: Remaining is not an array.</div>
       )}
+      {loading && <FullPageLoader />}
     </>
   );
 }

@@ -67,19 +67,7 @@ export default function OpenTableMobile({
     };
 
     fetchRemainingData();
-  }, [
-    currentOffice?.id,
-    selectedSpaceAll?.type,
-    selectedSeatAll?.type,
-    RTab,
-    selectedSeatAll?.start_date,
-    selectedSeatAll?.end_date,
-    setSearchRemaining,
-    selectedSpaceAll?.start_date,
-    selectedSpaceAll?.end_date,
-    selectedSeatAll,
-    selectedSpaceAll,
-  ]);
+  }, []);
   function ReservationTableStyleSeat({
     selectedSeatAll,
   }: {

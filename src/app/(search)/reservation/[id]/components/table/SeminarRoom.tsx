@@ -19,6 +19,7 @@ export default function SeminarRoom() {
   const [remaining, setSearchRemaining] = useRecoilState(searchRemainingState);
   const [click, setClick] = useState('');
   const [loading, setLoading] = useRecoilState(loadingState);
+  const [isExpanded, setIsExpanded] = useState(true);
   const [amTime, setAmTime] = useState([
     '08:00',
     '08:30',
@@ -51,11 +52,14 @@ export default function SeminarRoom() {
     '21:00',
     '21:30',
   ];
+  const handleClick = () => {
+    setIsExpanded(!isExpanded);
+  };
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
     }, 1000);
-  }, []);
+  }, [setLoading]);
 
   const handleSpaceReady = () => {
     if (
@@ -105,7 +109,7 @@ export default function SeminarRoom() {
   const renderTime = remaining.filter((item) => item.id === click);
   return (
     <>
-      <div className="hidden-360 flex flex-col relative w-[61.8125rem] h-[51.25rem] rounded-md justify-end">
+      <div className="hidden-360 flex flex-col relative w-[61.8125rem] h-[51.25rem] overflow-hidden rounded-md justify-end">
         <div className="absolute inset-0">
           <Image
             src="/svg/reservation/imageView/seminarRoom.svg"
@@ -114,9 +118,34 @@ export default function SeminarRoom() {
             alt="오피스이미지"
           />
         </div>
-        <div className="relative flex gap-4 h-[19.35rem] bottom-0 bg-[#E4EEFF] p-8 ">
+        <div
+          onClick={handleClick}
+          className="absolute bottom-0 shadow-2xl left-[50%] transform -translate-y-1/2 bg-[#688AF2] text-gray-500 rounded-[50%] p-4 z-10"
+        >
+          {isExpanded ? (
+            <Image
+              src="/svg/map/arrow.svg"
+              width={20}
+              height={20}
+              alt="업 아이콘"
+            />
+          ) : (
+            <Image
+              className="rotate-180"
+              src="/svg/map/arrow.svg"
+              width={20}
+              height={20}
+              alt="업 아이콘"
+            />
+          )}
+        </div>
+        <div
+          className={`relative flex gap-4 h-[19.375rem] bg-[#E4EEFF] p-8 transition-transform duration-500 transform rounded-xl shadow-xl ${
+            isExpanded ? '-translate-y-[-5px]' : 'translate-y-[70%]'
+          }`}
+        >
           <div className="flex flex-col gap-4 w-[44.5rem] overflow-y-scroll scrollbar-hide">
-            <p className="text-[1.25rem] font-semibold">공간 선택</p>
+            <p className="text-[1.25rem] font-semibold">공간을 선택하세요</p>
             <div className="flex flex-wrap gap-2">
               {remaining.map((space, i) => (
                 <div key={i}>
@@ -135,80 +164,82 @@ export default function SeminarRoom() {
                 </div>
               ))}
             </div>
-            <div className="flex flex-col gap-6">
-              <p className="text-[1.25rem] font-bold leading-7">
-                이용 시간을 선택하세요.
-              </p>
-              <div className="flex flex-col gap-4">
-                <p className="font-bold leading-[1.375rem]">오전</p>
-                <div className="flex flex-wrap gap-2">
-                  {loading ? (
-                    amTime.map((item, index) => (
-                      <div key={index}>
-                        <TimeSkeleton />
-                      </div>
-                    ))
-                  ) : (
-                    <>
-                      {amTime.map((am, idx) => {
-                        const isAvailable = renderTime.some((item) =>
-                          item.am.includes(am),
-                        );
-                        return (
-                          <button
-                            key={idx}
-                            onClick={() => handleSpaceTimeClick(am)}
-                            className={`rounded-lg w-[4rem] h-[2.5rem] ${
-                              isAvailable
-                                ? 'bg-white text-black'
-                                : 'bg-gray-500 text-white'
-                            }`}
-                            disabled={!isAvailable}
-                          >
-                            {am}
-                          </button>
-                        );
-                      })}
-                    </>
-                  )}
+            {click && (
+              <div className="flex flex-col gap-6">
+                <p className="text-[1.25rem] font-bold leading-7">
+                  이용 시간을 선택하세요.
+                </p>
+                <div className="flex flex-col gap-4">
+                  <p className="font-bold leading-[1.375rem]">오전</p>
+                  <div className="flex flex-wrap gap-2">
+                    {loading ? (
+                      amTime.map((item, index) => (
+                        <div key={index}>
+                          <TimeSkeleton />
+                        </div>
+                      ))
+                    ) : (
+                      <>
+                        {amTime.map((am, idx) => {
+                          const isAvailable = renderTime.some((item) =>
+                            item.am.includes(am),
+                          );
+                          return (
+                            <button
+                              key={idx}
+                              onClick={() => handleSpaceTimeClick(am)}
+                              className={`rounded-lg w-[4rem] h-[2.5rem] ${
+                                isAvailable
+                                  ? 'bg-white text-black'
+                                  : 'bg-gray-500 text-white'
+                              }`}
+                              disabled={!isAvailable}
+                            >
+                              {am}
+                            </button>
+                          );
+                        })}
+                      </>
+                    )}
+                  </div>
                 </div>
-              </div>
 
-              <div className="flex flex-col gap-4">
-                <p className="font-bold leading-[1.375rem]">오후</p>
-                <div className="flex flex-wrap gap-2 ">
-                  {loading ? (
-                    pmTime.map((item, index) => (
-                      <div key={index}>
-                        <TimeSkeleton />
-                      </div>
-                    ))
-                  ) : (
-                    <>
-                      {pmTime.map((pm, idx) => {
-                        const isAvailable = renderTime.some((item) =>
-                          item.am.includes(pm),
-                        );
-                        return (
-                          <button
-                            key={idx}
-                            onClick={() => handleSpaceTimeClick(pm)}
-                            className={`rounded-lg w-[4rem] h-[2.5rem] ${
-                              isAvailable
-                                ? 'bg-white text-black'
-                                : 'bg-gray-500 text-white'
-                            }`}
-                            disabled={!isAvailable}
-                          >
-                            {pm}
-                          </button>
-                        );
-                      })}
-                    </>
-                  )}
+                <div className="flex flex-col gap-4">
+                  <p className="font-bold leading-[1.375rem]">오후</p>
+                  <div className="flex flex-wrap gap-2 ">
+                    {loading ? (
+                      pmTime.map((item, index) => (
+                        <div key={index}>
+                          <TimeSkeleton />
+                        </div>
+                      ))
+                    ) : (
+                      <>
+                        {pmTime.map((pm, idx) => {
+                          const isAvailable = renderTime.some((item) =>
+                            item.am.includes(pm),
+                          );
+                          return (
+                            <button
+                              key={idx}
+                              onClick={() => handleSpaceTimeClick(pm)}
+                              className={`rounded-lg w-[4rem] h-[2.5rem] ${
+                                isAvailable
+                                  ? 'bg-white text-black'
+                                  : 'bg-gray-500 text-white'
+                              }`}
+                              disabled={!isAvailable}
+                            >
+                              {pm}
+                            </button>
+                          );
+                        })}
+                      </>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
           </div>
           <div className="flex flex-col gap-4 justify-start">
             <p className="text-[1.25rem] font-semibold">예약 정보</p>
