@@ -15,13 +15,14 @@ import { DayPicker } from 'react-day-picker';
 import { addDays, format, formatDate, isToday } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import { SpaceReservation } from '@/types/office/reservation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   minDeskLayoutState,
   mobileReservationLayoutState,
   showMobileTableState,
 } from '@/app/(search)/atom/media';
 import { useLineBreak } from '@/app/(search)/map/hooks/useLineBreak';
+import API from '@/utils/axios';
 
 interface OnePassMembershipProps {
   seatType: string[];
@@ -50,19 +51,19 @@ export default function OnePassMembership({
   const [selectedSpaceAll, setSelectedSpaceAll] = useRecoilState(
     selectedSpaceAllState,
   );
+
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const content = `예약을 추가하려면 위에서 날짜와 좌석 유형을 선택해 주세요.
 당일권은 최대 5개까지 예약할 수 있습니다.`;
 
   const handleDayClick = (day: Date) => {
     setSelectedDate(day);
-    console.log('tq', day);
     setSelectedSeatAll({});
     const formmatedDate = format(day, 'yyyy-MM-dd');
-
     const newSelectedSeatAll: SeatReservation = {
       start_date: formmatedDate,
-      end_date: selectedSeatAll?.end_date ?? '',
+      end_date:
+        selectedSeatAll?.end_date ?? format(addDays(day, 1), 'yyyy-MM-dd'),
       type: selectedSeatAll?.type ?? '',
       code: selectedSeatAll?.code ?? '',
     };
@@ -110,7 +111,27 @@ export default function OnePassMembership({
     },
   };
   const info = useLineBreak({ content });
-
+  const handleRemaningClick = () => {
+    console.log('???');
+    const params = new URLSearchParams(window.location.search);
+    const id = params;
+    const startDateString = params.get('start_date');
+    const endDateString = params.get('end_date');
+    console.log('이씨발', endDateString);
+    const code = params.get('code');
+    const type = params.get('type');
+    const fetchRemainingData = async () => {
+      try {
+        const response = await API.get(
+          `reservation/${id}?type=${type}&start=${startDateString}&end=${endDateString}`,
+        );
+        console.log('으에엥?', response);
+      } catch (error) {
+        console.error('Error fetching buildings data:', error);
+      }
+    };
+    fetchRemainingData();
+  };
   return (
     <>
       <div className="flex flex-col gap-6 mb-6">
@@ -146,7 +167,10 @@ export default function OnePassMembership({
               좌석 유형을 선택해주세요
             </div>
 
-            <div className="flex mb-4 justify-between">
+            <div
+              onClick={() => handleRemaningClick()}
+              className="flex mb-4 justify-between"
+            >
               {seatType.map((seatStyle) => (
                 <div
                   key={seatStyle}
@@ -161,7 +185,7 @@ export default function OnePassMembership({
                       setErrorMessage('날짜를 선택하세요.');
                     }
                   }}
-                  className={`mb:w-[4.125rem] mb:h-[4.6875rem] md:w-[6.29688rem] md:h-[7.75rem] flex flex-col justify-center items-center p-2 gap-2 rounded-lg ${
+                  className={`mb:w-full mr-2 mb:h-[4.6875rem] md:w-[6.29688rem] md:h-[7.75rem] flex flex-col justify-center items-center p-2 gap-2 rounded-lg ${
                     seatStyle === selectedSeatAll?.type
                       ? 'bg-blue-400 text-white'
                       : 'bg-white'
@@ -181,10 +205,10 @@ export default function OnePassMembership({
             </div>
 
             {isMobile ? (
-              <div className="hidden-desk w-full text-center my-4 hidden-desk">
+              <div className="w-full text-center my-4 hidden-desk">
                 <button
                   onClick={() => setShowMobileTable(true)}
-                  className="hidden deskw-[5.5rem] h-[2.5rem] bg-blue-400 text-white rounded-lg leading-[1.375rem]"
+                  className="w-[5.5rem] h-[2.5rem] bg-blue-400 text-white rounded-lg leading-[1.375rem]"
                 >
                   좌석 선택
                 </button>
@@ -209,25 +233,25 @@ export default function OnePassMembership({
                   <div className="mb:text-sm md:text-lg font-bold mb-4">
                     예약 정보를 확인하세요
                   </div>
-                  <div className="mb:text-[0.625rem] md:text-sm mb-4 mb:w-[14.875rem] md:w-[20.8125rem] text-[#8D8D9B]">
+                  <div className="mb:text-[0.625rem] md:text-sm mb-4 mb:w-full md:w-[20.8125rem] text-[#8D8D9B]">
                     {info}
                   </div>
                   {seatList.map((seat, index) => (
                     <div
                       key={index}
-                      className="mb:w-[18rem] md:w-[26.6875rem] mb:h-[4.1875rem] md:h-[5.625rem] bg-white text-lg rounded-xl p-1 pl-2 mb-2"
+                      className="mb:w-full md:w-[26.6875rem] mb:h-[4.1875rem] md:h-[5.625rem] bg-white text-lg rounded-xl p-1 pl-2 mb-2"
                     >
                       <div className="flex mb:gap-1 md:gap-2 mb:p-2 md:p-4 justify-between">
                         <div className="pr-4 border-gray-300 flex">
                           <div className="pr-4 border-r-2 ">
-                            <p className="mb:text-[0.75rem] md:text-[1rem] md:leading-7 mb:leading-5">
+                            <p className="mb:text-sm md:text-[1rem] md:leading-7 mb:leading-5">
                               {seat.type}
                             </p>
                             <p className="mb:text-[0.875rem] md:text-[1.25rem] font-bold ">
                               {seat.code}
                             </p>
                           </div>
-                          <div className="pl-4 md:font-normal md:text-lg mb:text-[0.75rem]">
+                          <div className="pl-4 md:font-normal md:text-lg mb:text-sm">
                             <p>{seat.start_date}</p>
                           </div>
                         </div>
@@ -251,25 +275,8 @@ export default function OnePassMembership({
                       </div>
                     </div>
                   ))}
-                  {mobileConfirm && (
-                    <div className="hidden-desk flex h-[2rem] text-[0.625rem] gap-2 mt-2 mb-4 items-center leading-4">
-                      <p className="h-[1.4375rem] w-[11.1875rem]">
-                        미팅룸, 컨퍼런스 룸, 스튜디오 등 다양한 공간이
-                        필요하신가요?
-                      </p>
-                      <div>
-                        <button
-                          onClick={() => setRTab('공간')}
-                          className="w-[6.5625rem] h-[2rem] p-2 bg-[#688AF2] text-[0.625rem] text-white rounded-lg "
-                        >
-                          공간 예약 하러 가기
-                        </button>
-                      </div>
-                    </div>
-                  )}
-
-                  {confirm && (
-                    <div className="hidden-360 flex h-[2.25rem] gap-2 leading-6 my-4 ">
+                  {(mobileConfirm || confirm) && (
+                    <div className="flex text-xs h-[2.25rem] items-center gap-2 my-4 justify-between">
                       <p>
                         미팅룸, 컨퍼런스 룸, 스튜디오 등 다양한 공간이
                         필요하신가요?
@@ -284,6 +291,7 @@ export default function OnePassMembership({
                       </div>
                     </div>
                   )}
+
                   {(seatList || selectedSeatAll) && (
                     <div className="py-4">
                       <p className="mb:text-sm md:text-lg font-bold mb-4">

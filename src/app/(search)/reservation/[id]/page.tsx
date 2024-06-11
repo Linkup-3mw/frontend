@@ -1,39 +1,39 @@
 'use client';
-import OpenTableMobile from './components/table/mobile/OpenTableMobile';
-import { showMobileTableState } from '../../atom/media';
-import SeatInformation from './components/SeatInfomation';
-import ReservationInfo from './components/ReservationInfo';
-import { useRecoilValue } from 'recoil';
+import { useEffect } from 'react';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { currentBuildingState } from '../../atom/search';
 import { selectedSeatAllState, selectedSpaceAllState } from '../../atom/office';
+import {
+  mobileReservationLayoutState,
+  showMobileTableState,
+} from '../../atom/media';
+import { format } from 'date-fns';
+import { ko } from 'date-fns/locale';
+import SeatInformation from './components/SeatInfomation';
+import ReservationInfo from './components/ReservationInfo';
+import OpenTableMobile from './components/table/mobile/OpenTableMobile';
+import API from '@/utils/axios';
 
-interface ReservationParamProps {
-  params: { id: string };
-}
-
-export default function Reservation({ params }: ReservationParamProps) {
+export default function Reservation(params: string) {
+  const [isMobile, setIsMobile] = useRecoilState(mobileReservationLayoutState);
   const currentBuilding = useRecoilValue(currentBuildingState);
-
-  const id = params.id;
   const showMobileTable = useRecoilValue(showMobileTableState);
   const selectedSeatAll = useRecoilValue(selectedSeatAllState);
   const selectedSpaceAll = useRecoilValue(selectedSpaceAllState);
-  // api/v1/reservation/{office_id}?type={string}&start={(string)연도-월-일}&end={string}
-  // useEffect(() => {
-  //   const fetchBuildingsData = async () => {
-  //     try {
-  //       const response = await API.get('/office/search');
-  //       const seatData = response;
-  //       // setOfficeBuildings(content);
-  //       // console.log('officeBuildings2@@@', content);
-  //       console.log('seatData', seatData);
-  //     } catch (error) {
-  //       console.error('Error fetching buildings data:', error);
-  //     }
-  //   };
 
-  //   fetchBuildingsData();
-  // }, []);
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 550);
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [setIsMobile]);
+
   return (
     <>
       <div className="mt-[5rem] md:flex justify-center">

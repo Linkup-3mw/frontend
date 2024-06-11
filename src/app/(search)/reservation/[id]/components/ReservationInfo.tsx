@@ -1,4 +1,4 @@
-import { OfficeBuilding } from '@/types/office/office';
+'use client';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import {
   Rtab,
@@ -79,7 +79,7 @@ export default function ReservationInfo() {
   };
 
   return (
-    <div className="flex flex-col  bg-[#E4EEFF] md:px-8 md:w-[30.6875rem] mb:w-[20rem] mb:px-4  overflow-y-scroll scrollbar-hide rounded-3xl pt-4 h-[51.25rem]">
+    <div className="flex flex-col  bg-[#E4EEFF] md:px-8 md:w-[30.6875rem] mb:w-[90%] mb:px-4  overflow-y-scroll scrollbar-hide rounded-3xl pt-4 h-[51.25rem]">
       <div className="h-[48px] text-[20px] font-bold mt-3 text-gray-300 cursor-pointer">
         <div className="flex justify-start items-center h-[48px] w-full mx-auto">
           <div className="h-[40px] w-[122.5px] text-center">
@@ -116,7 +116,7 @@ export default function ReservationInfo() {
             {memberships.map((membership) => (
               <div
                 key={membership.type}
-                className={`mb:w-[18rem] mb:h-[7.5rem] md:h-[10rem] md:w-[26.6875rem]  mb-2 grid grid-cols-2 items-center rounded-2xl p-4 cursor-pointer
+                className={`mb:w-full mb:h-[7.5rem] md:h-[10rem] md:w-[26.6875rem] mb-2 grid grid-cols-2 items-center rounded-2xl cursor-pointer
                 ${
                   membershipChoose?.type === membership.type
                     ? 'bg-[#688AF2]'
@@ -125,7 +125,7 @@ export default function ReservationInfo() {
               `}
                 onClick={() => setMembershipChoose(membership)}
               >
-                <div className="flex flex-col justify-start w-[15.75rem] h-[8rem]">
+                <div className="flex flex-col justify-start w-[15.75rem] h-[8rem] p-4">
                   <p
                     className={`md:text-[1.25rem] mb:text-[0.875rem] font-bold mb-3 ${
                       membershipChoose?.type === membership.type
@@ -135,7 +135,7 @@ export default function ReservationInfo() {
                   >
                     {membership.type}
                   </p>
-                  <div className=" flex flex-col">
+                  <div className="flex flex-col ">
                     {membership.description.map((des, idx) => (
                       <div key={idx} className="flex items-center gap-3">
                         <Image

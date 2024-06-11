@@ -1,9 +1,9 @@
 import { getIndustry, getOccupation } from '@/app/service/category';
-import { useSuspenseQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 
 //산업군 전체 조회
 export const useIndustryQuery = () => {
-  return useSuspenseQuery({
+  return useQuery({
     queryKey: ['industry'],
     queryFn: getIndustry,
     select: ({ data }) => data,
@@ -12,7 +12,7 @@ export const useIndustryQuery = () => {
 
 //직종 전체 조회
 export const useOccupationQuery = () => {
-  return useSuspenseQuery({
+  return useQuery({
     queryKey: ['occupation'],
     queryFn: getOccupation,
     select: ({ data }) => data,

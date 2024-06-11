@@ -76,11 +76,11 @@ export default function PlaceDropdown({
         </div>
       </div>
       {isOpen && (
-        <div className="absolute top-[3rem] md:top-[3.3rem] bg-white rounded-b md:w-[16rem] w-[12rem] border-t border-gray-100 cursor-pointer">
+        <div className="absolute top-[3rem] md:top-[3.3rem] bg-white rounded-b md:w-[16rem] w-[12rem] border-t border-gray-100 cursor-pointer shadow-sm">
           {options.map((option, index) => (
             <div
               key={option}
-              className={`option py-2 px-4 h-[3.125rem] flex items-center font-bold ${
+              className={`option py-2 px-4 md:h-[3.125rem] h-[2.625rem] flex items-center font-bold md:text-[1rem] text-sm ${
                 index !== options.length - 1 ? 'border-b border-gray-100' : ''
               }`}
               onClick={() => handleOptionClick(option)}

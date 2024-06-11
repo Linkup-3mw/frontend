@@ -2,326 +2,286 @@
 
 import ContentWrap from '@/app/common/components/frame/ContentWrap';
 import { useState } from 'react';
+import { members } from '../../../../data/members';
+import { applications } from '../../../../data/applications';
+import SearchInput from '@/app/community/components/club/SearchInput';
 
-interface Member {
-  id: number;
-  name: string;
-  avatar: string;
-  job: string;
-  location: string;
-  lastActivity: string;
-}
-
-interface Application {
-  id: number;
-  name: string;
-  avatar: string;
-  job: string;
-  location: string;
-  questions: { question: string; answer: string }[];
+interface MobileMenuProps {
+  handleMenuSelect: (selectedMenu: string) => void;
+  menuSelection: string;
 }
 
 export default function ClubManagePage() {
-  const members: Member[] = [
-    {
-      id: 1,
-      name: '김기준',
-      avatar: '/images/club/example.jpg',
-      job: '반도체 연구원 지망생',
-      location: '신도림',
-      lastActivity: '2024.06.01',
-    },
-    {
-      id: 2,
-      name: '김지혜',
-      avatar: '/images/club/example.jpg',
-      job: '프론트엔드 개발자',
-      location: '서울',
-      lastActivity: '2024.06.01',
-    },
-    {
-      id: 3,
-      name: '장문용',
-      avatar: '/images/club/example.jpg',
-      job: '프론트엔드 개발자',
-      location: '서울',
-      lastActivity: '2024.06.01',
-    },
-    {
-      id: 4,
-      name: '채서영',
-      avatar: '/images/club/example.jpg',
-      job: '프론트엔드 개발자',
-      location: '인천',
-      lastActivity: '2024.06.01',
-    },
-    {
-      id: 5,
-      name: 'Eva Martinez',
-      avatar: '/images/club/example.jpg',
-      job: 'Engineer',
-      location: 'Berlin',
-      lastActivity: '2024.06.01',
-    },
-    {
-      id: 6,
-      name: 'David Wilson',
-      avatar: '/images/club/example.jpg',
-      job: 'Artist',
-      location: 'Los Angeles',
-      lastActivity: '2024.06.01',
-    },
-  ];
-
-  const applications: Application[] = [
-    {
-      id: 1,
-      name: '김철수',
-      avatar: '/images/club/example.jpg',
-      job: '마케팅',
-      location: '파리',
-      questions: [
-        {
-          question: '우리 클럽에 가입하고 싶은 이유는 무엇인가요?',
-          answer: '커뮤니티를 사랑합니다.',
-        },
-        {
-          question: '당신이 기여할 수 있는 점은 무엇인가요?',
-          answer: '마케팅 전문 지식을 제공할 수 있습니다.',
-        },
-      ],
-    },
-    {
-      id: 2,
-      name: '김영희',
-      avatar: '/images/club/example.jpg',
-      job: '매니저',
-      location: '도쿄',
-      questions: [
-        {
-          question: '우리 클럽에 가입하고 싶은 이유는 무엇인가요?',
-          answer: '네트워킹을 하고 싶습니다.',
-        },
-        {
-          question: '귀하의 비전은 무엇인가요?',
-          answer: '새로운 프로젝트를 성공적으로 이끌고 싶습니다.',
-        },
-      ],
-    },
-    {
-      id: 3,
-      name: '이영희',
-      avatar: '/images/club/example.jpg',
-      job: '개발자',
-      location: '서울',
-      questions: [
-        {
-          question: '왜 개발자가 되었나요?',
-          answer: '흥미로워서입니다.',
-        },
-      ],
-    },
-    {
-      id: 4,
-      name: '박철수',
-      avatar: '/images/club/example.jpg',
-      job: '디자이너',
-      location: '뉴욕',
-      questions: [
-        {
-          question: '좋아하는 디자인 스타일은 무엇인가요?',
-          answer: '미니멀리즘입니다.',
-        },
-      ],
-    },
-    {
-      id: 5,
-      name: '홍길동',
-      avatar: '/images/club/example.jpg',
-      job: '영업',
-      location: '런던',
-      questions: [
-        {
-          question: '매출을 높이기 위해 무엇을 할 수 있나요?',
-          answer: '새로운 고객을 확보할 수 있습니다.',
-        },
-      ],
-    },
-    {
-      id: 6,
-      name: '이순신',
-      avatar: '/images/club/example.jpg',
-      job: '경영자',
-      location: '상하이',
-      questions: [],
-    },
-  ];
-
   const [expandedApplicationId, setExpandedApplicationId] = useState<
     number | null
   >(null);
+  const [mobileViewMode, setMobileViewMode] = useState('members'); // 초기값은 'members'로 설정
+
+  const handleMenuSelect = (selectedMenu: string) => {
+    if (selectedMenu === '멤버 리스트') {
+      setMobileViewMode('members');
+    } else if (selectedMenu === '신청서 관리') {
+      setMobileViewMode('requests');
+    }
+  };
 
   const toggleApplication = (id: number) => {
     setExpandedApplicationId(expandedApplicationId === id ? null : id);
   };
 
+  const ApplicationHeader = () => {
+    return (
+      <>
+        <div className="md:flex md:mb-8 mb-4">
+          <button
+            className="mr-[2.5rem] text-xl mb-4"
+            onClick={() => window.history.back()}
+          >
+            &lt;
+          </button>
+          <div className="text-left">
+            <h2 className="md:text-2xl text-[1rem] font-bold mb-2 leading-none">
+              소모임 이름
+            </h2>
+            <p className="leading-none font-medium md:text-[1rem] text-sm">
+              소모임 설명
+            </p>
+          </div>
+        </div>
+      </>
+    );
+  };
+
+  const MemberList = () => {
+    return (
+      <>
+        <ul className="space-y-2 md:overflow-y-auto md:h-[25rem]">
+          {members.map((member) => (
+            <li
+              key={member.id}
+              className="flex items-center justify-between p-4"
+            >
+              <div className="flex items-center">
+                <img
+                  src={member.avatar}
+                  alt={member.name}
+                  className="md:w-[3.75rem] md:h-[3.75rem] w-[2rem] h-[2rem] rounded-full md:mr-[1.25rem] mr-[0.69em] border-[0.19rem] border-main-green"
+                />
+                <div>
+                  <h3 className="font-semibold md:text-base text-sm">
+                    {member.name}
+                  </h3>
+                  <p className="md:text-sm text-xs md:font-semibold">
+                    {member.job} | {member.location}
+                  </p>
+                  <p className="md:text-sm text-xs text-gray-600">
+                    마지막 활동일 {member.lastActivity}
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center">
+                <div className="bg-main-blue md:w-[1.5rem] md:h-[1.5rem] w-[1rem] h-[1rem] rounded-full border-[0.09rem] border-black mr-2 flex items-center justify-center">
+                  <img
+                    src="/svg/club/crownIconLine.svg"
+                    alt="Crown Icon"
+                    className="md:p-[0.2rem] p-[0.1rem]"
+                  />
+                </div>
+                <img
+                  src="/svg/club/trashIcon.svg"
+                  alt="Trash Icon"
+                  className="md:w-6 w-4"
+                />
+              </div>
+            </li>
+          ))}
+        </ul>
+      </>
+    );
+  };
+
+  const RequestMemberList = () => {
+    const ApproveAndRefuseButtons = () => {
+      return (
+        <div className="flex items-center space-x-4 w-full md:text-sm text-xs">
+          <button className="bg-blue-400 text-white md:w-[4.5rem] flex-grow h-[2.125rem] rounded font-bold">
+            승인
+          </button>
+          <button className="bg-red-cancel text-white md:w-[4.5rem] flex-grow h-[2.125rem] rounded font-bold">
+            거절
+          </button>
+        </div>
+      );
+    };
+
+    return (
+      <>
+        {applications.map((application) => (
+          <div
+            key={application.id}
+            className="p-4 border rounded-lg md:bg-none bg-white"
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex items-center flex-grow">
+                <img
+                  src={application.avatar}
+                  alt={application.name}
+                  className="md:w-[3.75rem] md:h-[3.75rem] w-[2rem] h-[2rem] rounded-full md:mr-[1.25rem] mr-[0.69em] border-[0.19rem] border-main-green"
+                />
+                <div>
+                  <h3 className="font-semibold md:text-base text-sm">
+                    {application.name}
+                  </h3>
+                  <p className="md:text-sm text-xs md:font-semibold">
+                    {application.job} | {application.location}
+                  </p>
+                </div>
+              </div>
+              <div className="flex md:hidden justify-end">
+                <button
+                  className="mt-[-1.3rem]"
+                  onClick={() => toggleApplication(application.id)}
+                >
+                  {expandedApplicationId === application.id ? (
+                    ''
+                  ) : (
+                    <img src="/svg/club/arrowDown.svg" alt="Arrow Down" />
+                  )}
+                </button>
+              </div>
+              <div className="hidden md:flex">
+                <ApproveAndRefuseButtons />
+              </div>
+            </div>
+
+            {expandedApplicationId !== application.id && (
+              <div className="md:hidden flex mt-4">
+                <ApproveAndRefuseButtons />
+              </div>
+            )}
+
+            <div className="md:flex justify-center hidden">
+              <button
+                className="mt-[-1.3rem]"
+                onClick={() => toggleApplication(application.id)}
+              >
+                {expandedApplicationId === application.id ? (
+                  ''
+                ) : (
+                  <img src="/svg/club/arrowDown.svg" alt="Arrow Down" />
+                )}
+              </button>
+            </div>
+
+            {expandedApplicationId === application.id && (
+              <div className="mt-[1.5rem]">
+                {application.questions.map((qa, index) => (
+                  <div key={index} className="space-y-4 mb-[1.5rem]">
+                    <p className="text-gray-500 font-normal text-xs leading-none">
+                      {qa.question}
+                    </p>
+                    <p className="font-semibold text-sm leading-none">
+                      {qa.answer}
+                    </p>
+                  </div>
+                ))}
+
+                <div className="justify-center hidden md:flex">
+                  <button
+                    className=""
+                    onClick={() => toggleApplication(application.id)}
+                  >
+                    <img src="/svg/club/arrowUp.svg" alt="Arrow Up" />
+                  </button>
+                </div>
+
+                <div className="md:hidden mb-4">
+                  <ApproveAndRefuseButtons />
+                </div>
+
+                <div className="justify-center md:hidden flex">
+                  <button
+                    className=""
+                    onClick={() => toggleApplication(application.id)}
+                  >
+                    <img src="/svg/club/arrowUp.svg" alt="Arrow Up" />
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        ))}
+      </>
+    );
+  };
+
+  const MobileMenu = ({ handleMenuSelect, menuSelection }: MobileMenuProps) => {
+    return (
+      <div className="md:hidden flex font-bold md:text-xl text-xs border-b border-gray-300">
+        <button
+          onClick={() => handleMenuSelect('멤버 리스트')}
+          className={`text-xs md:text-lg font-semibold px-[0.5rem] py-4 leading-none ${menuSelection === '멤버 리스트' ? '' : 'text-gray-500'} border-b-2 ${
+            menuSelection === '멤버 리스트'
+              ? 'border-main-black outline-inner'
+              : 'border-transparent'
+          }`}
+        >
+          멤버 리스트
+        </button>
+        <button
+          onClick={() => handleMenuSelect('신청서 관리')}
+          className={`text-xs md:text-lg font-semibold px-[0.5rem] py-4 leading-none ${menuSelection === '신청서 관리' ? '' : 'text-gray-500'} border-b-2 ${
+            menuSelection === '신청서 관리'
+              ? 'border-main-black outline-inner'
+              : 'border-transparent'
+          }`}
+        >
+          신청서 관리
+        </button>
+      </div>
+    );
+  };
+
   return (
     <div className="pt-[2.5rem] px-[1.25rem] relative">
       <ContentWrap>
-        <div className="bg-blue-50 rounded-2xl p-[2.5rem] relative">
-          {/* 관리 폼의 제목 */}
-          <div className="flex mb-8">
-            <button
-              className="mr-[2.5rem] text-xl"
-              onClick={() => window.history.back()}
-            >
-              &lt;
-            </button>
-            <div className="text-left">
-              <h2 className="text-2xl font-bold mb-2 leading-none">
-                소모임 이름
-              </h2>
-              <p className="leading-none font-medium">소모임 설명 </p>
-            </div>
-          </div>
-          <div className="flex">
+        <div className="bg-blue-50 rounded-2xl md:p-[2.5rem] p-4">
+          <ApplicationHeader />
+          <MobileMenu
+            handleMenuSelect={handleMenuSelect}
+            menuSelection={
+              mobileViewMode === 'members' ? '멤버 리스트' : '신청서 관리'
+            }
+          />
+          <div className="flex justify-between md:flex-row flex-col">
             {/* 멤버 리스트 */}
-            <section className=" border-r border-gray-200 mr-8 pr-8 ">
-              <div className="bg-white h-[35.375rem] px-[2rem] py-[1.5rem] rounded-2xl">
-                <h2 className="text-xl font-semibold leading-none">
+            <section
+              className={`md:w-2/5 ${mobileViewMode === 'members' ? 'block' : 'hidden'} md:block`}
+            >
+              <div className="md:bg-white md:h-[35.375rem] md:px-[2rem] md:py-[1.5rem] rounded-2xl">
+                <h2 className="md:flex hidden text-xl font-semibold leading-none">
                   멤버 리스트
                 </h2>
-                <div className="relative w-[30rem] py-[1.5rem]">
-                  <input
-                    type="text"
-                    className="w-full px-4 py-2 pr-10 rounded-full border border-gray-300 focus:outline-none focus:border-blue-300"
+                <div className="relative md:py-[1.5rem] py-[1rem]">
+                  <SearchInput
+                    placeholder="찾고 싶은 소모임을 검색하세요."
+                    className="w-full text-xs"
                   />
-                  <div className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer">
-                    <img
-                      src="/svg/club/search.svg"
-                      alt="Search Icon"
-                      className="w-6 h-6 mr-1"
-                    />
-                  </div>
                 </div>
-                <ul className="space-y-2 overflow-y-auto h-[25rem]">
-                  {members.map((member) => (
-                    <li
-                      key={member.id}
-                      className="flex items-center justify-between p-4"
-                    >
-                      <div className="flex items-center">
-                        <img
-                          src={member.avatar}
-                          alt={member.name}
-                          className="w-[3.75rem] h-[3.75rem] rounded-full mr-[1.25rem] border-[0.19rem]"
-                        />
-                        <div>
-                          <h3 className="font-semibold">{member.name}</h3>
-                          <p className="text-sm font-semibold">
-                            {member.job} | {member.location}
-                          </p>
-                          <p className="text-sm text-gray-500">
-                            마지막 활동일 {member.lastActivity}
-                          </p>
-                        </div>
-                      </div>
-                      <div className="flex items-center">
-                        <div className="bg-main-blue w-[1.5rem] h-[1.5rem] rounded-full border-[0.09rem] border-black mr-2 flex items-center justify-center">
-                          <img
-                            src="/svg/club/crownIconLine.svg"
-                            alt="Crown Icon"
-                            className="w-4 h-4"
-                          />
-                        </div>
-                        <img
-                          src="/svg/club/trashIcon.svg"
-                          alt="Trash Icon"
-                          className="w-6 h-6"
-                        />
-                      </div>
-                    </li>
-                  ))}
-                </ul>
+                <MemberList />
               </div>
             </section>
+            <div className=" border-r border-gray-200 mr-8 pr-8 md:block hidden"></div>
             {/* 신청서 관리 */}
-            <section className="h-[35.376rem]">
-              <div className="bg-white px-[2rem] py-[1.5rem] rounded-2xl h-[35.375rem]">
-                <h2 className="text-xl font-semibold mb-[1.62rem] leading-none">
+            <section
+              className={`flex-grow ${mobileViewMode === 'requests' ? 'block' : 'hidden'} md:block`}
+            >
+              <div className="md:bg-white md:px-[2rem] md:py-[1.5rem] py-4 rounded-2xl md:h-[35.375rem]">
+                <h2 className="md:flex hidden text-xl font-semibold mb-[1.62rem] leading-none">
                   신청서 관리
                 </h2>
-                <div className="space-y-4 overflow-y-auto h-[30rem]">
-                  {applications.map((application) => (
-                    <div
-                      key={application.id}
-                      className="p-4 border rounded-lg w-[47.0625rem]"
-                    >
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center">
-                          <img
-                            src={application.avatar}
-                            alt={application.name}
-                            className="w-[3.75rem] h-[3.75rem] rounded-full mr-[1.25rem] border-[0.19rem]"
-                          />
-                          <div>
-                            <h3 className="font-semibold">
-                              {application.name}
-                            </h3>
-                            <p className="text-sm font-semibold">
-                              {application.job} | {application.location}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="flex items-center space-x-4">
-                          <button className="bg-blue-400 text-white w-[4.5rem] h-[2.125rem] rounded font-bold">
-                            승인
-                          </button>
-                          <button className="bg-red-cancel text-white w-[4.5rem] h-[2.125rem] rounded font-bold">
-                            거절
-                          </button>
-                        </div>
-                      </div>
-                      <div className="flex justify-center">
-                        <button
-                          className="mt-[-1.3rem]"
-                          onClick={() => toggleApplication(application.id)}
-                        >
-                          {expandedApplicationId === application.id ? (
-                            ''
-                          ) : (
-                            <img
-                              src="/svg/club/arrowDown.svg"
-                              alt="Arrow Down"
-                            />
-                          )}
-                        </button>
-                      </div>
-                      {expandedApplicationId === application.id && (
-                        <div className="mt-[1.5rem]">
-                          {application.questions.map((qa, index) => (
-                            <div key={index} className="space-y-4 mb-[1.5rem]">
-                              <p className="text-gray-500 font-normal text-xs leading-none">
-                                {qa.question}
-                              </p>
-                              <p className="font-semibold text-sm leading-none">
-                                {qa.answer}
-                              </p>
-                            </div>
-                          ))}
-                          {/* 닫기 버튼 */}
-                          <div className="flex justify-center">
-                            <button
-                              className=""
-                              onClick={() => toggleApplication(application.id)}
-                            >
-                              <img src="/svg/club/arrowUp.svg" alt="Arrow Up" />
-                            </button>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  ))}
+                <div className="space-y-4 md:overflow-y-auto md:h-[30rem]">
+                  <RequestMemberList />
                 </div>
               </div>
             </section>

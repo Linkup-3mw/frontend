@@ -1,6 +1,7 @@
 'use client';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
+import debounce from 'lodash.debounce';
 
 import { useIndustryQuery, useOccupationQuery } from '@/hooks/useCategory';
 import { NAME_VALIDATION } from '@/app/(auth)/constants/validation';
@@ -129,7 +130,6 @@ export default function SignupForm({ type }: Props) {
           register={register}
           setValue={setValue}
         />
-
         <InputBox text="성별" errorMsg={errors.gender?.message}>
           <div className="flex justify-between gap-[1rem] my-[1rem]">
             <RadioButton
@@ -167,11 +167,12 @@ export default function SignupForm({ type }: Props) {
           register={register}
           setError={setError}
           clearErrors={clearErrors}
+          trigger={trigger}
         />
 
         <InputBox text="산업군" errorMsg={errors.industry?.message}>
           <div className="flex flex-wrap gap-[1rem] my-[1rem] max-md:gap-[0.55rem] max-md:[&_label]:min-w-[calc((100%_-_1.65rem)/4)] max-[290px]:[&_label]:min-w-[calc((100%_-_1.65rem)/3)]">
-            {industryList.map((item: string, index: number) => (
+            {industryList?.map((item: string, index: number) => (
               <RadioButton
                 key={index}
                 name="industry"
@@ -187,7 +188,7 @@ export default function SignupForm({ type }: Props) {
 
         <InputBox text="직무" errorMsg={errors.occupation?.message}>
           <div className="flex flex-wrap gap-[1rem] my-[1rem] max-md:gap-[0.55rem] max-md:[&_label]:min-w-[calc((100%_-_1.65rem)/4)] max-[290px]:[&_label]:min-w-[calc((100%_-_1.65rem)/3)]">
-            {occupationList.map((item: string, index: number) => (
+            {occupationList?.map((item: string, index: number) => (
               <RadioButton
                 key={index}
                 name="occupation"
@@ -204,8 +205,9 @@ export default function SignupForm({ type }: Props) {
         <BlueSquareBtn
           classname="mt-[5rem] max-md:mt-[1.5rem]"
           name="가입 완료"
-          type="submit"
-          disabled={!isDirty || !isValid}
+          type="button"
+          // disabled={!isDirty || !isValid}
+          onClick={debounce(handleSubmit(onSubmit), 1000)}
         />
       </form>
     </div>
