@@ -3,7 +3,7 @@ import CrownBadge from '../icons/CrownBadge';
 interface Props {
   image: string;
   name: string;
-  type?: 'admin' | 'host';
+  type?: 'admin' | 'host' | undefined;
   className?: string;
 }
 
