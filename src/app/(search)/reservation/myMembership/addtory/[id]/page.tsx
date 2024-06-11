@@ -41,9 +41,9 @@ export default function Addtory() {
     <>
       {loading && <FullPageLoader />}
 
-      <div>
+      <div className="flex justify-center">
         {!showMobileTable && (
-          <div className="mt-[5rem] md:flex justify-center mx-4">
+          <div className="mt-[5rem] md:flex mx-4 w-[95rem] gap-4">
             <div className="md:flex md:w-[95rem] mb:w-full mx-auto pt-2 gap-4 flex flex-col bg-[#E4EEFF] md:px-8 max-md:w-[30.6875rem] mb:px-4 overflow-y-scroll scrollbar-hide rounded-3xl ">
               <div className="h-[48px] text-[20px] font-bold mt-3 cursor-pointer">
                 <div className="flex justify-start items-center h-[48px] w-full mx-auto">

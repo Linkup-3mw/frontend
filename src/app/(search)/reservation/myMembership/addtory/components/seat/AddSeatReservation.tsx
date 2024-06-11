@@ -219,9 +219,7 @@ export default function AddSeatReservation() {
               예약을 추가하려면 위에서 날짜와 좌석 유형을 선택해 주세요.
             </p>
           </div>
-          <div className="mb:text-[0.625rem] md:text-sm mb-4 mb:w-full md:w-[20.8125rem] text-[#8D8D9B]">
-            {/* info 를 여기에 정의해야 할 것 같습니다 */}
-          </div>
+          <div className="mb:text-[0.625rem] md:text-sm mb-4 mb:w-full md:w-[20.8125rem] text-[#8D8D9B]"></div>
           {seatList.map((seat, index) => (
             <div
               key={index}
