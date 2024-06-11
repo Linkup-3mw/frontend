@@ -1,10 +1,13 @@
-import Club from '@components/club/Club';
 import { Suspense } from 'react';
+import { fetchServerSession } from '@/utils/session';
+import ClubMain from '../../components/club/ClubMain';
 
-export default function ClubPage() {
+export default async function ClubPage() {
+  const session = await fetchServerSession();
+
   return (
     <Suspense>
-      <Club />
+      <ClubMain />
     </Suspense>
   );
 }
