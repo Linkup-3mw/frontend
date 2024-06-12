@@ -28,6 +28,7 @@ export default async function RootLayout({
               <AuthorizationHeader>
                 <Header session={session} />
                 <div>{children}</div>
+                <div id="modal-root" />
               </AuthorizationHeader>
             </AuthContext>
           </RecoilProvider>

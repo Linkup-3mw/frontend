@@ -32,21 +32,21 @@ export default function SectionIntrduce({ id, clubInfo, memberType }: Props) {
   return (
     <>
       {/* 소개 */}
-      {/* <section
+      <section
         className={`
             ${tab == undefined || tab === '' ? '' : 'max-md:hidden'} 
             ${memberType === 'NONE_MEMBER' || userType === 'VISITOR' ? ' w-[66.11%]' : 'w-[40.72%]'}
             relative overflow-y-auto p-[2.5rem] max-md:static max-md:px-[1rem] max-md:py-[1.5rem]`}
-      > */}
-      {memberType === 'NONE_MEMBER' || userType === 'VISITOR' ? (
-        <NoneMemberIntroduceSection {...clubInfo} />
-      ) : (
-        <IntroduceSection {...clubInfo} />
-      )}
+      >
+        {memberType === 'NONE_MEMBER' || userType === 'VISITOR' ? (
+          <NoneMemberIntroduceSection {...clubInfo} />
+        ) : (
+          <IntroduceSection {...clubInfo} />
+        )}
 
-      {/* 사용자 모달 */}
-      {/* <MemberModal isShow={false} /> */}
-      {/* </section> */}
+        {/* 사용자 모달 */}
+        {/* <MemberModal isShow={false} /> */}
+      </section>
     </>
   );
 }

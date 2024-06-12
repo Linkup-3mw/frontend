@@ -58,27 +58,27 @@ export default async function Layout({ children, params }: Props) {
               />
             </div>
             <ContentWrap
-              className={`flex justify-between [&_>_section]:h-[66.66vh] [&_>_section]:max-h-[45rem] [&_>_section]:min-h-[45rem] [&_>_section]:rounded-[1rem] [&_>_section]:bg-blue-50 [&_>_section]:box-border [&_>_section]:max-md:w-full
+              className={`flex justify-between [&_>_section]:h-[66.66vh] [&_>_section]:max-h-[45rem] [&_>_section]:min-h-[45rem] [&_>_section]:rounded-[1rem] [&_>_section]:bg-blue-50 [&_>_section]:box-border [&_>_section]:max-md:w-full max-md:[&_>_section]:min-h-[calc(100vh_-_15rem)]
       ${
         userType === 'NONE_MEMBER' || userType === 'VISITOR'
-          ? 'max-md:[&_>_section]:min-h-0 max-md:[&_>_section]:h-[calc(100vh_-_16.6225rem)] max-md:[&_>_section]:overflow-y-auto'
-          : '[&_>_section]:max-md:max-h-[initial] max-md:[&_>_section]:min-h-0 max-md:[&_>_section]:h-auto max-md:[&_>_section]:overflow-y-visible'
+          ? 'max-md:[&_>_section]:h-[calc(100vh_-_16.6225rem)] max-md:[&_>_section]:overflow-y-auto'
+          : '[&_>_section]:max-md:max-h-[initial]  max-md:[&_>_section]:h-auto max-md:[&_>_section]:overflow-y-visible'
       }
       `}
             >
               {/* 소개 */}
-              <section
+              {/* <section
                 className={`
                 ${params.type == undefined || params.type === '' ? '' : 'max-md:hidden'} 
                 ${userType === 'NONE_MEMBER' || userType === 'VISITOR' ? ' w-[66.11%]' : 'w-[40.72%]'}
                 relative overflow-y-auto p-[2.5rem] max-md:static max-md:px-[1rem] max-md:py-[1.5rem]`}
-              >
-                <SectionIntrduce
-                  id={clubId}
-                  memberType={userType}
-                  clubInfo={data!}
-                />
-              </section>
+              > */}
+              <SectionIntrduce
+                id={clubId}
+                memberType={userType}
+                clubInfo={data!}
+              />
+              {/* </section> */}
 
               {/* 게시판 */}
               <SectionBoard clubId={clubId} memberType={userType}>
