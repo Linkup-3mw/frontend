@@ -1,6 +1,5 @@
 'use client';
-import { Dispatch, SetStateAction, useState } from 'react';
-import XIcon from '../icons/XIcon';
+import { Dispatch, SetStateAction } from 'react';
 import BlueSquareBtn from '../form/BlueSquareBtn';
 import Portal from './Portal';
 
