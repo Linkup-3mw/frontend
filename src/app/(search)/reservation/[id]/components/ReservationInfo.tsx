@@ -63,13 +63,11 @@ export default function ReservationInfo() {
     const path = window.location.pathname;
     const parts = path.split('/');
     const reservationId = parts[parts.length - 1];
-    console.log('뭐가 찍힐까?', reservationId);
+
     if (!reservationId) {
       router.push('/');
     }
     setRTab('좌석');
-    seatList([]);
-    spaceList([]);
 
     setTimeout(() => {
       setLoading(false);
