@@ -27,6 +27,7 @@ export default function Input({
       type={type}
       placeholder={placeholder}
       readOnly={readOnly}
+      autoComplete={type === 'password' ? 'off' : 'on'}
       {...(register && { ...register(name, validation) })}
     />
   );
