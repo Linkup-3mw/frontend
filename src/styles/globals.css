@@ -92,3 +92,24 @@ input:-webkit-autofill {
     font-size: 14px;
   }
 }
+
+/* 스와이퍼 */
+.swiper-container {
+  position: relative;
+  overflow: visible;
+}
+.swiper-button-prev,
+.swiper-button-next {
+  background-color: white;
+  padding: 15px 20px;
+  border-radius: 50%;
+  border: 1px solid gray;
+  color: black !important;
+  z-index: 1;
+}
+
+.swiper-button-prev:after,
+.swiper-button-next:after {
+  font-size: 1.1rem !important;
+  font-weight: 600 !important;
+}

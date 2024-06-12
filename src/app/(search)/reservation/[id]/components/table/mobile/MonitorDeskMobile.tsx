@@ -8,7 +8,6 @@ import { showMobileTableState } from '@/app/(search)/atom/media';
 import { selectedSeatAllState } from '@/app/(search)/atom/office';
 import Image from 'next/image';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { mobileReservationLayoutState } from '@/app/(search)/atom/media';
 
 export default function MonitorDeskMobile() {
   const [selectedSeatAll, setSelectedSeatAll] =
@@ -51,7 +50,7 @@ export default function MonitorDeskMobile() {
 
   return (
     <>
-      <div className="hidden-desk w-full mt-[6rem] mx-auto">
+      <div className="hidden-desk w-full h-[51.5rem] mx-auto">
         <Image
           src="/svg/reservation/imageView/mobile/monitorDeskMobile.svg"
           layout="responsive"
@@ -62,8 +61,8 @@ export default function MonitorDeskMobile() {
         <div className="">
           <div
             onClick={toggleUp}
-            className={`overflow-y-scroll scrollbar-hide flex flex-col items-center  pt-3 rounded-t-3xl  bg-[#E4EEFF] w-ful transition-transform duration-1000 ${
-              isUp ? 'translate-y-[-120px]' : 'translate-y-[-220px]'
+            className={`overflow-y-scroll bottom-10  scrollbar-hide  flex flex-col items-center  pt-3 rounded-t-3xl  bg-[#E4EEFF] w-full transition-transform duration-1000 ${
+              isUp ? '' : 'translate-y-[-100px]'
             }`}
             style={{ height: isUp ? '42.25rem' : '42.25rem' }}
           >

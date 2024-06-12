@@ -69,7 +69,7 @@ export default function OpenDeskMobile() {
   }, [setLoading]);
   return (
     <>
-      <div className="hidden-desk  mt-[6rem] mx-auto">
+      <div className="hidden-desk h-[51.5rem] mx-auto">
         <div className="w-full mx-auto">
           <Image
             layout="responsive"
@@ -86,7 +86,7 @@ export default function OpenDeskMobile() {
             className={`overflow-y-scroll bottom-10 mt-[6rem] scrollbar-hide  flex flex-col items-center  pt-3 rounded-t-3xl  bg-[#E4EEFF] w-full transition-transform duration-1000 ${
               isUp ? 'translate-y-[-120px]' : 'translate-y-[-220px]'
             }`}
-            style={{ height: isUp ? '62.25rem' : '42.25rem' }}
+            style={{ height: isUp ? '42.25rem' : '42.25rem' }}
           >
             <div className="">
               <div className="w-[2rem] h-[0.25rem] bg-[#BFD4FF]"></div>

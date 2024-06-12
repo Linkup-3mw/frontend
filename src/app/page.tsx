@@ -9,6 +9,7 @@ export const metadata: Metadata = {
   description: '공간과 사람의 연결을 통해 얻는 새로운 가치',
 };
 
+// eslint-disable-next-line @next/next/no-async-client-component
 export default async function Home() {
   const session = await getSession();
   const haveMembership = await getMyMembership();

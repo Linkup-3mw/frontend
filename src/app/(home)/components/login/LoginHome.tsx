@@ -4,8 +4,14 @@ import API from '@/utils/axios';
 import { dateBar, dateDot } from '@/utils/utils';
 import { IUser } from '@/types/user';
 import ReservationSchedule from './ReservationSchedule';
-import Link from 'next/link';
 
+import dynamic from 'next/dynamic';
+import Link from 'next/link';
+const AllMembership = dynamic(
+  () =>
+    import('@/app/(search)/reservation/myMembership/components/AllMembership'),
+  { ssr: false },
+);
 export default async function HomePage({ user }: { user: IUser }) {
   const today = dateBar(new Date().toISOString());
 
@@ -17,97 +23,29 @@ export default async function HomePage({ user }: { user: IUser }) {
     data: { data: recentData },
   } = await API.get(`/reservation/recent`);
 
+  // 예약 내역 호출 하기
+
   return (
     <main className="md:pt-[7rem] py-[5rem] px-[1.25rem] relative">
       <section>
         <ContentWrap>
           <div className="md:flex gap-[1.5rem]">
             <section className="bg-blue-50 rounded-2xl p-[2.5rem] relative w-[66.12%] max-xl:p-[1.5rem] max-md:w-full max-md:p-[1rem]">
-              <div className="md:flex gap-[1.5rem]">
-                <div
-                  className={`overflow-hidden relative  pt-[3.5rem] p-[2rem] bg-white rounded-2xl font-bold max-md:w-full max-md:mb-[1rem] max-md:py-[1.5rem] max-md:px-[1rem]
-                  ${data ? 'w-[65.99%]' : 'w-full'}
-                  `}
-                >
-                  <h2 className="mb-[1.5rem] text-[2.5rem] max-md:text-[1.5rem] max-md:leading-[2.125rem]">
-                    {user.name}
-                    <span className="max-md:hidden">님 반갑습니다.</span>
-                    <span className="max-md:inline hidden">
-                      님<br />
-                      좋은 하루 보내세요.
-                    </span>
-                  </h2>
-                  <p className="text-[1.25rem] text-gray-500 max-md:text-[1rem]">
-                    오늘 하루도 힘차게 아자아자아자
-                  </p>
-                  {data ? (
-                    <div className="mt-[2rem] leading-none">
-                      <div className="flex items-center gap-[1rem] mb-[1rem]  max-md:mb-[0.5rem]">
-                        <span className="max-md:text-[0.875rem]">이용권</span>
-                        <i className="p-[0.5rem] rounded-full bg-black text-[0.875rem] not-italic leading-none text-white max-md:text-[0.675rem]">
-                          {data.location}
-                        </i>
-                      </div>
-                      <p className="mb-[1.5rem] text-[1.5rem] font-bold max-md:text-[1.2rem]">
-                        {data.membership_type} 사용 중
-                      </p>
-                      <span className="block mb-[1rem] text-[1rem] max-md:mb-[0.5rem] max-md:text-[0.875rem]">
-                        이용기간
-                      </span>
-                      <b className="block text-[1.5rem] max-md:text-[1.2rem]">
-                        {dateDot(data.start_date)}{' '}
-                        {data.membership_type === '1일 패스' ||
-                          `- ${dateDot(data.end_date)}`}
-                      </b>
-                      <Link
-                        className="mt-[1rem] inline-block px-[1rem] py-[1rem] bg-blue-400 text-white rounded-[0.5rem] leading-none text-[1.25rem] max-md:p-[0.5rem] max-md:text-[1rem] max-md:rounded-[0.25rem]"
-                        href={`/reservation/myMembership/resertory/${data.reservation_id}`}
-                      >
-                        예약내역
-                      </Link>
-                    </div>
-                  ) : (
-                    <div className="pt-[2.5rem] text-[1.25rem] text-blue-400 max-md:text-[0.875rem]">
-                      이용 중인 공유 오피스가 없습니다.
-                      <br /> 예약을 진행해보세요.
-                      <br />
-                      <Link
-                        className="mt-[1rem] inline-block px-[2.19rem] py-[1rem] bg-blue-400 text-white rounded-[0.5rem] leading-none text-[1.25rem] max-md:p-[0.5rem] max-md:text-[1rem] max-md:rounded-[0.25rem]"
-                        href={'/map'}
-                      >
-                        지점 탐색하기 &gt;
-                      </Link>
-                    </div>
-                  )}
-                  <Image
-                    className={`absolute rotate-[5deg] 
-                    ${!data ? 'w-[9.617rem] top-[initial] bottom-[-2rem] right-[13rem] rotate-[15deg] max-md:hidden' : 'w-[7.6321rem] top-[3rem] right-0 max-md:top-[initial] max-md:bottom-[5rem] max-md:w-[6rem]'}
-                    `}
-                    src="/images/home/yellow_puzzle.png"
-                    width={200}
-                    height={50}
-                    alt="yellow puzzle"
-                  />
-                  <Image
-                    className={`absolute 
-                    ${!data ? 'w-[7.617rem] top-[0.7rem] right-[12.7rem] rotate-[10deg] max-md:hidden' : 'hidden'}
-                    `}
-                    src="/images/home/green_puzzle.png"
-                    width={200}
-                    height={50}
-                    alt="green puzzle"
-                  />
-                  <Image
-                    className={`absolute  rotate-[5deg] max-md:top-[initial] max-md:bottom-[1rem] max-md:w-[10rem]
-                      ${!data ? 'w-[24.1978rem] top-[4.19rem] right-[-0.3rem]' : 'w-[15.6321rem] right-[-0.2rem] top-[6.5rem]'}
-                    `}
-                    src="/images/home/img_puzzle.png"
-                    width={200}
-                    height={50}
-                    alt="puzzle"
-                  />
-                </div>
-
+              <div className="md:flex gap-[1.5rem] relative">
+                <AllMembership user={user} />
+                {!data && (
+                  <div className="pt-[2.5rem] text-[1.25rem] text-blue-400 max-md:text-[0.875rem]">
+                    이용 중인 공유 오피스가 없습니다.
+                    <br /> 예약을 진행해보세요.
+                    <br />
+                    <Link
+                      className="mt-[1rem] inline-block px-[2.19rem] py-[1rem] bg-blue-400 text-white rounded-[0.5rem] leading-none text-[1.25rem] max-md:p-[0.5rem] max-md:text-[1rem] max-md:rounded-[0.25rem]"
+                      href={'/map'}
+                    >
+                      지점 탐색하기 &gt;
+                    </Link>
+                  </div>
+                )}
                 {data && (
                   <div className="w-[30.6%] flex flex-col max-md:w-full gap-[1rem]">
                     {/* 이용중인 오피스 */}

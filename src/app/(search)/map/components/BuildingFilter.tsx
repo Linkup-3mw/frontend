@@ -82,7 +82,7 @@ export default function BuildingFilter({ isUp }: BuildingFilterProps) {
       setSelectedIndustry(false);
       setSelectedOccupation(false);
     }
-  });
+  }, [isUp]);
   const handleRegionClick = () => {
     setSelectedRegion(!selectedRegion);
     setSelectedIndustry(false);
@@ -125,7 +125,7 @@ export default function BuildingFilter({ isUp }: BuildingFilterProps) {
           <div className="flex items-center">
             <span className="mr-2">지역 선택</span>
             <Image
-              src="/svg/map/arrow.svg"
+              src="/svg/map/Arrow.svg"
               width={24}
               height={24}
               alt="화살표"
@@ -181,8 +181,8 @@ export default function BuildingFilter({ isUp }: BuildingFilterProps) {
                 <li key={city}>
                   <button
                     onClick={() => handleFilterClick(city)}
-                    className="max-md:w-[5.25rem] md:h-[3rem] mb:w-[4.25rem] mb:h-[2rem] bg-white border-2 rounded-xl
-                mb:text-xs md:text-[1rem]"
+                    className="md:w-[5.25rem] md:h-[3rem] mb:w-[4.25rem] mb:h-[2rem] bg-white border-2 rounded-xl
+                    mb:text-xs md:text-[1rem]"
                   >
                     {city}
                   </button>
@@ -241,7 +241,7 @@ export default function BuildingFilter({ isUp }: BuildingFilterProps) {
       >
         <div className="flex items-center">
           <span className="mr-2 ">산업군</span>
-          <Image src="/svg/map/arrow.svg" width={24} height={24} alt="화살표" />
+          <Image src="/svg/map/Arrow.svg" width={24} height={24} alt="화살표" />
         </div>
       </div>
       {selectedIndustry && (
@@ -311,7 +311,7 @@ export default function BuildingFilter({ isUp }: BuildingFilterProps) {
           <div className="flex items-center">
             <span className="mr-2">직군</span>
             <Image
-              src="/svg/map/arrow.svg"
+              src="/svg/map/Arrow.svg"
               width={24}
               height={24}
               alt="화살표"
