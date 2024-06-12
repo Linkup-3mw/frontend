@@ -10,6 +10,17 @@ export function dateDot(date: string) {
   return dotDate;
 }
 
+export function dateBar(date: string) {
+  date = date.substring(0, 10);
+  const dotDate =
+    date.substring(0, 4) +
+    '-' +
+    date.substring(5, 7) +
+    '-' +
+    date.substring(8, 10);
+  return dotDate;
+}
+
 /* 한국 날짜/시간 구하기 */
 export function getKoreaDate() {
   return new Date(
@@ -32,6 +43,11 @@ export function dateTimeKoreanFormat(date: string) {
   const onlyTime = date.substring(11, 16).split(':');
   const dateFormat = `${dates[1]}월 ${dates[2]}일 (${dayOfWeek}) ${Number(onlyTime[0]) < 12 ? '오전' : '오후'} ${Number(onlyTime[0])}:${onlyTime[1]}`;
   return dateFormat;
+}
+
+export function getTimeDotPMAMFormat(time: string) {
+  const times = time.split(':');
+  return `${Number(times[0]) < 12 ? 'AM' : 'PM'} ${times[0]}:${times[1]}`;
 }
 
 /* 숫자 콤마 포맷  */

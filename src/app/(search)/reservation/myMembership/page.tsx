@@ -18,7 +18,6 @@ export default function MyMembership() {
   const router = useRouter();
 
   //처음 들어올때 조회
-
   useEffect(() => {
     const fetchAllMembershipData = async () => {
       try {
@@ -29,7 +28,6 @@ export default function MyMembership() {
         console.error('allmymembership req error', error);
       }
     };
-
     fetchAllMembershipData();
   }, [setUserMembership]);
 
