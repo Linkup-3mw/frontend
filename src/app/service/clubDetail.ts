@@ -12,7 +12,7 @@ export const getClubDetailInfo = cache(
   async (club_id: number): Promise<IClubInfo | undefined> => {
     try {
       const res = await API.get(`/club/${club_id}`);
-      console.log('detail data', res.data.data);
+      // console.log('detail data', res.data.data);
       return res.data.data;
     } catch (e: any) {
       const status = e.response.status;
@@ -32,8 +32,7 @@ export const getClubBoardList = async (
 ): Promise<IClubBoardListData | undefined> => {
   try {
     const res = await API.get(`/club/${club_id}/${type}`);
-    console.log('목록조회', res.data);
-    console.log(res.data);
+    // console.log('목록조회', res.data);
     return res.data;
   } catch (e: any) {
     const status = e.response.status;
@@ -51,7 +50,7 @@ export const getClubBoardDetail = cache(
   async (club_id: number, post_id: number) => {
     try {
       const res = await API.get(`/club/${club_id}/post/${post_id}`);
-      console.log(res.data);
+      // console.log(res.data);
       return res.data.data;
     } catch (e: any) {
       console.error(e);

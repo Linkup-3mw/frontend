@@ -72,7 +72,7 @@ export default memo(function IntroduceSection({
             </span>
             {club_meetings?.length > 0 && (
               <span className="bg-yellow-600 p-[0.5rem] rounded leading-none">
-                모임 D{dDay >= 0 ? '-' + dDay : '+' + dDay}
+                모임 D{dDay > 0 ? '-' + dDay : dDay == 0 ? '-day' : '+' + dDay}
               </span>
             )}
           </div>
@@ -90,13 +90,13 @@ export default memo(function IntroduceSection({
           <MemberSwiper
             members={[
               { member_id, member_username, profile_image, ishost: true },
-              ...club_members,
+              ...club_members!,
             ]}
             swiperOption={{
               breakpoints: {
                 768: {
-                  grid: { rows: 1, fill: 'row' },
-                  // grid: { rows: 2, fill: 'row' },
+                  // grid: { rows: 1, fill: 'row' },
+                  grid: { rows: 2, fill: 'row' },
                 },
               },
             }}

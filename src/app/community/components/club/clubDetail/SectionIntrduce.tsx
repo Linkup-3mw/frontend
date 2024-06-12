@@ -9,6 +9,7 @@ import {
   clubInfoState,
   clubUserTypeState,
 } from '@/app/community/atoms/clubDetail';
+import { usePathname } from 'next/navigation';
 
 interface Props {
   id: number;
@@ -17,9 +18,16 @@ interface Props {
 }
 
 export default function SectionIntrduce({ id, clubInfo, memberType }: Props) {
-  const [tab] = useRecoilState(clubCurrentTabState);
+  const pathname = usePathname();
+
+  const [tab, setTab] = useRecoilState(clubCurrentTabState);
   const [info, setInfo] = useRecoilState(clubInfoState);
   const [userType, setUserType] = useRecoilState(clubUserTypeState);
+
+  useEffect(() => {
+    const currentTab = pathname.substring(1).split('/')[3];
+    setTab(currentTab);
+  }, []);
 
   useEffect(() => {
     setUserType(memberType);

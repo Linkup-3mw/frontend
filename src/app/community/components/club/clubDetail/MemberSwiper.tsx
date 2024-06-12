@@ -1,5 +1,5 @@
 'use client';
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { SwiperOptions } from 'swiper/types';
 import { Navigation, Grid } from 'swiper/modules';
@@ -37,6 +37,7 @@ export default function MemberSwiper({
       <button
         ref={prevRef}
         className={`swiper_prev absolute disabled left-0 top-1/2 -translate-y-1/2 disabled:opacity-[0.3]  max-md:hidden`}
+        onClick={() => swiperRef.current.slidePrev()}
       >
         <SquareBlueArrowPrev />
         <span className="hide">Prev</span>
@@ -45,25 +46,33 @@ export default function MemberSwiper({
       <button
         ref={nextRef}
         className={`swiper_next absolute right-0 top-1/2 -translate-y-1/2 disabled:opacity-[0.3] max-md:hidden`}
+        onClick={() => swiperRef.current.slideNext()}
       >
         <SquareBlueArrowNext />
         <span className="hide">Next</span>
       </button>
       <Swiper
-        spaceBetween={0}
+        spaceBetween={5}
         slidesPerView={'auto'}
         slidesPerGroup={2}
         onBeforeInit={(swiper) => {
           swiperRef.current = swiper;
         }}
         modules={[Navigation, Grid]}
-        className={`max-h-[8.75rem]
-        ${
-          size === 'small'
-            ? '[&_>_div]:gap-[0.62rem]'
-            : '[&_>_div]:gap-[0.5rem] max-md:[&_>_div]:gap-[0.25rem]'
-        }  
-        `}
+        breakpoints={{
+          768: {
+            spaceBetween: 15,
+            slidesPerView: 2,
+          },
+        }}
+        className={`max-h-[8.75rem]`}
+        // className={`max-h-[8.75rem]
+        // ${
+        //   size === 'small'
+        //     ? '[&_>_div]:gap-[0.62rem]'
+        //     : '[&_>_div]:gap-[0.5rem] max-md:[&_>_div]:gap-[0.25rem]'
+        // }
+        // `}
         {...swiperOption}
         navigation={{
           nextEl: nextRef.current,

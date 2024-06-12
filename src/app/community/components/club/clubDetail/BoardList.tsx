@@ -29,12 +29,12 @@ export default function BoardList({ clubId, type }: Props) {
   const [alertMsg, setAlertMsg] = useState('');
   const loadMoreRef = useRef<any | null>(null);
 
-  useEffect(() => {
-    //페이지 이탈 시 캐시 삭제
-    return () => {
-      queryClient.removeQueries({ queryKey: ['clubBoardList', clubId, type] });
-    };
-  }, [clubId, queryClient]);
+  // useEffect(() => {
+  //   //페이지 이탈 시 캐시 삭제
+  //   return () => {
+  //     queryClient.removeQueries({ queryKey: ['clubBoardList', clubId, type] });
+  //   };
+  // }, [clubId, queryClient]);
 
   const handleNonMemberListclick = () => {
     // 여기서 멤버십 여부에 따라 다른 알림을 띄우기
@@ -69,7 +69,7 @@ export default function BoardList({ clubId, type }: Props) {
   if (userType === 'NONE_MEMBER' || userType === 'VISITOR') {
     return (
       <>
-        <div className="overflow-y-auto mt-[1.5rem] h-[calc(100%_-_6.9rem)]  max-md:mt-0 max-md:h-full max-md:overflow-y-visible">
+        <div className="overflow-y-auto mt-[1.5rem] h-[calc(100%_-_5rem)]  max-md:mt-0 max-md:h-full max-md:overflow-y-visible">
           <ul className="px-[2.5rem] max-md:px-[1rem]">
             {data?.pages.map((page, index) => {
               return (
@@ -97,18 +97,20 @@ export default function BoardList({ clubId, type }: Props) {
           </ul>
         </div>
         {showAlert && <Alert message={alertMsg} setIsShow={setShowAlert} />}
-        <button
-          ref={loadMoreRef}
-          onClick={() => fetchNextPage()}
-          disabled={!hasNextPage || isFetchingNextPage}
-          className="block mt-[1rem] mx-auto h-[50px] text-blue-400"
-        >
-          {isFetchingNextPage ? (
-            <PulseLoader color="#688AF2" size={6} />
-          ) : (
-            hasNextPage && 'More'
-          )}
-        </button>
+        {hasNextPage && (
+          <button
+            ref={loadMoreRef}
+            onClick={() => fetchNextPage()}
+            disabled={!hasNextPage || isFetchingNextPage}
+            className="block mt-[1rem] mx-auto h-[50px] text-blue-400"
+          >
+            {isFetchingNextPage ? (
+              <PulseLoader color="#688AF2" size={6} />
+            ) : (
+              hasNextPage && 'More'
+            )}
+          </button>
+        )}
       </>
     );
   }
@@ -141,18 +143,20 @@ export default function BoardList({ clubId, type }: Props) {
         })}
       </ul>
       {/* 무한스크롤 로딩 버튼 */}
-      <button
-        ref={loadMoreRef}
-        onClick={() => fetchNextPage()}
-        disabled={!hasNextPage || isFetchingNextPage}
-        className="block mt-[1rem] mx-auto h-[50px] text-blue-400"
-      >
-        {isFetchingNextPage ? (
-          <PulseLoader color="#688AF2" size={6} />
-        ) : (
-          hasNextPage && 'More'
-        )}
-      </button>
+      {hasNextPage && (
+        <button
+          ref={loadMoreRef}
+          onClick={() => fetchNextPage()}
+          disabled={!hasNextPage || isFetchingNextPage}
+          className="block mt-[1rem] mx-auto h-[50px] text-blue-400"
+        >
+          {isFetchingNextPage ? (
+            <PulseLoader color="#688AF2" size={6} />
+          ) : (
+            hasNextPage && 'More'
+          )}
+        </button>
+      )}
     </>
   );
 }
