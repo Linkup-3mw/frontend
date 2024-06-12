@@ -87,7 +87,7 @@ export default function BuildingServiceView({
             <div className="flex mb:h-[6.5rem] md:h-[8.5rem] gap-4 rounded-lg justify-start items-center">
               <div className="flex flex-col items-center bg-white mb:w-[4.75rem] md:w-[5.92188rem] mb:h-[4.5625rem] md:h-[6.125rem] rounded-lg shadow-md justify-center">
                 <Image
-                  src="/svg/reservation/openDesk.svg"
+                  src="/svg/reservation/opendesk.svg"
                   width={50}
                   height={50}
                   alt="오픈데스크"
@@ -96,7 +96,7 @@ export default function BuildingServiceView({
               </div>
               <div className="flex flex-col items-center bg-white mb:w-[4.75rem] md:w-[5.92188rem] mb:h-[4.5625rem] md:h-[6.125rem] rounded-lg shadow-md justify-center">
                 <Image
-                  src="/svg/reservation/focusDesk.svg"
+                  src="/svg/reservation/focusdesk.svg"
                   width={50}
                   height={50}
                   alt="포커스데스크"
@@ -107,7 +107,7 @@ export default function BuildingServiceView({
               </div>
               <div className="flex flex-col items-center bg-white mb:w-[4.75rem] md:w-[5.92188rem] mb:h-[4.5625rem] md:h-[6.125rem] rounded-lg shadow-md justify-center">
                 <Image
-                  src="/svg/reservation/oneRoom.svg"
+                  src="/svg/reservation/oneroom.svg"
                   width={50}
                   height={50}
                   alt="oneroom"

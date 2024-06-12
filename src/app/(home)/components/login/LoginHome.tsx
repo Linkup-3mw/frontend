@@ -1,7 +1,58 @@
 'use client';
+import {
+  useMembershipState,
+  selectedMembershipId,
+  selectedOfficeId,
+  isEnterState,
+} from '@/app/(search)/atom/membership';
+import Calendar from '@/app/common/components/form/Calendar';
+import API from '@/utils/axios';
 import ContentWrap from '@common/components/frame/ContentWrap';
+import { format } from 'date-fns';
+import { useRouter } from 'next/navigation';
+import { Key, useEffect, useState } from 'react';
+import { DayPicker } from 'react-day-picker';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { Swiper, SwiperSlide } from 'swiper/react';
 
 export default function ClubMain() {
+  //J
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
+  const [inputValue, setInputValue] = useState('');
+  // Me
+  const [useMembership, setUserMembership] = useRecoilState(useMembershipState);
+  const setMembershipId = useSetRecoilState(selectedMembershipId);
+  const [officeId, setOfficeId] = useRecoilState(selectedOfficeId);
+  const [isEnter, setIsEnter] = useRecoilState(isEnterState);
+  const router = useRouter();
+  const handleDayPickerSelect = (date: Date | undefined) => {
+    if (!date) {
+      setInputValue('');
+      setSelectedDate(undefined);
+    } else {
+      setSelectedDate(date);
+      setInputValue(format(date, 'yyyy.MM.dd'));
+    }
+    setIsOpen(false);
+  };
+
+  const handleInputClick = () => {
+    setIsOpen(!isOpen);
+  };
+  useEffect(() => {
+    const fetchAllMembershipData = async () => {
+      try {
+        const res = await API.get('reservation/my-membership');
+        console.log('멤버십아이디 들어있는 res', res.data.data);
+        setUserMembership(res.data.data);
+      } catch (error) {
+        console.error('allmymembership req error', error);
+      }
+    };
+
+    fetchAllMembershipData();
+  }, [setUserMembership]);
   const ClubCard = () => {
     return (
       <>
@@ -105,50 +156,88 @@ export default function ClubMain() {
   };
 
   return (
-    <main className="md:pt-[7rem] pt-[5rem] px-[1.25rem] relative">
-      <section className="">
-        <ContentWrap>
-          <div className="md:flex gap-[1.5rem]">
-            <div className="bg-blue-50 rounded-2xl md:p-[2.5rem] p-4 relative md:w-3/5">
-              <div className="md:flex gap-[1.5rem]">
-                <section className="bg-white rounded-2xl md:p-[2.5rem] p-4 relative md:w-3/5 mb-[1rem] md:mb-[0rem] md:text-2xl text-lg font-bold">
-                  OOO님 반갑습니다! Lorem ipsum dolor sit, amet consectetur
-                  adipisicing elit. Architecto sint porro ipsum doloribus
-                  repudiandae aspernatur mollitia sequi molestias autem. Tenetur
-                  ad officia itaque iure voluptate accusantium neque voluptatum
-                  laborum repudiandae!
-                </section>
-                <div className="md:w-2/5 flex flex-col">
-                  <section className="bg-white rounded-2xl md:p-[2.5rem] p-4 relative mb-[1rem] md:text-sm text-xs md:h-1/2">
-                    이용중
-                  </section>
-                  <section className="bg-white rounded-2xl md:p-[2.5rem] p-4 relative md:text-sm text-xs md:h-1/2">
-                    최근 이용한 오피스
-                  </section>
-                </div>
-              </div>
-              <section className="bg-white rounded-2xl md:p-[2rem] p-4 relative mt-[1rem] md:mt-[1.5rem]">
-                <h2 className="md:text-2xl text-lg font-bold mb-4">소모임</h2>
-                <div className="border-t border-gray-200 mb-4"></div>
+    <>
+      <main className="md:pt-[7rem] pt-[5rem] px-[1.25rem] relative">
+        <section className="">
+          <ContentWrap>
+            <div className="md:flex gap-[1.5rem]">
+              <div className="bg-blue-50 rounded-2xl md:p-[2.5rem] p-4 relative md:w-3/5">
                 <div className="md:flex gap-[1.5rem]">
-                  {/* 소모임 카드 2개 */}
-                  <div className="md:w-1/2">
-                    <ClubCard />
+                  {/* 여기 */}
+                  <Swiper slidesPerView={1} pagination={{ clickable: true }}>
+                    {useMembership.map((membership: any, i: number) => (
+                      <SwiperSlide key={membership.id}>
+                        <section className="bg-white rounded-2xl md:p-[2.5rem] p-4 relative md:w-3/5 mb-[1rem] md:mb-[0rem] md:text-2xl text-lg font-bold">
+                          <div className="flex flex-col">
+                            <p className="text-xl font-bold">
+                              {membership?.location}
+                            </p>
+                            <p className="text-sm text-gray-400">
+                              오늘 하루도 힘차게 아자아자
+                            </p>
+                          </div>
+                          <div className="flex flex-col">
+                            <p className="text-[0.8rem]">이용권</p>
+                            <p className="text-md mb-2">
+                              {membership?.type} 사용 중
+                            </p>
+                          </div>
+                          <div className="flex flex-col gap-2">
+                            <p className="text-sm">이용기간</p>
+                            <p className="text-sm mb-2">
+                              {membership?.start_date} ~ {membership?.end_date}
+                            </p>
+                          </div>
+                          <div className="flex gap-4">
+                            <button className="bg-blue-400 text-white rounded-md text-xs px-3 py-2">
+                              예약 내역 및 수정
+                            </button>
+                            <button className="bg-blue-400 text-white rounded-md text-xs px-3 py-2">
+                              자율 좌석 예약
+                            </button>
+                            <button className="bg-blue-400 text-white rounded-md text-xs px-3 py-2">
+                              지정 좌석변경
+                            </button>
+                          </div>
+                        </section>
+                      </SwiperSlide>
+                    ))}
+                  </Swiper>
+                  <div className="md:w-2/5 flex flex-col">
+                    <section className="bg-white rounded-2xl md:p-[2.5rem] p-4 relative mb-[1rem] md:text-sm text-xs md:h-1/2">
+                      이용중
+                    </section>
+                    <section className="bg-white rounded-2xl md:p-[2.5rem] p-4 relative md:text-sm text-xs md:h-1/2">
+                      최근 이용한 오피스
+                    </section>
                   </div>
-                  <div className="md:w-1/2">
-                    <ClubCard />
+                </div>
+                <section className="bg-white rounded-2xl md:p-[2rem] p-4 relative mt-[1rem] md:mt-[1.5rem]">
+                  <h2 className="md:text-2xl text-lg font-bold mb-4">소모임</h2>
+                  <div className="border-t border-gray-200 mb-4"></div>
+                  <div className="md:flex gap-[1.5rem]">
+                    {/* 소모임 카드 2개 */}
+                    <div className="md:w-1/2">
+                      <ClubCard />
+                    </div>
+                    <div className="md:w-1/2">
+                      <ClubCard />
+                    </div>
                   </div>
+                </section>
+              </div>
+              <section className="bg-blue-50 rounded-2xl md:p-[2.5rem] md:mt-[0rem] mt-[1.5rem] p-4 relative md:w-2/5">
+                <div className="bg-white rounded-2xl md:p-[2.5rem] p-4 relative md:text-sm text-xs h-full">
+                  <Calendar
+                    selected={selectedDate}
+                    onSelect={handleDayPickerSelect}
+                  />
                 </div>
               </section>
             </div>
-            <section className="bg-blue-50 rounded-2xl md:p-[2.5rem] md:mt-[0rem] mt-[1.5rem] p-4 relative md:w-2/5">
-              <div className="bg-white rounded-2xl md:p-[2.5rem] p-4 relative md:text-sm text-xs h-full">
-                예약 일정
-              </div>
-            </section>
-          </div>
-        </ContentWrap>
-      </section>
-    </main>
+          </ContentWrap>
+        </section>
+      </main>
+    </>
   );
 }

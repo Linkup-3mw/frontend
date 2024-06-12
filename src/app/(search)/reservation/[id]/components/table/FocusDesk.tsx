@@ -154,7 +154,7 @@ export default function FocusDesk() {
               >
                 {isExpanded ? (
                   <Image
-                    src="/svg/map/arrow.svg"
+                    src="/svg/map/Arrow.svg"
                     width={20}
                     height={20}
                     alt="업 아이콘"
@@ -162,7 +162,7 @@ export default function FocusDesk() {
                 ) : (
                   <Image
                     className="rotate-180"
-                    src="/svg/map/arrow.svg"
+                    src="/svg/map/Arrow.svg"
                     width={20}
                     height={20}
                     alt="업 아이콘"
