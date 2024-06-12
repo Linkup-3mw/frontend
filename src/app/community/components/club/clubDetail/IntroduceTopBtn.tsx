@@ -34,6 +34,7 @@ export function NoneMemberIntroduceTopBtn({ liked, clubId }: Props) {
   });
   const [showAlert, setShowAlert] = useState(false);
   const [showApplyModal, setShowApplyModal] = useState(false);
+  const [isBtnLoading, setIsBtnLoading] = useState(false);
   const router = useRouter();
 
   //찜하기
@@ -54,14 +55,14 @@ export function NoneMemberIntroduceTopBtn({ liked, clubId }: Props) {
       //멤버십 미가입자
       setAlert({
         message: '소모임 가입은 멤버십이 필요합니다.',
-        // 경로 수정 필요
         pushPath: '/map',
         buttonName: '멤버십 구매하기',
       });
       setShowAlert(true);
     } else {
       // 클럽 미가입자
-      // 지원하기 모달......
+      // 지원하기 모달
+      setIsBtnLoading(true);
       setShowApplyModal(true);
     }
   };
@@ -77,9 +78,18 @@ export function NoneMemberIntroduceTopBtn({ liked, clubId }: Props) {
           showCloseButton={true}
         />
       )}
-      {showApplyModal && <ApplyModal setIsShow={setShowApplyModal} />}
+      {showApplyModal && (
+        <ApplyModal
+          setIsShow={setShowApplyModal}
+          setIsLoading={setIsBtnLoading}
+        />
+      )}
       <HeartBtn isLike={liked || false} onClick={handleHeartClick} />
-      <BlueSquareBtn name="가입하기" onClick={handleJoinClubClick} />
+      <BlueSquareBtn
+        name="가입하기"
+        onClick={handleJoinClubClick}
+        isLoading={isBtnLoading}
+      />
     </>
   );
 }
@@ -91,6 +101,7 @@ export function IntroduceTopBtn({ liked, clubId, memberId }: Props) {
   const [showConfirm, setShowConfirm] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState('');
+  const router = useRouter();
 
   //찜하기
   const handleHeartClick = async () => {
@@ -118,13 +129,18 @@ export function IntroduceTopBtn({ liked, clubId, memberId }: Props) {
   return (
     <>
       <HeartBtn
-        className="bg-transparent w-[2.5rem] h-[2.5rem]"
+        className="!bg-transparent w-[2.5rem] h-[2.5rem]"
         onClick={handleHeartClick}
         isLike={liked || false}
       />
       {memberId === userId && (
         <MoreBtn className="w-[2.5rem] h-[2.5rem]">
-          <button className="last:border-b-0">관리</button>
+          <button
+            className="last:border-b-0"
+            onClick={() => router.push(`/community/club/manage/${clubId}`)}
+          >
+            관리
+          </button>
         </MoreBtn>
       )}
       {/* <MoreBtn className="w-[2.5rem] h-[2.5rem]">
