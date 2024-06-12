@@ -1,20 +1,13 @@
 'use client';
-import { useState } from 'react';
-import Modal from './common/Modal';
+import Modal from '@/app/community/components/club/common/Modal';
+import API from '@/utils/axios';
 import router from 'next/router';
+import { useEffect, useState } from 'react';
 
-interface ClubRequestFormProps {
-  questions: string[];
-  clubDescription: string;
-}
-
-export default function ClubRequestForm({
-  questions,
-  clubDescription,
-}: ClubRequestFormProps) {
-  const [answers, setAnswers] = useState<string[]>(
-    new Array(questions.length).fill(''),
-  );
+export default function ClubRequestPage() {
+  // const [answers, setAnswers] = useState<string[]>(
+  //   new Array(questions.length).fill(''),
+  // );
   const [submitted, setSubmitted] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
@@ -29,6 +22,23 @@ export default function ClubRequestForm({
     setIsModalOpen(false);
     router.push('/community/club');
   };
+
+  const [clubData, setClubData] = useState(null);
+
+  useEffect(() => {
+    const fetchClubData = async () => {
+      const currentPath = window.location.pathname;
+      const id = currentPath.split('/').pop();
+      try {
+        const response = await API.get(`/club/${id}/question`);
+        setClubData(response.data);
+      } catch (error) {
+        console.error('Error fetching club data:', error);
+      }
+    };
+
+    fetchClubData();
+  }, []);
 
   return (
     <div className="flex items-center justify-center">
@@ -55,14 +65,14 @@ export default function ClubRequestForm({
                 소모임 이름
               </h3>
               <p className="mb-4 font-medium md:text-sm text-xs">
-                {clubDescription}
+                {/* {clubDescription} */}
               </p>
               <p className=" md:text-[1.25rem] text-xs font-bold my-4">
                 신청서 작성 전에 상세 소개를 꼭 읽어주세요!😚
               </p>
               {/* 질문과 답변 입력 */}
               <form onSubmit={handleSubmit}>
-                {questions.map((question, index) => (
+                {/* {questions.map((question, index) => (
                   <div key={index} className="mb-6">
                     <label
                       htmlFor={`question${index + 1}`}
@@ -86,7 +96,7 @@ export default function ClubRequestForm({
                       }}
                     />
                   </div>
-                ))}
+                ))} */}
               </form>
               <div className="flex">
                 <button

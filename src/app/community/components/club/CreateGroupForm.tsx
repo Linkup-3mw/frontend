@@ -5,10 +5,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import Modal from './common/Modal';
 // import { i_club, CLUB } from '@/app/model/club';
-import RoundedFrame from './common/RoundedFrame';
-import MobileBackBtn from '@/app/common/components/form/MobileBackBtn';
-import BlueSquareBtn from '@/app/common/components/form/BlueSquareBtn';
 import router, { useRouter } from 'next/navigation';
+import API from '@/utils/axios';
 
 const approvalType = ['immediate', 'approval'] as const;
 
@@ -100,9 +98,32 @@ export default function CreateGroupForm() {
     console.log('Submitted data:', data);
     setFormData(data);
 
+    const transformedData = {
+      category: data.category,
+      club_accessibility: data.approvalType === 'approval',
+      recruit_count: data.capacity,
+      title: data.clubName,
+      introduction: data.shortDescription,
+      detailed_introduction: data.detailedDescription,
+      application_introduction: data.shortDescription,
+      club_thumbnail: data.image.name, // 이미지 파일의 이름을 보냄
+      club_questions: questions.map((question, index) => ({
+        qorders: index + 1,
+        question: question,
+      })),
+    };
+
     try {
       setIsModalOpen(true);
       setSubmitted(true);
+
+      const response = await API.post('/club', transformedData);
+
+      if (response.status === 200) {
+        console.log('Data submitted successfully:', response.data);
+      } else {
+        console.log('Failed to submit data:', response.status, response.data);
+      }
     } catch (error) {
       console.error('Error submitting data:', error);
     }
@@ -110,6 +131,7 @@ export default function CreateGroupForm() {
 
   const closeModal = () => {
     setIsModalOpen(false);
+    router.push('/community/club');
   };
 
   useEffect(() => {
@@ -167,24 +189,24 @@ export default function CreateGroupForm() {
 
   const [applicationFormVisible, setApplicationFormVisible] = useState(false);
 
-  // const [questions, setQuestions] = useState<string[]>(['']);
+  const [questions, setQuestions] = useState<string[]>(['']);
 
-  // const handleQuestionChange = (index: number, value: string) => {
-  //   const newQuestions = [...questions];
-  //   newQuestions[index] = value;
-  //   setQuestions(newQuestions);
-  // };
+  const handleQuestionChange = (index: number, value: string) => {
+    const newQuestions = [...questions];
+    newQuestions[index] = value;
+    setQuestions(newQuestions);
+  };
 
-  // const addQuestion = () => {
-  //   if (questions.length < 3) {
-  //     setQuestions([...questions, '']);
-  //   }
-  // };
+  const addQuestion = () => {
+    if (questions.length < 3) {
+      setQuestions([...questions, '']);
+    }
+  };
 
-  // const removeQuestion = (index: number) => {
-  //   const newQuestions = questions.filter((_, i) => i !== index);
-  //   setQuestions(newQuestions);
-  // };
+  const removeQuestion = (index: number) => {
+    const newQuestions = questions.filter((_, i) => i !== index);
+    setQuestions(newQuestions);
+  };
 
   return (
     <div className="flex items-center justify-center">
@@ -454,10 +476,81 @@ export default function CreateGroupForm() {
                 </p>
               )}
             </div>
+            {/* 신청서 만들기 폼 */}
+            {applicationFormVisible && (
+              <>
+                <div className="space-y-2 text-sm border-t border-gray-300 py-[2rem]">
+                  <label className="font-bold md:text-2xl text-base leading-none">
+                    신청서 만들기
+                  </label>
+                  <p className="text-gray-400 md:text-sm text-xs leading-none">
+                    가입자가 작성할 신청서를 만들어주세요.
+                  </p>
+                </div>
+                {/* 신청서 안내문 */}
+                <div className="space-y-4 text-sm mb-[2.5rem] leading-none">
+                  <label className="font-bold md:text-xl text-sm leading-none">
+                    신청서 안내문
+                  </label>
+                  <div className="relative">
+                    <input
+                      type="text"
+                      placeholder="[선택] 신청서 상단에 보일 안내 문구를 입력해 주세요. (40자 이내)"
+                      className={` px-4 py-2 pr-10 w-full min-h-[3.5rem] rounded-lg border border-gray-200 focus:border-blue-300 focus:ring-blue-300 focus:outline-none md:placeholder:text-sm placeholder:text-xs`}
+                    />
+                  </div>
+                </div>
+                {/* 신청서 질문 */}
+                <div className="space-y-4 text-sm mb-[2.5rem] leading-none">
+                  <label className="font-bold md:text-xl text-sm leading-none">
+                    신청서 질문
+                  </label>
+                  <p className="text-gray-400 md:text-sm text-xs leading-none">
+                    가입자에게 하고 싶은 질문을 작성해 주세요. (최대 3개)
+                  </p>
+                  {questions.map((question, index) => (
+                    <div className="relative" key={index}>
+                      <input
+                        type="text"
+                        placeholder="질문을 입력하세요. (40자 이내)"
+                        maxLength={40}
+                        value={question}
+                        onChange={(e) =>
+                          handleQuestionChange(index, e.target.value)
+                        }
+                        className="px-4 py-2 pr-10 w-full min-h-[3.5rem] rounded-lg border border-gray-200 focus:outline-none focus:border-blue-300 focus:ring-blue-300 focus:outline-none md:placeholder:text-sm placeholder:text-xs"
+                      />
+                      {index > 0 && (
+                        <button
+                          type="button"
+                          onClick={() => removeQuestion(index)}
+                          className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                        >
+                          <img
+                            src="/svg/club/remove.svg"
+                            alt="remove icon"
+                            className="w-6 h-6"
+                          />
+                        </button>
+                      )}
+                    </div>
+                  ))}
+                  {questions.length < 3 && (
+                    <button
+                      type="button"
+                      onClick={addQuestion}
+                      className="px-4 py-2 pr-10 w-full min-h-[3.5rem] rounded-lg border border-gray-200 bg-white text-2xl"
+                    >
+                      +
+                    </button>
+                  )}
+                </div>
+              </>
+            )}
             {/* 제출 버튼 */}
             <button
               type="submit"
-              className="px-4 py-2 pr-10 w-full md:h-[3.875rem] h-[2.75rem] rounded-lg bg-blue-400 text-white leading-none font-bold text-[1rem] md:text-[1.25rem]"
+              className="px-4 py-2 w-full md:h-[3.875rem] h-[2.75rem] rounded-lg bg-blue-400 text-white leading-none font-semibold text-[1rem] md:text-[1.25rem] flex justify-center items-center"
             >
               개설하기
             </button>
