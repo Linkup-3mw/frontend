@@ -11,9 +11,10 @@ import {
 } from './(search)/atom/membership';
 import { useRouter } from 'next/navigation';
 import API from '@/utils/axios';
+import LoginHome from './(home)/components/login/LoginHome';
 
 export default async function Home() {
   const session = await getServerSession(authOptions);
 
-  return <>{!session && <NoneLoginHome />}</>;
+  return <>{!session && <LoginHome />}</>;
 }
