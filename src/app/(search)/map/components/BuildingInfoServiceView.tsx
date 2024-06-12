@@ -60,7 +60,9 @@ export default function BuildingServiceView({
               {currentBuilding?.address}
             </div>
             <div className="text-gray-500">
-              <span>{currentBuilding?.traffic_info}</span>
+              <span className="text-gray-800">
+                {currentBuilding?.traffic_info}
+              </span>
             </div>
             <div className="flex justify-start mt-2">
               <span className="leading-2 text-gray-400">수용 인원</span>
@@ -73,7 +75,7 @@ export default function BuildingServiceView({
               <span className="leading-2 text-gray-400">시설 이용</span>
               &nbsp;&nbsp;
               <span className="text-gray-800">
-                {/* {officeDetail?.parking ? '주차 가능' : '주차 불가능'} */}
+                {currentBuilding?.capacity ? '주차 가능' : '주차 불가능'}
               </span>
             </div>
           </div>
@@ -170,7 +172,7 @@ export default function BuildingServiceView({
             <p className="mb:text-[1rem] md:text-lg font-bold leading-[1.75rem] ">
               편의시설
             </p>
-            <div className="flex mb:h-[6.5rem] w-full flex-wrap md:h-[8.5rem] gap-4 rounded-lg justify-start items-center">
+            <div className="flex mb:h-[6.5rem] w-full flex-wrap md:h-[8.5rem] gap-4 rounded-lg justify-center items-center">
               <div className="flex flex-col items-center bg-white mb:w-[4.75rem] md:w-[5.92188rem] mb:h-[4.5625rem] md:h-[6.125rem] rounded-lg shadow-md justify-center">
                 <Image
                   src="/svg/map/service/rounge.svg"
@@ -245,17 +247,20 @@ export default function BuildingServiceView({
                   우편함
                 </p>
               </div>
-              <div className="mt-5 w-full mb:p-4 md:py-6 md:px-8 bg-white flex flex-col justify-start mb:text-[0.75rem] md:text-[1rem] mb:h-[4.8125rem] md:h-[6.75rem] rounded-2xl ">
-                {rules}
+              <div className="flex flex-col gap-4 justify-center items-center">
+                <div className="mt-5 w-full mb:p-4 md:py-6 md:px-8 bg-white flex flex-col justify-start mb:text-[0.75rem] md:text-[1rem] mb:h-[4.8125rem] md:h-[6.75rem] rounded-2xl">
+                  {rules}
+                </div>
+                <div
+                  onClick={() => handleReservationClick()}
+                  className="w-[5.5rem]  mb-5  bg-blue-400 px-4 py-2 rounded-lg text-white font-bold text-md text-center cursor-pointer"
+                >
+                  예약하기
+                </div>
               </div>
             </div>
           </div>
-          <div
-            onClick={() => handleReservationClick()}
-            className="w-full sticky bottom-0 bg-blue-400 h-[3.5rem] rounded-lg text-white font-bold text-xl px-4 py- text-center cursor-pointer"
-          >
-            예약하기
-          </div>
+
           {/* <p className="mb:text-[1rem] md:text-lg font-bold leading-[1.75rem]">
             해당 지점 직무/산업군 비율
           </p> */}
