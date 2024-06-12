@@ -164,7 +164,6 @@ export default function OpenTable() {
 
           <div className="hidden-360  overflow-hidden  flex flex-col justify-end w-[61.8125rem] h-[51.25rem] relative  rounded-md">
             <div className=" mb:h-[18.3125rem] md:w-[61.8126rem] md:h-[51.25rem] absolute inset-0">
-              {' '}
               <Image
                 src="/svg/reservation/imageView/openDesk.svg"
                 layout="fill"

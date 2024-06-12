@@ -1,15 +1,19 @@
 import { mobileReservationLayoutState } from '@/app/(search)/atom/media';
 import {
+  confirmModalState,
   rsInfoState,
   selectedMembershipId,
   selectedOfficeId,
   userUpdateRlistPutState,
+  yesOrNoState,
 } from '@/app/(search)/atom/membership';
 import {
   confirmedState,
   searchRemainingState,
   selectedSeatAllState,
 } from '@/app/(search)/atom/office';
+import { modalState } from '@/app/(search)/atom/search';
+import ConfirmModal from '@/app/(search)/map/components/Loader/ConfirmModal';
 import { SeatReservation } from '@/types/office/reservation';
 import API from '@/utils/axios';
 import { addDays, addMonths, format } from 'date-fns';
@@ -23,19 +27,16 @@ export default function ReservedList({ seatTypes }: { seatTypes: string[] }) {
   const [rsInfo, setRsInfo] = useRecoilState(rsInfoState);
   const [searchRemaining, setSearchRemaining] =
     useRecoilState(searchRemainingState);
-  // const mid = useRecoilValue(selectedMembershipId);
+  const [confirmModal, setConfirmModal] = useRecoilState(confirmModalState);
   const isMobile = useRecoilValue(mobileReservationLayoutState);
   const [selectedSeatAll, setSelectedSeatAll] =
     useRecoilState(selectedSeatAllState);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const currentUrl = window.location.href;
-  const parts = currentUrl.split('/');
-  const lastPart = parts[parts.length - 1];
-  const mid = parseInt(lastPart);
   const [confirm, setConfirm] = useRecoilState(confirmedState);
   const officeId = useRecoilValue(selectedOfficeId);
-  //날짜
   const [selectedDate, setSelectedDate] = useState<Date>();
+  const yesOrNo = useRecoilValue(yesOrNoState);
+
   const seatImages: Record<string, string> = {
     오픈데스크: '/svg/reservation/opendesk.svg',
     포커스데스크: '/svg/reservation/focusdesk.svg',
@@ -45,11 +46,27 @@ export default function ReservedList({ seatTypes }: { seatTypes: string[] }) {
   const [seatReservationList, setSeatReservationList] = useRecoilState(
     userUpdateRlistPutState,
   );
+  const [mid, setMid] = useState<number | null>(null);
+
+  const removeUpdateReservation = () => {
+    setSelectedSeatAll(null);
+  };
+
   useEffect(() => {
     if (rsInfo?.seat_type === '지정좌석') {
       handleSeatStyleClick(rsInfo.seat_type);
     }
   }, [rsInfo]);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const currentUrl = window.location.href;
+      const parts = currentUrl.split('/');
+      const lastPart = parts[parts.length - 1];
+      const parsedMid = parseInt(lastPart);
+      setMid(parsedMid);
+    }
+  }, []);
 
   const handleSeatStyleClick = async (seatStyle: string) => {
     setSeatReservationList(true);
@@ -78,47 +95,57 @@ export default function ReservedList({ seatTypes }: { seatTypes: string[] }) {
   };
 
   const fetchSeatReservationUpdate = async () => {
-    const updateMembership = {
-      type: rsInfo?.type,
-      start_date: rsInfo?.start_date,
-      start_time: rsInfo?.start_time,
-      end_time: rsInfo?.end_date,
-      price: null,
-      seat_id: selectedSeatAll?.code,
-    };
+    setConfirmModal(true);
+    if (!mid) return;
 
-    try {
-      console.log('seatID', rsInfo?.id);
-      console.log('updateMembership,', updateMembership);
-      const res = await API.put(
-        `reservation/individual/my-membership/${mid}/reservation/${rsInfo?.id}`,
-        updateMembership,
-      );
-      console.log('SeatReservationList에서의 요청', res.data.data);
-      setSearchRemaining(res.data.data);
-    } catch (error) {
-      console.error('Error updating seat reservation:', error);
+    if (yesOrNo) {
+      const updateMembership = {
+        type: rsInfo?.type,
+        start_date: rsInfo?.start_date,
+        start_time: rsInfo?.start_time,
+        end_date: rsInfo?.end_date,
+        end_time: rsInfo?.end_time,
+        price: null,
+        seat_id: selectedSeatAll?.code,
+      };
+
+      try {
+        console.log('seatID', rsInfo?.id);
+        console.log('updateMembership,', updateMembership);
+        const res = await API.put(
+          `reservation/individual/my-membership/${mid}/reservation/${rsInfo?.id}`,
+          updateMembership,
+        );
+        console.log('SeatReservationList에서의 요청', res.data.data);
+        setSearchRemaining(res.data.data);
+      } catch (error) {
+        console.error('Error updating seat reservation:', error);
+      }
+    } else {
     }
   };
-  if (confirm) {
-    fetchSeatReservationUpdate();
-    setConfirm(false);
-  }
+
+  useEffect(() => {
+    if (confirm) {
+      fetchSeatReservationUpdate();
+      setConfirm(false);
+    }
+  }, [confirm]);
+
   const handleDayClick = (day: Date) => {
     setSelectedDate(day);
-    setSelectedSeatAll({});
-    const formmatedDate = format(day, 'yyyy-MM-dd');
+    const formattedDate = format(day, 'yyyy-MM-dd');
 
     const newSelectedSeatAll: SeatReservation = {
-      start_date: formmatedDate,
+      start_date: formattedDate,
       end_date: format(addDays(day, 1), 'yyyy-MM-dd'),
       type: selectedSeatAll?.type ?? '',
       code: selectedSeatAll?.code ?? '',
     };
 
-    setSelectedSeatAll(null);
     setSelectedSeatAll(newSelectedSeatAll);
   };
+
   const today = {
     today: {
       color: 'white',
@@ -128,11 +155,10 @@ export default function ReservedList({ seatTypes }: { seatTypes: string[] }) {
   };
 
   return (
-    <div>
-      <div className="h-48px text-20px font-bold mt-3 text-gray-300 cursor-pointer">
+    <div className="flex justify-center">
+      <div className="bg-[#E4EEFF] mb:w-[90%] h-48px text-20px font-bold mt-3 text-gray-300 cursor-pointer">
         <div className="flex flex-col gap-4 justify-start h-48px w-full mx-auto">
           <p className="text-xl font-bold text-black">지정 좌석 변경</p>
-
           <p className="text-lg font-bold text-black">
             기존 예약 정보를 확인하세요.
           </p>
@@ -172,31 +198,70 @@ export default function ReservedList({ seatTypes }: { seatTypes: string[] }) {
           />
           <div className="flex flex-col mb-4 justify-between">
             <div className="flex w-full">
-              {rsInfo?.seat_type !== '지정좌석'
-                ? seatTypes.map((seatStyle) => (
-                    <div
-                      key={seatStyle}
-                      onClick={() => handleSeatStyleClick(seatStyle)}
-                      className={`mb:w-full mr-2 mb:h-auto md:w-[6.29688rem] md:h-[7.75rem] flex flex-col justify-center items-center p-2 gap-2 rounded-lg ${
-                        seatStyle === selectedSeatAll?.type
-                          ? 'bg-blue-400 text-white'
-                          : 'bg-white'
-                      }`}
-                    >
-                      <Image
-                        width={`${isMobile ? 44 : 64}`}
-                        height={`${isMobile ? 44 : 64}`}
-                        alt={`${seatStyle}`}
-                        src={seatImages[seatStyle]}
-                      />
-                      <p className="md:text-sm mb:text-[0.525rem] mb:font-bold">
-                        {seatStyle}
-                      </p>
-                    </div>
-                  ))
-                : null}
+              {rsInfo?.seat_type !== '지정좌석' &&
+                seatTypes.map((seatStyle) => (
+                  <div
+                    key={seatStyle}
+                    onClick={() => handleSeatStyleClick(seatStyle)}
+                    className={`mb:w-full mr-2 mb:h-auto md:w-[6.29688rem] md:h-[7.75rem] flex flex-col justify-center items-center p-2 gap-2 rounded-lg ${
+                      seatStyle === selectedSeatAll?.type
+                        ? 'bg-blue-400 text-white'
+                        : 'bg-white'
+                    }`}
+                  >
+                    <Image
+                      width={isMobile ? 44 : 64}
+                      height={isMobile ? 44 : 64}
+                      alt={seatStyle}
+                      src={seatImages[seatStyle]}
+                    />
+                    <p className="md:text-sm mb:text-[0.525rem] mb:font-bold">
+                      {seatStyle}
+                    </p>
+                  </div>
+                ))}
             </div>
           </div>
+          {selectedSeatAll && confirm && (
+            <>
+              <div>
+                <p>수정하신 예약 정보를 확인해주세요.</p>
+              </div>
+              <div className="flex mb:gap-1 md:gap-2 mb:p-2 md:p-4 justify-between bg-white rounded-2xl">
+                <div className="pr-4 border-gray-300 flex">
+                  <div className="pr-4 border-r-2">
+                    <p className="mb:text-sm md:text-[1rem] md:leading-7 mb:leading-5">
+                      {selectedSeatAll?.type}
+                    </p>
+                    <p className="mb:text-[0.875rem] md:text-[1.25rem] font-bold">
+                      {selectedSeatAll?.code}
+                    </p>
+                  </div>
+                  <div className="pl-4 md:font-normal md:text-lg mb:text-sm">
+                    <p>{selectedSeatAll?.start_date}</p>
+                  </div>
+                </div>
+                <div className="flex items-center">
+                  {isMobile ? (
+                    <button
+                      className="rounded-lg w-[1.75rem] h-[1.75rem] text-sm text-white font-semibold bg-[#FF4163]"
+                      onClick={() => removeUpdateReservation()}
+                    >
+                      X
+                    </button>
+                  ) : (
+                    <button
+                      className="rounded-lg w-[4.625rem] h-[2rem] text-sm text-white font-semibold bg-[#FF4163]"
+                      onClick={() => removeUpdateReservation()}
+                    >
+                      선택 취소
+                    </button>
+                  )}
+                </div>
+              </div>
+            </>
+          )}
+          {confirmModal && <ConfirmModal />}
         </div>
       </div>
     </div>

@@ -147,8 +147,8 @@ export default function Resertory() {
     <>
       {loading && <FullPageLoader />}
 
-      <div className="mt-[9rem] md:flex justify-center gap-4">
-        <div className="flex flex-col  bg-[#E4EEFF] md:px-8 md:w-[30.6875rem] mb:w-[90%] mb:px-4 overflow-y-scroll scrollbar-hide rounded-3xl pt-4 h-[51.25rem]">
+      <div className="mt-[5rem] md:flex justify-center gap-4">
+        <div className="flex flex-col bg-[#E4EEFF] md:px-8 md:w-[30.6875rem] mb:w-[90%] mb:px-4 overflow-y-scroll scrollbar-hide rounded-3xl pt-4 h-[51.25rem]">
           {!rsInfo && (
             <div className="h-48px text-20px font-bold mt-3 text-gray-300 cursor-pointer">
               <div className="flex flex-col gap-4 justify-start h-48px w-full mx-auto">

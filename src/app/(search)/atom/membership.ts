@@ -1,4 +1,5 @@
 import { atom } from 'recoil';
+import { boolean } from 'zod';
 
 interface userMembership {
   id: number;
@@ -63,5 +64,13 @@ export const companyIdState = atom<number | null>({
 // })
 export const isEnterState = atom<boolean>({
   key: 'isEnterState',
+  default: false,
+});
+export const yesOrNoState = atom<boolean>({
+  key: 'yesoro',
+  default: false,
+});
+export const confirmModalState = atom<boolean>({
+  key: 'confirmModalState',
   default: false,
 });

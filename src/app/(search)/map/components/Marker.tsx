@@ -163,7 +163,7 @@ export default function Marker() {
           const overlays = document.querySelectorAll('.overlay');
           overlays.forEach((overlay) => {
             overlay.addEventListener('click', (e: Event) => {
-              console.log('마커눌렀다');
+              console.log('v파란색마커눌렀다');
               const buildingId = Number((e.currentTarget as HTMLDivElement).id);
               const office = officeBuildings?.filter((office: Building) => {
                 return office.id === buildingId;
