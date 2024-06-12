@@ -1,21 +1,46 @@
 'use client';
 import Modal from '@/app/community/components/club/common/Modal';
 import API from '@/utils/axios';
-import router from 'next/router';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 export default function ClubRequestPage() {
-  // const [answers, setAnswers] = useState<string[]>(
-  //   new Array(questions.length).fill(''),
-  // );
   const [submitted, setSubmitted] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [clubData, setClubData] = useState<{
+    club_id: number;
+    club_title: string;
+    club_introduction: string;
+    club_detail_introduction: string;
+    question: string[];
+  } | null>(null);
+  const [answers, setAnswers] = useState<string[]>([]);
+  const router = useRouter();
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    setSubmitted(true);
-    setIsModalOpen(true);
+    if (clubData) {
+      try {
+        const response = await API.post(
+          `/club/${clubData.club_id}/application`,
+          {
+            introduction: `${clubData.club_introduction}`,
+            club_answers: answers.map((answer, index) => ({
+              answer,
+              qorders: index + 1,
+            })),
+          },
+        );
+
+        if (response.status === 200) {
+          setSubmitted(true);
+          setIsModalOpen(true);
+        }
+      } catch (error) {
+        console.error('Error submitting application:', error);
+      }
+    }
   };
 
   const closeModal = () => {
@@ -23,15 +48,14 @@ export default function ClubRequestPage() {
     router.push('/community/club');
   };
 
-  const [clubData, setClubData] = useState(null);
-
   useEffect(() => {
     const fetchClubData = async () => {
       const currentPath = window.location.pathname;
       const id = currentPath.split('/').pop();
       try {
         const response = await API.get(`/club/${id}/question`);
-        setClubData(response.data);
+        setClubData(response.data.data);
+        setAnswers(new Array(response.data.data.question.length).fill(''));
       } catch (error) {
         console.error('Error fetching club data:', error);
       }
@@ -46,10 +70,11 @@ export default function ClubRequestPage() {
         <Modal
           isOpen={isModalOpen}
           onClose={closeModal}
-          clubName="소모임 이름"
-          shortDescription="소모임 한 줄 소개"
+          clubName={clubData?.club_title || '소모임 이름'}
+          shortDescription={clubData?.club_introduction || ''}
           message="가입 신청이 완료 되었습니다!"
           subMessage="승인 결과를 기다려주세요."
+          buttonText="확인"
         />
       ) : (
         <div className="fixed inset-0 flex items-center justify-center h-screen mt-4">
@@ -62,18 +87,18 @@ export default function ClubRequestPage() {
             {/* 소모임 정보 */}
             <div className="md:pt-8 pt-2">
               <h3 className=" md:text-[1.5rem] text-[1rem] font-bold mb-2 leading-none">
-                소모임 이름
+                {clubData?.club_title}
               </h3>
               <p className="mb-4 font-medium md:text-sm text-xs">
-                {/* {clubDescription} */}
+                {clubData?.club_detail_introduction}
               </p>
               <p className=" md:text-[1.25rem] text-xs font-bold my-4">
                 신청서 작성 전에 상세 소개를 꼭 읽어주세요!😚
               </p>
               {/* 질문과 답변 입력 */}
-              <form onSubmit={handleSubmit}>
-                {/* {questions.map((question, index) => (
-                  <div key={index} className="mb-6">
+              <form onSubmit={handleSubmit} className="pb-2 md:pb-4">
+                {clubData?.question.map((question, index) => (
+                  <div key={index} className="md:mb-6 mb-4">
                     <label
                       htmlFor={`question${index + 1}`}
                       className="block font-semibold mb-2 md:text-sm text-xs"
@@ -96,16 +121,14 @@ export default function ClubRequestPage() {
                       }}
                     />
                   </div>
-                ))} */}
-              </form>
-              <div className="flex">
+                ))}
                 <button
                   type="submit"
-                  className="bg-blue-400 text-white py-2 rounded-lg  w-full md:h-[3.875rem] h-[2.75rem] md:text-[1.5rem] text-[1rem]"
+                  className="bg-blue-400 text-white py-2 rounded-lg w-full md:h-[3.875rem] h-[2.75rem] md:text-[1.5rem] text-[1rem]"
                 >
                   제출하기
                 </button>
-              </div>
+              </form>
             </div>
           </div>
         </div>
