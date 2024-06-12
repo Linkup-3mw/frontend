@@ -16,7 +16,7 @@ export default function CommunityNav() {
   const getActiveIcon = (path: string) => {
     if (path === '/community' || path === '/community/') return 'home';
     if (path === '/community/coffeechat') return 'coffeechat';
-    if (path === '/community/club') return 'cow';
+    if (path === '/community/club/') return 'cow';
     if (path === '/community/collaboration') return 'collab';
     if (path === '/community/event') return 'event';
     return ''; // 기본값
@@ -28,7 +28,9 @@ export default function CommunityNav() {
     text: string,
     path: string,
   ) => {
-    const isActive = activeIcon === iconName;
+    const isActive = iconName === 'cow' || activeIcon === iconName; // 'cow' 아이콘을 항상 활성화
+
+    // const isActive = activeIcon === iconName;
     const isHover = hoverIcon === iconName;
     const isDisabled = [
       '/community',

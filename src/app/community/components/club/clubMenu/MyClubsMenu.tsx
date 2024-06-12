@@ -18,9 +18,9 @@ export default function MyClubsMenu() {
       case 'myClubs':
         return <AllMyClubs />;
       case 'unapprovedClubs':
-        return <ManageableClubs />;
-      case 'manageableClubs':
         return <UnapprovedClubs />;
+      case 'manageableClubs':
+        return <ManageableClubs />;
       default:
         return null;
     }

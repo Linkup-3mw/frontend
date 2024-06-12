@@ -1,10 +1,12 @@
 'use client';
 
 import ContentWrap from '@/app/common/components/frame/ContentWrap';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { members } from '../../../../data/members';
 import { applications } from '../../../../data/applications';
 import SearchInput from '@/app/community/components/club/SearchInput';
+import API from '@/utils/axios';
+import { useRouter } from 'next/navigation';
 
 interface MobileMenuProps {
   handleMenuSelect: (selectedMenu: string) => void;
@@ -16,6 +18,48 @@ export default function ClubManagePage() {
     number | null
   >(null);
   const [mobileViewMode, setMobileViewMode] = useState('members'); // 초기값은 'members'로 설정
+  const [clubData, setClubData] = useState({ title: '', introduction: '' });
+  const [clubMembers, setClubMembers] = useState<any[]>([]); // 초기값은 빈 배열로 설정
+  const [applicationMembers, setApplicationMembers] = useState<any[]>([]); // 초기값은 빈 배열로 설정
+
+  const router = useRouter();
+  const [clubId, setClubId] = useState<string | null>(null);
+
+  useEffect(() => {
+    const currentPath = window.location.pathname;
+    const id = currentPath.split('/').pop();
+
+    if (id) {
+      setClubId(id);
+      API.get(`/club/${id}`)
+        .then((response) => {
+          const { title, introduction, club_members } = response.data.data;
+          setClubData({ title, introduction });
+          setClubMembers(club_members);
+        })
+        .catch((error) => {
+          console.error('Error fetching club data:', error);
+        });
+    }
+  }, []);
+
+  useEffect(() => {
+    const currentPath = window.location.pathname;
+    const id = currentPath.split('/').pop();
+
+    if (id) {
+      setClubId(id);
+      API.get(`/club/${id}/application`)
+        .then((response) => {
+          const application_members = response.data.data;
+          setApplicationMembers(application_members);
+          console.log(application_members);
+        })
+        .catch((error) => {
+          console.error('Error fetching club data:', error);
+        });
+    }
+  }, []);
 
   const handleMenuSelect = (selectedMenu: string) => {
     if (selectedMenu === '멤버 리스트') {
@@ -41,10 +85,10 @@ export default function ClubManagePage() {
           </button>
           <div className="text-left">
             <h2 className="md:text-2xl text-[1rem] font-bold mb-2 leading-none">
-              소모임 이름
+              {clubData.title}
             </h2>
             <p className="leading-none font-medium md:text-[1rem] text-sm">
-              소모임 설명
+              {clubData.introduction}
             </p>
           </div>
         </div>
@@ -56,26 +100,28 @@ export default function ClubManagePage() {
     return (
       <>
         <ul className="space-y-2 md:overflow-y-auto md:h-[25rem]">
-          {members.map((member) => (
+          {clubMembers.map((member) => (
             <li
               key={member.id}
               className="flex items-center justify-between p-4"
             >
               <div className="flex items-center">
                 <img
-                  src={member.avatar}
-                  alt={member.name}
+                  src={member.profile_image || '/svg/header/profileDefault.svg'} // 기본 프로필 이미지 설정
+                  alt={member.member_name}
                   className="md:w-[3.75rem] md:h-[3.75rem] w-[2rem] h-[2rem] rounded-full md:mr-[1.25rem] mr-[0.69em] border-[0.19rem] border-main-green"
                 />
                 <div>
                   <h3 className="font-semibold md:text-base text-sm">
-                    {member.name}
+                    {member.member_name}
                   </h3>
                   <p className="md:text-sm text-xs md:font-semibold">
-                    {member.job} | {member.location}
+                    {/* {member.job} | {member.location} */}
+                    직업 비공개 | 거주지 비공개
                   </p>
                   <p className="md:text-sm text-xs text-gray-600">
-                    마지막 활동일 {member.lastActivity}
+                    {/* 마지막 활동일 {member.lastActivity} */}
+                    마지막 활동일 비공개
                   </p>
                 </div>
               </div>
@@ -101,13 +147,70 @@ export default function ClubManagePage() {
   };
 
   const RequestMemberList = () => {
-    const ApproveAndRefuseButtons = () => {
+    interface ApiResponse {
+      status_code: number;
+      message: string;
+      isSuccess: boolean;
+      // 다른 필요한 응답 필드 추가
+    }
+
+    interface ApiError {
+      message: string;
+      // 다른 필요한 오류 필드 추가
+    }
+
+    interface ApplicationMember {
+      id: number;
+      member_id: number;
+      // 다른 멤버 필드 추가
+    }
+
+    interface ClubAnswer {
+      answer: string;
+      // 다른 클럽 응답 필드 추가
+    }
+
+    interface ClubMemberApprovalRequest {
+      approval: boolean;
+    }
+
+    const handleApprove = (clubMemberId: number) => {
+      const requestData: ClubMemberApprovalRequest = { approval: true };
+
+      API.post<ApiResponse>(`/club/${clubId}/${clubMemberId}`, requestData)
+        .then((response) => {
+          console.log('승인 요청이 성공했습니다.');
+        })
+        .catch((error: ApiError) => {
+          console.error('승인 요청에 실패했습니다:', error.message);
+        });
+    };
+
+    const handleReject = (clubMemberId: number) => {
+      const requestData: ClubMemberApprovalRequest = { approval: false };
+
+      API.post<ApiResponse>(`/club/${clubId}/${clubMemberId}`, requestData)
+        .then((response) => {
+          console.log('거절 요청이 성공했습니다.');
+        })
+        .catch((error: ApiError) => {
+          console.error('거절 요청에 실패했습니다:', error.message);
+        });
+    };
+
+    const ApproveAndRefuseButtons = ({ clubMemberId }: any) => {
       return (
         <div className="flex items-center space-x-4 w-full md:text-sm text-xs">
-          <button className="bg-blue-400 text-white md:w-[4.5rem] flex-grow h-[2.125rem] rounded font-bold">
+          <button
+            className="bg-blue-400 text-white md:w-[4.5rem] flex-grow h-[2.125rem] rounded font-bold"
+            onClick={() => handleApprove(clubMemberId)}
+          >
             승인
           </button>
-          <button className="bg-red-cancel text-white md:w-[4.5rem] flex-grow h-[2.125rem] rounded font-bold">
+          <button
+            className="bg-red-cancel text-white md:w-[4.5rem] flex-grow h-[2.125rem] rounded font-bold"
+            onClick={() => handleReject(clubMemberId)}
+          >
             거절
           </button>
         </div>
@@ -116,7 +219,7 @@ export default function ClubManagePage() {
 
     return (
       <>
-        {applications.map((application) => (
+        {applicationMembers.map((application) => (
           <div
             key={application.id}
             className="p-4 border rounded-lg md:bg-none bg-white"
@@ -124,16 +227,20 @@ export default function ClubManagePage() {
             <div className="flex items-center justify-between">
               <div className="flex items-center flex-grow">
                 <img
-                  src={application.avatar}
+                  src={
+                    application.profile_image ||
+                    '/svg/header/profileDefault.svg'
+                  } // 기본 프로필 이미지 설정
                   alt={application.name}
                   className="md:w-[3.75rem] md:h-[3.75rem] w-[2rem] h-[2rem] rounded-full md:mr-[1.25rem] mr-[0.69em] border-[0.19rem] border-main-green"
                 />
                 <div>
                   <h3 className="font-semibold md:text-base text-sm">
-                    {application.name}
+                    {application.member_id}
                   </h3>
                   <p className="md:text-sm text-xs md:font-semibold">
-                    {application.job} | {application.location}
+                    {/* {application.job} | {application.location} */}
+                    직업 비공개 | 거주지 비공개
                   </p>
                 </div>
               </div>
@@ -150,13 +257,13 @@ export default function ClubManagePage() {
                 </button>
               </div>
               <div className="hidden md:flex">
-                <ApproveAndRefuseButtons />
+                <ApproveAndRefuseButtons clubMemberId={application.member_id} />
               </div>
             </div>
 
             {expandedApplicationId !== application.id && (
               <div className="md:hidden flex mt-4">
-                <ApproveAndRefuseButtons />
+                <ApproveAndRefuseButtons clubMemberId={application.member_id} />
               </div>
             )}
 
@@ -175,16 +282,18 @@ export default function ClubManagePage() {
 
             {expandedApplicationId === application.id && (
               <div className="mt-[1.5rem]">
-                {application.questions.map((qa, index) => (
-                  <div key={index} className="space-y-4 mb-[1.5rem]">
-                    <p className="text-gray-500 font-normal text-xs leading-none">
-                      {qa.question}
-                    </p>
-                    <p className="font-semibold text-sm leading-none">
-                      {qa.answer}
-                    </p>
-                  </div>
-                ))}
+                {application.club_answer.map(
+                  (qa: { answer: string }, index: number) => (
+                    <div key={index} className="space-y-4 mb-[1.5rem]">
+                      <p className="text-gray-500 font-normal text-xs leading-none">
+                        {qa.answer}
+                      </p>
+                      <p className="font-semibold text-sm leading-none">
+                        {qa.answer}
+                      </p>
+                    </div>
+                  ),
+                )}
 
                 <div className="justify-center hidden md:flex">
                   <button
