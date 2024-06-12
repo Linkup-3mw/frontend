@@ -101,7 +101,7 @@ export interface IBoardComment {
   comment: string;
   club_notice_id: number;
   club_member_id: number;
-  club_member_name: string;
+  club_member_username: string;
   club_member_thumbnail: string;
   club_member_occupation: string;
 }

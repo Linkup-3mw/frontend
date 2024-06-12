@@ -20,7 +20,6 @@ export default function BoardCard({
   const {
     title,
     id,
-    type,
     date,
     content,
     writer_thumbnail,
@@ -34,9 +33,9 @@ export default function BoardCard({
       className="p-[1.5rem] bg-white rounded-[0.5rem] cursor-pointer"
       onClick={onClick}
     >
-      <h3 className="mb-[1.5rem] text-[1rem] font-bold">
+      <h3 className="flex items-center mb-[1.5rem] text-[1rem] font-bold dot_three">
         {isDetail && (
-          <SpeakerIcon className="inline-block mr-[0.5rem] align-baseline stroke-[1.5px]" />
+          <SpeakerIcon className="inline-block mr-[0.5rem] stroke-[1.5px]" />
         )}
         {title}
       </h3>
@@ -66,7 +65,7 @@ export default function BoardCard({
               {comments.length}
             </span>
           )}
-          <i className="not-italic text-[#8d8d8d]">{dateDot(date)}</i>
+          {date && <i className="not-italic text-[#8d8d8d]">{dateDot(date)}</i>}
         </div>
       </div>
     </div>
