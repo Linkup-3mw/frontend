@@ -98,6 +98,7 @@ export const getMyMembership = cache(async () => {
   }
 });
 
+// 정모 등록하기
 export const registerMeeting = async (
   club_id: number,
   params: IRegistMeetingData,

@@ -10,12 +10,11 @@ interface Props {
 export default function Avatar({ image, name, type, className }: Props) {
   return (
     <div
-      className={`relative w-[2.5rem] h-[2.5rem] border-[3px] border-solid border-[#eee] rounded-full box-border ${className}
+      className={`relative w-[2.5rem] h-[2.5rem] border-[3px] border-solid border-main-green rounded-full box-border ${className}
     `}
     >
       <img
-        //임시 경로
-        src={`${image}`}
+        src={image}
         alt={name + '이미지'}
         className="w-full h-full rounded-full"
       />

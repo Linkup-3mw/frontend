@@ -1,10 +1,9 @@
 import CircleLoader from '@/app/common/components/frame/CircleLoader';
-import RouterPushAlert from '@/app/common/components/modal/RouterPushAlert';
 import BoardDetail from '@/app/community/components/club/clubDetail/BoardDetail';
 import IntroduceDetail from '@/app/community/components/club/clubDetail/IntroduceDetail';
 import { getClubBoardDetail } from '@/app/service/clubDetail';
 import { IClubBoardList } from '@/types/club/detail/clubDetail';
-import { notFound, redirect } from 'next/navigation';
+import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 
 interface Props {
