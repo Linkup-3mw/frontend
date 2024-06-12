@@ -90,7 +90,6 @@ export const setClubLiked = async (club_id: number) => {
 export const getMyMembership = cache(async () => {
   try {
     const res = await API.get(`/reservation/my-membership`);
-    console.log('membership', res.data.data);
     // true, false로 구분
     return res.data.data.length > 0;
   } catch (e) {

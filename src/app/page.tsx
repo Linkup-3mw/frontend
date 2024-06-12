@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import NoneLoginHome from './(home)/components/noneLogin/NoneLoginHome';
 import LoginHome from './(home)/components/login/LoginHome';
 import { getSession } from '@/utils/getSession';
+import { getMyMembership } from './service/clubDetail';
 
 export const metadata: Metadata = {
   title: 'Linkup',
@@ -10,6 +11,10 @@ export const metadata: Metadata = {
 
 export default async function Home() {
   const session = await getSession();
-  return session ? <LoginHome /> : <NoneLoginHome />;
-
+  const haveMembership = await getMyMembership();
+  return session && haveMembership ? (
+    <LoginHome user={session.user} />
+  ) : (
+    <NoneLoginHome />
+  );
 }
