@@ -5,6 +5,8 @@ import MeetingCard from './MeetingCard';
 import { useRecoilState } from 'recoil';
 import { useClubMeetingListQuery } from '@/hooks/useClubDetail';
 import { IMeetingData } from '@/types/club/detail/clubDetail';
+import CircleLoader from '@/app/common/components/frame/CircleLoader';
+import NoDataMessage from './NoDataMessage';
 
 interface Props {
   clubId: number;
@@ -14,8 +16,13 @@ export default function MeetingList({ clubId }: Props) {
   const [userType] = useRecoilState(clubUserTypeState);
   const { data, error, isPending } = useClubMeetingListQuery(clubId);
 
-  //또 오류 -> 보류
-  console.log(data);
+  if (isPending) {
+    return <CircleLoader />;
+  }
+
+  if (!data) {
+    return <NoDataMessage />;
+  }
 
   if (userType === 'NONE_MEMBER' || userType === 'VISITOR') {
     return (
@@ -39,9 +46,9 @@ export default function MeetingList({ clubId }: Props) {
         return (
           <li className="last:mb-0" key={item.id}>
             <MeetingCard data={item}>
-              <button className="w-full h-[2.75rem] bg-blue-400 text-[1rem] font-bold text-white">
+              {/* <button className="w-full h-[2.75rem] bg-blue-400 text-[1rem] font-bold text-white">
                 참여하기
-              </button>
+              </button> */}
             </MeetingCard>
           </li>
         );

@@ -2,13 +2,12 @@
 import {
   CalenderIcon,
   LocationIcon,
-  MemberIcon,
+  // MemberIcon,
   MoneyIcon,
 } from '@/app/common/components/icons/MeetingIcons';
-import MemberSwiper from './MemberSwiper';
+// import MemberSwiper from './MemberSwiper';
 import { IMeetingData } from '@/types/club/detail/clubDetail';
 import { dateTimeKoreanFormat, getDayOfWeek, numComma } from '@/utils/utils';
-import { useEffect } from 'react';
 
 interface Props {
   children?: React.ReactNode;
@@ -47,10 +46,10 @@ export default function MeetingCard({ children, data }: Props) {
               <MoneyIcon />
               회비 {numComma(String(fee))}원
             </li>
-            <li>
+            {/* <li>
               <MemberIcon />
               참여 인원 6 / {max_capacity}
-            </li>
+            </li> */}
           </ul>
         </div>
         {/* <MemberSwiper size="small" /> */}
