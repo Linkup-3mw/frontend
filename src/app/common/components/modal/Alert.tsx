@@ -36,7 +36,7 @@ export default function Alert({
               <XIcon size="14" className="inline-block" />
             </button>
           )}
-          <p className="flex items-center justify-center h-[11.6rem] text-[1.5rem] text-blue-400 font-bold max-md:h-[2.625rem] max-md:text-[0.875rem] max-md:items-baseline">
+          <p className="flex items-center justify-center h-[11.6rem] text-[1.5rem] text-blue-400 font-bold max-md:h-[2.625rem] max-md:text-[0.875rem] max-md:items-baseline whitespace-pre-line text-center max-md:mb-[0.87rem]">
             {message}
           </p>
           <BlueSquareBtn onClick={handleClick} name={buttonName} />
