@@ -21,6 +21,12 @@ export default async function RootLayout({
   const session = await getSession();
   return (
     <html lang="ko">
+      <head>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+        />
+      </head>
       <body className={`${suit.className} bg-blue-100`}>
         <QueryProvider>
           <RecoilProvider>
