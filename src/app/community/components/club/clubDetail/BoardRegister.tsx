@@ -90,7 +90,7 @@ export default function BoardRegister({ clubId, type, postId }: Props) {
   };
 
   return (
-    <div className="pt-[1rem] pb-[1.5rem] max-md:pt-0 max-md:pb-0">
+    <div>
       <TopBackBtn />
       <div className="px-[2.5rem] text-[0rem] max-md:px-[1rem]">
         <form onSubmit={handleSubmit(onSubmit)}>

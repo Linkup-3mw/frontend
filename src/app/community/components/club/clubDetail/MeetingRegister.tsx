@@ -113,7 +113,7 @@ export default function MeetingRegister({ clubId }: Props) {
 
   return (
     <>
-      <div className="pt-[1rem] pb-[1.5rem] max-md:pt-0 max-md:pb-0 max-md:min-h-full">
+      <div className=" max-md:min-h-full">
         <TopBackBtn />
         <div className="px-[2.5rem] max-md:px-[1rem] max-md:h-full">
           <form onSubmit={handleSubmit(onSubmit)}>

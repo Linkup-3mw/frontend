@@ -16,9 +16,9 @@ export default function IntroduceDetail({ clubId }: Props) {
   }
 
   return (
-    <div className="pt-[1rem] pb-[1.5rem] max-md:pt-0 max-md:pb-0">
+    <div>
       <BoardDetailTopBtn postId={clubId} />
-      <div className="px-[2rem] overflow-y-auto mb-[1.5rem] h-[45.82vh] max-h-[30.1rem] min-h-[30.1rem] max-md:px-[1rem]  max-md:h-[calc(100vh_-_22.9375rem)] max-md:min-h-[0] ">
+      <div className="px-[2rem] overflow-y-auto mb-[1.5rem] h-[45.82vh] max-h-[28.9rem]  min-h-[28.9rem] max-md:px-[1rem]  max-md:h-[calc(100vh_-_22.9375rem)] max-md:min-h-[0] ">
         <h2 className="mb-[1.5rem] leading-none text-[1.25rem] font-bold max-md:text-[1.25rem] max-md:leading-[140%]">
           {data?.title}
         </h2>

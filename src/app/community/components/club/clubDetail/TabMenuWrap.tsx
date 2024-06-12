@@ -17,7 +17,7 @@ export default function TabMenuWrap({
   userType,
   className,
   tabList,
-  current,
+  current, //tab name
   clubId,
 }: Props) {
   const router = useRouter();
@@ -39,7 +39,7 @@ export default function TabMenuWrap({
               if (current === '') {
                 router.push(`/community/club/${clubId}/notice/register`);
               } else {
-                router.push(`/community/club/${clubId}/${current}/register`);
+                router.push(`/community/club/${clubId}/${paths[3]}/register`);
               }
             }}
           />

@@ -26,7 +26,7 @@ export default function MeetingList({ clubId }: Props) {
 
   if (userType === 'NONE_MEMBER' || userType === 'VISITOR') {
     return (
-      <div className="overflow-y-auto mt-[1.5rem] h-[calc(100%_-_6.9rem)]  max-md:mt-0 max-md:h-full max-md:overflow-y-visible">
+      <div className="overflow-y-auto mt-[1.5rem] h-[calc(100%_-_5rem)]  max-md:mt-0 max-md:h-full max-md:overflow-y-visible">
         <ul className="px-[2.5rem] [&_>_li]:mb-[1.5rem] max-md:px-[1rem] max-md:[&_>_li]:mb-[1rem] ">
           {data?.map((item: IMeetingData) => {
             return (

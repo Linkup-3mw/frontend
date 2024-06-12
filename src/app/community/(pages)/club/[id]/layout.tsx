@@ -49,7 +49,7 @@ export default async function Layout({ children, params }: Props) {
         <div className="max-md:py-[1.5rem] max-md:rounded-[1rem] max-md:bg-blue-50">
           <>
             {/* 모바일에서 보이는 탭메뉴 */}
-            <div className="hidden max-md:block sticky bg-blue-50 top-[3.375rem] z-10">
+            <div className="hidden max-md:block sticky bg-blue-50 top-[4.975rem] z-10">
               <TabMenuWrap
                 current={params.type}
                 userType={userType}
@@ -82,7 +82,7 @@ export default async function Layout({ children, params }: Props) {
 
               {/* 게시판 */}
               <SectionBoard clubId={clubId} memberType={userType}>
-                <div className="overflow-y-auto mt-[1.5rem] h-[calc(100%_-_6.9rem)]  max-md:mt-0 max-md:h-full max-md:overflow-y-visible">
+                <div className="overflow-y-auto mt-[1.5rem] h-[calc(100%_-_5rem)]  max-md:mt-0 max-md:h-full max-md:overflow-y-visible">
                   {children}
                 </div>
               </SectionBoard>
