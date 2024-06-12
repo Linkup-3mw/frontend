@@ -9,8 +9,8 @@ import Confirm from '@/app/common/components/modal/Confirm';
 import Alert from '@/app/common/components/modal/Alert';
 import { useRecoilState } from 'recoil';
 import { clubUserTypeState } from '@/app/community/atoms/clubDetail';
-import RouterPushAlert from '@/app/common/components/modal/RouterPushAlert';
 import { useRouter } from 'next/navigation';
+import ApplyModal from '../../ApplyModal';
 
 interface Props {
   liked: boolean | null;
@@ -33,6 +33,7 @@ export function NoneMemberIntroduceTopBtn({ liked, clubId }: Props) {
     buttonName: '',
   });
   const [showAlert, setShowAlert] = useState(false);
+  const [showApplyModal, setShowApplyModal] = useState(false);
   const router = useRouter();
 
   //찜하기
@@ -54,24 +55,19 @@ export function NoneMemberIntroduceTopBtn({ liked, clubId }: Props) {
       setAlert({
         message: '소모임 가입은 멤버십이 필요합니다.',
         // 경로 수정 필요
-        pushPath: '/',
+        pushPath: '/map',
         buttonName: '멤버십 구매하기',
       });
       setShowAlert(true);
     } else {
       // 클럽 미가입자
-      //소모임 지원하기로 링크 이동
-      // 경로 수정 필요
-
-      //즉시 가입인 경우는..뭐임...?
-      router.push('/');
+      // 지원하기 모달......
+      setShowApplyModal(true);
     }
   };
 
   return (
     <>
-      <HeartBtn isLike={liked || false} onClick={handleHeartClick} />
-      <BlueSquareBtn name="가입하기" onClick={handleJoinClubClick} />
       {showAlert && (
         <Alert
           message={alert.message}
@@ -81,6 +77,9 @@ export function NoneMemberIntroduceTopBtn({ liked, clubId }: Props) {
           showCloseButton={true}
         />
       )}
+      {showApplyModal && <ApplyModal setIsShow={setShowApplyModal} />}
+      <HeartBtn isLike={liked || false} onClick={handleHeartClick} />
+      <BlueSquareBtn name="가입하기" onClick={handleJoinClubClick} />
     </>
   );
 }

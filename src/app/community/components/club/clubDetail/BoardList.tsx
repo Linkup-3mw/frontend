@@ -62,7 +62,7 @@ export default function BoardList({ clubId, type }: Props) {
     return <CircleLoader />;
   }
 
-  if (data?.pages[0].data?.content.length !== 0) {
+  if (data?.pages[0].data?.content.length === 0) {
     return <NoDataMessage />;
   }
 
