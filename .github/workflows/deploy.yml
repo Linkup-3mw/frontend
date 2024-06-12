@@ -23,12 +23,12 @@ jobs:
         id: push_directory
         uses: cpina/github-action-push-to-another-repository@main
         env:
-          API_TOKEN_GITHUB: AUTH_TOKEN
+          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
         with:
           source-directory: 'output'
           destination-github-username: moonyah
           destination-repository-name: linkup-frontend
-          user-email: EMAIL
+          user-email: dltk456@naver.com
           commit-message: ${{ github.event.commits[0].message }}
           target-branch: main
 

@@ -2,12 +2,12 @@
 import React, { useState } from 'react';
 import ContentWrap from '@common/components/frame/ContentWrap';
 import MenuButtons from '@components/club/MenuButtons';
-import AllMenu from '@/app/community/components/club/clubMenu/allMenu/AllMenu';
-import BookmarkMenu from '@/app/community/components/club/clubMenu/bookmarkMenu/BookmarkMenu';
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
-import AllMenuGuest from './clubMenu/allMenu/AllMenuGuest';
 import { useSession } from 'next-auth/react';
-import MyClubsMenu from './clubMenu/myClubsMenu/MyClubsMenu';
+import MyClubsMenu from '@/app/community/components/club/clubMenu/MyClubsMenu';
+import AllMenuGuest from '@/app/community/components/club/clubMenu/AllMenuGuest';
+import BookmarkMenu from '@/app/community/components/club/clubMenu/BookmarkMenu';
+import AllMenu from '@/app/community/components/club/clubMenu/AllMenu';
 
 export default function ClubMain() {
   const { data: session } = useSession();

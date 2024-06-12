@@ -2,9 +2,9 @@ import MyClubsSubMenu from '@components/club/MyClubsSubMenu';
 import AddClubButton from '@components/club/common/AddClubButton';
 import SearchInput from '@components/club/SearchInput';
 import { useState } from 'react';
-import AllMyClubs from './subMenu/AllMyClubs';
-import ManageableClubs from './subMenu/ManageableClubs';
-import UnapprovedClubs from './subMenu/UnapprovedClubs';
+import AllMyClubs from '@/app/community/components/club/clubMenu/AllMyClubs';
+import ManageableClubs from '@/app/community/components/club/clubMenu/ManageableClubs';
+import UnapprovedClubs from '@/app/community/components/club/clubMenu/UnapprovedClubs';
 
 export default function MyClubsMenu() {
   const [subMenuSelection, setSubMenuSelection] = useState('myClubs');
@@ -18,9 +18,9 @@ export default function MyClubsMenu() {
       case 'myClubs':
         return <AllMyClubs />;
       case 'unapprovedClubs':
-        return <ManageableClubs />;
-      case 'manageableClubs':
         return <UnapprovedClubs />;
+      case 'manageableClubs':
+        return <ManageableClubs />;
       default:
         return null;
     }
