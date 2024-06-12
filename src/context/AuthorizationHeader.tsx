@@ -1,8 +1,9 @@
 'use client';
 
+import Alert from '@/app/common/components/modal/Alert';
 import { signoutWithCredentials } from '@/app/service/auth';
-import { signOut, useSession } from 'next-auth/react';
-import { useEffect } from 'react';
+import { useSession } from 'next-auth/react';
+import { useEffect, useState } from 'react';
 
 interface Props {
   children: React.ReactNode;
@@ -23,7 +24,7 @@ interface SessionType {
 export default function AuthorizationHeader({ children }: Props) {
   const { status, data: session }: SessionType = useSession();
   const isLogin = !!session && status === 'authenticated';
-  // const accesstoken = isLogin ? session.accessToken : '';
+  const [showAlert, setShowAlert] = useState(false);
 
   useEffect(() => {
     if (!isLogin) return;
@@ -34,14 +35,21 @@ export default function AuthorizationHeader({ children }: Props) {
 
     if (session?.error === 'RefreshAccessTokenError') {
       // 리프레시 토큰 만료
-      alert('세션이 만료되었습니다.');
-      signoutWithCredentials();
+      setShowAlert(true);
     }
   }, [isLogin, session]);
 
-  // 만료시간 임시 값
-  // useEffect(() => {
-  //   setCookie('accessToken', accesstoken, 2);
-  // }, [isLogin]);
-  return <>{children}</>;
+  return (
+    <>
+      {children}
+      {showAlert && (
+        <Alert
+          showCloseButton={false}
+          setIsShow={setShowAlert}
+          message="세션이 만료되었습니다."
+          onClick={() => signoutWithCredentials()}
+        />
+      )}
+    </>
+  );
 }
