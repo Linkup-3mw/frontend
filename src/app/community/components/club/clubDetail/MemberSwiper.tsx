@@ -17,6 +17,7 @@ interface Props {
   members: {
     member_id: number;
     member_name: string;
+    member_username: string;
     profile_image: string;
     ishost: undefined | boolean;
   }[];
@@ -69,40 +70,48 @@ export default function MemberSwiper({
           prevEl: prevRef.current,
         }}
       >
-        {members?.map(({ member_id, member_name, profile_image, ishost }) => {
-          return (
-            <SwiperSlide
-              key={member_id}
-              className={`
+        {members?.map(
+          ({
+            member_id,
+            member_username,
+            member_name,
+            profile_image,
+            ishost,
+          }) => {
+            return (
+              <SwiperSlide
+                key={member_id}
+                className={`
               ${
                 size === 'small'
                   ? '!w-[2.625rem] max-md:!w-[2.625rem]'
                   : '!w-[3.75rem]  max-md:!w-[2.75rem]'
               } `}
-            >
-              <div
-                className={`py-[0.25rem] text-center text-[0.75rem] leading-none dot_three
+              >
+                <div
+                  className={`py-[0.25rem] text-center text-[0.75rem] leading-none dot_three
                 ${
                   size === 'small'
                     ? 'font-normal'
                     : 'font-bold max-md:font-normal'
                 }`}
-              >
-                <Avatar
-                  image={profile_image || '/svg/header/profileDefault.svg'}
-                  name={member_name}
-                  type={(ishost && 'host') || undefined}
-                  className={`block mx-auto ${
-                    size === 'small'
-                      ? 'mb-[0.25rem] !w-[1.75rem] !h-[1.75rem]'
-                      : 'mb-[0.5rem]'
-                  } `}
-                />
-                {member_name}
-              </div>
-            </SwiperSlide>
-          );
-        })}
+                >
+                  <Avatar
+                    image={profile_image || '/svg/header/profileDefault.svg'}
+                    name={member_username || member_name}
+                    type={(ishost && 'host') || undefined}
+                    className={`block mx-auto ${
+                      size === 'small'
+                        ? 'mb-[0.25rem] !w-[1.75rem] !h-[1.75rem]'
+                        : 'mb-[0.5rem]'
+                    } `}
+                  />
+                  {member_username || member_name}
+                </div>
+              </SwiperSlide>
+            );
+          },
+        )}
       </Swiper>
     </div>
   );
