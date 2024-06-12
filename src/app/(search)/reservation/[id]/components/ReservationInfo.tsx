@@ -144,8 +144,8 @@ export default function ReservationInfo() {
                   ${membershipChoose?.type === membership.type ? 'bg-[#688AF2]' : 'bg-white'}`}
                 onClick={() => {
                   setMembershipChoose(membership);
-                  setSelectedSeatAll(null);
-                  setSelectedSeatAll(null);
+                  // setSelectedSeatAll(null);
+                  // setSelectedSpaceAll(null);
                 }}
               >
                 <div className="flex flex-col justify-start w-[15.75rem] h-[8rem] p-4">

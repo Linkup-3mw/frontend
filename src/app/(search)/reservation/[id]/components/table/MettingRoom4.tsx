@@ -11,6 +11,7 @@ import FullPageLoader from '@/app/(search)/map/components/Loader/FullPageLoader'
 import { loadingState } from '@/app/(search)/atom/media';
 import TimeSkeleton from '../skeleton/TimeSkeleton';
 import { userUpdateRlistPutState } from '@/app/(search)/atom/membership';
+import { addDays, format } from 'date-fns';
 
 export default function MeetingRoom4() {
   const [selectedSpaceAll, setSelectedSpaceAll] = useRecoilState(
@@ -62,6 +63,7 @@ export default function MeetingRoom4() {
   };
 
   useEffect(() => {
+    setSeatClick(true);
     setTimeout(() => {
       setLoading(false);
     }, 2000);
@@ -88,42 +90,17 @@ export default function MeetingRoom4() {
     ? remaining.filter((item) => item.id === click)
     : [];
 
-  // const handleSpaceClick = (spaceCode: string) => {
-  //   setSelectedSpaceAll((prev) => ({
-  //     ...prev,
-  //     code: spaceCode,
-  //   }));
-  //   setClick(spaceCode);
-
-  //   setTimeout(() => {
-  //     setLoading(false);
-  //   }, 2000);
-  // };
-  const handleSpaceClick = (seatNumber: string) => {
-    setSeatClick(true);
-    const searchParams = new URLSearchParams(window.location.search);
-    searchParams.set('seatId', seatNumber);
-
-    const url = `${window.location.pathname}?${searchParams.toString()}`;
-    window.history.pushState(null, '', url);
-    //  추가한 부분
-    if (
-      selectedSpaceAll &&
-      spaceList.some((space) => space.code === selectedSpaceAll.code)
-    ) {
-      setSelectedSpaceAll(null);
-    } else if (!selectedSpaceAll?.start_date) {
-      setSelectedSpaceAll(null);
-    }
-
+  const handleSpaceClick = (spaceCode: string) => {
     setSelectedSpaceAll((prev) => ({
       ...prev,
-      code: seatNumber,
-      start_date: prev?.start_date || ' ',
-      end_date: prev?.end_date || '',
-      type: prev?.type || '',
+      code: spaceCode,
     }));
+    setClick(spaceCode);
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
   };
+
   const handleSpaceTimeClick = (time: string) => {
     if (selectedSpaceAll?.start_time) {
       setSelectedSpaceAll((prev) => ({

@@ -32,6 +32,7 @@ export default function MonitorDesk() {
   };
 
   useEffect(() => {
+    setSeatClick(false);
     setTimeout(() => {
       setLoading(false);
     }, 2000);
@@ -64,11 +65,6 @@ export default function MonitorDesk() {
       end_date: prev?.end_date || '',
       type: prev?.type || '',
     }));
-    setLoading(true);
-
-    setTimeout(() => {
-      setLoading(false);
-    }, 1000);
   };
 
   return (
@@ -121,13 +117,7 @@ export default function MonitorDesk() {
                         <div key={i}>
                           <button
                             onClick={() => handleSeatClick(seat.id)}
-                            className={`rounded-lg w-[4rem] h-[2.5rem] ${
-                              seat.available === false
-                                ? 'bg-gray-400 text-black'
-                                : seatClick
-                                  ? 'bg-[#688AF2] text-white'
-                                  : ''
-                            }`}
+                            className={`rounded-lg w-[4rem] h-[2.5rem] ${seat.available ? 'bg-white' : 'bg-gray-400'}`}
                           >
                             {seat.code}
                           </button>
@@ -214,16 +204,7 @@ export default function MonitorDesk() {
                   {!loading &&
                     remaining.map((seat, i) => (
                       <div key={i}>
-                        <button
-                          onClick={() => handleSeatClick(seat.id)}
-                          className={`rounded-lg w-[4rem] h-[2.5rem] ${
-                            seat.available === false
-                              ? 'bg-gray-400 text-black'
-                              : selectedSeatAll?.code === seat.code
-                                ? 'bg-[#688AF2] text-white'
-                                : 'bg-white'
-                          }`}
-                        >
+                        <button onClick={() => handleSeatClick(seat.id)}>
                           {seat.code}
                         </button>
                       </div>
