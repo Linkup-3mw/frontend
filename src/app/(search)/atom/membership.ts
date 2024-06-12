@@ -36,8 +36,8 @@ export const userMembershipListState = atom<userReservationList[]>({
   default: [],
 });
 export const selectedMembershipId = atom<number | string>({
-  default: '',
   key: 'mid',
+  default: '',
 });
 export const rsInfoState = atom<userReservationList | null>({
   key: 'rsInfoState',

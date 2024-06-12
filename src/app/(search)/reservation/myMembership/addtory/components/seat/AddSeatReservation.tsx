@@ -35,9 +35,6 @@ export default function AddSeatReservation() {
   const [spaceList, setSpaceList] = useRecoilState(spaceListReservation);
   const [selectedSeatAll, setSelectedSeatAll] =
     useRecoilState(selectedSeatAllState);
-  const [selectedSpaceAll, setSelectedSpaceAll] = useRecoilState(
-    selectedSpaceAllState,
-  );
   const MembershipId = useRecoilValue(selectedMembershipId);
   const showMobileTable = useRecoilValue(showMobileTableState);
   const [searchRemaining, setSearchRemaining] =
@@ -113,7 +110,7 @@ export default function AddSeatReservation() {
   };
   const handleDayClick = (day: Date) => {
     setSelectedDate(day);
-    setSelectedSeatAll({});
+    // setSelectedSeatAll({});
 
     const formmatedDate = format(day, 'yyyy-MM-dd');
 
@@ -278,7 +275,7 @@ export default function AddSeatReservation() {
       )}
       <div className="flex justify-center items-center">
         <div className="w-full text-center my-4">
-          {seatList.length < 0 && (
+          {seatList.length > 0 && (
             <button
               onClick={() => handleSeatReservationClick()}
               className="w-[5.5rem] h-[2.5rem] bg-blue-400 text-white rounded-lg leading-[1.375rem]"

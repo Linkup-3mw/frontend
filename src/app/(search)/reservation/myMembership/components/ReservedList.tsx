@@ -1,4 +1,7 @@
-import { mobileReservationLayoutState } from '@/app/(search)/atom/media';
+import {
+  mobileReservationLayoutState,
+  showMobileTableState,
+} from '@/app/(search)/atom/media';
 import {
   confirmModalState,
   rsInfoState,
@@ -24,6 +27,8 @@ import { DayPicker } from 'react-day-picker';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
 export default function ReservedList({ seatTypes }: { seatTypes: string[] }) {
+  const [showMobileTable, setShowMobileTable] =
+    useRecoilState(showMobileTableState);
   const [rsInfo, setRsInfo] = useRecoilState(rsInfoState);
   const [searchRemaining, setSearchRemaining] =
     useRecoilState(searchRemainingState);
@@ -116,7 +121,10 @@ export default function ReservedList({ seatTypes }: { seatTypes: string[] }) {
           `reservation/individual/my-membership/${mid}/reservation/${rsInfo?.id}`,
           updateMembership,
         );
-        console.log('SeatReservationList에서의 요청', res.data.data);
+        console.log(
+          'SeatReservationList에서의  풋풋풋풋풋풋 요청',
+          res.data.data,
+        );
         setSearchRemaining(res.data.data);
       } catch (error) {
         console.error('Error updating seat reservation:', error);
@@ -125,12 +133,9 @@ export default function ReservedList({ seatTypes }: { seatTypes: string[] }) {
     }
   };
 
-  useEffect(() => {
-    if (confirm) {
-      fetchSeatReservationUpdate();
-      setConfirm(false);
-    }
-  }, [confirm]);
+  // useEffect(() => {
+
+  // }, [confirm]);
 
   const handleDayClick = (day: Date) => {
     setSelectedDate(day);
@@ -155,113 +160,117 @@ export default function ReservedList({ seatTypes }: { seatTypes: string[] }) {
   };
 
   return (
-    <div className="flex justify-center">
-      <div className="bg-[#E4EEFF] mb:w-[90%] h-48px text-20px font-bold mt-3 text-gray-300 cursor-pointer">
-        <div className="flex flex-col gap-4 justify-start h-48px w-full mx-auto">
-          <p className="text-xl font-bold text-black">지정 좌석 변경</p>
+    <div className="flex md:flex-col items-center ">
+      <div className="flex flex-col gap-4 justify-start h-48px w-full mx-auto">
+        <p className="mt-5 text-xl font-bold text-black">지정 좌석 변경</p>
+        <p className="text-lg font-bold text-black">
+          기존 예약 정보를 확인하세요.
+        </p>
+        <div className="bg-white h-auto mb-4 rounded-lg cursor-pointer">
+          <div className="p-4 flex justify-start mx-auto">
+            <div className="flex flex-col pr-4 border-r-2">
+              <div className="text-black font-normal">{rsInfo?.seat_type}</div>
+              <div className="font-bold text-lg text-black">
+                {rsInfo?.seat_code}
+              </div>
+            </div>
+            <div className="text-black font-normal pl-4">
+              {rsInfo?.start_date}
+            </div>
+          </div>
+        </div>
+        <div className="leading-4">
           <p className="text-lg font-bold text-black">
-            기존 예약 정보를 확인하세요.
+            변경할 날짜를 선택하세요.
           </p>
-          <div className="bg-white w-full h-auto mb-4 rounded-lg cursor-pointer">
-            <div className="p-4 flex justify-start">
-              <div className="flex flex-col pr-4 border-r-2">
-                <div className="text-black font-normal">
-                  {rsInfo?.seat_type}
+          <p className="text-gray-300 text-xs">
+            선택한 날짜부터 좌석이 변경됩니다.
+          </p>
+        </div>
+        <DayPicker
+          selected={selectedDate}
+          locale={ko}
+          onDayClick={handleDayClick}
+          modifiers={{ today: new Date() }}
+          modifiersStyles={today}
+          disabled={{
+            before: new Date(),
+            after: addMonths(new Date(), 1),
+          }}
+        />
+        <div className="flex flex-col mb-4 justify-between">
+          <div className="flex w-full">
+            {rsInfo?.seat_type !== '지정좌석' &&
+              seatTypes.map((seatStyle) => (
+                <div
+                  key={seatStyle}
+                  onClick={() => handleSeatStyleClick(seatStyle)}
+                  className={`mb:w-full mr-2 mb:h-auto md:w-[6.29688rem] md:h-[7.75rem] flex flex-col justify-center items-center p-2 gap-2 rounded-lg ${
+                    seatStyle === selectedSeatAll?.type
+                      ? 'bg-blue-400 text-white'
+                      : 'bg-white'
+                  }`}
+                >
+                  <Image
+                    width={isMobile ? 44 : 64}
+                    height={isMobile ? 44 : 64}
+                    alt={seatStyle}
+                    src={seatImages[seatStyle]}
+                  />
+                  <p className="md:text-sm mb:text-[0.525rem] mb:font-bold">
+                    {seatStyle}
+                  </p>
                 </div>
-                <div className="font-bold text-lg text-black">
-                  {rsInfo?.seat_code}
-                </div>
-              </div>
-              <div className="text-black font-normal pl-4">
-                {rsInfo?.start_date}
-              </div>
+              ))}
+          </div>
+        </div>
+        {selectedSeatAll && confirm && (
+          <>
+            <div>
+              <p>수정하신 예약 정보를 확인해주세요.</p>
             </div>
-          </div>
-          <div className="leading-4">
-            <p className="text-lg font-bold text-black">
-              변경할 날짜를 선택하세요.
-            </p>
-            <p className="text-gray-300 text-xs">
-              선택한 날짜부터 좌석이 변경됩니다.
-            </p>
-          </div>
-          <DayPicker
-            selected={selectedDate}
-            locale={ko}
-            onDayClick={handleDayClick}
-            modifiers={{ today: new Date() }}
-            modifiersStyles={today}
-            disabled={{
-              before: new Date(),
-              after: addMonths(new Date(), 1),
-            }}
-          />
-          <div className="flex flex-col mb-4 justify-between">
-            <div className="flex w-full">
-              {rsInfo?.seat_type !== '지정좌석' &&
-                seatTypes.map((seatStyle) => (
-                  <div
-                    key={seatStyle}
-                    onClick={() => handleSeatStyleClick(seatStyle)}
-                    className={`mb:w-full mr-2 mb:h-auto md:w-[6.29688rem] md:h-[7.75rem] flex flex-col justify-center items-center p-2 gap-2 rounded-lg ${
-                      seatStyle === selectedSeatAll?.type
-                        ? 'bg-blue-400 text-white'
-                        : 'bg-white'
-                    }`}
+            <div className="flex mb:gap-1 md:gap-2 mb:p-2 md:p-4 justify-between bg-white rounded-2xl">
+              <div className="pr-4 border-gray-300 flex">
+                <div className="pr-4 border-r-2">
+                  <p className="mb:text-sm md:text-[1rem] md:leading-7 mb:leading-5">
+                    {selectedSeatAll?.type}
+                  </p>
+                  <p className="mb:text-[0.875rem] md:text-[1.25rem] font-bold">
+                    {selectedSeatAll?.code}
+                  </p>
+                </div>
+                <div className="pl-4 md:font-normal md:text-lg mb:text-sm">
+                  <p>{selectedSeatAll?.start_date}</p>
+                </div>
+              </div>
+              <div className="flex items-center">
+                {isMobile ? (
+                  <button
+                    className="rounded-lg w-[1.75rem] h-[1.75rem] text-sm text-white font-semibold bg-[#FF4163]"
+                    onClick={() => removeUpdateReservation()}
                   >
-                    <Image
-                      width={isMobile ? 44 : 64}
-                      height={isMobile ? 44 : 64}
-                      alt={seatStyle}
-                      src={seatImages[seatStyle]}
-                    />
-                    <p className="md:text-sm mb:text-[0.525rem] mb:font-bold">
-                      {seatStyle}
-                    </p>
-                  </div>
-                ))}
+                    X
+                  </button>
+                ) : (
+                  <button
+                    className="rounded-lg w-[4.625rem] h-[2rem] text-sm text-white font-semibold bg-[#FF4163]"
+                    onClick={() => removeUpdateReservation()}
+                  >
+                    선택 취소
+                  </button>
+                )}
+              </div>
             </div>
-          </div>
-          {selectedSeatAll && confirm && (
-            <>
-              <div>
-                <p>수정하신 예약 정보를 확인해주세요.</p>
-              </div>
-              <div className="flex mb:gap-1 md:gap-2 mb:p-2 md:p-4 justify-between bg-white rounded-2xl">
-                <div className="pr-4 border-gray-300 flex">
-                  <div className="pr-4 border-r-2">
-                    <p className="mb:text-sm md:text-[1rem] md:leading-7 mb:leading-5">
-                      {selectedSeatAll?.type}
-                    </p>
-                    <p className="mb:text-[0.875rem] md:text-[1.25rem] font-bold">
-                      {selectedSeatAll?.code}
-                    </p>
-                  </div>
-                  <div className="pl-4 md:font-normal md:text-lg mb:text-sm">
-                    <p>{selectedSeatAll?.start_date}</p>
-                  </div>
-                </div>
-                <div className="flex items-center">
-                  {isMobile ? (
-                    <button
-                      className="rounded-lg w-[1.75rem] h-[1.75rem] text-sm text-white font-semibold bg-[#FF4163]"
-                      onClick={() => removeUpdateReservation()}
-                    >
-                      X
-                    </button>
-                  ) : (
-                    <button
-                      className="rounded-lg w-[4.625rem] h-[2rem] text-sm text-white font-semibold bg-[#FF4163]"
-                      onClick={() => removeUpdateReservation()}
-                    >
-                      선택 취소
-                    </button>
-                  )}
-                </div>
-              </div>
-            </>
-          )}
-          {confirmModal && <ConfirmModal />}
+          </>
+        )}
+
+        <div
+          onClick={() => setShowMobileTable(true)}
+          className="hidden-desk w-full text-center my-4"
+        >
+          <button className=" w-[5.5rem] h-[2.5rem] bg-blue-400 text-white rounded-lg leading-[1.375rem]">
+            좌석 선택
+          </button>
         </div>
       </div>
     </div>

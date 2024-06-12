@@ -2,17 +2,19 @@ import { mobileReservationLayoutState } from '@/app/(search)/atom/media';
 import {
   rsInfoState,
   selectedMembershipId,
+  selectedOfficeId,
   userUpdateRlistPutState,
 } from '@/app/(search)/atom/membership';
 import {
   confirmedState,
   searchRemainingState,
+  seatListReservation,
   selectedSeatAllState,
 } from '@/app/(search)/atom/office';
 import API from '@/utils/axios';
 import Image from 'next/image';
 import { useState } from 'react';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 
 export default function SeatReservationList({
   seatTypes,
@@ -22,15 +24,13 @@ export default function SeatReservationList({
   const [rsInfo, setRsInfo] = useRecoilState(rsInfoState);
   const [searchRemaining, setSearchRemaining] =
     useRecoilState(searchRemainingState);
-  // const mid = useRecoilValue(selectedMembershipId);
+  const MemberId = useRecoilValue(selectedMembershipId);
   const isMobile = useRecoilValue(mobileReservationLayoutState);
   const [selectedSeatAll, setSelectedSeatAll] =
     useRecoilState(selectedSeatAllState);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const currentUrl = window.location.href;
-  const parts = currentUrl.split('/');
-  const lastPart = parts[parts.length - 1];
-  const mid = parseInt(lastPart);
+
+  const officeId = useRecoilValue(selectedOfficeId);
+  const [seatList, setSeatList] = useRecoilState(seatListReservation);
   const [confirm, setConfirm] = useRecoilState(confirmedState);
   const seatImages: Record<string, string> = {
     오픈데스크: '/svg/reservation/opendesk.svg',
@@ -41,15 +41,18 @@ export default function SeatReservationList({
   const [seatReservationList, setSeatReservationList] = useRecoilState(
     userUpdateRlistPutState,
   );
+
   const handleSeatStyleClick = async (seatStyle: string) => {
+    console.log('왜 널일까?', seatStyle);
     setSeatReservationList(true);
-    const office_id = rsInfo?.id;
-    console.log('seatreservation에서 오피스아이디', office_id);
+
+    console.log('seatreservation에서 오피스아이디', officeId);
     console.log('selectedSeatAll', selectedSeatAll);
+
     const fetchSeatReservationListData = async () => {
       try {
         const res = await API.get(
-          `reservation/${office_id}?type=${seatStyle}&start=${rsInfo?.start_date}&end=${rsInfo?.end_date}`,
+          `reservation/${officeId}?type=${seatStyle}&start=${rsInfo?.start_date}&end=${rsInfo?.end_date}`,
         );
         console.log('SeatReservationList에서의 요청', res.data.data);
         setSearchRemaining(res.data.data);
@@ -57,34 +60,35 @@ export default function SeatReservationList({
         console.error(error);
       }
     };
-
-    setErrorMessage(null);
     setSelectedSeatAll((prev) => ({
       ...prev,
       type: seatStyle,
       start_date: rsInfo?.start_date,
       end_date: rsInfo?.end_date,
     }));
-
     fetchSeatReservationListData();
   };
-  console.log('dldidkdkdkdkdk이야아아아ㅏ아아앙', selectedSeatAll?.code);
-  console.log('왜그래', confirm);
-
+  //수정 요청
+  const removeReservation = () => {
+    setSelectedSeatAll(null);
+  };
   const fetchSeatReservationUpdate = async () => {
     const updateMembership = {
       type: rsInfo?.type,
       start_date: rsInfo?.start_date,
       start_time: rsInfo?.start_time,
-      end_time: rsInfo?.end_date,
+      end_time: rsInfo?.end_time,
+      end_date: rsInfo?.end_date,
       prise: null,
       seat_id: selectedSeatAll?.code,
     };
 
     try {
       console.log('seatID', rsInfo?.id);
+      console.log('MID', MemberId);
+      console.log('업데이트로그', updateMembership);
       const res = await API.put(
-        `reservation/individual/my-membership/${mid}/reservation/${rsInfo?.id}`,
+        `reservation/individual/my-membership/${MemberId}/reservation/${rsInfo?.id}`,
         updateMembership,
       );
       console.log('SeatReservationList에서의 요청', res.data.data);
@@ -92,11 +96,9 @@ export default function SeatReservationList({
     } catch (error) {
       console.error('Error updating seat reservation:', error);
     }
-  };
-  if (confirm) {
-    fetchSeatReservationUpdate();
+
     setConfirm(false);
-  }
+  };
 
   return (
     <div>
@@ -150,6 +152,60 @@ export default function SeatReservationList({
               ))}
             </div>
           </div>
+          {selectedSeatAll && (
+            <div className="flex flex-col gap-4">
+              <p className="text-lg font-bold text-black">
+                수정하신 예약 정보를 확인해주세요.
+              </p>
+              <div className="w-full flex flex-col gap-5 bg-white rounded-xl">
+                <div className="mb:w-[18rem] md:w-[26.6875rem] mb:h-[4.1875rem] md:h-[5.625rem] bg-white text-lg rounded-xl p-1 pl-2 mb-2">
+                  <div className="flex mb:gap-1 md:gap-2 mb:p-2 md:p-4 justify-between">
+                    <div className="pr-4 border-gray-300 flex">
+                      <div className="pr-4 border-r-2">
+                        <p className="mb:text-[0.75rem]  md:text-[1rem] md:leading-7 mb:leading-5">
+                          {selectedSeatAll?.type}
+                        </p>
+                        <p className="mb:text-[0.875rem] md:text-[1.25rem] font-bold ">
+                          {selectedSeatAll?.code}
+                        </p>
+                      </div>
+                      <div className="pl-4 md:font-normal md:text-lg mb:text-[0.25rem] mb:leading-5 md:leading-7">
+                        <p>{selectedSeatAll?.start_date} ~ </p>
+                        <p> {selectedSeatAll?.end_date}</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center">
+                      {!isMobile ? (
+                        <div className="">
+                          <button
+                            className="rounded-lg w-[4.625rem] h-[2rem] text-sm text-white font-semibold bg-[#FF4163]"
+                            onClick={() => removeReservation()}
+                          >
+                            선택 취소
+                          </button>
+                        </div>
+                      ) : (
+                        <button
+                          className="rounded-lg w-[1.75rem] h-[1.75rem] text-sm text-white font-semibold bg-[#FF4163]"
+                          onClick={() => removeReservation()}
+                        >
+                          X
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                onClick={() => fetchSeatReservationUpdate()}
+                className="w-full text-center my-4"
+              >
+                <button className="w-[5.5rem] h-[2.5rem] bg-blue-400 text-white rounded-lg leading-[1.375rem]">
+                  수정 하기
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

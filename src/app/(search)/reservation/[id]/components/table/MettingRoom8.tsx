@@ -23,6 +23,7 @@ export default function MeetingRoom8() {
   const [click, setClick] = useState('');
   const [loading, setLoading] = useRecoilState(loadingState);
   const [isExpanded, setIsExpanded] = useState(true);
+  const [seatClick, setSeatClick] = useState(false);
   const [amTime, setAmTime] = useState([
     '08:00',
     '08:30',
@@ -61,6 +62,7 @@ export default function MeetingRoom8() {
   };
 
   useEffect(() => {
+    setSeatClick(true);
     setTimeout(() => {
       setLoading(false);
     }, 2000);

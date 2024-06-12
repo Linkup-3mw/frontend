@@ -7,7 +7,7 @@ import {
   Reservation,
 } from '@/types/office/reservation';
 import { SeatReservation, SpaceReservation } from '@/types/office/reservation';
-import { atom } from 'recoil';
+import { StoreID, atom } from 'recoil';
 
 export const Rtab = atom<string>({
   key: 'Rtab',
@@ -50,8 +50,8 @@ export const OnePassMembershipState = atom<OnePassMembership[] | null>({
 export const selectedSeatAllState = atom<SeatReservation | null>({
   key: 'seatAll',
   default: {
-    start_date: '2024-06-09',
-    end_date: '2024-06-09',
+    start_date: '',
+    end_date: '',
     type: '',
     code: '',
     month: 1,
@@ -61,13 +61,16 @@ export const selectedSeatAllState = atom<SeatReservation | null>({
 export const selectedSpaceAllState = atom<SpaceReservation | null>({
   key: 'spaceAll',
   default: {
-    start_date: '2024-06-09',
-    end_date: '2024-06-09',
-    type: '미팅룸(4인)',
+    start_date: '',
+    end_date: '',
+    type: '',
     code: '',
   },
 });
-
+export const reservationErrorMsgState = atom<string | null>({
+  key: 'reservationErrorMsg',
+  default: '',
+});
 // 확정 눌렀는지
 export const confirmedState = atom<boolean | null>({
   key: 'confirmed',

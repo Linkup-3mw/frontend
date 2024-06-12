@@ -35,7 +35,7 @@ export default function ConfirmModal() {
           <div className="bg-[#E4EEFF] max-md:w-[20rem]  md:w-[46.75rem] h-[23.25rem] rounded-xl shadow-lg flex flex-col justify-center p-8">
             <div className="relative h-[8rem]">
               <p className="md:text-xl mb:text-sm font-semibold text-center mb-8">
-                정말 예약을 취소하시겠습니까?
+                정말 예약을 수정하시겠습니까?
               </p>
               <Image
                 className="cursor-pointer absolute top-0 right-2"

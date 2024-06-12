@@ -47,10 +47,7 @@ export default function Reservation() {
         {showMobileTable && (
           <>
             <div className="">
-              <OpenTableMobile
-                selectedSeatAll={selectedSeatAll!}
-                selectedSpaceAll={selectedSpaceAll!}
-              />
+              <OpenTableMobile />
             </div>
           </>
         )}

@@ -32,6 +32,7 @@ export default function FocusDesk() {
   };
 
   useEffect(() => {
+    setSeatClick(true);
     setTimeout(() => {
       setLoading(false);
     }, 2000);
@@ -47,6 +48,7 @@ export default function FocusDesk() {
       if (seatList.length < 5) {
         setSeatList([...seatList, { ...selectedSeatAll }]);
         setConfirm(true);
+        setSelectedSeatAll(null);
         console.log(confirm);
       } else {
         return;
@@ -55,7 +57,6 @@ export default function FocusDesk() {
   };
 
   const handleSeatClick = (seatNumber: string) => {
-    setSeatClick(true);
     const searchParams = new URLSearchParams(window.location.search);
     searchParams.set('seatId', seatNumber);
     const url = `${window.location.pathname}?${searchParams.toString()}`;
@@ -73,7 +74,7 @@ export default function FocusDesk() {
     <>
       {Array.isArray(remaining) ? (
         seatReservationList ? (
-          <div className="hidden-360 flex flex-col justify-end w-[61.8125rem] h-[51.25rem] relative overflow-hidden rounded-md">
+          <div className="hidden-360  flex flex-col justify-end w-[61.8125rem] h-[51.25rem] relative overflow-hidden rounded-md">
             <div className="mb:h-[18.3125rem] md:w-[61.8126rem] md:h-[51.25rem] absolute inset-0">
               <Image
                 src="/svg/reservation/imageView/focusdesk.svg"
