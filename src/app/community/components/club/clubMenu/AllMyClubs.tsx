@@ -6,7 +6,7 @@ import SearchInput from '@components/club/SearchInput';
 import API from '@/utils/axios';
 import Link from 'next/link';
 
-export default function AllMyMenu() {
+export default function AllMyClubs() {
   const [clubs, setClubs] = useState<ClubCardProps[]>([]);
   const [loading, setLoading] = useState(false);
 
