@@ -168,19 +168,7 @@ export default function AllMenu() {
           {clubs.map((club) => (
             <div key={club.id}>
               <Link href={`/community/club/${club.id}`}>
-                <div
-                  onClick={async (e) => {
-                    e.preventDefault(); // 기본 동작 막기
-                    e.stopPropagation(); // 상위 요소로 이벤트 전파 막기
-                    console.log('Clicked club ID:', club.id);
-                    const hasMatchingMembers = await fetchClubMembers(club.id);
-                    if (hasMatchingMembers) {
-                      window.location.href = `/community/club/${club.id}`;
-                    } else {
-                      window.location.href = `/community/club/request/${club.id}`;
-                    }
-                  }}
-                >
+                <div>
                   {/* 모바일 화면 */}
                   <div
                     className={`bg-white rounded-2xl relative p-4 block md:hidden`}
