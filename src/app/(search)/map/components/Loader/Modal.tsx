@@ -21,7 +21,7 @@ export default function Modal() {
   return (
     <>
       {loading && (
-        <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-red-800  bg-opacity-50">
+        <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black  bg-opacity-30">
           <FullPageLoader />
         </div>
       )}
@@ -44,13 +44,13 @@ export default function Modal() {
 
             <div className="flex flex-col space-y-4">
               <Link
-                className="bg-[#688AF2] text-center  text-white px-6 py-3 rounded-md transition-colors duration-300 hover:bg-red-500"
-                href="register"
+                className="bg-[#688AF2] text-center  text-white px-6 py-3 rounded-md transition-colors duration-300 cursor-pointer"
+                href="signin"
               >
                 <button>로그인</button>
               </Link>
               <Link
-                className="bg-[#688AF2] text-center  text-white px-6 py-3 rounded-md transition-colors duration-300 hover:bg-red-500"
+                className="bg-[#688AF2] text-center  text-white px-6 py-3 rounded-md transition-colors duration-300 cursor-pointer"
                 href="register"
               >
                 <button>회원가입</button>

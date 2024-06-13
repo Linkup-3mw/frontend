@@ -41,11 +41,24 @@ export default function AllMembership({ user }: { user: IUser }) {
     };
     fetchAllMembershipData();
   }, [setUserMembership]);
+
   const handleGoClick = (membershipId: number, officeId: number) => {
     setOfficeId(officeId);
     router.push(`/reservation/myMembership/resertory/${membershipId}`);
     setMembershipId(membershipId);
   };
+  const handleReservationAddClick = (
+    membershipId: number,
+    office_id: number,
+  ) => {
+    console.log('membershipId', membershipId); //
+    //잔여좌석 조회할때 쓸 오피스아이디
+    setOfficeId(office_id);
+    console.log(officeId);
+    router.push(`/reservation/myMembership/addtory/${membershipId}`);
+    setMembershipId(membershipId);
+  };
+
   const imgPuzzle = [
     '/images/home/yellow_puzzle.png',
     '/images/home/green_puzzle.png',
@@ -107,13 +120,26 @@ export default function AllMembership({ user }: { user: IUser }) {
                     {membership.type === '1일 패스' ||
                       `- ${dateDot(membership.end_date)}`}
                   </b>
-                  <div
-                    onClick={() =>
-                      handleGoClick(membership.id, membership.office_id)
-                    }
-                    className="mt-[1rem] cursor-pointer inline-block px-[1rem] py-[1rem] bg-blue-400 text-white rounded-[0.5rem] leading-none text-[1.25rem] max-md:p-[0.5rem] max-md:text-[1rem] max-md:rounded-[0.25rem]"
-                  >
-                    예약내역
+                  <div className="flex gap-4 w-full cursor-pointer">
+                    <div
+                      onClick={() =>
+                        handleGoClick(membership.id, membership.office_id)
+                      }
+                      className="mt-[1rem] cursor-pointer inline-block px-[1rem] py-[1rem] bg-blue-400 text-white rounded-[0.5rem] leading-none text-[1.25rem] max-md:p-[0.5rem] max-md:text-[1rem] max-md:rounded-[0.25rem]"
+                    >
+                      예약 내역
+                    </div>
+                    <div
+                      onClick={() =>
+                        handleReservationAddClick(
+                          membership.id,
+                          membership.office_id,
+                        )
+                      }
+                      className="mt-[1rem] cursor-pointer inline-block px-[1rem] py-[1rem] bg-blue-400 text-white rounded-[0.5rem] leading-none text-[1.25rem] max-md:p-[0.5rem] max-md:text-[1rem] max-md:rounded-[0.25rem]"
+                    >
+                      예약 추가
+                    </div>
                   </div>
                 </div>
                 <Image
