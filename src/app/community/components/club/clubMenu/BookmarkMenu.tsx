@@ -169,19 +169,7 @@ export default function BookmarkMenu() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 md:gap-[2rem] gap-4 md:mt-8 mt-4">
           {clubs.map((club) => (
-            <Link
-              href={`/community/club/${club.id}`}
-              onClick={async (e) => {
-                e.preventDefault();
-                console.log('Clicked club ID:', club.id);
-                const hasMatchingMembers = await fetchClubMembers(club.id);
-                if (hasMatchingMembers) {
-                  window.location.href = `/community/club/${club.id}`;
-                } else {
-                  window.location.href = '/community/club/request';
-                }
-              }}
-            >
+            <Link href={`/community/club/${club.id}`}>
               {' '}
               <div key={club.id}>
                 {/* 모바일 화면 */}
