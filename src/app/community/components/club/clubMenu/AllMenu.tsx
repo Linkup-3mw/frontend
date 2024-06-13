@@ -18,7 +18,13 @@ export default function AllMenu() {
 
       console.log('Fetching clubs with params:', params.toString());
 
-      const response = await API.get(`/club/authenticated/search`, { params });
+      const response = await API.get(
+        `/club/authenticated/search?size=60
+      `,
+        {
+          params,
+        },
+      );
       const data = response.data;
       console.log('API Response:', data);
 

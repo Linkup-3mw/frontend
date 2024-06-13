@@ -131,7 +131,7 @@ export default function ManageableClubs() {
               <Link href={`/community/club/${club.id}`}>
                 {/* 모바일 화면 */}
                 <div
-                  className={`bg-white rounded-2xl relative p-4 block md:hidden`}
+                  className={`bg-white rounded-t-2xl relative p-4 block md:hidden`}
                 >
                   <div className="overflow-hidden relative flex">
                     <div className="w-24 h-24 relative mb:mr-3 mr-2 flex-shrink-0">
@@ -188,7 +188,7 @@ export default function ManageableClubs() {
                 </Link>
                 {/* PC 화면 */}
                 <div
-                  className={`hidden md:block bg-white rounded-lg overflow-hidden relative`}
+                  className={`hidden md:block bg-white rounded-t-lg overflow-hidden relative`}
                 >
                   <div className="h-[22.4rem] relative">
                     <img

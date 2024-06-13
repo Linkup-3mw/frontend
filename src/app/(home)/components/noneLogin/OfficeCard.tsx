@@ -48,7 +48,7 @@ export default function OfficeCard({
             ))}
           </div>
         </div>
-        <Link href={'/'}>더 알아보기 &nbsp;&gt;</Link>
+        {/* <Link href={'/'}>더 알아보기 &nbsp;&gt;</Link> */}
       </div>
     </div>
   );
