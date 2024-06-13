@@ -18,6 +18,8 @@ interface Props {
 
 export default function BoardDetail({ data, clubId, postId, postType }: Props) {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const { data: session } = useSession();
+  const userId = Number(session?.user.id);
 
   if (!data) {
     return <NoDataMessage />;
@@ -36,9 +38,6 @@ export default function BoardDetail({ data, clubId, postId, postType }: Props) {
     writer_occupation,
     writer_thumbnail,
   } = data;
-
-  const { data: session } = useSession();
-  const userId = Number(session?.user.id);
 
   return (
     <div className="pt-[1rem] pb-[1.5rem] max-md:pt-0 max-md:pb-0">
@@ -66,16 +65,18 @@ export default function BoardDetail({ data, clubId, postId, postType }: Props) {
               </i>
             </span>
           </div>
-          <i className="not-italic text-[0.75rem] text-gray-500">
-            {dateDot(date)}
-          </i>
+          {date && (
+            <i className="not-italic text-[0.75rem] text-gray-500">
+              {dateDot(date)}
+            </i>
+          )}
         </div>
         <div className="mb-[2.25rem] text-1 font-medium leading-[175%] whitespace-pre-line break-keep max-md:mb-[1.5rem] max-md:text-[0.875rem] max-md:font-medium max-md:leading-[171%]">
           {content}
         </div>
 
         {/* 댓글 */}
-        {comments.length > 0 && (
+        {comments && comments.length > 0 && (
           <div className="pt-[0.5rem] border-t-2 border-gray-300">
             {/* 댓글 목록 */}
             <ul className="[&_>_li]:my-[1.5rem]">
@@ -83,7 +84,7 @@ export default function BoardDetail({ data, clubId, postId, postType }: Props) {
                 ({
                   comment_id,
                   comment,
-                  club_member_name,
+                  club_member_username,
                   club_member_thumbnail,
                   club_member_occupation,
                 }: IBoardComment) => {
@@ -95,12 +96,12 @@ export default function BoardDetail({ data, clubId, postId, postType }: Props) {
                             club_member_thumbnail ||
                             '/svg/header/profileDefault.svg'
                           }
-                          name={club_member_name}
+                          name={club_member_username}
                           className="border-none w-[2.5rem] h-[2.5rem]"
                         />
                         <span className="text-[0px]">
                           <b className="inline-block mb-[0.3rem]  text-[0.875rem] text-gray-800 leading-none align-middle">
-                            {club_member_name}
+                            {club_member_username}
                             <i className="inline-block before:inline-block before:mx-[0.5rem] before:w-[2px] before:h-[0.625rem] before:bg-gray-300 text-[0.75rem] text-gray-500 font-bold not-italic  leading-none">
                               {club_member_occupation}
                             </i>

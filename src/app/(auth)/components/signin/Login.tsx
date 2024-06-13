@@ -1,9 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 import { signIn } from 'next-auth/react';
-import debounce from 'lodash.debounce';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 
 import InputBox from '@common/components/form/InputBox';
@@ -59,7 +57,7 @@ export default function Login({ callbackUrl }: { callbackUrl: string }) {
 
       if (res?.status === 200) {
         router.push(callbackUrl);
-        window.location.reload();
+        router.refresh();
       }
       if (res?.status === 401) {
         setErrMsg((prev): ILoginErrMsg => {
@@ -69,7 +67,9 @@ export default function Login({ callbackUrl }: { callbackUrl: string }) {
     } catch (error) {
       console.error(error);
     } finally {
-      setIsLoading(false);
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 1000);
     }
   };
 
@@ -123,9 +123,10 @@ export default function Login({ callbackUrl }: { callbackUrl: string }) {
         <div className="mt-[1.5rem] max-md:mt-[0.6rem]">
           <BlueSquareBtn
             name="로그인"
-            type="button"
+            type="submit"
+            // type="button"
             disabled={!isDirty || !isValid}
-            onClick={debounce(handleSubmit(onSubmit), 1000)}
+            // onClick={debounce(handleSubmit(onSubmit), 1000)}
           />
         </div>
       </form>

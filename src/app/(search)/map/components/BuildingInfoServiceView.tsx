@@ -20,7 +20,6 @@ export default function BuildingServiceView({
     '사용한 자리는 다음 이용자를 위해 정리 부탁드립니다. 셀프바에서 커피와 차를 마음껏 드실 수 있습니다. 라운지에서만 대화가 가능합니다.';
   const rules = useLineBreak({ content: rule });
   const id = currentBuilding?.id;
-  // const officeDetail = currentBuilding?.office_detail;
   const setModal = useSetRecoilState(modalState);
   const setCurrentBuilding = useSetRecoilState(currentBuildingState);
   const router = useRouter();
@@ -96,7 +95,7 @@ export default function BuildingServiceView({
               </div>
               <div className="flex flex-col items-center bg-white mb:w-[4.75rem] md:w-[5.92188rem] mb:h-[4.5625rem] md:h-[6.125rem] rounded-lg shadow-md justify-center">
                 <Image
-                  src="/svg/reservation/focusdesk.svg"
+                  src="/svg/reservation/opendesk.svg"
                   width={50}
                   height={50}
                   alt="포커스데스크"

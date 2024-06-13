@@ -1,10 +1,13 @@
 'use client';
-import { BlackRLeftArrow } from '@/app/common/components/icons/BlackArrow';
-import MoreBtn from './MoreBtn';
-import { usePathname, useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
+import { usePathname, useRouter } from 'next/navigation';
+import { BlackRLeftArrow } from '@/app/common/components/icons/BlackArrow';
 import { clubIdState } from '@/app/community/atoms/clubDetail';
 import { deleteBoard } from '@/app/service/clubDetail';
+import Confirm from '@/app/common/components/modal/Confirm';
+import Alert from '@/app/common/components/modal/Alert';
+import MoreBtn from './MoreBtn';
 
 interface Props {
   showMoreButton?: boolean;
@@ -12,29 +15,53 @@ interface Props {
 }
 
 export default function BoardDetailTopBtn({
-  showMoreButton = true,
+  showMoreButton = false,
   postId,
 }: Props) {
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+  const [alert, setAlert] = useState<{
+    message: string;
+    onClick: (() => void) | null;
+  }>({
+    message: '',
+    onClick: null,
+  });
   const router = useRouter();
   const pathname = usePathname();
+  const clubId = useRecoilValue(clubIdState);
+  const paths = pathname.split('/').slice(1, 5).join('/');
+
+  // 뒤로가기
   const handleBackBtnClick = () => {
     router.back();
   };
-  const clubId = useRecoilValue(clubIdState);
 
-  const paths = pathname.split('/').slice(1, 5).join('/');
+  // 수정
   const handleEditClick = () => {
     router.push(`/${paths}/register?post=${postId}`);
   };
+
+  // 삭제
   const handleDeleteClick = async () => {
-    confirm('정말로 삭제하시겠습니까?');
+    setShowConfirm(true);
+  };
+
+  //삭제 callback
+  const handleDeleteCallback = async () => {
     const res = await deleteBoard(clubId, postId);
     if (res.status === 'DELETE_SUCCESS') {
-      alert('삭제되었습니다.');
-      router.push(`/${paths}`);
+      setAlert({
+        message: '삭제되었습니다.',
+        onClick: () => router.push(`/${paths}`),
+      });
     } else {
-      alert('오류가 발생했습니다. 잠시 후 다시 시도해 주세요.');
+      setAlert({
+        message: '오류가 발생했습니다. 잠시 후 다시 시도해 주세요.',
+        onClick: null,
+      });
     }
+    setShowAlert(true);
   };
 
   return (
@@ -49,6 +76,22 @@ export default function BoardDetailTopBtn({
             삭제
           </button>
         </MoreBtn>
+      )}
+      {showConfirm && (
+        <Confirm
+          message="정말로 삭제하시겠습니까?"
+          buttonName="네"
+          callback={handleDeleteCallback}
+          setIsShow={setShowConfirm}
+        />
+      )}
+      {showAlert && (
+        <Alert
+          message={alert.message}
+          buttonName="확인"
+          setIsShow={setShowAlert}
+          onClick={alert.onClick || undefined}
+        />
       )}
     </div>
   );

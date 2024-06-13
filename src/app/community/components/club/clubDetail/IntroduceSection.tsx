@@ -10,6 +10,7 @@ export default memo(function IntroduceSection({
   id,
   member_id,
   member_name,
+  member_username,
   profile_image,
   title,
   club_type,
@@ -23,11 +24,9 @@ export default memo(function IntroduceSection({
 
   useEffect(() => {
     // D-day 구하기
-
     if (club_meetings.length === 0) {
       return;
     }
-
     const meetingDates = club_meetings.map((meet) => {
       return Number(meet.date.substring(0, 10).replaceAll('-', ''));
     });
@@ -57,7 +56,7 @@ export default memo(function IntroduceSection({
         </div>
 
         <div className="flex items-center gap-[1.5rem] mb-[1.78rem] max-md:-mt-[0.575rem]  max-md:mb-[1.56rem]">
-          <span className="flex items-center max-md:absolute max-md:top-0 max-md:left-0">
+          {/* <span className="flex items-center max-md:absolute max-md:top-0 max-md:left-0">
             <Image
               width={40}
               height={40}
@@ -66,7 +65,7 @@ export default memo(function IntroduceSection({
               className="mr-[0.5rem] w-[2.5rem] h-[2.5rem] max-md:w-[1rem] max-md:h-[1rem]"
             />
             <b className="text-[1.25rem] max-md:text-[0.75rem]">장소</b>
-          </span>
+          </span> */}
           <div className="flex gap-4 items-center text-sm mt-2 font-semibold max-md:gap-[0.5rem] max-md:text-[0.75rem]">
             <span className="bg-yellow-600 p-[0.5rem] rounded leading-none">
               {club_type}
@@ -90,7 +89,7 @@ export default memo(function IntroduceSection({
         <div>
           <MemberSwiper
             members={[
-              { member_id, member_name, profile_image, ishost: true },
+              { member_id, member_username, profile_image, ishost: true },
               ...club_members,
             ]}
             swiperOption={{

@@ -20,7 +20,7 @@ export default function Modal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-50">
+    <div className="fixed left-0 right-0 top-0 bottom-0 z-[999] flex items-center justify-center  bg-[rgba(0,0,0,0.6)]">
       <div className="bg-blue-50 rounded-2xl md:w-[60rem] w-[20rem] shadow-md">
         <div className="text-left md:p-[2rem] p-[1.5rem]">
           <h2 className="md:text-[1.75rem] text-sm font-bold md:mb-[1rem] mb-2 leading-none">

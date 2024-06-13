@@ -20,37 +20,36 @@ export const useClubDetailInfoQuery = (club_id: number) => {
 };
 
 //소모임 공지사항, 게시판 목록 조회
-// export const useClubBoardListQuery = (club_id: number, type: string) => {
-//   return useInfiniteQuery<{ data: IClubBoardListData }>({
-//     queryKey: ['clubBoardList', club_id, type],
-//     queryFn: async ({ pageParam }) => {
-//       const res = await API.get(`/club/${club_id}/${type}?page=${pageParam}`);
-//       return res;
-//     },
-//     initialPageParam: 0,
-//     getNextPageParam: (lastPage, allPages) => {
-//       debugger;
-//       const nextPage = allPages.length + 1;
-//       return nextPage;
-//       // return lastPage.data.length === 0 ? undefined : nextPage;
-//     },
-//   });
-// };
-//소모임 공지사항, 게시판 목록 조회
 export const useClubBoardListQuery = (club_id: number, type: string) => {
-  return useQuery({
+  return useInfiniteQuery<{ data: IClubBoardListData }>({
     queryKey: ['clubBoardList', club_id, type],
-    queryFn: async (): Promise<IClubBoardListData | undefined> => {
-      try {
-        const res = await API.get(`/club/${club_id}/${type}`);
-        console.log('공지 게시판 목록 조회', res.data.data);
-        return res.data.data;
-      } catch (e: any) {
-        console.log(e);
-      }
+    queryFn: async ({ pageParam }) => {
+      const res = await API.get(`/club/${club_id}/${type}?page=${pageParam}`);
+      return res.data;
+    },
+    initialPageParam: 0,
+    getNextPageParam: (lastPage, allPages) => {
+      const totalPages = lastPage.data.total_pages - 1;
+      const currentPage = allPages.length - 1;
+      return currentPage < totalPages ? currentPage + 1 : undefined;
     },
   });
 };
+//소모임 공지사항, 게시판 목록 조회
+// export const useClubBoardListQuery = (club_id: number, type: string) => {
+//   return useQuery({
+//     queryKey: ['clubBoardList', club_id, type],
+//     queryFn: async (): Promise<IClubBoardListData | undefined> => {
+//       try {
+//         const res = await API.get(`/club/${club_id}/${type}`);
+//         console.log('공지 게시판 목록 조회', res.data.data);
+//         return res.data.data;
+//       } catch (e: any) {
+//         console.log(e);
+//       }
+//     },
+//   });
+// };
 
 //소모임 정모 목록 조회
 export const useClubMeetingListQuery = (club_id: Number) => {

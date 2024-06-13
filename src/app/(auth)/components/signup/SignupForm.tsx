@@ -1,4 +1,5 @@
 'use client';
+import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import debounce from 'lodash.debounce';
@@ -16,6 +17,7 @@ import CompanyInput from './CompanyInput';
 import BirthdayInput from './BirthdayInput';
 import PhoneNumberInput from './PhoneNumberInput';
 import NicknameInput from './NicknameInput';
+import Alert from '@/app/common/components/modal/Alert';
 
 interface Props {
   type: string;
@@ -28,6 +30,14 @@ export interface FormValues {
 export default function SignupForm({ type }: Props) {
   const { data: industryList } = useIndustryQuery();
   const { data: occupationList } = useOccupationQuery();
+  const [showAlert, setShowAlert] = useState(false);
+  const [alert, setAlert] = useState<{
+    message: string;
+    onClick: (() => void) | null;
+  }>({
+    message: '',
+    onClick: null,
+  });
 
   const router = useRouter();
   const {
@@ -77,12 +87,29 @@ export default function SignupForm({ type }: Props) {
     try {
       const res = await signUp(params);
       if (res.status_code === 200) {
-        alert('가입이 완료되었습니다.');
-        router.push('/signin');
+        setAlert((prev) => ({
+          ...prev,
+          message: '가입이 완료되었습니다.',
+          onClick: () => router.push('/signin'),
+        }));
+        setShowAlert(true);
+      } else {
+        setAlert((prev) => ({
+          ...prev,
+          message: `오류가 발생했습니다.\n 잠시 후 다시 시도해 주세요`,
+          onClick: null,
+        }));
+        setShowAlert(true);
       }
-    } catch (e) {
+    } catch (e: any) {
       console.error(e);
-      alert('오류가 발생했습니다. 잠시 후 다시 시도해 주세요.');
+      const data = e.response.data;
+      setAlert((prev) => ({
+        ...prev,
+        message: data.message,
+        onClick: null,
+      }));
+      setShowAlert(true);
     }
   };
 
@@ -210,6 +237,13 @@ export default function SignupForm({ type }: Props) {
           onClick={debounce(handleSubmit(onSubmit), 1000)}
         />
       </form>
+      {showAlert && (
+        <Alert
+          setIsShow={setShowAlert}
+          message={alert.message}
+          onClick={alert.onClick || undefined}
+        />
+      )}
     </div>
   );
 }

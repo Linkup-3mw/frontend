@@ -2,6 +2,7 @@ export interface IClubInfo {
   id: number;
   member_id: number;
   member_name: string;
+  member_username: string;
   profile_image: string;
   title: string;
   introduction: string;
@@ -38,14 +39,14 @@ export interface IClubBoardList {
   writer_id: number;
   writer_name: string;
   writer_username: string;
-  writer_occupation: string;
+  writer_occupation?: string;
   writer_thumbnail: string | null;
   content: string;
-  date: string;
+  date?: string;
   id: number;
   title: string;
   type: string;
-  comments: any[];
+  comments?: any[];
 }
 
 export interface IClubBoardListData {
@@ -58,6 +59,7 @@ export interface IClubBoardListData {
     page_size: number;
     paged: boolean;
   };
+  total_pages: number;
 }
 
 //타입 수정해
@@ -99,7 +101,7 @@ export interface IBoardComment {
   comment: string;
   club_notice_id: number;
   club_member_id: number;
-  club_member_name: string;
+  club_member_username: string;
   club_member_thumbnail: string;
   club_member_occupation: string;
 }

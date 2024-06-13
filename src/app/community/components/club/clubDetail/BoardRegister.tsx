@@ -1,16 +1,17 @@
 'use client';
+import { useEffect, useState } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
 import {
   FieldValues,
   RegisterOptions,
   SubmitHandler,
   useForm,
 } from 'react-hook-form';
-import TopBackBtn from './TopBackbtn';
 import API from '@/utils/axios';
-import { usePathname, useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
 import { getClubBoardDetail } from '@/app/service/clubDetail';
 import { IClubBoardList } from '@/types/club/detail/clubDetail';
+import Alert from '@/app/common/components/modal/Alert';
+import TopBackBtn from './TopBackbtn';
 
 interface Props {
   type: string;
@@ -20,6 +21,14 @@ interface Props {
 
 export default function BoardRegister({ clubId, type, postId }: Props) {
   const [data, setData] = useState<IClubBoardList | null>(null);
+  const [showAlert, setShowAlert] = useState(false);
+  const [alert, setAlert] = useState<{
+    message: string;
+    onClick: (() => void) | null;
+  }>({
+    message: '',
+    onClick: null,
+  });
 
   useEffect(() => {
     const getContentData = async () => {
@@ -60,11 +69,23 @@ export default function BoardRegister({ clubId, type, postId }: Props) {
       }
 
       if (res.data?.status_code === 200) {
-        alert('작성이 완료되었습니다.');
-        router.push(`/${paths[0]}/${paths[1]}/${clubId}/${type}`);
+        setAlert((prev) => ({
+          ...prev,
+          message: '작성이 완료되었습니다.',
+          onClick: () =>
+            router.push(`/${paths[0]}/${paths[1]}/${clubId}/${type}`),
+        }));
       }
+      setShowAlert(true);
     } catch (e: any) {
-      console.log(e);
+      const data = e.response.data;
+      setAlert((prev) => ({
+        ...prev,
+        message: data.message,
+        onClick: null,
+      }));
+      setShowAlert(true);
+      console.error(e);
     }
   };
 
@@ -96,6 +117,13 @@ export default function BoardRegister({ clubId, type, postId }: Props) {
           </button>
         </form>
       </div>
+      {showAlert && (
+        <Alert
+          message={alert.message}
+          onClick={alert.onClick || undefined}
+          setIsShow={setShowAlert}
+        />
+      )}
     </div>
   );
 }

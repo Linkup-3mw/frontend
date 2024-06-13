@@ -98,9 +98,16 @@ export default function MeetingRegister({ clubId }: Props) {
           onClick: null,
         }));
       }
-    } catch (e) {
-      console.log(e);
-      // setShowAlert(true);
+    } catch (e: any) {
+      const data = e.response.data;
+      console.error(e);
+      setAlert((prev) => ({
+        ...prev,
+        message: data.message,
+        onClick: null,
+        buttonName: '확인',
+      }));
+      setShowAlert(true);
     }
   };
 

@@ -82,7 +82,7 @@ export default function BuildingFilter({ isUp }: BuildingFilterProps) {
       setSelectedIndustry(false);
       setSelectedOccupation(false);
     }
-  });
+  }, [isUp]);
   const handleRegionClick = () => {
     setSelectedRegion(!selectedRegion);
     setSelectedIndustry(false);
