@@ -26,7 +26,7 @@ export default function SectionIntrduce({ id, clubInfo, memberType }: Props) {
 
   useEffect(() => {
     const currentTab = pathname.substring(1).split('/')[3];
-    setTab(currentTab);
+    setTab(currentTab || '');
   }, []);
 
   useEffect(() => {
