@@ -6,7 +6,7 @@ import SearchInput from '@components/club/SearchInput';
 import API from '@/utils/axios';
 import Link from 'next/link';
 
-export default function AllMyClubs() {
+export default function AllClubs() {
   const [clubs, setClubs] = useState<ClubCardProps[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -18,7 +18,7 @@ export default function AllMyClubs() {
 
       console.log('Fetching clubs with params:', params.toString());
 
-      const response = await API.get(`/club/application/search`, { params });
+      const response = await API.get(`/club/authenticated/search`, { params });
       const data = response.data;
       console.log('API Response:', data);
 
