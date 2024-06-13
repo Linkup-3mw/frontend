@@ -29,12 +29,12 @@ export default function BoardList({ clubId, type }: Props) {
   const [alertMsg, setAlertMsg] = useState('');
   const loadMoreRef = useRef<any | null>(null);
 
-  // useEffect(() => {
-  //   //페이지 이탈 시 캐시 삭제
-  //   return () => {
-  //     queryClient.removeQueries({ queryKey: ['clubBoardList', clubId, type] });
-  //   };
-  // }, [clubId, queryClient]);
+  useEffect(() => {
+    //페이지 이탈 시 캐시 삭제
+    return () => {
+      queryClient.removeQueries({ queryKey: ['clubBoardList', clubId, type] });
+    };
+  }, [clubId, queryClient]);
 
   const handleNonMemberListclick = () => {
     // 여기서 멤버십 여부에 따라 다른 알림을 띄우기
