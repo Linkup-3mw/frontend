@@ -83,7 +83,7 @@ export default function Resertory() {
   ) => {
     try {
       const res = await API.delete(
-        `reservation/my-reservations/${membershipId}/${reservationId}`,
+        `reservation/individual/my-membership/${membershipId}/reservation/${reservationId}`,
       );
       console.log('삭제햇다');
       setRsInfo(res.data.data);
@@ -160,10 +160,10 @@ export default function Resertory() {
                   {loading && <ResertoryTitleSkeleton />}
                   {!loading && (
                     <>
-                      <p className="text-xl font-bold text-black mt-4">
+                      <p className="text-xl font-bold text-gray-800 mt-4">
                         기존 예약 정보를 확인하세요.
                       </p>
-                      <p className="text-md font-semibold text-black">
+                      <p className="text-lg font-semibold text-gray-600 ">
                         자율 좌석
                       </p>
                     </>
@@ -180,19 +180,19 @@ export default function Resertory() {
                         className="bg-white w-full h-auto mb-4 rounded-lg cursor-pointer"
                       >
                         <div className="p-4 flex justify-start">
-                          <div className="flex flex-col pr-4 border-r-2">
-                            <div className="text-black font-normal">
+                          <div className="flex flex-col pr-4 border-r-2 w-1/3 p-2 ">
+                            <div className="text-black font-normal ">
                               {reservation.seat_type}
                             </div>
-                            <div className="font-bold text-lg text-black">
+                            <div className="font-bold text-lg text-black mt-1">
                               {reservation.seat_code}
                             </div>
                           </div>
                           <div className="flex justify-between w-full ">
-                            <div className="text-black font-normal pl-4">
+                            <div className="text-black font-normal pl-4 p-2">
                               {reservation.start_date}
                             </div>
-                            <div className="flex flex-col justify-between">
+                            <div className="flex gap-2 justify-between">
                               <button
                                 onClick={() =>
                                   handleCancelClick(
@@ -200,7 +200,7 @@ export default function Resertory() {
                                     reservation.type,
                                   )
                                 }
-                                className="bg-red-500 text-white rounded-lg px-2 text-sm h-auto py-2"
+                                className="bg-blue-950 text-white rounded-2xl px-2 text-sm h-auto py-2"
                               >
                                 예약 취소
                               </button>
@@ -211,7 +211,7 @@ export default function Resertory() {
                                     reservation.type,
                                   )
                                 }
-                                className="bg-blue-500 text-white rounded-lg px-2 text-sm h-auto py-2"
+                                className="bg-blue-500 text-white rounded-2xl px-2 text-sm h-auto py-2"
                               >
                                 예약 수정
                               </button>
@@ -231,10 +231,10 @@ export default function Resertory() {
                           handleRsClick(reservation.id, reservation.type)
                         }
                         key={index}
-                        className="bg-white w-full h-auto mb-4 rounded-lg cursor-pointer"
+                        className="bg-white  shadow-xl w-full h-auto mb-4 rounded-lg cursor-pointer"
                       >
                         <div className="p-4 flex justify-start">
-                          <div className="flex flex-col pr-4 border-r-2">
+                          <div className="flex flex-col pr-4 border-r-2 w-1/3 p-2 ">
                             <div className="text-black font-normal ">
                               {reservation.seat_type}
                             </div>
@@ -254,7 +254,7 @@ export default function Resertory() {
                                     reservation.type,
                                   )
                                 }
-                                className="bg-red-500 text-white rounded-lg px-2 text-sm h-auto py-2"
+                                className="bg-blue-950 text-white rounded-2xl px-2 text-sm h-auto py-2"
                               >
                                 예약 취소
                               </button>
@@ -265,7 +265,7 @@ export default function Resertory() {
                                     reservation.type,
                                   )
                                 }
-                                className="bg-blue-500 text-white rounded-lg px-2 text-sm h-auto py-2"
+                                className="bg-blue-500 text-white rounded-2xl px-2 text-sm h-auto py-2"
                               >
                                 예약 수정
                               </button>
@@ -274,9 +274,11 @@ export default function Resertory() {
                         </div>
                       </div>
                     ))}
+                  <div className="border border-gray-300"></div>
+
                   {loading && <ResertoryTitleSkeleton />}
                   {!loading && (
-                    <p className="text-md font-semibold text-black">공간</p>
+                    <p className="text-lg font-semibold text-gray-600 ">공간</p>
                   )}
 
                   {loading &&
@@ -291,19 +293,19 @@ export default function Resertory() {
                         className="bg-white w-full h-auto mb-4 rounded-lg cursor-pointer"
                       >
                         <div className="p-4 flex justify-start">
-                          <div className="flex flex-col pr-4 border-r-2">
+                          <div className="flex flex-col pr-4 border-r-2  w-1/3 p-2 ">
                             <div className="text-black font-normal">
                               {reservation.seat_type}
                             </div>
-                            <div className="font-bold text-lg text-black">
+                            <div className="font-bold text-lg text-black mt-1">
                               {reservation.seat_code}
                             </div>
                           </div>
                           <div className="flex justify-between w-full ">
-                            <div className="text-black font-normal pl-4">
+                            <div className="text-black font-normal pl-4 p-2">
                               {reservation.start_date}
                             </div>
-                            <div className="flex flex-col justify-between">
+                            <div className="flex gap-2 justify-between">
                               <button
                                 onClick={() =>
                                   handleCancelClick(
@@ -311,7 +313,7 @@ export default function Resertory() {
                                     reservation.type,
                                   )
                                 }
-                                className="bg-red-500 text-white rounded-lg px-2 text-sm h-auto py-2"
+                                className="bg-blue-950 text-white rounded-2xl px-2 text-sm h-auto py-2"
                               >
                                 예약 취소
                               </button>
@@ -322,7 +324,7 @@ export default function Resertory() {
                                     reservation.type,
                                   )
                                 }
-                                className="bg-blue-500 text-white rounded-lg px-2 text-sm h-auto py-2"
+                                className="bg-blue-500 text-white rounded-2xl px-2 text-sm h-auto py-2"
                               >
                                 예약 수정
                               </button>

@@ -1,12 +1,10 @@
 import Image from 'next/image';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import {
   seatListReservation,
   selectedSeatAllState,
   confirmedState,
   searchRemainingState,
-  infoMsgState,
-  reservationErrorMsgState,
 } from '@/app/(search)/atom/office';
 import { currentBuildingState } from '@/app/(search)/atom/search';
 import { userUpdateRlistPutState } from '@/app/(search)/atom/membership';

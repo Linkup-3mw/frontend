@@ -25,13 +25,10 @@ export default function BuildingServiceView({
   const router = useRouter();
 
   const handleReservationClick = async () => {
-    console.log('우씌');
     const session = await getSession();
     if (!session) {
-      console.log('session이 없뗘어어', session);
       setModal(true);
     } else if (session) {
-      console.log('session', session);
       router.push(`/reservation/${id}`);
     }
   };
@@ -39,7 +36,7 @@ export default function BuildingServiceView({
   return (
     <>
       <>
-        <div className="flex flex-col gap-y-3 my-6 md:w-[26.6875rem] max-md:w-[20.5rem]">
+        <div className="flex flex-col gap-y-6 my-6 md:w-[26.6875rem] max-md:w-[20.5rem]">
           <div className="flex justify-between items-center mx-2 ">
             <p className="text-black text-lg font-bold leading-[1.75rem]">
               {currentBuilding?.location}
@@ -55,7 +52,7 @@ export default function BuildingServiceView({
           </div>
           <div className="bg-white rounded-lg shadow-md p-4 ">
             <div className="text-gray-800">
-              {currentBuilding?.region} {currentBuilding?.city}{' '}
+              {currentBuilding?.region} {currentBuilding?.city}
               {currentBuilding?.address}
             </div>
             <div className="text-gray-500">
@@ -258,13 +255,13 @@ export default function BuildingServiceView({
                   우편함
                 </p>
               </div>
-              <div className="flex flex-col gap-4 justify-center items-center md:w-full mb:w-full ">
+              <div className="flex flex-col gap-8 justify-center items-center md:w-full mb:w-full ">
                 <div className="mt-5 w-full mb:p-4 md:py-6 md:px-8 bg-white flex flex-col justify-start mb:text-[0.75rem] md:text-[1rem]  rounded-2xl">
                   {rules}
                 </div>
                 <div
                   onClick={() => handleReservationClick()}
-                  className="w-[5.5rem]  mb-20  bg-blue-400 px-4 py-2 rounded-lg text-white font-bold text-md text-center cursor-pointer"
+                  className="w-[5.5rem]  mb-10 bg-blue-400 px-4 py-2 rounded-lg text-white font-bold text-md text-center cursor-pointer"
                 >
                   예약하기
                 </div>

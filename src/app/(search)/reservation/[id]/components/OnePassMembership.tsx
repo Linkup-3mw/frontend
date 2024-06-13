@@ -138,7 +138,7 @@ export default function OnePassMembership({
           const res = await API.get(
             `reservation/${id}?type=${selectedSeatAll?.type}&start=${selectedSeatAll?.start_date}&end=${selectedSeatAll?.end_date}`,
           );
-          console.log('요청', res.data.data);
+
           setSearchRemaining(res.data.data);
         } catch (error) {
           console.error(error);
@@ -187,7 +187,7 @@ export default function OnePassMembership({
           const res = await API.get(
             `reservation/${id}?type=${selectedSpaceAll?.type}&start=${selectedSpaceAll?.start_date}&end=${selectedSpaceAll?.end_date}`,
           );
-          console.log('지정좌석 공간요청', res.data.data);
+
           setSearchRemaining(res.data.data);
         } catch (error) {
           console.error(error);
@@ -244,8 +244,6 @@ export default function OnePassMembership({
           membership,
           reservations: seatReservations,
         });
-
-        console.log('dndpdpdpdfsdkjflsd우에에엥', res);
       } catch (error) {
         console.log('예약에러', error);
       }
@@ -480,14 +478,16 @@ export default function OnePassMembership({
                     </p>
                     <div>
                       <button
-                        onClick={() => setRTab('공간')}
+                        onClick={() =>
+                          selectedSeatAll?.start_date && setRTab('공간')
+                        }
                         className="w-[9.875rem] h-[2.5rem] leading-6 p-2 bg-[#688AF2] text-[0.875rem] text-white rounded-lg"
                       >
                         공간 예약 하러 가기
                       </button>
                     </div>
                   </div>
-                  <div>도도레레미미{error}</div>
+
                   {(seatList || selectedSeatAll) && (
                     <div className="py-4">
                       <p className="mb:text-sm md:text-lg font-bold mb-1">

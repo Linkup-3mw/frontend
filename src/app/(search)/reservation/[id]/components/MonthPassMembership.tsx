@@ -354,7 +354,9 @@ export default function MonthPassMembership({
                       </p>
                       <div>
                         <button
-                          onClick={() => setRTab('공간')}
+                          onClick={() =>
+                            selectedSeatAll?.start_date && setRTab('공간')
+                          }
                           className="w-[6.5625rem] h-[2rem] p-2 bg-[#688AF2] text-[0.625rem] text-white rounded-lg "
                         >
                           공간 예약 하러 가기
@@ -370,7 +372,9 @@ export default function MonthPassMembership({
                       </p>
                       <div>
                         <button
-                          onClick={() => setRTab('공간')}
+                          onClick={() =>
+                            selectedSeatAll?.start_date && setRTab('공간')
+                          }
                           className="w-[9.875rem] h-[2.5rem] leading-6 p-2 bg-[#688AF2] text-[0.875rem] text-white rounded-lg"
                         >
                           공간 예약 하러 가기
