@@ -1,7 +1,6 @@
 import { atom } from 'recoil';
 import { boolean } from 'zod';
-
-interface userMembership {
+export interface userMembership {
   id: number;
   location: string;
   price: number;
