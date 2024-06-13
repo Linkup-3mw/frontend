@@ -17,6 +17,14 @@ export default async function HomePage({ user }: { user: IUser }) {
     data: { data: recentData },
   } = await API.get(`/reservation/recent`);
 
+  const imgPuzzle = [
+    '/images/home/yellow_puzzle.png',
+    '/images/home/green_puzzle.png',
+    '/images/home/img_puzzle.png',
+  ];
+  const highResolutionUrls = imgPuzzle.map((url) =>
+    url.replace('SX300', 'SX1400'),
+  );
   return (
     <main className="md:pt-[7rem] py-[5rem] px-[1.25rem] relative">
       <section>
@@ -83,16 +91,19 @@ export default async function HomePage({ user }: { user: IUser }) {
                     className={`absolute rotate-[5deg] 
                     ${!data ? 'w-[9.617rem] top-[initial] bottom-[-2rem] right-[13rem] rotate-[15deg] max-md:hidden' : 'w-[7.6321rem] top-[3rem] right-0 max-md:top-[initial] max-md:bottom-[5rem] max-md:w-[6rem]'}
                     `}
-                    src="/images/home/yellow_puzzle.png"
+                    // src="/images/home/yellow_puzzle.png"
+                    src={highResolutionUrls[0]}
                     width={200}
                     height={50}
                     alt="yellow puzzle"
                   />
+
                   <Image
                     className={`absolute 
                     ${!data ? 'w-[7.617rem] top-[0.7rem] right-[12.7rem] rotate-[10deg] max-md:hidden' : 'hidden'}
                     `}
-                    src="/images/home/green_puzzle.png"
+                    // src="/images/home/green_puzzle.png"
+                    src={highResolutionUrls[1]}
                     width={200}
                     height={50}
                     alt="green puzzle"
@@ -101,7 +112,8 @@ export default async function HomePage({ user }: { user: IUser }) {
                     className={`absolute  rotate-[5deg] max-md:top-[initial] max-md:bottom-[1rem] max-md:w-[10rem]
                       ${!data ? 'w-[24.1978rem] top-[4.19rem] right-[-0.3rem]' : 'w-[15.6321rem] right-[-0.2rem] top-[6.5rem]'}
                     `}
-                    src="/images/home/img_puzzle.png"
+                    // src="/images/home/img_puzzle.png"
+                    src={highResolutionUrls[2]}
                     width={200}
                     height={50}
                     alt="puzzle"
