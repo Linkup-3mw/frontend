@@ -181,8 +181,8 @@ export default function BuildingFilter({ isUp }: BuildingFilterProps) {
                 <li key={city}>
                   <button
                     onClick={() => handleFilterClick(city)}
-                    className="max-md:w-[5.25rem] md:h-[3rem] mb:w-[4.25rem] mb:h-[2rem] bg-white border-2 rounded-xl
-                mb:text-xs md:text-[1rem]"
+                    className="md:w-[5.25rem] md:h-[3rem] mb:w-[4.25rem] mb:h-[2rem] bg-white border-2 rounded-xl
+                    mb:text-xs md:text-[1rem]"
                   >
                     {city}
                   </button>

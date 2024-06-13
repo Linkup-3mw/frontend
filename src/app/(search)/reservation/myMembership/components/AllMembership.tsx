@@ -111,7 +111,7 @@ export default function AllMembership({ user }: { user: IUser }) {
                     onClick={() =>
                       handleGoClick(membership.id, membership.office_id)
                     }
-                    className="mt-[1rem] inline-block px-[1rem] py-[1rem] bg-blue-400 text-white rounded-[0.5rem] leading-none text-[1.25rem] max-md:p-[0.5rem] max-md:text-[1rem] max-md:rounded-[0.25rem]"
+                    className="mt-[1rem] cursor-pointer inline-block px-[1rem] py-[1rem] bg-blue-400 text-white rounded-[0.5rem] leading-none text-[1.25rem] max-md:p-[0.5rem] max-md:text-[1rem] max-md:rounded-[0.25rem]"
                   >
                     예약내역
                   </div>
