@@ -125,7 +125,7 @@ export default function BuildingFilter({ isUp }: BuildingFilterProps) {
           <div className="flex items-center">
             <span className="mr-2">지역 선택</span>
             <Image
-              src="/svg/map/arrow.svg"
+              src="/svg/map/Arrow.svg"
               width={24}
               height={24}
               alt="화살표"
@@ -241,7 +241,7 @@ export default function BuildingFilter({ isUp }: BuildingFilterProps) {
       >
         <div className="flex items-center">
           <span className="mr-2 ">산업군</span>
-          <Image src="/svg/map/arrow.svg" width={24} height={24} alt="화살표" />
+          <Image src="/svg/map/Arrow.svg" width={24} height={24} alt="화살표" />
         </div>
       </div>
       {selectedIndustry && (
@@ -311,7 +311,7 @@ export default function BuildingFilter({ isUp }: BuildingFilterProps) {
           <div className="flex items-center">
             <span className="mr-2">직군</span>
             <Image
-              src="/svg/map/arrow.svg"
+              src="/svg/map/Arrow.svg"
               width={24}
               height={24}
               alt="화살표"
