@@ -71,7 +71,7 @@ export default function AllMembership({ user }: { user: IUser }) {
   return (
     <>
       <Swiper
-        className="w-2/3"
+        className="w-2/3 max-md:w-full"
         navigation={true}
         loop={true}
         spaceBetween={0}
@@ -86,7 +86,7 @@ export default function AllMembership({ user }: { user: IUser }) {
             <div className="swiper-container">
               <div
                 //   key={membership.id}
-                className={` relative  pt-[3.5rem] p-[2rem] bg-white rounded-2xl font-bold max-md:w-full max-md:mb-[1rem] max-md:py-[1.5rem] max-md:px-[1rem]
+                className={`relative   pt-[3.5rem] p-[2rem] bg-white rounded-2xl font-bold max-md:w-full max-md:mb-[1rem] max-md:py-[1.5rem] max-md:px-[1rem]
             
             `}
               >

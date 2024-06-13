@@ -28,6 +28,7 @@ import ResertorySkeleton, {
 } from '../../components/skeleton/resertorySkeleton';
 import OpenDeskMobile from '../../../[id]/components/table/mobile/OpenDeskMobile';
 import OpenTableMobile from '../../../[id]/components/table/mobile/OpenTableMobile';
+import { useRouter } from 'next/navigation';
 
 export default function Resertory() {
   const membershipId = useRecoilValue(selectedMembershipId);
@@ -75,7 +76,7 @@ export default function Resertory() {
   };
   const seatTypes = ['오픈데스크', '포커스데스크', '1인실', '모니터데스크'];
   const spaceTypes = ['미팅룸(4인)', '미팅룸(8인)', '컨퍼런스룸', '스튜디오'];
-
+  const router = useRouter();
   // 예약 취소
   const handleCancelClick = async (
     reservationId: number,
@@ -99,12 +100,10 @@ export default function Resertory() {
     reservationId: number,
     reservationType: string,
   ) => {
-    console.log('membershipId:', membershipId, 'reservationId:', reservationId);
     try {
       const res = await API.get(
         `reservation/individual/my-membership/${membershipId}/reservation/${reservationId}`,
       );
-      console.log('Selected reservation info:', res.data.data);
       setRsInfo(res.data.data);
       setRenderType(reservationType);
       // setRenderResertorySeatInfomation
@@ -144,8 +143,6 @@ export default function Resertory() {
   }, []);
 
   // }, [membershipId]);
-
-  console.log('안녕');
 
   return (
     <>

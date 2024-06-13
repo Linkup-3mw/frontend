@@ -40,7 +40,7 @@ export default function ReservationFaild() {
 
             <div onClick={closeModal} className="flex flex-col space-y-4 ">
               <Link
-                className="bg-[#688AF2] text-center  text-white px-6 py-3 rounded-md transition-colors duration-300 hover:bg-red-500"
+                className="bg-[#688AF2] text-center  text-white px-6 py-3 rounded-md transition-colors duration-300"
                 href="main"
               >
                 <button>홈으로</button>

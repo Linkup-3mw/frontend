@@ -115,11 +115,9 @@ export default function OneRoom() {
                                 : undefined
                             }
                             className={`rounded-lg w-[4rem] h-[2.5rem] ${
-                              seat.available
-                                ? seatClick
-                                  ? 'bg-[#688AF2] text-white'
-                                  : ''
-                                : 'bg-gray-400 text-black cursor-not-allowed'
+                              seat.available === true
+                                ? 'bg-white text-black'
+                                : 'bg-gray-400 text-black'
                             }`}
                             disabled={!seat.available}
                           >

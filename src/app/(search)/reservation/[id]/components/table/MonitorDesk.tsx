@@ -117,7 +117,11 @@ export default function MonitorDesk() {
                         <div key={i}>
                           <button
                             onClick={() => handleSeatClick(seat.id)}
-                            className={`rounded-lg w-[4rem] h-[2.5rem] ${seat.available ? 'bg-white' : 'bg-gray-400'}`}
+                            className={`rounded-lg w-[4rem] h-[2.5rem] ${
+                              seat.available === true
+                                ? 'bg-white text-black'
+                                : 'bg-gray-400 text-black'
+                            }`}
                           >
                             {seat.code}
                           </button>

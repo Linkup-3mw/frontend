@@ -30,7 +30,7 @@ export default async function HomePage({ user }: { user: IUser }) {
       <section>
         <ContentWrap>
           <div className="md:flex gap-[1.5rem]">
-            <section className="bg-blue-50 rounded-2xl p-[2.5rem] relative w-[66.12%] max-xl:p-[1.5rem] max-md:w-full max-md:p-[1rem]">
+            <section className="bg-blue-50 rounded-2xl p-[2.5rem] relative  max-xl:p-[1.5rem] max-md:w-full max-md:p-[1rem]">
               <div className="md:flex gap-[1.5rem] relative">
                 <AllMembership user={user} />
                 {!data && (

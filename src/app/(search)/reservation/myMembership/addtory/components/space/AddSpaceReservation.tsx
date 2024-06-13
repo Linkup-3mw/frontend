@@ -101,16 +101,11 @@ export default function AddSeatReservation() {
   };
   // 공간 탭에서
   const handleSpaceStyleClick = async (spaceStyle: string) => {
-    console.log('우쒸발', spaceStyle);
-    console.log('officeId', office_Id);
-    console.log('selectedSpaceAll', selectedSpaceAll?.start_date);
-    console.log('selectedSpaceAll', selectedSpaceAll?.end_date);
     try {
       const res = await API.get(
         `reservation/${office_Id}?type=${spaceStyle}&start=${selectedSpaceAll?.start_date}&end=${selectedSpaceAll?.end_date}`,
       );
       setSearchRemaining(res.data.data);
-      console.log('성공?');
     } catch (error) {
       console.log(error);
     }

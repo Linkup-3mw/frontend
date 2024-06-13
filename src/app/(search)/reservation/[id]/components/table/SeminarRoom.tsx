@@ -1,30 +1,62 @@
 import Image from 'next/image';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import {
-  seatListReservation,
-  selectedSeatAllState,
+  selectedSpaceAllState,
   confirmedState,
+  spaceListReservation,
   searchRemainingState,
 } from '@/app/(search)/atom/office';
-import { currentBuildingState } from '@/app/(search)/atom/search';
-import { userUpdateRlistPutState } from '@/app/(search)/atom/membership';
 import { useEffect, useState } from 'react';
-import { loadingState } from '@/app/(search)/atom/media';
 import FullPageLoader from '@/app/(search)/map/components/Loader/FullPageLoader';
+import { loadingState } from '@/app/(search)/atom/media';
 import TimeSkeleton from '../skeleton/TimeSkeleton';
+import { userUpdateRlistPutState } from '@/app/(search)/atom/membership';
+import { addDays, format } from 'date-fns';
 
 export default function SeminarRoom() {
-  const seatReservationList = useRecoilValue(userUpdateRlistPutState);
-  const [selectedSeatAll, setSelectedSeatAll] =
-    useRecoilState(selectedSeatAllState);
+  const [selectedSpaceAll, setSelectedSpaceAll] = useRecoilState(
+    selectedSpaceAllState,
+  );
   const [confirm, setConfirm] = useRecoilState(confirmedState);
-  const [seatList, setSeatList] = useRecoilState(seatListReservation);
+  const [spaceList, setSpaceList] = useRecoilState(spaceListReservation);
   const [remaining, setSearchRemaining] = useRecoilState(searchRemainingState);
-  const currentOffice = useRecoilValue(currentBuildingState);
-  const id = currentOffice?.id;
+  const seatReservationList = useRecoilValue(userUpdateRlistPutState);
+  const [click, setClick] = useState('');
   const [loading, setLoading] = useRecoilState(loadingState);
-  const [seatClick, setSeatClick] = useState(false);
   const [isExpanded, setIsExpanded] = useState(true);
+  const [seatClick, setSeatClick] = useState(false);
+  const [amTime, setAmTime] = useState([
+    '08:00',
+    '08:30',
+    '09:00',
+    '09:30',
+    '10:00',
+    '10:30',
+    '11:00',
+    '11:30',
+  ]);
+  const pmTime = [
+    '12:00',
+    '12:30',
+    '13:00',
+    '13:30',
+    '14:00',
+    '14:30',
+    '15:00',
+    '15:30',
+    '16:00',
+    '16:30',
+    '17:00',
+    '17:30',
+    '18:00',
+    '18:30',
+    '19:00',
+    '19:30',
+    '20:00',
+    '20:30',
+    '21:00',
+    '21:30',
+  ];
 
   const handleClick = () => {
     setIsExpanded(!isExpanded);
@@ -37,45 +69,49 @@ export default function SeminarRoom() {
     }, 2000);
   }, [setLoading]);
 
-  const handleSeatClick = (seatNumber: string) => {
-    const searchParams = new URLSearchParams(window.location.search);
-    searchParams.set('seatId', seatNumber);
-
-    const url = `${window.location.pathname}?${searchParams.toString()}`;
-    window.history.pushState(null, '', url);
-
+  const handleSpaceReady = () => {
     if (
-      selectedSeatAll &&
-      seatList.some((seat) => seat.code === selectedSeatAll.code)
+      selectedSpaceAll?.start_date &&
+      selectedSpaceAll?.type &&
+      selectedSpaceAll?.code &&
+      selectedSpaceAll.start_time &&
+      selectedSpaceAll.end_time
     ) {
-      // setSelectedSeatAll(null);
-    } else if (!selectedSeatAll?.start_date) {
-      // setSelectedSeatAll(null);
+      if (spaceList.length < 3) {
+        setSpaceList([...spaceList, { ...selectedSpaceAll }]);
+        setConfirm(true);
+      } else {
+        return;
+      }
     }
-
-    setSelectedSeatAll((prev) => ({
-      ...prev,
-      code: seatNumber,
-      start_date: prev?.start_date || ' ',
-      end_date: prev?.end_date || '',
-      type: prev?.type || '',
-    }));
   };
 
-  const handleSeatReady = () => {
-    if (
-      selectedSeatAll?.start_date &&
-      selectedSeatAll?.end_date &&
-      selectedSeatAll?.type &&
-      selectedSeatAll?.code
-    ) {
-      if (seatList.length < 5) {
-        if (!seatList.some((seat) => seat.code === selectedSeatAll.code)) {
-          setSeatList([...seatList, { ...selectedSeatAll }]);
+  const renderTime = Array.isArray(remaining)
+    ? remaining.filter((item) => item.id === click)
+    : [];
 
-          setConfirm(true);
-        }
-      }
+  const handleSpaceClick = (spaceCode: string) => {
+    setSelectedSpaceAll((prev) => ({
+      ...prev,
+      code: spaceCode,
+    }));
+    setClick(spaceCode);
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  };
+
+  const handleSpaceTimeClick = (time: string) => {
+    if (selectedSpaceAll?.start_time) {
+      setSelectedSpaceAll((prev) => ({
+        ...prev,
+        end_time: time,
+      }));
+    } else {
+      setSelectedSpaceAll((prev) => ({
+        ...prev,
+        start_time: time,
+      }));
     }
   };
 
@@ -83,75 +119,175 @@ export default function SeminarRoom() {
     <>
       {Array.isArray(remaining) ? (
         seatReservationList ? (
-          <div
-            className={`hidden-360 flex flex-col justify-end w-[61.8125rem] h-[51.25rem] relative overflow-hidden`}
-          >
-            <div className="mb:h-[18.3125rem] md:w-[61.8126rem] md:h-[51.25rem] absolute inset-0">
-              <div className="h-[510px] overflow-auto">
-                <Image
-                  src="/svg/reservation/imageView/openDesk.svg"
-                  width={989}
-                  height={510}
-                  alt="오피스이미지"
-                />
-              </div>
+          <div className="hidden-360 flex flex-col relative w-[61.8125rem] h-[51.25rem] rounded-md justify-end">
+            <div className="absolute inset-0">
+              <Image
+                src="/svg/reservation/imageView/mettingRoom4.svg"
+                layout="fill"
+                objectFit="cover"
+                alt="오피스이미지"
+              />
             </div>
 
-            <div className="relative flex gap-4 h-[19.375rem] bg-[#E4EEFF] p-8">
-              <div className="flex flex-col gap-4 w-[44.5rem]">
-                {loading ? null : (
-                  <>
-                    <p className="text-[1.25rem] font-semibold">좌석 선택</p>
+            <div className="relative flex gap-4 h-[19.35rem] bottom-0 bg-[#E4EEFF] p-8 ">
+              <div className="flex flex-col gap-6 w-[44.5rem] overflow-y-scroll scrollbar-hide">
+                <p className="text-[1.25rem] font-bold leading-7">
+                  공간을 선택하세요
+                </p>
 
-                    <div className="flex flex-wrap gap-2">
-                      {remaining.map((seat, i) => (
-                        <div key={i}>
-                          <button
-                            onClick={
-                              seat.available
-                                ? () => handleSeatClick(seat.id)
-                                : undefined
-                            }
-                            className={`rounded-lg w-[4rem] h-[2.5rem] ${
-                              seat.available
-                                ? seatClick
-                                  ? 'bg-[#688AF2] text-white'
-                                  : ''
-                                : 'bg-gray-400 text-black cursor-not-allowed'
-                            }`}
-                            disabled={!seat.available}
-                          >
-                            {seat.code}
-                          </button>
-                        </div>
-                      ))}
+                <div className="flex flex-wrap gap-2">
+                  {remaining.map((space, i) => (
+                    <div key={i}>
+                      <button
+                        onClick={() => handleSpaceClick(space.id)}
+                        className={`rounded-lg w-[4rem] h-[2.5rem] ${
+                          space.available === false
+                            ? 'bg-gray-400 text-black'
+                            : space.code === selectedSpaceAll?.code
+                              ? 'bg-[#688AF2] text-white'
+                              : 'bg-white'
+                        }`}
+                      >
+                        {space.code}
+                      </button>
                     </div>
-                  </>
-                )}
-              </div>
-
-              <div className="flex flex-col gap-4 justify-start">
-                <p className="text-[1.25rem] font-semibold ">예약 정보</p>
-                <div className="flex flex-col gap-2 justify-between p-4 bg-white w-[12.3125rem] h-[13rem] rounded-lg">
-                  <div>
-                    <p className="text-[0.75rem] text-gray-300">날짜</p>
-                    <div>{selectedSeatAll?.start_date}</div>
-                    <div className="flex gap-3">
-                      <div className="pr-2 border-r-[0.1rem] border-gray-300">
-                        <p className="text-[0.75rem] text-gray-300 ">
-                          공간유형
-                        </p>
-                        <div>{selectedSeatAll?.type}</div>
+                  ))}
+                </div>
+                {click && (
+                  <div className="flex flex-col gap-6">
+                    <p className="text-[1.25rem] font-bold leading-7">
+                      이용 시간을 선택하세요.
+                    </p>
+                    <div className="flex flex-col gap-4">
+                      <p className="font-bold leading-[1.375rem]">오전</p>
+                      <div className="flex flex-wrap gap-2">
+                        <div className="flex flex-wrap gap-2">
+                          {loading ? (
+                            amTime.map((item, index) => (
+                              <div key={index}>
+                                <TimeSkeleton />
+                              </div>
+                            ))
+                          ) : (
+                            <>
+                              {amTime.map((am, idx) => {
+                                const isAvailable = renderTime.some((item) =>
+                                  Array.isArray(item.am)
+                                    ? item.am.includes(am)
+                                    : false,
+                                );
+                                const isSelected =
+                                  selectedSpaceAll?.start_time === am;
+                                const handleClick = () => {
+                                  if (isAvailable) {
+                                    handleSpaceTimeClick(am);
+                                  }
+                                };
+                                return (
+                                  <button
+                                    key={idx}
+                                    onClick={handleClick}
+                                    className={`rounded-lg w-[4rem] h-[2.5rem] ${
+                                      isSelected
+                                        ? 'bg-[#688AF2] text-white'
+                                        : isAvailable
+                                          ? 'bg-white text-black'
+                                          : 'bg-gray-500 text-white'
+                                    }`}
+                                    disabled={!isAvailable}
+                                  >
+                                    {am}
+                                  </button>
+                                );
+                              })}
+                            </>
+                          )}
+                        </div>
                       </div>
-                      <div>
-                        <p className="text-gray-300 text-[0.75rem]">공간번호</p>
-                        <div>{selectedSeatAll?.code}</div>
+                    </div>
+                    <div className="flex flex-col gap-4">
+                      <p className="font-bold leading-[1.375rem]">오후</p>
+                      <div className="flex flex-wrap gap-2">
+                        {loading ? (
+                          pmTime.map((item, index) => (
+                            <div key={index}>
+                              <TimeSkeleton />
+                            </div>
+                          ))
+                        ) : (
+                          <>
+                            {pmTime.map((pm, idx) => {
+                              const isAvailable = renderTime.some((item) =>
+                                Array.isArray(item.pm)
+                                  ? item.pm.includes(pm)
+                                  : false,
+                              );
+                              const isSelected =
+                                selectedSpaceAll?.end_time === pm;
+                              const handleClick = () => {
+                                if (isAvailable) {
+                                  handleSpaceTimeClick(pm);
+                                }
+                              };
+                              return (
+                                <button
+                                  key={idx}
+                                  onClick={handleClick}
+                                  className={`rounded-lg w-[4rem] h-[2.5rem] ${
+                                    isSelected
+                                      ? 'bg-[#688AF2] text-white'
+                                      : isAvailable
+                                        ? 'bg-white text-black'
+                                        : 'bg-gray-500 text-white'
+                                  }`}
+                                  disabled={!isAvailable}
+                                >
+                                  {pm}
+                                </button>
+                              );
+                            })}
+                          </>
+                        )}
                       </div>
                     </div>
                   </div>
+                )}
+              </div>
+              <div className="flex flex-col gap-4 justify-start">
+                <p className="text-[1.25rem] font-semibold">예약 정보</p>
+                <div className="flex flex-col gap-2 justify-between p-4 bg-white w-[12.3125rem] h-[13rem] rounded-lg">
+                  <div>
+                    <div>
+                      <p className="text-[0.75rem] text-gray-300">날짜</p>
+                      <div>{selectedSpaceAll?.start_date}</div>
+                      <div className="flex gap-3">
+                        <div className="pr-2 border-r-[0.1rem] border-gray-300">
+                          <p className="text-[0.75rem] text-gray-300">
+                            공간유형
+                          </p>
+                          <div>{selectedSpaceAll?.type}</div>
+                        </div>
+                        <div>
+                          <p className="text-gray-300 text-[0.75rem]">
+                            공간번호
+                          </p>
+                          <div>{selectedSpaceAll?.code}</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <p className="text-gray-300 text-[0.75rem]"> 예약 시간</p>
+                    <p>
+                      {selectedSpaceAll?.start_time} ~{' '}
+                      {selectedSpaceAll?.end_time}
+                    </p>
+                  </div>
+
                   <button
-                    onClick={handleSeatReady}
-                    className={`rounded-xl text-white w-[10.3125rem] h-[2.5rem] ${selectedSeatAll?.code ? 'bg-[#D3D3D3]' : 'bg-[#688AF2]'}`}
+                    onClick={handleSpaceReady}
+                    className="rounded-xl text-white w-[10.3125rem] h-[2.5rem] bg-[#688AF2]"
                   >
                     확정
                   </button>
@@ -160,98 +296,198 @@ export default function SeminarRoom() {
             </div>
           </div>
         ) : (
-          //여기야아아
-
-          <div className="hidden-360  overflow-hidden  flex flex-col justify-end w-[61.8125rem] h-[51.25rem] relative  rounded-md">
-            <div className=" mb:h-[18.3125rem] md:w-[61.8126rem] md:h-[51.25rem] absolute inset-0">
+          <div className="hidden-360 flex flex-col relative w-[61.8125rem] h-[51.25rem] overflow-hidden rounded-md justify-end">
+            <div className="absolute inset-0">
               <Image
-                src="/svg/reservation/imageView/openDesk.svg"
+                src="/svg/reservation/imageView/mettingRoom4.svg"
                 layout="fill"
                 objectFit="cover"
                 alt="오피스이미지"
               />
-              <div
-                onClick={() => handleClick()}
-                className="absolute bottom-0  shadow-2xl left-[50%] transform -translate-y-1/2 bg-[#688AF2] text-gray-500 rounded-[50%] p-4 z-10"
-              >
-                {isExpanded ? (
-                  <Image
-                    src="/svg/map/arrow.svg"
-                    width={20}
-                    height={20}
-                    alt="업 아이콘"
-                  />
-                ) : (
-                  <Image
-                    className="rotate-180"
-                    src="/svg/map/arrow.svg"
-                    width={20}
-                    height={20}
-                    alt="업 아이콘"
-                  />
-                )}
-              </div>
             </div>
-
+            <div
+              onClick={handleClick}
+              className="absolute bottom-0 shadow-2xl left-[50%] transform -translate-y-1/2 bg-[#688AF2] text-gray-500 rounded-[50%] p-4 z-10"
+            >
+              {isExpanded ? (
+                <Image
+                  src="/svg/map/Arrow.svg"
+                  width={20}
+                  height={20}
+                  alt="업 아이콘"
+                />
+              ) : (
+                <Image
+                  className="rotate-180"
+                  src="/svg/map/Arrow.svg"
+                  width={20}
+                  height={20}
+                  alt="업 아이콘"
+                />
+              )}
+            </div>
             <div
               className={`relative flex gap-4 h-[19.375rem] bg-[#E4EEFF] p-8 transition-transform duration-500 transform rounded-xl shadow-xl ${
                 isExpanded ? '-translate-y-[-5px]' : 'translate-y-[70%]'
               }`}
             >
-              <div className="flex flex-col gap-4 w-[44.5rem]">
-                <p className="text-[1.25rem] font-semibold">좌석 선택</p>
-                <div className="flex flex-wrap gap-2">
-                  {loading &&
-                    remaining.map((item, idx) => (
-                      <div key={idx}>
-                        <TimeSkeleton />
-                      </div>
-                    ))}
-                  {!loading &&
-                    remaining.map((seat, i) => (
-                      <div key={i}>
-                        <button
-                          onClick={() => handleSeatClick(seat.id)}
-                          className={`rounded-lg w-[4rem] h-[2.5rem] ${
-                            seatClick === true ? 'bg-[#688AF2]' : 'bg-white'
-                          } ${
-                            seat.available === false
-                              ? 'bg-gray-400 text-black'
-                              : selectedSeatAll?.code === seat.code
-                                ? 'bg-[#688AF2] text-white'
-                                : 'bg-white'
-                          }`}
-                        >
-                          {seat.code}
-                        </button>
-                      </div>
-                    ))}
-                </div>
-              </div>
+              <div className="flex flex-col gap-6 w-[44.5rem] overflow-y-scroll scrollbar-hide">
+                <p className="text-[1.25rem] font-bold leading-7">
+                  공간을 선택하세요
+                </p>
 
+                <div className="flex flex-wrap gap-2">
+                  {remaining.map((space, i) => (
+                    <div key={i}>
+                      <button
+                        onClick={() => handleSpaceClick(space.id)}
+                        className={`rounded-lg w-[4rem] h-[2.5rem] ${
+                          space.available === false
+                            ? 'bg-gray-400 text-black'
+                            : selectedSpaceAll?.code === space.code
+                              ? 'bg-[#688AF2] text-white'
+                              : 'bg-white'
+                        }`}
+                      >
+                        {space.code}
+                      </button>
+                    </div>
+                  ))}
+                </div>
+                {click && (
+                  <div className="flex flex-col gap-6">
+                    <p className="text-[1.25rem] font-bold leading-7">
+                      이용 시간을 선택하세요.
+                    </p>
+                    <div className="flex flex-col gap-4">
+                      <p className="font-bold leading-[1.375rem]">오전</p>
+                      <div className="flex flex-wrap gap-2">
+                        <div className="flex flex-wrap gap-2">
+                          {loading ? (
+                            amTime.map((item, index) => (
+                              <div key={index}>
+                                <TimeSkeleton />
+                              </div>
+                            ))
+                          ) : (
+                            <>
+                              {amTime.map((am, idx) => {
+                                const isAvailable = renderTime.some((item) =>
+                                  Array.isArray(item.am)
+                                    ? item.am.includes(am)
+                                    : false,
+                                );
+                                const isSelected =
+                                  selectedSpaceAll?.start_time === am;
+                                const handleClick = () => {
+                                  if (isAvailable) {
+                                    handleSpaceTimeClick(am);
+                                  }
+                                };
+                                return (
+                                  <button
+                                    key={idx}
+                                    onClick={handleClick}
+                                    className={`rounded-lg w-[4rem] h-[2.5rem] ${
+                                      isSelected
+                                        ? 'bg-[#688AF2] text-white'
+                                        : isAvailable
+                                          ? 'bg-white text-black'
+                                          : 'bg-gray-500 text-white'
+                                    }`}
+                                    disabled={!isAvailable}
+                                  >
+                                    {am}
+                                  </button>
+                                );
+                              })}
+                            </>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex flex-col gap-4">
+                      <p className="font-bold leading-[1.375rem]">오후</p>
+                      <div className="flex flex-wrap gap-2">
+                        {loading ? (
+                          pmTime.map((item, index) => (
+                            <div key={index}>
+                              <TimeSkeleton />
+                            </div>
+                          ))
+                        ) : (
+                          <>
+                            {pmTime.map((pm, idx) => {
+                              const isAvailable = renderTime.some((item) =>
+                                Array.isArray(item.pm)
+                                  ? item.pm.includes(pm)
+                                  : false,
+                              );
+                              const isSelected =
+                                selectedSpaceAll?.end_time === pm;
+                              const handleClick = () => {
+                                if (isAvailable) {
+                                  handleSpaceTimeClick(pm);
+                                }
+                              };
+                              return (
+                                <button
+                                  key={idx}
+                                  onClick={handleClick}
+                                  className={`rounded-lg w-[4rem] h-[2.5rem] ${
+                                    isSelected
+                                      ? 'bg-[#688AF2] text-white'
+                                      : isAvailable
+                                        ? 'bg-white text-black'
+                                        : 'bg-gray-500 text-white'
+                                  }`}
+                                  disabled={!isAvailable}
+                                >
+                                  {pm}
+                                </button>
+                              );
+                            })}
+                          </>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
               <div className="flex flex-col gap-4 justify-start">
                 <p className="text-[1.25rem] font-semibold">예약 정보</p>
-                {/* {loading && <ReservationMiniInfo />} */}
-
                 <div className="flex flex-col gap-2 justify-between p-4 bg-white w-[12.3125rem] h-[13rem] rounded-lg">
                   <div>
-                    <p className="text-[0.75rem] text-gray-300">날짜</p>
-                    <div>{selectedSeatAll?.start_date}</div>
-                    <div className="flex gap-3">
-                      <div className="pr-2 border-r-[0.1rem] border-gray-300">
-                        <p className="text-[0.75rem] text-gray-300">공간유형</p>
-                        <div>{selectedSeatAll?.type}</div>
-                      </div>
-                      <div>
-                        <p className="text-gray-300 text-[0.75rem]">공간번호</p>
-                        <div>{selectedSeatAll?.code}</div>
+                    <div>
+                      <p className="text-[0.75rem] text-gray-300">날짜</p>
+                      <div>{selectedSpaceAll?.start_date}</div>
+                      <div className="flex gap-3">
+                        <div className="pr-2 border-r-[0.1rem] border-gray-300">
+                          <p className="text-[0.75rem] text-gray-300">
+                            공간유형
+                          </p>
+                          <div>{selectedSpaceAll?.type}</div>
+                        </div>
+                        <div>
+                          <p className="text-gray-300 text-[0.75rem]">
+                            공간번호
+                          </p>
+                          <div>{selectedSpaceAll?.code}</div>
+                        </div>
                       </div>
                     </div>
                   </div>
 
+                  <div>
+                    <p className="text-gray-300 text-[0.75rem]"> 예약 시간</p>
+                    <p>
+                      {selectedSpaceAll?.start_time} ~{' '}
+                      {selectedSpaceAll?.end_time}
+                    </p>
+                  </div>
                   <button
-                    onClick={handleSeatReady}
-                    className={`rounded-xl text-white w-[10.3125rem] h-[2.5rem] ${selectedSeatAll?.code ? 'bg-[#688AF2]' : 'bg-[#D3D3D3]'}`}
+                    onClick={handleSpaceReady}
+                    className={`rounded-xl text-white w-[10.3125rem] h-[2.5rem] ${selectedSpaceAll?.code && selectedSpaceAll?.start_time && selectedSpaceAll?.end_time ? 'bg-[#688AF2]' : 'bg-[#D3D3D3]'}`}
                   >
                     확정
                   </button>
@@ -261,8 +497,9 @@ export default function SeminarRoom() {
           </div>
         )
       ) : (
-        <div>Error: Remaining is not an array.</div>
+        <div>Remaining is not an array</div>
       )}
+
       {loading && <FullPageLoader />}
     </>
   );

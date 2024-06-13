@@ -96,10 +96,30 @@ export default function OpenTable() {
                   height={510}
                   alt="오피스이미지"
                 />
+                {isExpanded ? (
+                  <Image
+                    src="/svg/map/arrow.svg"
+                    width={20}
+                    height={20}
+                    alt="업 아이콘"
+                  />
+                ) : (
+                  <Image
+                    className="rotate-180"
+                    src="/svg/map/arrow.svg"
+                    width={20}
+                    height={20}
+                    alt="업 아이콘"
+                  />
+                )}
               </div>
             </div>
 
-            <div className="relative flex gap-4 h-[19.375rem] bg-[#E4EEFF] p-8">
+            <div
+              className={`relative flex gap-4 h-[19.375rem] bg-[#E4EEFF] p-8 transition-transform duration-500 transform rounded-xl shadow-xl ${
+                isExpanded ? '-translate-y-[-5px]' : 'translate-y-[70%]'
+              }`}
+            >
               <div className="flex flex-col gap-4 w-[44.5rem]">
                 {loading ? null : (
                   <>
@@ -115,11 +135,9 @@ export default function OpenTable() {
                                 : undefined
                             }
                             className={`rounded-lg w-[4rem] h-[2.5rem] ${
-                              seat.available
-                                ? seatClick
-                                  ? 'bg-[#688AF2] text-white'
-                                  : ''
-                                : 'bg-gray-400 text-black cursor-not-allowed'
+                              seat.available === true
+                                ? 'bg-white text-black'
+                                : 'bg-gray-400 text-black'
                             }`}
                             disabled={!seat.available}
                           >
@@ -151,9 +169,10 @@ export default function OpenTable() {
                       </div>
                     </div>
                   </div>
+
                   <button
                     onClick={handleSeatReady}
-                    className={`rounded-xl text-white w-[10.3125rem] h-[2.5rem] ${selectedSeatAll?.code ? 'bg-[#D3D3D3]' : 'bg-[#688AF2]'}`}
+                    className={`rounded-xl text-white w-[10.3125rem] h-[2.5rem] bg-[#688AF2]`}
                   >
                     확정
                   </button>

@@ -1,4 +1,7 @@
-import { mobileReservationLayoutState } from '@/app/(search)/atom/media';
+import {
+  loadingState,
+  mobileReservationLayoutState,
+} from '@/app/(search)/atom/media';
 import {
   rsInfoState,
   selectedMembershipId,
@@ -11,8 +14,11 @@ import {
   seatListReservation,
   selectedSeatAllState,
 } from '@/app/(search)/atom/office';
+import { modalState } from '@/app/(search)/atom/search';
+import UpdateModal from '@/app/(search)/map/components/Loader/UpdateModal';
 import API from '@/utils/axios';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
@@ -28,10 +34,10 @@ export default function SeatReservationList({
   const isMobile = useRecoilValue(mobileReservationLayoutState);
   const [selectedSeatAll, setSelectedSeatAll] =
     useRecoilState(selectedSeatAllState);
-
   const officeId = useRecoilValue(selectedOfficeId);
-  const [seatList, setSeatList] = useRecoilState(seatListReservation);
+  const [showModal, setShowModal] = useState(false);
   const [confirm, setConfirm] = useRecoilState(confirmedState);
+
   const seatImages: Record<string, string> = {
     오픈데스크: '/svg/reservation/opendesk.svg',
     포커스데스크: '/svg/reservation/focusdesk.svg',
@@ -43,18 +49,14 @@ export default function SeatReservationList({
   );
 
   const handleSeatStyleClick = async (seatStyle: string) => {
-    console.log('왜 널일까?', seatStyle);
     setSeatReservationList(true);
-
-    console.log('seatreservation에서 오피스아이디', officeId);
-    console.log('selectedSeatAll', selectedSeatAll);
 
     const fetchSeatReservationListData = async () => {
       try {
         const res = await API.get(
           `reservation/${officeId}?type=${seatStyle}&start=${rsInfo?.start_date}&end=${rsInfo?.end_date}`,
         );
-        console.log('SeatReservationList에서의 요청', res.data.data);
+
         setSearchRemaining(res.data.data);
       } catch (error) {
         console.error(error);
@@ -84,19 +86,16 @@ export default function SeatReservationList({
     };
 
     try {
-      console.log('seatID', rsInfo?.id);
-      console.log('MID', MemberId);
-      console.log('업데이트로그', updateMembership);
       const res = await API.put(
         `reservation/individual/my-membership/${MemberId}/reservation/${rsInfo?.id}`,
         updateMembership,
       );
-      console.log('SeatReservationList에서의 요청', res.data.data);
       setSearchRemaining(res.data.data);
     } catch (error) {
       console.error('Error updating seat reservation:', error);
+    } finally {
+      setShowModal(true);
     }
-
     setConfirm(false);
   };
 
@@ -208,6 +207,7 @@ export default function SeatReservationList({
           )}
         </div>
       </div>
+      {showModal && <UpdateModal />}
     </div>
   );
 }

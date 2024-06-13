@@ -82,9 +82,29 @@ export default function FocusDesk() {
                 objectFit="cover"
                 alt="오피스이미지"
               />
+              {isExpanded ? (
+                <Image
+                  src="/svg/map/Arrow.svg"
+                  width={20}
+                  height={20}
+                  alt="업 아이콘"
+                />
+              ) : (
+                <Image
+                  className="rotate-180"
+                  src="/svg/map/Arrow.svg"
+                  width={20}
+                  height={20}
+                  alt="업 아이콘"
+                />
+              )}
             </div>
 
-            <div className="relative flex gap-4 h-[19.375rem] bg-[#E4EEFF] p-8">
+            <div
+              className={`relative flex gap-4 h-[19.375rem] bg-[#E4EEFF] p-8 transition-transform duration-500 transform rounded-xl shadow-xl ${
+                isExpanded ? '-translate-y-[-5px]' : 'translate-y-[70%]'
+              }`}
+            >
               <div className="flex flex-col gap-4 w-[44.5rem]">
                 {loading ? null : (
                   <>
@@ -94,12 +114,10 @@ export default function FocusDesk() {
                         <div key={i}>
                           <button
                             onClick={() => handleSeatClick(seat.id)}
-                            className={`rounded-lg w-[4rem] h-[2.5rem] ${
-                              seat.available === false
-                                ? 'bg-gray-400 text-black'
-                                : seatClick
-                                  ? 'bg-[#688AF2] text-white'
-                                  : ''
+                            className={`rounded-lg w-[4rem] h-[2.5rem] $${
+                              seat.available === true
+                                ? 'bg-white text-black'
+                                : 'bg-gray-400 text-black'
                             }`}
                           >
                             {seat.code}
@@ -190,11 +208,9 @@ export default function FocusDesk() {
                         <button
                           onClick={() => handleSeatClick(seat.id)}
                           className={`rounded-lg w-[4rem] h-[2.5rem] ${
-                            seat.available === false
-                              ? 'bg-gray-400 text-black'
-                              : selectedSeatAll?.code === seat.code
-                                ? 'bg-[#688AF2] text-white'
-                                : 'bg-white'
+                            seat.available === true
+                              ? 'bg-white text-black'
+                              : 'bg-gray-400 text-black'
                           }`}
                         >
                           {seat.code}
