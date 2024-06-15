@@ -285,7 +285,7 @@ export default function Studio() {
 
                   <button
                     onClick={handleSpaceReady}
-                    className="rounded-xl text-white w-[10.3125rem] h-[2.5rem] bg-[#688AF2]"
+                    className={`rounded-xl text-white w-[10.3125rem] h-[2.5rem] ${selectedSpaceAll?.code ? 'bg-[#688AF2]' : 'bg-white'} `}
                   >
                     확정
                   </button>
@@ -486,7 +486,7 @@ export default function Studio() {
 
                   <button
                     onClick={handleSpaceReady}
-                    className="rounded-xl text-white w-[10.3125rem] h-[2.5rem] bg-[#688AF2]"
+                    className={`rounded-xl text-white w-[10.3125rem] h-[2.5rem] ${selectedSpaceAll?.code ? 'bg-[#688AF2]' : 'bg-white'} `}
                   >
                     확정
                   </button>

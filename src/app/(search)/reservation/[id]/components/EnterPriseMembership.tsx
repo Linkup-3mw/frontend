@@ -93,11 +93,11 @@ export default function EnterPriseMembership({
     <>
       <div className="">
         {RTab === '좌석' && (
-          <div className="flex flex-col gap-6 mt-6">
+          <div className="flex flex-col gap-4 mt-6">
             <div className="mb:text-sm md:text-lg font-bold mb-2">
               예약 기간을 선택하세요.
             </div>
-            <div className="flex mb:gap-[2px] md:gap-2 mb:w-[18rem] md:w-[26.6875rem] h-[6rem] flex-wrap">
+            <div className="flex md:gap-2 mb:gap-1 mb:w-full md:w-full h-[6rem] flex-wrap mx-auto">
               {Array.from({ length: 12 }, (_, i) => i + 1).map(
                 (month, index) => (
                   <div
@@ -108,9 +108,9 @@ export default function EnterPriseMembership({
                       onClick={() => handleMonthClick(month)}
                       className={`w-full h-full  ${
                         selectedMonth === month
-                          ? 'bg-blue-400 text-white border-2 border-blue-500'
-                          : 'bg-white border-2 text-[#171717] border-gray-300'
-                      } rounded-lg md:text-sm mb:text-[0.75rem] font-normal md:p-[0.63rem] border-1 border-gray-300 border-solid`}
+                          ? 'bg-blue-400 text-white  border-blue-500'
+                          : 'bg-white text-[#171717] border-gray-300'
+                      } rounded-lg md:text-sm mb:text-[0.75rem] font-normal md:p-[0.63rem]`}
                     >
                       {month}개월
                     </button>
@@ -152,12 +152,12 @@ export default function EnterPriseMembership({
                 hasError={hasError}
                 onBlur={handleBlur}
               />
-              <div className=" mb:text-sm md:text-lg font-bold">
+              <div className="mb:text-sm md:text-lg font-bold">
                 예상 견적을 확인하세요.
               </div>
-              <div className="md:w-[26.6875rem] md:h-[3.875rem] mb:w-[18rem] mb:h-[2.625rem] rounded-2xl bg-white border">
+              <div className="md:h-[3.275rem]  mb:h-[2.625rem] rounded-xl bg-white">
                 {isNaN(peopleCount) ? null : (
-                  <p className="md:leading-none font-bold md:text-xl md:p-6 mb:p-2">
+                  <p className="md:leading-none font-bold md:text-xl md:p-4 mb:p-2">
                     {peopleCount && peopleCount * 2700000}
                   </p>
                 )}
@@ -184,7 +184,7 @@ export default function EnterPriseMembership({
                 <div className="w-full text-center my-4">
                   <button
                     // onClick={() => setShowMobileTable(true)}
-                    className="w-[7.375rem] h-[3rem] bg-[#688AF2] text-white rounded-lg leading-none font-bold text-xl"
+                    className="w-[7.75rem] h-[2.5rem] bg-[#6377E9] text-white rounded-lg leading-[1.375rem]"
                   >
                     문의하기
                   </button>

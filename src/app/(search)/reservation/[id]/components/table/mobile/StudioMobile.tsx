@@ -76,7 +76,7 @@ export default function StudioMobile() {
 
   return (
     <>
-      <div className="hidden-desk w-full mt-[6rem] mx-auto">
+      <div className="hidden-desk w-full  mx-auto">
         <Image
           layout="responsive"
           src="/svg/reservation/imageView/mobile/studioMobile.svg"

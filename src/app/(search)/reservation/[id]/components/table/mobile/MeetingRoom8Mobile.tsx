@@ -10,7 +10,7 @@ import { showMobileTableState } from '@/app/(search)/atom/media';
 import Image from 'next/image';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
-export default function MettingRoom4Mobile() {
+export default function MettingRoom8Mobile() {
   const [selectedSpaceAll, setSelectedSpaceAll] = useRecoilState(
     selectedSpaceAllState,
   );
@@ -69,7 +69,7 @@ export default function MettingRoom4Mobile() {
 
   return (
     <>
-      <div className="hidden-desk w-full mt-[6rem] mx-auto">
+      <div className="hidden-desk h-[51.5rem] mx-auto">
         <div className="w-full mx-auto">
           <Image
             layout="responsive"
@@ -84,7 +84,7 @@ export default function MettingRoom4Mobile() {
           <div
             onClick={toggleUp}
             className={`overflow-y-scroll bottom-10 mt-[6rem] scrollbar-hide  flex flex-col items-center  pt-3 rounded-t-3xl  bg-[#E4EEFF] w-full transition-transform duration-1000 ${
-              isUp ? 'translate-y-[-120px]' : 'translate-y-[-220px]'
+              isUp ? 'translate-y-[-100px]' : 'translate-y-[-320px]'
             }`}
             style={{ height: isUp ? '42.25rem' : '42.25rem' }}
           >
@@ -96,7 +96,7 @@ export default function MettingRoom4Mobile() {
                 공간을 선택하세요
               </p>
               <div className="flex flex-wrap w-[20.5rem] gap-2">
-                {/* {remaining.map((space, i) => (
+                {remaining.map((space, i) => (
                   <div key={i}>
                     <button
                       onClick={() => handleSpaceClick(space.id)}
@@ -111,8 +111,8 @@ export default function MettingRoom4Mobile() {
                       {space.code}
                     </button>
                   </div>
-                ))} */}
-                {remaining.map((seat, i) => (
+                ))}
+                {/* {remaining.map((seat, i) => (
                   <div key={i}>
                     <button
                       onClick={
@@ -132,7 +132,7 @@ export default function MettingRoom4Mobile() {
                       {seat.code}
                     </button>
                   </div>
-                ))}
+                ))} */}
               </div>
               <div className="flex flex-col gap-4">
                 <p className="text-[0.875rem] leading-5 font-bold">

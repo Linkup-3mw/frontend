@@ -1,6 +1,7 @@
 import {
   loadingState,
   mobileReservationLayoutState,
+  showMobileTableState,
 } from '@/app/(search)/atom/media';
 import {
   rsInfoState,
@@ -37,6 +38,8 @@ export default function SeatReservationList({
   const officeId = useRecoilValue(selectedOfficeId);
   const [showModal, setShowModal] = useState(false);
   const [confirm, setConfirm] = useRecoilState(confirmedState);
+  const [showMobileTable, setShowMobileTable] =
+    useRecoilState(showMobileTableState);
 
   const seatImages: Record<string, string> = {
     오픈데스크: '/svg/reservation/opendesk.svg',
@@ -151,29 +154,37 @@ export default function SeatReservationList({
               ))}
             </div>
           </div>
+
+          <div className="btn-hidden w-full text-center my-4 hidden-desk">
+            <button
+              onClick={() => setShowMobileTable(true)}
+              className={`w-[5.5rem] h-[2.5rem] text-white rounded-lg leading-[1.375rem]
+            ${selectedSeatAll?.type ? ' bg-blue-400' : ' bg-gray-400'}`}
+            >
+              좌석 선택
+            </button>
+          </div>
           {selectedSeatAll && (
             <div className="flex flex-col gap-4">
-              <p className="text-lg font-bold text-black">
+              <p className="text-md font-bold text-black">
                 수정하신 예약 정보를 확인해주세요.
               </p>
               <div className="w-full flex flex-col gap-5 bg-white rounded-xl">
-                <div className="mb:w-[18rem] md:w-[26.6875rem] mb:h-[4.1875rem] md:h-[5.625rem] bg-white text-lg rounded-xl p-1 pl-2 mb-2">
-                  <div className="flex mb:gap-1 md:gap-2 mb:p-2 md:p-4 justify-between">
-                    <div className="pr-4 border-gray-300 flex">
-                      <div className="pr-4 border-r-2">
-                        <p className="mb:text-[0.75rem]  md:text-[1rem] md:leading-7 mb:leading-5">
-                          {selectedSeatAll?.type}
-                        </p>
-                        <p className="mb:text-[0.875rem] md:text-[1.25rem] font-bold ">
-                          {selectedSeatAll?.code}
-                        </p>
-                      </div>
-                      <div className="pl-4 md:font-normal md:text-lg mb:text-[0.25rem] mb:leading-5 md:leading-7">
-                        <p>{selectedSeatAll?.start_date} ~ </p>
-                        <p> {selectedSeatAll?.end_date}</p>
-                      </div>
+                <div className=" md:w-[26.6875rem] mb:h-[4.1875rem] md:h-[5.625rem] bg-white text-lg rounded-xl p-1 pl-2 mb-2">
+                  <div className="text-black flex mb:gap-1 md:gap-2 mb:p-2 md:p-4 justify-start items-center">
+                    <div className="w-1/4  border-gray-200 border-r">
+                      <p className="mb:text-[0.75rem] md:text-[1rem] md:leading-7 mb:leading-5">
+                        {selectedSeatAll?.type}
+                      </p>
+                      <p className=" md:text-[1.25rem] font-bold ">
+                        {selectedSeatAll?.code}
+                      </p>
                     </div>
-                    <div className="flex items-center">
+                    <div className="w-3/4 flex justify-between items-center">
+                      <div className="pl-4 md:text-sm mb:text-xs  mb:leading-5 md:leading-7">
+                        <p>{selectedSeatAll?.start_date} ~ </p>
+                        {/* <p> {selectedSeatAll?.end_date}</p> */}
+                      </div>
                       {!isMobile ? (
                         <div className="">
                           <button
@@ -195,6 +206,7 @@ export default function SeatReservationList({
                   </div>
                 </div>
               </div>
+
               <div
                 onClick={() => fetchSeatReservationUpdate()}
                 className="w-full text-center my-4"

@@ -69,19 +69,22 @@ export default function SeminarRoomMobile() {
 
   return (
     <>
-      <div className="hidden-desk w-full h-[51.5rem] mt-[6rem] mx-auto">
-        <Image
-          layout="responsive"
-          src="/svg/reservation/imageView/mobile/mettingRoom4Mobile.svg"
-          height={290}
-          width={360}
-          alt="요미"
-        />
-        <div>
+      <div className="hidden-desk h-[51.5rem] mx-auto">
+        <div className="w-full mx-auto">
+          <Image
+            layout="responsive"
+            src="/svg/reservation/imageView/mobile/seminarRoom.svg"
+            height={290}
+            width={360}
+            alt="요미"
+          />
+        </div>
+
+        <div className="w-full bottom-0">
           <div
             onClick={toggleUp}
-            className={`overflow-y-scroll scrollbar-hide flex flex-col items-center  pt-3 rounded-t-3xl  bg-[#E4EEFF] w-full transition-transform duration-1000 ${
-              isUp ? 'translate-y-[-120px]' : ''
+            className={`overflow-y-scroll bottom-10 mt-[6rem] scrollbar-hide  flex flex-col items-center  pt-3 rounded-t-3xl  bg-[#E4EEFF] w-full transition-transform duration-1000 ${
+              isUp ? 'translate-y-[-100px]' : 'translate-y-[-320px]'
             }`}
             style={{ height: isUp ? '42.25rem' : '42.25rem' }}
           >
@@ -93,7 +96,7 @@ export default function SeminarRoomMobile() {
                 공간을 선택하세요
               </p>
               <div className="flex flex-wrap w-[20.5rem] gap-2">
-                {/* {remaining.map((space, i) => (
+                {remaining.map((space, i) => (
                   <div key={i}>
                     <button
                       onClick={() => handleSpaceClick(space.id)}
@@ -108,8 +111,8 @@ export default function SeminarRoomMobile() {
                       {space.code}
                     </button>
                   </div>
-                ))} */}
-                {remaining.map((seat, i) => (
+                ))}
+                {/* {remaining.map((seat, i) => (
                   <div key={i}>
                     <button
                       onClick={
@@ -129,7 +132,7 @@ export default function SeminarRoomMobile() {
                       {seat.code}
                     </button>
                   </div>
-                ))}
+                ))} */}
               </div>
               <div className="flex flex-col gap-4">
                 <p className="text-[0.875rem] leading-5 font-bold">

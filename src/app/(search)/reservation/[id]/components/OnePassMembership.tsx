@@ -421,17 +421,17 @@ export default function OnePassMembership({
                       className="mb:w-full md:w-[26.6875rem] mb:h-[4.1875rem] md:h-[5.625rem] bg-white text-lg rounded-xl p-1 pl-2 mb-2"
                     >
                       <div className="flex mb:gap-1 md:gap-2 mb:p-2 md:p-4 justify-between">
-                        <div className="pr-4 border-gray-300 flex">
-                          <div className="pr-4 border-r-2 ">
-                            <p className="mb:text-sm md:text-[1rem] md:leading-7 mb:leading-5">
-                              {seat.type}
-                            </p>
-                            <p className="mb:text-[0.875rem] md:text-[1.25rem] font-bold ">
-                              {seat.code}
-                            </p>
+                        <div className="flex justify-start">
+                          <div className="flex flex-col pr-4 border-r-2">
+                            <div className="text-sm text-black font-normal">
+                              {seat?.type}
+                            </div>
+                            <div className="font-bold text-lg text-black">
+                              {seat?.code}
+                            </div>
                           </div>
-                          <div className="pl-4 md:font-normal md:text-lg mb:text-sm">
-                            <p>{seat.start_date}</p>
+                          <div className="text-black font-normal pl-4">
+                            {seat?.start_date}
                           </div>
                         </div>
                         <div className="flex items-center">
@@ -634,17 +634,17 @@ export default function OnePassMembership({
                       className="mb:w-full md:w-[26.6875rem] mb:h-[4.1875rem] md:h-[5.625rem] bg-white text-lg rounded-xl p-1 pl-2 mb-2"
                     >
                       <div className="flex mb:gap-1 md:gap-2 mb:p-2 md:p-4 justify-between">
-                        <div className="pr-4 border-gray-300 flex">
-                          <div className="pr-4 border-r-2 ">
-                            <p className="mb:text-sm md:text-[1rem] md:leading-7 mb:leading-5">
-                              {seat.type}
-                            </p>
-                            <p className="mb:text-[0.875rem] md:text-[1.25rem] font-bold ">
-                              {seat.code}
-                            </p>
+                        <div className="flex justify-start">
+                          <div className="flex flex-col pr-4 border-r-2">
+                            <div className="text-sm text-black font-normal">
+                              {seat?.type}
+                            </div>
+                            <div className="font-bold text-lg text-black">
+                              {seat?.code}
+                            </div>
                           </div>
-                          <div className="pl-4 md:font-normal md:text-lg mb:text-sm">
-                            <p>{seat.start_date}</p>
+                          <div className="text-black font-normal pl-4">
+                            {seat?.start_date}
                           </div>
                         </div>
                         <div className="flex items-center">
@@ -673,17 +673,17 @@ export default function OnePassMembership({
                       className="mb:w-full md:w-[26.6875rem] mb:h-[4.1875rem] md:h-[5.625rem] bg-white text-lg rounded-xl p-1 pl-2 mb-2"
                     >
                       <div className="flex mb:gap-1 md:gap-2 mb:p-2 md:p-4 justify-between">
-                        <div className="pr-4 border-gray-300 flex">
-                          <div className="pr-4 border-r-2 ">
-                            <p className="mb:text-sm md:text-[1rem] md:leading-7 mb:leading-5">
-                              {space.type}
-                            </p>
-                            <p className="mb:text-[0.875rem] md:text-[1.25rem] font-bold ">
-                              {space.code}
-                            </p>
+                        <div className="flex justify-start">
+                          <div className="flex flex-col pr-4 border-r-2">
+                            <div className="text-sm text-black font-normal">
+                              {space?.type}
+                            </div>
+                            <div className="font-bold text-lg text-black">
+                              {space?.code}
+                            </div>
                           </div>
-                          <div className="pl-4 md:font-normal md:text-lg mb:text-sm">
-                            <p>{space.start_date}</p>
+                          <div className="text-black font-normal pl-4">
+                            {space?.start_date}
                           </div>
                         </div>
                         <div className="flex items-center">
