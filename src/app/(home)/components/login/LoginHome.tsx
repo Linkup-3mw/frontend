@@ -26,13 +26,16 @@ export default async function HomePage({ user }: { user: IUser }) {
   // 예약 내역 호출 하기
 
   return (
-    <main className="md:pt-[7rem] py-[5rem] px-[1.25rem] relative">
+    <main className=" md:pt-[7rem] py-[5rem] px-[1.25rem] relative">
       <section>
         <ContentWrap>
           <div className="md:flex gap-[1.5rem]">
-            <section className="bg-blue-50 rounded-2xl p-[2.5rem] relative  max-xl:p-[1.5rem] max-md:w-full max-md:p-[1rem]">
-              <div className="md:flex gap-[1.5rem] relative">
-                <AllMembership user={user} />
+            <section className=" w-[62.8125rem]  bg-blue-50 rounded-2xl p-[2.5rem] relative max-xl:p-[1.5rem] max-md:w-full max-md:p-[1rem]">
+              <div className=" md:flex gap-[1.5rem] relative">
+                <div className="w-[38.3125rem] max-md:w-full ">
+                  <AllMembership user={user} />
+                </div>
+
                 {!data && (
                   <div className="pt-[2.5rem] text-[1.25rem] text-blue-400 max-md:text-[0.875rem]">
                     이용 중인 공유 오피스가 없습니다.

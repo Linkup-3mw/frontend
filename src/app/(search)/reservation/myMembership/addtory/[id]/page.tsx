@@ -81,9 +81,7 @@ export default function Addtory() {
 
         {showMobileTable && (
           <>
-            <div className="flex justify-center items-center w-[100%]">
-              <OpenTableMobile />
-            </div>
+            <OpenTableMobile />
           </>
         )}
       </div>

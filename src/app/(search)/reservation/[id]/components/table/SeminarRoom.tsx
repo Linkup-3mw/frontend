@@ -287,7 +287,7 @@ export default function SeminarRoom() {
 
                   <button
                     onClick={handleSpaceReady}
-                    className="rounded-xl text-white w-[10.3125rem] h-[2.5rem] bg-[#688AF2]"
+                    className={`rounded-xl text-white w-[10.3125rem] h-[2.5rem] ${selectedSpaceAll?.code ? 'bg-[#688AF2]' : 'bg-white'} `}
                   >
                     확정
                   </button>
@@ -487,7 +487,7 @@ export default function SeminarRoom() {
                   </div>
                   <button
                     onClick={handleSpaceReady}
-                    className={`rounded-xl text-white w-[10.3125rem] h-[2.5rem] ${selectedSpaceAll?.code && selectedSpaceAll?.start_time && selectedSpaceAll?.end_time ? 'bg-[#688AF2]' : 'bg-[#D3D3D3]'}`}
+                    className={`rounded-xl text-white w-[10.3125rem] h-[2.5rem] ${selectedSpaceAll?.code ? 'bg-[#688AF2]' : 'bg-white'} `}
                   >
                     확정
                   </button>

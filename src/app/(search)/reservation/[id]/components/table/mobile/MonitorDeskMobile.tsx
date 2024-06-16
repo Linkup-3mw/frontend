@@ -64,7 +64,7 @@ export default function MonitorDeskMobile() {
             className={`overflow-y-scroll bottom-10  scrollbar-hide  flex flex-col items-center  pt-3 rounded-t-3xl  bg-[#E4EEFF] w-full transition-transform duration-1000 ${
               isUp ? '' : 'translate-y-[-100px]'
             }`}
-            style={{ height: isUp ? '42.25rem' : '42.25rem' }}
+            style={{ height: isUp ? '42.25rem' : '32.25rem' }}
           >
             <div className="">
               <div className="w-[2rem] h-[0.25rem] bg-[#BFD4FF]"></div>

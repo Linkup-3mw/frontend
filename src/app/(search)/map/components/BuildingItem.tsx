@@ -61,38 +61,17 @@ export default function BuildingItem() {
                     alt={`${office.location}`}
                   />
                 </div>
-                <div className="flex flex-col  gap-2 max-md:w-full  md:w-[16.6875rem] mb:h-[3.875rem] md:h-[5.125rem] justify-between">
-                  <div className="flex justify-between">
-                    <p className="font-semibold mb:text-[1rem] md:text-lg">
-                      {office.location}
-                    </p>
+                <div className=" flex flex-col max-md:w-full  md:w-[16.6875rem] mb:h-[3.875rem] md:h-[5.125rem] justify-between">
+                  <span className="md:text-lg mb:text-sm font-bold">
+                    {office.location}
+                  </span>
 
-                    {/* {office.rating.avg_rating && office.rating.count && (
-                      <div className="flex items-center">
-                        <Image
-                          src="/svg/map/star.svg"
-                          width={18}
-                          height={18}
-                          alt="별"
-                        />
-                        {office.rating.avg_rating}.0 ({office.rating.count})
-                      </div>
-                    )} */}
-                  </div>
-
-                  <div className="flex gap-4 justify-between mb:text-[0.625rem] md:text-xs">
-                    <div className="flex flex-col gap-1">
+                  <div className="h-3/3 flex md:text-sm mb:text-xs font-semibold">
+                    <div className="flex flex-col">
                       <span>{office.traffic_info}</span>
                       <span>
                         {office.city}구 {office.street} {office.address}
                       </span>
-                    </div>
-                    <div>
-                      <button
-                        className={`${currentBuilding && currentBuilding.location === office.location ? 'bg-white text-black' : 'bg-blue-400 text-white'} rounded-2xl mb:w-[3.375rem] mb:h-[1.4375rem] md:w-[3.8125rem] md:h-[1.6875rem]  p-1`}
-                      >
-                        바로 예약
-                      </button>
                     </div>
                   </div>
                 </div>
@@ -125,20 +104,6 @@ export default function BuildingItem() {
                     <p className="font-bold mb:text-[1rem] md:text-lg">
                       {office.location}
                     </p>
-                    {/* {office.reviews &&
-                    office.reviews.avg_rating &&
-                    office.reviews.review_count && (
-                      <div className="flex items-center">
-                        <Image
-                          src="/svg/map/star.svg"
-                          width={18}
-                          height={18}
-                          alt="별"
-                        />
-                        {office.reviews.avg_rating}.0 (
-                        {office.reviews.review_count})
-                      </div>
-                    )} */}
                   </div>
                   <p className="text-gray-300 mb:text-[0.625rem] md:text-sm">
                     {office.traffic_info}

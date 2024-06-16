@@ -238,7 +238,7 @@ export default function MonthPassMembership({
             <div className="mb:text-sm md:text-lg font-bold mb-2">
               예약 기간을 선택하세요.
             </div>
-            <div className="flex gap-1 mb:w-full md:w-full h-[6rem] flex-wrap mx-auto">
+            <div className="flex md:gap-2 mb:gap-1 mb:w-full md:w-full h-[6rem] flex-wrap mx-auto">
               {Array.from({ length: 12 }, (_, i) => i + 1).map(
                 (month, index) => (
                   <div
@@ -308,21 +308,20 @@ export default function MonthPassMembership({
                   {seatList.map((seat, index) => (
                     <div
                       key={index}
-                      className="mb:w-[18rem] md:w-[26.6875rem] mb:h-[4.1875rem] md:h-[5.625rem] bg-white text-lg rounded-xl p-1 pl-2 mb-2"
+                      className="mb:w-full md:w-[26.6875rem] mb:h-[4.1875rem] md:h-[5.625rem] bg-white text-lg rounded-xl p-1 pl-2 mb-2"
                     >
                       <div className="flex mb:gap-1 md:gap-2 mb:p-2 md:p-4 justify-between">
-                        <div className="pr-4 border-gray-300 flex">
-                          <div className="pr-4 border-r-2">
-                            <p className="mb:text-[0.75rem]  md:text-[1rem] md:leading-7 mb:leading-5">
-                              {seat.type}
-                            </p>
-                            <p className="mb:text-[0.875rem] md:text-[1.25rem] font-bold ">
-                              {seat.code}
-                            </p>
+                        <div className="flex justify-start">
+                          <div className="flex flex-col pr-4 border-r-2">
+                            <div className="text-sm text-black font-normal">
+                              {seat?.type}
+                            </div>
+                            <div className="font-bold text-lg text-black">
+                              {seat?.code}
+                            </div>
                           </div>
-                          <div className="pl-4 md:font-normal md:text-lg mb:text-[0.25rem] mb:leading-5 md:leading-7">
-                            <p>{seat.start_date} ~ </p>
-                            <p> {seat.end_date}</p>
+                          <div className="text-black font-normal pl-4">
+                            {seat?.start_date}
                           </div>
                         </div>
                         <div className="flex items-center">
@@ -347,41 +346,24 @@ export default function MonthPassMembership({
                       </div>
                     </div>
                   ))}
-                  {mobileConfirm && (
-                    <div className="hidden-desk w-full flex h-[2.25rem] text-[0.625rem] gap-2 mt-2 mb-4 leading-4 border-4">
-                      <p className="h-[1.4375rem] w-[11.1875rem] border-4">
-                        미팅룸, 컨퍼런스 룸, 스튜디오 등 필요하신가요?
-                      </p>
-                      <div>
-                        <button
-                          onClick={() =>
-                            selectedSeatAll?.start_date && setRTab('공간')
-                          }
-                          className="w-[6.5625rem] h-[2rem] p-2 bg-[#688AF2] text-[0.625rem] text-white rounded-lg "
-                        >
-                          공간 예약 하러 가기
-                        </button>
-                      </div>
+
+                  <div className="flex text-xs h-[2.25rem] items-center gap-2 my-4 justify-between">
+                    <p>
+                      미팅룸, 컨퍼런스 룸, 스튜디오 등 다양한 공간이
+                      필요하신가요?
+                    </p>
+                    <div>
+                      <button
+                        onClick={() =>
+                          selectedSeatAll?.start_date && setRTab('공간')
+                        }
+                        className="w-[9.875rem] h-[2.5rem] leading-6 p-2 bg-[#688AF2] text-[0.875rem] text-white rounded-lg"
+                      >
+                        공간 예약 하러 가기
+                      </button>
                     </div>
-                  )}
-                  {confirm && (
-                    <div className="hidden-360 flex h-[2.25rem] gap-2 leading-6 my-4 ">
-                      <p>
-                        미팅룸, 컨퍼런스 룸, 스튜디오 등 다양한 공간이
-                        필요하신가요?
-                      </p>
-                      <div>
-                        <button
-                          onClick={() =>
-                            selectedSeatAll?.start_date && setRTab('공간')
-                          }
-                          className="w-[9.875rem] h-[2.5rem] leading-6 p-2 bg-[#688AF2] text-[0.875rem] text-white rounded-lg"
-                        >
-                          공간 예약 하러 가기
-                        </button>
-                      </div>
-                    </div>
-                  )}
+                  </div>
+
                   {selectedSeatAll && (
                     <div className="py-4">
                       <div className="mb:text-sm md:text-lg font-bold mb-4">
@@ -504,21 +486,20 @@ export default function MonthPassMembership({
                     {seatList.map((seat, index) => (
                       <div
                         key={index}
-                        className="mb:w-[18rem] md:w-[26.6875rem] mb:h-[4.1875rem] md:h-[5.625rem] bg-white text-lg rounded-xl p-1 pl-2 mb-2"
+                        className="mb:w-full md:w-[26.6875rem] mb:h-[4.1875rem] md:h-[5.625rem] bg-white text-lg rounded-xl p-1 pl-2 mb-2"
                       >
                         <div className="flex mb:gap-1 md:gap-2 mb:p-2 md:p-4 justify-between">
-                          <div className="pr-4 border-gray-300 flex">
-                            <div className="pr-4 border-r-2">
-                              <p className="mb:text-[0.75rem]  md:text-[1rem] md:leading-7 mb:leading-5">
-                                {seat.type}
-                              </p>
-                              <p className="mb:text-[0.875rem] md:text-[1.25rem] font-bold ">
-                                {seat.code}
-                              </p>
+                          <div className="flex justify-start">
+                            <div className="flex flex-col pr-4 border-r-2">
+                              <div className="text-sm text-black font-normal">
+                                {seat?.type}
+                              </div>
+                              <div className="font-bold text-lg text-black">
+                                {seat?.code}
+                              </div>
                             </div>
-                            <div className="pl-4 md:font-normal md:text-lg mb:text-[0.25rem] mb:leading-5 md:leading-7">
-                              <p>{seat.start_date} ~ </p>
-                              <p> {seat.end_date}</p>
+                            <div className="text-black font-normal pl-4">
+                              {seat?.start_date}
                             </div>
                           </div>
                           <div className="flex items-center">
@@ -546,21 +527,20 @@ export default function MonthPassMembership({
                     {spaceList.map((space, index) => (
                       <div
                         key={index}
-                        className="mb:w-[18rem] md:w-[26.6875rem] mb:h-[4.1875rem] md:h-[5.625rem] bg-white text-lg rounded-xl p-1 pl-2 mb-2"
+                        className="mb:w-full md:w-[26.6875rem] mb:h-[4.1875rem] md:h-[5.625rem] bg-white text-lg rounded-xl p-1 pl-2 mb-2"
                       >
                         <div className="flex mb:gap-1 md:gap-2 mb:p-2 md:p-4 justify-between">
-                          <div className="pr-4 border-gray-300 flex">
-                            <div className="pr-4 border-r-2">
-                              <p className="mb:text-[0.75rem]  md:text-[1rem] md:leading-7 mb:leading-5">
-                                {space.type}
-                              </p>
-                              <p className="mb:text-[0.875rem] md:text-[1.25rem] font-bold ">
-                                {space.code}
-                              </p>
+                          <div className="flex justify-start">
+                            <div className="flex flex-col pr-4 border-r-2">
+                              <div className="text-sm text-black font-normal">
+                                {space?.type}
+                              </div>
+                              <div className="font-bold text-lg text-black">
+                                {space?.code}
+                              </div>
                             </div>
-                            <div className="pl-4 md:font-normal md:text-lg mb:text-[0.25rem] mb:leading-5 md:leading-7">
-                              <p>{space.start_date} ~ </p>
-                              <p> {space.end_date}</p>
+                            <div className="text-black font-normal pl-4">
+                              {space?.start_date}
                             </div>
                           </div>
                           <div className="flex items-center">

@@ -224,6 +224,7 @@ export default function ReservedList({ seatTypes }: { seatTypes: string[] }) {
               ))}
           </div>
         </div>
+
         {selectedSeatAll && confirm && (
           <>
             <div>
@@ -263,7 +264,6 @@ export default function ReservedList({ seatTypes }: { seatTypes: string[] }) {
             </div>
           </>
         )}
-
         <div
           onClick={() => setShowMobileTable(true)}
           className="hidden-desk w-full text-center my-4"

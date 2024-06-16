@@ -11,6 +11,7 @@ import FullPageLoader from '@/app/(search)/map/components/Loader/FullPageLoader'
 import { loadingState } from '@/app/(search)/atom/media';
 import TimeSkeleton from '../skeleton/TimeSkeleton';
 import { userUpdateRlistPutState } from '@/app/(search)/atom/membership';
+import { addDays, format } from 'date-fns';
 
 export default function MeetingRoom8() {
   const [selectedSpaceAll, setSelectedSpaceAll] = useRecoilState(
@@ -95,7 +96,6 @@ export default function MeetingRoom8() {
       code: spaceCode,
     }));
     setClick(spaceCode);
-
     setTimeout(() => {
       setLoading(false);
     }, 2000);
@@ -287,7 +287,7 @@ export default function MeetingRoom8() {
 
                   <button
                     onClick={handleSpaceReady}
-                    className="rounded-xl text-white w-[10.3125rem] h-[2.5rem] bg-[#688AF2]"
+                    className={`${selectedSpaceAll?.code ? 'bg-[#688AF2]' : 'bg-white'} rounded-xl text-white w-[10.3125rem] h-[2.5rem] `}
                   >
                     확정
                   </button>
@@ -485,10 +485,9 @@ export default function MeetingRoom8() {
                       {selectedSpaceAll?.end_time}
                     </p>
                   </div>
-
                   <button
                     onClick={handleSpaceReady}
-                    className={`rounded-xl text-white w-[10.3125rem] h-[2.5rem] ${selectedSpaceAll?.code && selectedSpaceAll?.start_time && selectedSpaceAll?.end_time ? 'bg-[#688AF2]' : 'bg-[#D3D3D3]'}`}
+                    className={`rounded-xl text-white w-[10.3125rem] h-[2.5rem] ${selectedSpaceAll?.code ? 'bg-[#688AF2]' : 'bg-white'} `}
                   >
                     확정
                   </button>

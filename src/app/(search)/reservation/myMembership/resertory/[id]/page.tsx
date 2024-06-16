@@ -95,7 +95,6 @@ export default function Resertory() {
     }
   };
 
-  // 예약 수정
   const handleRsClick = async (
     reservationId: number,
     reservationType: string,
@@ -147,7 +146,7 @@ export default function Resertory() {
   return (
     <>
       {loading && <FullPageLoader />}
-
+      {showMobileTable && <OpenTableMobile />}
       {!showMobileTable && (
         <div className="mt-[5rem] md:w-[95rem] mx-auto pt-2 md:flex justify-center gap-4">
           <div className="flex flex-col bg-[#E4EEFF] mb:w-[90%] md:px-8 max-md:w-[30.6875rem] mb:px-4 overflow-y-scroll scrollbar-hide rounded-3xl pt-4 h-[51.25rem] mx-auto">
@@ -338,7 +337,7 @@ export default function Resertory() {
           <SeatInformation />
         </div>
       )}
-      {showMobileTable && <OpenTableMobile />}
+
       <div className="absolute right-[5.44rem] top-[2rem] z-[201]">
         {modal && <ReservationDelete />}
       </div>
