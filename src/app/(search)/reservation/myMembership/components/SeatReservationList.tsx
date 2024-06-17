@@ -171,17 +171,17 @@ export default function SeatReservationList({
               </p>
               <div className="w-full flex flex-col gap-5 bg-white rounded-xl">
                 <div className=" md:w-[26.6875rem] mb:h-[4.1875rem] md:h-[5.625rem] bg-white text-lg rounded-xl p-1 pl-2 mb-2">
-                  <div className="text-black flex mb:gap-1 md:gap-2 mb:p-2 md:p-4 justify-start items-center">
-                    <div className="w-1/4  border-gray-200 border-r">
-                      <p className="mb:text-[0.75rem] md:text-[1rem] md:leading-7 mb:leading-5">
+                  <div className="text-black flex mb:gap-1 md:gap-2 mb:p-2 md:p-4 justify-start">
+                    <div className="w-1/3  border-gray-200 border-r">
+                      <p className="mb:text-[0.75rem] md:text-[1.1rem] md:leading-7 mb:leading-5">
                         {selectedSeatAll?.type}
                       </p>
                       <p className=" md:text-[1.25rem] font-bold ">
                         {selectedSeatAll?.code}
                       </p>
                     </div>
-                    <div className="w-3/4 flex justify-between items-center">
-                      <div className="pl-4 md:text-sm mb:text-xs  mb:leading-5 md:leading-7">
+                    <div className="w-2/3 flex justify-between">
+                      <div className="pl-4 md:text-lg mb:text-xs  mb:leading-5 md:leading-7">
                         <p>{selectedSeatAll?.start_date} ~ </p>
                         {/* <p> {selectedSeatAll?.end_date}</p> */}
                       </div>

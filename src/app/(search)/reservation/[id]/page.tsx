@@ -44,16 +44,14 @@ export default function Reservation() {
         </div>
       </div>
       <div>
-        {showMobileTable && (
-          <>
-            <div className="">
-              <OpenTableMobile />
-            </div>
-          </>
-        )}
         <div className="absolute right-[5.44rem] top-[2rem] z-[201]">
           {modal && <ReservationSuccess />}
         </div>
+        {showMobileTable && (
+          <>
+            <OpenTableMobile />
+          </>
+        )}
       </div>
     </>
   );

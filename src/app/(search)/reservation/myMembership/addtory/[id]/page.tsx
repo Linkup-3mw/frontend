@@ -78,12 +78,7 @@ export default function Addtory() {
             <div>{!showMobileTable && <SeatInformation />}</div>
           </div>
         )}
-
-        {showMobileTable && (
-          <>
-            <OpenTableMobile />
-          </>
-        )}
+        <div>{showMobileTable && <OpenTableMobile />}</div>
       </div>
     </>
   );
