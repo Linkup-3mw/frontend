@@ -58,7 +58,7 @@
       <td>
         <ul>
         <li>로그인/회원가입</li>
-          <li>메인 페이지</li>
+          <li>비로그인 메인 페이지</li>
           <li>소모임 상세</li>
         </ul>
       </td>
@@ -114,6 +114,21 @@
 
 ## 🖥️ 화면 구성 및 기능
 
+### 📌 로그인, 회원가입
+
+<div align="center">
+  <table>
+    <tr align="center">
+      <th>로그인</th>
+      <th>회원가입</th>
+    </tr>
+    <tr>
+      <td><img src="https://github.com/Linkup-3mw/frontend/assets/122950644/3213a665-f5f4-4317-b7c9-1c7207ac90d5"alt="로그인"></td>
+      <td><img src="https://github.com/Linkup-3mw/frontend/assets/122950644/764f0340-81cb-4d4d-bf55-9c04bf1fe000"alt="회원가입"></td>
+    </tr>
+  </table>
+</div>
+
 ### 📌 메인, 헤더
 
 <div align="center">
@@ -153,6 +168,16 @@
       <td><img src="https://github.com/Yanol-Market/frontend/assets/51106050/ab499b1d-8a2a-4084-b098-331fe121aabc" alt="소모임 관리"></td>
       <td><img src="https://github.com/Yanol-Market/frontend/assets/51106050/847926e4-da3a-4778-b41e-c4fdfd37401c" alt="소모임 가입 신청"></td>
     </tr>
+    <tr align="center">
+      <th>소모임 상세 - 공지사항</th>
+      <th>소모임 상세 - 게시판</th>
+      <th>소모임상세 - 정모</th>
+    </tr>
+    <tr>
+      <td><img src="https://github.com/Linkup-3mw/frontend/assets/122950644/01e0ccd2-57dc-4540-a0b0-f3f5b2a35caa" alt="소모임 공지사항"></td>
+      <td><img src="https://github.com/Linkup-3mw/frontend/assets/122950644/f7a59676-8a95-48b4-bf69-4e7c4355828f" alt="소모임 게시판"></td>
+      <td><img src="https://github.com/Linkup-3mw/frontend/assets/122950644/1b95f0dc-9430-4c26-925d-e249fe8ca23e" alt="소모임 상세"></td>
+    </tr>    
   </table>
 </div>
 
