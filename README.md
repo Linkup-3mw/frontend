@@ -171,7 +171,7 @@
     <tr align="center">
       <th>소모임 상세 - 공지사항</th>
       <th>소모임 상세 - 게시판</th>
-      <th>소모임상세 - 정모</th>
+      <th>소모임 상세 - 정모</th>
     </tr>
     <tr>
       <td><img src="https://github.com/Linkup-3mw/frontend/assets/122950644/01e0ccd2-57dc-4540-a0b0-f3f5b2a35caa" alt="소모임 공지사항"></td>
