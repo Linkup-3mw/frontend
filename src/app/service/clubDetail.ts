@@ -121,7 +121,7 @@ export const registerComment = async (
       comment,
     });
     return res.data;
-  } catch (e) {
-    console.error(e);
+  } catch (e: any) {
+    alert(e.response.data.message);
   }
 };

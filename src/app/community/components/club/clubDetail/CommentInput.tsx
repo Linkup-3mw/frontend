@@ -31,7 +31,6 @@ export default function CommentInput({
     if (res.status_code === 200) {
       router.refresh();
       setValue('');
-      console.log('refresh');
 
       if (scrollRef.current)
         scrollRef.current.scrollTop = scrollRef.current?.scrollHeight;

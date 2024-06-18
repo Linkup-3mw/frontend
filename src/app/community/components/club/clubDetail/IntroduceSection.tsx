@@ -20,21 +20,22 @@ export default memo(function IntroduceSection({
   liked,
   detail_introduction,
 }: IClubInfo) {
-  const [dDay, setDday] = useState(0);
+  const [dDay, setDday] = useState(-1);
 
   useEffect(() => {
     // D-day 구하기
     if (club_meetings.length === 0) {
       return;
     }
-    const meetingDates = club_meetings.map((meet) => {
+    let meetingDates = club_meetings.map((meet) => {
       return Number(meet.date.substring(0, 10).replaceAll('-', ''));
     });
     meetingDates.sort((a: number, b: number) => a - b);
-    const koreaDate = Number(
+    const currentDate = Number(
       getKoreaDate().substring(0, 10).replaceAll('-', ''),
     );
-    setDday(meetingDates[0] - koreaDate);
+    meetingDates = meetingDates.filter((date) => date >= currentDate);
+    if (meetingDates.length > 0) setDday(meetingDates[0] - currentDate);
   }, []);
 
   return (
@@ -70,9 +71,9 @@ export default memo(function IntroduceSection({
             <span className="bg-yellow-600 p-[0.5rem] rounded leading-none">
               {club_type}
             </span>
-            {club_meetings?.length > 0 && (
+            {dDay >= 0 && (
               <span className="bg-yellow-600 p-[0.5rem] rounded leading-none">
-                모임 D{dDay > 0 ? '-' + dDay : dDay == 0 ? '-day' : '+' + dDay}
+                모임 D{dDay > 0 ? '-' + dDay : '-day'}
               </span>
             )}
           </div>
