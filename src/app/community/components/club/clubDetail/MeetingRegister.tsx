@@ -86,7 +86,10 @@ export default function MeetingRegister({ clubId }: Props) {
           ...prev,
           message: '작성이 완료되었습니다.',
           buttonName: '확인',
-          onClick: () => router.push(`/community/club/${clubId}/meeting`),
+          onClick: () => {
+            router.push(`/community/club/${clubId}/meeting`);
+            router.refresh();
+          },
         }));
         setShowAlert(true);
       } else {
